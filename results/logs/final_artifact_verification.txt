@@ -1,0 +1,28 @@
+Final artifact verification
+source_version=3be7824
+date=2026-08-12
+
+Local static artifact checks:
+png=53 valid
+pdf=52 valid
+gif=5 valid and animated
+mp4=5 valid containers
+push_sweep_rows=480
+robustness_rows=50
+README asset links=all resolved
+
+Remote ffprobe checks:
+com_support_polygon.mp4: codec=h264 size=1040x780 fps=30 frames=180 duration_s=6.000000
+se3_geometry.mp4: codec=h264 size=1560x910 fps=15 frames=45 duration_s=3.000000
+perturbed_standing_recovery.mp4: codec=h264 size=960x540 fps=30 frames=94 duration_s=3.133333
+geometric_push_recovery.mp4: codec=h264 size=1920x1080 fps=30 frames=188 duration_s=6.266667
+pd_vs_se3_wbc_comparison.mp4: codec=h264 size=1920x540 fps=30 frames=188 duration_s=6.266667
+
+Perturbed-standing initial logged state:
+torso_rotation_error_rad=0.016732336
+com_displacement_m=0.001505728
+torso_angular_velocity_rad_s=0.000764483
+
+Tests:
+local=19 passed, 1 skipped (MuJoCo unavailable locally)
+remote=26 passed, 4 warnings (OSQP deprecations)

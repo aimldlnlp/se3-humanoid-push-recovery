@@ -5,6 +5,12 @@
     "com_offset_m": 0.0019291201879459924,
     "angular_velocity_rad_s": 0.0007644828298355778
   },
+  "initial_logged_state": {
+    "time_s": 0.0,
+    "torso_rotation_error_rad": 0.016732336420970818,
+    "com_displacement_m": 0.0015057278703718168,
+    "torso_angular_velocity_rad_s": 0.0007644828298355779
+  },
   "config": {
     "root": ".",
     "robot": {
@@ -165,7 +171,7 @@
       },
       "perturbed_standing": {
         "duration_s": 3.0,
-        "warmup_duration_s": 0.15,
+        "warmup_duration_s": 0.0,
         "seed": 17,
         "initial_torso_tilt_rad": 0.03,
         "initial_com_offset_m": 0.005,
@@ -183,36 +189,41 @@
   },
   "seed": 17,
   "manifest": {
-    "run_id": "run-20260812T141355Z-5930acad",
-    "source_version": "b0f6a9c",
+    "run_id": "run-20260812T151626Z-19a29021",
+    "source_version": "3be7824",
     "seed": 17,
     "hostname": "hucenrotia-ai",
-    "timestamp_utc": "2026-08-12T14:13:55.675081+00:00",
-    "config_sha256": "ab8b84dfdf9061908d5f578215e4375f4f5694b737c9df8d40f6701c035b719e"
+    "timestamp_utc": "2026-08-12T15:16:26.426642+00:00",
+    "config_sha256": "bc79d696af23762e49e04f488567778651caa8f9ac1877f5259f90b5b8753c79"
   },
   "summary": {
     "duration_s": 2.9959999999998916,
-    "max_torso_error_rad": 0.09812629784678598,
-    "max_com_displacement_m": 0.055096644180854346,
-    "max_joint_velocity": 1.3929715111426828,
+    "max_torso_error_rad": 0.12242106373260432,
+    "max_com_displacement_m": 0.07126690259484779,
+    "max_joint_velocity": 23.60552329352106,
     "max_qp_solve_time_ms": 0.0,
+    "mean_qp_solve_time_ms": 0.0,
+    "p95_qp_solve_time_ms": 0.0,
+    "p99_qp_solve_time_ms": 0.0,
+    "qp_deadline_ms": 4.0,
+    "qp_deadline_miss_percent": 0.0,
     "qp_failures": 0,
     "max_contact_slack_norm": 0.0,
-    "max_actual_contact_force_N": 1822.3307716333109,
-    "max_actual_friction_utilization": 0.8506771065137998,
+    "max_actual_contact_force_N": 7422.171800806092,
+    "max_actual_friction_utilization": 1.0,
     "max_dynamics_residual": NaN,
     "max_contact_acceleration_residual": NaN,
-    "left_contact_fraction": 1.0,
-    "right_contact_fraction": 1.0
+    "left_contact_fraction": 0.9466666666666667,
+    "right_contact_fraction": 0.944
   },
   "recovery": {
-    "success": true,
-    "failure_reason": null,
-    "recovered_at_s": 0.4920000000000004,
-    "recovery_latency_s": 0.4920000000000004,
-    "max_torso_error_rad": 0.09812629784678598,
-    "max_com_displacement_m": 0.06116431272023167,
-    "max_joint_torque_Nm": 27.06017724348488,
-    "min_friction_margin": 0.1493228934862002
+    "success": false,
+    "failure_reason": "SLIP",
+    "recovered_at_s": null,
+    "recovery_latency_s": null,
+    "max_torso_error_rad": 0.12242106373260432,
+    "max_com_displacement_m": 0.0699451788542569,
+    "max_joint_torque_Nm": 180.0,
+    "min_friction_margin": 0.0
   }
 }

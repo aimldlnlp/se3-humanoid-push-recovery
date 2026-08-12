@@ -5,6 +5,12 @@
     "com_offset_m": 0.0019291201879459924,
     "angular_velocity_rad_s": 0.0007644828298355778
   },
+  "initial_logged_state": {
+    "time_s": 0.0,
+    "torso_rotation_error_rad": 0.016732336420970818,
+    "com_displacement_m": 0.0015057278703718168,
+    "torso_angular_velocity_rad_s": 0.0007644828298355779
+  },
   "config": {
     "root": ".",
     "robot": {
@@ -165,7 +171,7 @@
       },
       "perturbed_standing": {
         "duration_s": 3.0,
-        "warmup_duration_s": 0.15,
+        "warmup_duration_s": 0.0,
         "seed": 17,
         "initial_torso_tilt_rad": 0.03,
         "initial_com_offset_m": 0.005,
@@ -183,36 +189,41 @@
   },
   "seed": 17,
   "manifest": {
-    "run_id": "run-20260812T141359Z-0d744174",
-    "source_version": "b0f6a9c",
+    "run_id": "run-20260812T151630Z-bf2dd218",
+    "source_version": "3be7824",
     "seed": 17,
     "hostname": "hucenrotia-ai",
-    "timestamp_utc": "2026-08-12T14:13:59.362877+00:00",
-    "config_sha256": "ab8b84dfdf9061908d5f578215e4375f4f5694b737c9df8d40f6701c035b719e"
+    "timestamp_utc": "2026-08-12T15:16:30.388355+00:00",
+    "config_sha256": "bc79d696af23762e49e04f488567778651caa8f9ac1877f5259f90b5b8753c79"
   },
   "summary": {
     "duration_s": 2.9959999999998916,
-    "max_torso_error_rad": 0.10460983264637838,
-    "max_com_displacement_m": 0.049506617904098674,
-    "max_joint_velocity": 1.5185864712572497,
-    "max_qp_solve_time_ms": 10.428396053612232,
+    "max_torso_error_rad": 0.20188867309384312,
+    "max_com_displacement_m": 0.20089444226457576,
+    "max_joint_velocity": 14.649703920268134,
+    "max_qp_solve_time_ms": 4.5718601904809475,
+    "mean_qp_solve_time_ms": 1.9591031493619084,
+    "p95_qp_solve_time_ms": 2.473206550348549,
+    "p99_qp_solve_time_ms": 3.387270963285118,
+    "qp_deadline_ms": 4.0,
+    "qp_deadline_miss_percent": 0.13333333333333333,
     "qp_failures": 0,
-    "max_contact_slack_norm": 0.33585682976087305,
-    "max_actual_contact_force_N": 2250.048806614498,
-    "max_actual_friction_utilization": 0.8053353322214957,
-    "max_dynamics_residual": 0.0018617748007773549,
-    "max_contact_acceleration_residual": 0.0007503579686994153,
-    "left_contact_fraction": 0.9986666666666667,
-    "right_contact_fraction": 1.0
+    "max_contact_slack_norm": 2.818786069822281,
+    "max_actual_contact_force_N": 7743.355611651736,
+    "max_actual_friction_utilization": 1.0,
+    "max_dynamics_residual": 0.014494116527413566,
+    "max_contact_acceleration_residual": 0.022155031132732688,
+    "left_contact_fraction": 0.864,
+    "right_contact_fraction": 0.864
   },
   "recovery": {
-    "success": true,
-    "failure_reason": null,
-    "recovered_at_s": 0.6280000000000004,
-    "recovery_latency_s": 0.6280000000000004,
-    "max_torso_error_rad": 0.10460983264637838,
-    "max_com_displacement_m": 0.056203329835718505,
-    "max_joint_torque_Nm": 21.623083677448037,
-    "min_friction_margin": 0.19466466777850433
+    "success": false,
+    "failure_reason": "CONTACT_LOSS",
+    "recovered_at_s": 1.7560000000000013,
+    "recovery_latency_s": 1.7560000000000013,
+    "max_torso_error_rad": 0.20188867309384312,
+    "max_com_displacement_m": 0.19962050621060556,
+    "max_joint_torque_Nm": 114.69986286981617,
+    "min_friction_margin": 0.0
   }
 }

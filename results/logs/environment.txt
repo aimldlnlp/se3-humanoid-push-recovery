@@ -1,10 +1,10 @@
-timestamp_utc=2026-08-12T14:20:58.297248+00:00
+timestamp_utc=2026-08-12T15:23:56.250350+00:00
 platform=Linux-6.8.0-136-generic-x86_64-with-glibc2.39
 python=3.11.15 (main, Jun 11 2026, 15:20:16) [GCC 14.3.0]
 executable_name=python
 git=git version 2.43.0
 ffmpeg=ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers
-nvidia_smi=Wed Aug 12 22:20:58 2026
+nvidia_smi=Wed Aug 12 23:23:56 2026
 +-----------------------------------------------------------------------------------------+
 | NVIDIA-SMI 580.173.02             Driver Version: 580.173.02     CUDA Version: 13.0     |
 +-----------------------------------------+------------------------+----------------------+
@@ -13,7 +13,7 @@ nvidia_smi=Wed Aug 12 22:20:58 2026
 |                                         |                        |               MIG M. |
 |=========================================+========================+======================|
 |   0  NVIDIA RTX A5000               Off |   00000000:01:00.0 Off |                  Off |
-| 58%   82C    P2            178W /  230W |    4590MiB /  24564MiB |     46%      Default |
+| 58%   82C    P2            171W /  230W |    8291MiB /  24564MiB |     43%      Default |
 |                                         |                        |                  N/A |
 +-----------------------------------------+------------------------+----------------------+
 
@@ -22,6 +22,7 @@ nvidia_smi=Wed Aug 12 22:20:58 2026
 |  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
 |        ID   ID                                                               Usage      |
 |=========================================================================================|
+|    0   N/A  N/A          451765      C   ...nda3/envs/llm_eval/bin/python       3696MiB |
 |    0   N/A  N/A         1753262    C+G   ...conda3/envs/isaac/bin/python3       4550MiB |
 +-----------------------------------------------------------------------------------------+
 package.numpy=yes;version=2.4.6

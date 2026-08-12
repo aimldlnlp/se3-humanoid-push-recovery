@@ -1,0 +1,5 @@
+frames=94
+requested_fps=30
+initial_torso_error_rad=0.016732336
+initial_torso_angular_velocity_rad_s=0.000764483
+recovery_success=False

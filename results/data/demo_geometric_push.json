@@ -168,7 +168,7 @@
       },
       "perturbed_standing": {
         "duration_s": 3.0,
-        "warmup_duration_s": 0.15,
+        "warmup_duration_s": 0.0,
         "seed": 17,
         "initial_torso_tilt_rad": 0.03,
         "initial_com_offset_m": 0.005,
@@ -186,36 +186,41 @@
   },
   "seed": 0,
   "manifest": {
-    "run_id": "run-20260812T142136Z-377c742e",
-    "source_version": "b0f6a9c",
+    "run_id": "run-20260812T152538Z-71001030",
+    "source_version": "3be7824",
     "seed": 0,
     "hostname": "hucenrotia-ai",
-    "timestamp_utc": "2026-08-12T14:21:36.577860+00:00",
-    "config_sha256": "ab8b84dfdf9061908d5f578215e4375f4f5694b737c9df8d40f6701c035b719e"
+    "timestamp_utc": "2026-08-12T15:25:38.378335+00:00",
+    "config_sha256": "bc79d696af23762e49e04f488567778651caa8f9ac1877f5259f90b5b8753c79"
   },
   "summary": {
     "duration_s": 5.995999999999562,
-    "max_torso_error_rad": 0.15956951120708832,
-    "max_com_displacement_m": 0.08564070489028598,
-    "max_joint_velocity": 2.9293795006435857,
-    "max_qp_solve_time_ms": 18.80618603900075,
+    "max_torso_error_rad": 0.161704097106624,
+    "max_com_displacement_m": 0.08565005366130143,
+    "max_joint_velocity": 2.8214307871075066,
+    "max_qp_solve_time_ms": 22.72848691791296,
+    "mean_qp_solve_time_ms": 1.9378959094174206,
+    "p95_qp_solve_time_ms": 3.2188873621635135,
+    "p99_qp_solve_time_ms": 4.115063967183232,
+    "qp_deadline_ms": 4.0,
+    "qp_deadline_miss_percent": 1.5333333333333332,
     "qp_failures": 0,
-    "max_contact_slack_norm": 0.17179885950515375,
-    "max_actual_contact_force_N": 2418.6902484936963,
-    "max_actual_friction_utilization": 1.0,
-    "max_dynamics_residual": 0.0015530948434255005,
-    "max_contact_acceleration_residual": 0.0013469153126387033,
+    "max_contact_slack_norm": 0.3297630480168597,
+    "max_actual_contact_force_N": 1269.2005992685395,
+    "max_actual_friction_utilization": 1.0000000000000002,
+    "max_dynamics_residual": 0.0024877437886242004,
+    "max_contact_acceleration_residual": 0.0017152158339813362,
     "left_contact_fraction": 0.988,
-    "right_contact_fraction": 0.982
+    "right_contact_fraction": 0.9853333333333333
   },
   "recovery": {
     "success": true,
     "failure_reason": null,
-    "recovered_at_s": 3.791999999999804,
-    "recovery_latency_s": 1.641999999999804,
-    "max_torso_error_rad": 0.15956951120708832,
-    "max_com_displacement_m": 0.08564070489028598,
-    "max_joint_torque_Nm": 21.108277831274062,
-    "min_friction_margin": 0.0
+    "recovered_at_s": 3.8759999999997947,
+    "recovery_latency_s": 1.7259999999997948,
+    "max_torso_error_rad": 0.161704097106624,
+    "max_com_displacement_m": 0.08565005366130143,
+    "max_joint_torque_Nm": 20.664964886363517,
+    "min_friction_margin": -2.220446049250313e-16
   }
 }

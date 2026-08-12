@@ -53,8 +53,8 @@ def main() -> None:
         ax_twist.axhline(0.0, color="black", linewidth=0.8)
         ax_twist.set_xticks(np.arange(6), ["v_x", "v_y", "v_z", "ω_x", "ω_y", "ω_z"])
         ax_twist.set_ylim(-0.45, 0.45)
-        ax_twist.set_ylabel(r"$\Log(E)^\vee$")
-        ax_twist.set_title(r"$\xi_e = \Log(E)^\vee$; translation first, rotation second")
+        ax_twist.set_ylabel(r"$\mathrm{Log}(E)^\vee$")
+        ax_twist.set_title(r"$\xi_e = \mathrm{Log}(E)^\vee$; translation first, rotation second")
         fig.suptitle(f"SE(3) geometry animation  |  progress={alpha:.2f}")
         fig.tight_layout()
 

@@ -1,6 +1,6 @@
 param(
     [Parameter(Mandatory = $true)]
-    [ValidateSet("phase1_simulation", "standing", "single_push", "compare_baseline", "push_sweep", "robustness", "gpu_benchmark", "run_demo")]
+    [ValidateSet("phase1_simulation", "standing", "perturbed_standing", "single_push", "compare_baseline", "push_sweep", "robustness", "gpu_benchmark", "run_demo")]
     [string]$Experiment,
     [switch]$PullResults,
     [string]$HostName = "aimldl@140.113.149.94",

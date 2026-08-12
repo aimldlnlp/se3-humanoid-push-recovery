@@ -38,6 +38,7 @@ def main() -> None:
             "push_direction_deg": push.direction_deg,
             "status": arrays["qp_status"][i],
             "com_world": arrays["com_world"][i],
+            "feet_xy": arrays["foot_xy_world"][i],
             "push_force": arrays["push_force"][i],
             "contact_left": arrays["contact_left"][i],
             "contact_right": arrays["contact_right"][i],

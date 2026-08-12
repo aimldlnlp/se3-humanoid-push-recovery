@@ -25,6 +25,23 @@ recovery:
   timeout_s: 6.0
   startup_grace_period_s: 0.25
   contact_loss_duration_s: 0.08
-  friction_margin_tolerance_N: 0.01
+  friction_utilization_threshold: 1.05
+  slip_tangent_velocity_threshold_m_s: 0.08
+  slip_displacement_threshold_m: 0.025
+  slip_duration_s: 0.04
   foot_contact_required: true
   torso_ground_height_m: 0.35
+perturbed_standing:
+  duration_s: 3.0
+  warmup_duration_s: 0.15
+  seed: 17
+  initial_torso_tilt_rad: 0.03
+  initial_com_offset_m: 0.005
+  initial_angular_velocity_rad_s: 0.05
+robustness_randomization:
+  initial_torso_tilt_rad: 0.025
+  initial_com_offset_m: 0.006
+  initial_angular_velocity_rad_s: 0.05
+  push_magnitude_jitter_fraction: 0.08
+  push_direction_jitter_deg: 8.0
+  push_duration_jitter_s: 0.015

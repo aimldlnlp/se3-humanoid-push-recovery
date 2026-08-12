@@ -5,6 +5,7 @@ from __future__ import annotations
 import csv
 import hashlib
 import json
+import os
 import socket
 import subprocess
 import sys
@@ -28,6 +29,7 @@ from se3_whole_body_control.dynamics.humanoid import HumanoidModel
 from se3_whole_body_control.evaluation.metrics import save_trial_npz, summarize_trial
 from se3_whole_body_control.evaluation.recovery import RecoveryConfig
 from se3_whole_body_control.simulation.mujoco_sim import SimulationRunner
+from se3_whole_body_control.geometry.so3 import exp_so3
 
 
 def output_dirs() -> dict[str, Path]:
@@ -44,9 +46,9 @@ def output_dirs() -> dict[str, Path]:
     return dirs
 
 
-def make_model(configs: dict | None = None, mass_scale: float = 1.0) -> HumanoidModel:
+def make_model(configs: dict | None = None, mass_scale: float = 1.0, friction_coefficient: float | None = None) -> HumanoidModel:
     cfg = configs or load_configs(ROOT)
-    friction = float(cfg["controller"].get("friction_coefficient", cfg["robot"].get("friction_coefficient", 0.7)))
+    friction = float(friction_coefficient if friction_coefficient is not None else cfg["controller"].get("friction_coefficient", cfg["robot"].get("friction_coefficient", 0.7)))
     return HumanoidModel(resolve_model_path(cfg), mass_scale=mass_scale, friction_coefficient=friction)
 
 
@@ -72,16 +74,72 @@ def run_controller(controller_name: str, model, configs: dict):
     return WholeBodyQPController(model, c, configs["experiments"]["recovery"])
 
 
-def run_trial(controller_name: str, configs: dict, push: Push | None = None, duration: float | None = None, mass_scale: float = 1.0, seed: int = 0, classify: bool = False, frame_callback=None):
-    model = make_model(configs, mass_scale=mass_scale)
+def run_trial(controller_name: str, configs: dict, push: Push | None = None, duration: float | None = None, mass_scale: float = 1.0, seed: int = 0, classify: bool = False, frame_callback=None, initial_qpos: np.ndarray | None = None, initial_qvel: np.ndarray | None = None, friction_coefficient: float | None = None):
+    model = make_model(configs, mass_scale=mass_scale, friction_coefficient=friction_coefficient)
+    nominal_qpos = model.qpos0.copy()
+    nominal_torso = model.body_pose("torso").copy()
+    nominal_pelvis = model.body_pose("pelvis").copy()
+    nominal_com = model.center_of_mass().copy()
     controller = run_controller(controller_name, model, configs)
+    perturbed = initial_qpos is not None or initial_qvel is not None
     runner = SimulationRunner(
         model, controller,
         duration_s=duration or configs["robot"]["duration_s"],
         control_timestep_s=configs["robot"]["control_timestep"],
-        warmup_duration_s=configs["robot"].get("warmup_duration_s", 0.4),
+        warmup_duration_s=(configs["experiments"].get("perturbed_standing", {}).get("warmup_duration_s", 0.15) if perturbed else configs["robot"].get("warmup_duration_s", 0.4)),
+        warmup_reanchor=not perturbed,
     )
-    return model, runner.run(push=push, recovery_config=recovery_config(configs), classify=classify, seed=seed, frame_callback=frame_callback)
+    return model, runner.run(
+        push=push, recovery_config=recovery_config(configs), classify=classify, seed=seed,
+        frame_callback=frame_callback, initial_qpos=initial_qpos, initial_qvel=initial_qvel,
+        desired_torso=nominal_torso if perturbed else None,
+        desired_pelvis=nominal_pelvis if perturbed else None,
+        com_reference=nominal_com if perturbed else None,
+    )
+
+
+def _rotation_to_quaternion(R: np.ndarray) -> np.ndarray:
+    """Convert a near-identity rotation matrix to MuJoCo's wxyz quaternion."""
+    trace = float(np.trace(R))
+    w = 0.5 * np.sqrt(max(1.0 + trace, 1e-12))
+    xyz = np.array([R[2, 1] - R[1, 2], R[0, 2] - R[2, 0], R[1, 0] - R[0, 1]]) / max(4.0 * w, 1e-12)
+    quat = np.r_[w, xyz]
+    return quat / max(np.linalg.norm(quat), 1e-12)
+
+
+def randomized_initial_state(configs: dict, seed: int, mass_scale: float = 1.0, friction_coefficient: float | None = None, randomization: dict | None = None) -> tuple[np.ndarray, np.ndarray, dict]:
+    """Create a reproducible, physically meaningful initial perturbation."""
+    rng = np.random.default_rng(seed)
+    random_cfg = randomization or configs["experiments"].get("robustness_randomization", {})
+    model = make_model(configs, mass_scale=mass_scale, friction_coefficient=friction_coefficient)
+    qpos = model.qpos0.copy()
+    qvel = np.zeros(model.nv, dtype=float)
+    free_joints = [j for j in range(model.model.njnt) if model.model.jnt_type[j] == 0]
+    if not free_joints:
+        return qpos, qvel, {"tilt_rad": 0.0, "com_offset_m": 0.0, "angular_velocity_rad_s": 0.0}
+    joint_id = free_joints[0]
+    qpos_adr = int(model.model.jnt_qposadr[joint_id])
+    qvel_adr = int(model.model.jnt_dofadr[joint_id])
+    tilt_limit = float(random_cfg.get("initial_torso_tilt_rad", 0.0))
+    tilt = rng.normal(size=2)
+    tilt /= max(np.linalg.norm(tilt), 1e-12)
+    tilt *= rng.uniform(0.0, tilt_limit)
+    qpos[qpos_adr + 3 : qpos_adr + 7] = _rotation_to_quaternion(exp_so3(np.r_[tilt, 0.0]))
+    offset_limit = float(random_cfg.get("initial_com_offset_m", 0.0))
+    offset = rng.normal(size=2)
+    offset /= max(np.linalg.norm(offset), 1e-12)
+    offset *= rng.uniform(0.0, offset_limit)
+    qpos[qpos_adr : qpos_adr + 2] += offset
+    angular_limit = float(random_cfg.get("initial_angular_velocity_rad_s", 0.0))
+    angular_velocity = rng.normal(size=3)
+    angular_velocity /= max(np.linalg.norm(angular_velocity), 1e-12)
+    angular_velocity *= rng.uniform(0.0, angular_limit)
+    qvel[qvel_adr + 3 : qvel_adr + 6] = angular_velocity
+    return qpos, qvel, {
+        "tilt_rad": float(np.linalg.norm(tilt)),
+        "com_offset_m": float(np.linalg.norm(offset)),
+        "angular_velocity_rad_s": float(np.linalg.norm(angular_velocity)),
+    }
 
 
 def save_run(run, path: Path, metadata: dict | None = None) -> None:
@@ -92,7 +150,8 @@ def save_run(run, path: Path, metadata: dict | None = None) -> None:
     meta["summary"] = summarize_trial(run.log)
     if run.recovery is not None:
         meta["recovery"] = asdict(run.recovery)
-    save_trial_npz(run.log, path, meta)
+    extra_arrays = {"qpos_history": np.asarray(run.qpos_history, dtype=float)} if run.qpos_history else None
+    save_trial_npz(run.log, path, meta, extra_arrays=extra_arrays)
     path.with_suffix(".json").write_text(json.dumps(meta, indent=2, default=str), encoding="utf-8")
 
 
@@ -110,6 +169,9 @@ def _json_safe(value):
 
 
 def _source_version() -> str:
+    frozen = os.environ.get("SE3_SOURCE_VERSION")
+    if frozen:
+        return frozen
     try:
         return subprocess.check_output(
             ["git", "rev-parse", "--short", "HEAD"], cwd=ROOT, text=True, stderr=subprocess.DEVNULL,
@@ -164,15 +226,16 @@ def flatten_result(run, controller: str, push: Push, trial_id: str, seed: int = 
         "impulse_Ns": push.impulse_Ns,
         "success": bool(rec.success) if rec else False,
         "failure_reason": rec.failure_reason if rec else "NOT_CLASSIFIED",
-        "recovery_time_s": rec.recovery_time_s if rec and rec.recovery_time_s is not None else "",
+        "recovered_at_s": rec.recovered_at_s if rec and rec.recovered_at_s is not None else "",
+        "recovery_latency_s": rec.recovery_latency_s if rec and rec.recovery_latency_s is not None else "",
         "max_torso_error_rad": rec.max_torso_error_rad if rec else float(np.max(a["torso_rotation_error_rad"])),
         "max_com_displacement_m": rec.max_com_displacement_m if rec else float(np.max(np.linalg.norm(a["com_world"] - a["com_world"][0], axis=1))),
         "max_joint_torque_Nm": rec.max_joint_torque_Nm if rec else float(np.max(a["torque_abs_max_Nm"])),
         "max_contact_force_N": (
-            float(np.max(np.abs(a["contact_wrench"][:, [0, 1, 2, 6, 7, 8]])))
-            if len(a["contact_wrench"]) else 0.0
+            float(np.max(np.abs(a["actual_contact_wrench"][:, [0, 1, 2, 6, 7, 8]])))
+            if len(a["actual_contact_wrench"]) else 0.0
         ),
-        "min_friction_margin": rec.min_friction_margin if rec else float(np.nanmin(a["friction_margin"])),
+        "min_friction_margin": rec.min_friction_margin if rec else float(np.nanmin(a["actual_friction_margin"])),
         "seed": seed,
     }
     row.update(extra or {})

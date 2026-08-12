@@ -9,8 +9,7 @@ import numpy as np
 
 
 FailureReason = Literal[
-    "FALL", "SLIP", "CONTACT_LOSS", "TORQUE_LIMIT", "JOINT_LIMIT",
-    "QP_FAILURE", "TIMEOUT", "NUMERICAL_FAILURE",
+    "FALL", "SLIP", "CONTACT_LOSS", "QP_FAILURE", "TIMEOUT", "NUMERICAL_FAILURE",
 ]
 
 
@@ -23,7 +22,10 @@ class RecoveryConfig:
     timeout_s: float = 6.0
     startup_grace_period_s: float = 0.25
     contact_loss_duration_s: float = 0.08
-    friction_margin_tolerance_N: float = 0.01
+    friction_utilization_threshold: float = 1.05
+    slip_tangent_velocity_threshold_m_s: float = 0.08
+    slip_displacement_threshold_m: float = 0.025
+    slip_duration_s: float = 0.04
     foot_contact_required: bool = True
     torso_ground_height_m: float = 0.35
 
@@ -32,7 +34,8 @@ class RecoveryConfig:
 class RecoveryResult:
     success: bool
     failure_reason: str | None
-    recovery_time_s: float | None
+    recovered_at_s: float | None
+    recovery_latency_s: float | None
     max_torso_error_rad: float
     max_com_displacement_m: float
     max_joint_torque_Nm: float
@@ -51,30 +54,36 @@ def classify_recovery(
     qp_ok: np.ndarray,
     friction_margin: np.ndarray,
     config: RecoveryConfig | None = None,
-    recovery_start_s: float = 0.0,
+    actual_friction_utilization: np.ndarray | None = None,
+    foot_tangent_velocity: np.ndarray | None = None,
+    foot_xy_displacement: np.ndarray | None = None,
+    push_end_s: float = 0.0,
+    recovery_start_s: float | None = None,
 ) -> RecoveryResult:
     cfg = config or RecoveryConfig()
     time_s = np.asarray(time_s, dtype=float)
     ori = np.asarray(orientation_error_rad, dtype=float)
     ang = np.asarray(angular_velocity_rad_s, dtype=float)
     com = np.asarray(com_displacement_m, dtype=float)
+    if recovery_start_s is not None:
+        push_end_s = float(recovery_start_s)
     if len(time_s) == 0 or any(not np.all(np.isfinite(a)) for a in (time_s, ori, ang, com)):
-        return RecoveryResult(False, "NUMERICAL_FAILURE", None, np.inf, np.inf, np.inf, -np.inf)
+        return RecoveryResult(False, "NUMERICAL_FAILURE", None, None, np.inf, np.inf, np.inf, -np.inf)
     max_ori = float(np.max(ori))
     max_com = float(np.max(com))
     max_tau = float(np.max(torque_abs_max_Nm)) if len(torque_abs_max_Nm) else 0.0
-    min_margin = float(np.min(friction_margin)) if len(friction_margin) else float("nan")
-    eval_mask = time_s >= max(cfg.startup_grace_period_s, float(recovery_start_s))
+    finite_margin = np.asarray(friction_margin, dtype=float)
+    min_margin = float(np.nanmin(finite_margin)) if np.any(np.isfinite(finite_margin)) else float("nan")
+    eval_start = max(cfg.startup_grace_period_s, float(push_end_s))
+    eval_mask = time_s >= eval_start
     if np.any(np.asarray(torso_height_m)[eval_mask] < cfg.torso_ground_height_m):
         reason = "FALL"
-    elif cfg.foot_contact_required and _sustained_contact_loss(time_s, contact_left, contact_right, cfg):
+    elif cfg.foot_contact_required and _sustained_contact_loss(time_s, contact_left, contact_right, cfg, eval_start):
         reason = "CONTACT_LOSS"
-    elif np.any(np.asarray(friction_margin)[eval_mask] < -cfg.friction_margin_tolerance_N):
+    elif _slip_event(time_s, eval_mask, actual_friction_utilization, foot_tangent_velocity, foot_xy_displacement, cfg):
         reason = "SLIP"
     elif not np.all(np.asarray(qp_ok, dtype=bool)[eval_mask]):
         reason = "QP_FAILURE"
-    elif time_s[-1] + 1e-9 >= cfg.timeout_s:
-        reason = "TIMEOUT"
     else:
         reason = None
     stable = (
@@ -82,8 +91,8 @@ def classify_recovery(
         & (ang <= cfg.angular_velocity_threshold_rad_s)
         & (com <= cfg.com_displacement_threshold_m)
     )
-    recovery_time = None
-    recovery_start = max(cfg.startup_grace_period_s, float(recovery_start_s))
+    recovered_at = None
+    recovery_start = eval_start
     if len(time_s) > 1:
         for i in range(len(time_s)):
             if time_s[i] < recovery_start:
@@ -93,22 +102,44 @@ def classify_recovery(
             j = i
             while j < len(time_s) and stable[j]:
                 if time_s[j] - time_s[i] >= cfg.stable_duration_s:
-                    recovery_time = float(time_s[i])
+                    recovered_at = float(time_s[i])
                     break
                 j += 1
-            if recovery_time is not None:
+            if recovered_at is not None:
                 break
-    success = reason is None and recovery_time is not None
-    if not success and reason is None:
+    if recovered_at is None and reason is None:
         reason = "TIMEOUT"
-    return RecoveryResult(success, reason, recovery_time, max_ori, max_com, max_tau, min_margin)
+    success = reason is None and recovered_at is not None
+    latency = None if recovered_at is None else max(0.0, recovered_at - float(push_end_s))
+    return RecoveryResult(success, reason, recovered_at, latency, max_ori, max_com, max_tau, min_margin)
 
 
-def _sustained_contact_loss(time_s: np.ndarray, left: np.ndarray, right: np.ndarray, cfg: RecoveryConfig) -> bool:
+def _slip_event(time_s, eval_mask, utilization, tangent_velocity, displacement, cfg) -> bool:
+    if utilization is None and tangent_velocity is None and displacement is None:
+        return False
+    mask = np.zeros(len(time_s), dtype=bool)
+    if utilization is not None:
+        mask |= np.any(np.nan_to_num(utilization, nan=0.0)[..., :] > cfg.friction_utilization_threshold, axis=1)
+    if tangent_velocity is not None:
+        mask |= np.any(np.nan_to_num(tangent_velocity, nan=0.0)[..., :] > cfg.slip_tangent_velocity_threshold_m_s, axis=1)
+    if displacement is not None:
+        mask |= np.any(np.nan_to_num(displacement, nan=0.0)[..., :] > cfg.slip_displacement_threshold_m, axis=1)
+    return _sustained_event(time_s, mask & eval_mask, cfg.slip_duration_s)
+
+
+def _sustained_contact_loss(time_s: np.ndarray, left: np.ndarray, right: np.ndarray, cfg: RecoveryConfig, start_s: float | None = None) -> bool:
     bad = ~(np.asarray(left, dtype=bool) & np.asarray(right, dtype=bool))
-    bad &= time_s >= cfg.startup_grace_period_s
+    bad &= time_s >= (cfg.startup_grace_period_s if start_s is None else start_s)
     if not np.any(bad):
         return False
     starts = np.flatnonzero(bad & ~np.r_[False, bad[:-1]])
     ends = np.flatnonzero(bad & ~np.r_[bad[1:], False])
     return any(time_s[end] - time_s[start] >= cfg.contact_loss_duration_s for start, end in zip(starts, ends))
+
+
+def _sustained_event(time_s: np.ndarray, event: np.ndarray, duration_s: float) -> bool:
+    if not np.any(event):
+        return False
+    starts = np.flatnonzero(event & ~np.r_[False, event[:-1]])
+    ends = np.flatnonzero(event & ~np.r_[event[1:], False])
+    return any(time_s[end] - time_s[start] >= duration_s for start, end in zip(starts, ends))

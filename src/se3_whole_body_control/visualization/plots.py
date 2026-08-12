@@ -50,7 +50,7 @@ def plot_trial(log, output_dir: str | Path, prefix: str = "trial") -> list[Path]
     paths.extend(_save(fig, output_dir, f"{prefix}_com"))
 
     fig, ax = plt.subplots(figsize=(8, 4))
-    wrench = a["contact_wrench"]
+    wrench = a["actual_contact_wrench"]
     if wrench.ndim == 2 and wrench.shape[1] >= 12:
         ax.plot(t, wrench[:, 2], label="left Fz")
         ax.plot(t, wrench[:, 8], label="right Fz")
@@ -111,4 +111,99 @@ def plot_gpu_benchmark(rows: list[dict], output_dir: str | Path, name: str = "gp
     ax.set_xlabel("batch size"); ax.set_ylabel("simulations / second"); ax.grid(alpha=0.3)
     if valid:
         ax.legend()
+    return list(_save(fig, output_dir, name))
+
+
+def _shade_push(ax, time_s: np.ndarray, push_force: np.ndarray) -> None:
+    magnitude = np.linalg.norm(push_force[:, :2], axis=1) if len(push_force) else np.zeros(0)
+    active = magnitude > 1e-9
+    if not np.any(active):
+        return
+    indices = np.flatnonzero(active)
+    start, end = float(time_s[indices[0]]), float(time_s[indices[-1]])
+    ax.axvspan(start, end, color="tab:orange", alpha=0.18, label="push interval")
+
+
+def plot_flagship(log, output_dir: str | Path, name: str = "canonical_response") -> list[Path]:
+    """Coherent multi-panel canonical response figure for the README."""
+    apply_style()
+    a = log.arrays()
+    t = a["time_s"]
+    fig, axes = plt.subplots(4, 2, figsize=(12, 12), sharex=True)
+    push = a["push_force"]
+    axes[0, 0].plot(t, np.linalg.norm(push[:, :2], axis=1), color="tab:orange")
+    axes[0, 0].set_ylabel("push [N]")
+    axes[0, 1].plot(t, a["torso_rotation_error_rad"], color="tab:blue")
+    axes[0, 1].set_ylabel("torso rotation [rad]")
+    com = a["com_world"]
+    axes[1, 0].plot(t, np.linalg.norm(com[:, :2] - com[0, :2], axis=1), color="tab:green")
+    axes[1, 0].set_ylabel("CoM displacement [m]")
+    actual = a["actual_contact_wrench"]
+    axes[1, 1].plot(t, actual[:, 2], label="left Fz")
+    axes[1, 1].plot(t, actual[:, 8], label="right Fz")
+    axes[1, 1].set_ylabel("actual GRF Fz [N]")
+    axes[1, 1].legend(loc="best")
+    torque_limit = 180.0
+    axes[2, 0].plot(t, np.max(np.abs(a["control"]), axis=1) / torque_limit, color="tab:red")
+    axes[2, 0].set_ylabel("torque utilization")
+    axes[2, 0].set_ylim(bottom=0)
+    axes[2, 1].plot(t, np.max(a["actual_friction_utilization"], axis=1), color="tab:purple", label="friction utilization")
+    axes[2, 1].plot(t, np.max(a["foot_tangent_velocity"], axis=1), color="tab:brown", label="foot tangential speed [m/s]")
+    axes[2, 1].set_ylabel("contact activity")
+    axes[2, 1].legend(loc="best")
+    axes[3, 0].plot(t, a["qp_solve_time_s"] * 1000.0, color="tab:gray")
+    axes[3, 0].set_ylabel("QP solve [ms]")
+    axes[3, 1].plot(t, a["dynamics_residual_norm"], label="dynamics")
+    axes[3, 1].plot(t, a["contact_acceleration_residual_norm"], label="contact")
+    axes[3, 1].set_ylabel("constraint residual")
+    axes[3, 1].set_yscale("symlog", linthresh=1e-8)
+    axes[3, 1].legend(loc="best")
+    for row in axes:
+        for ax in row:
+            _shade_push(ax, t, push)
+            ax.grid(alpha=0.25)
+    axes[3, 0].set_xlabel("time [s]")
+    axes[3, 1].set_xlabel("time [s]")
+    fig.suptitle("Canonical SE(3) push recovery: measured response and constraints", y=0.995)
+    fig.tight_layout()
+    return list(_save(fig, output_dir, name))
+
+
+def plot_actual_grf(log, output_dir: str | Path, name: str = "actual_ground_reaction_forces") -> list[Path]:
+    apply_style()
+    a = log.arrays(); t = a["time_s"]; wrench = a["actual_contact_wrench"]
+    fig, axes = plt.subplots(2, 1, figsize=(9, 6), sharex=True)
+    axes[0].plot(t, wrench[:, 0], label="left Fx")
+    axes[0].plot(t, wrench[:, 1], label="left Fy")
+    axes[0].plot(t, wrench[:, 2], label="left Fz")
+    axes[0].set_ylabel("left GRF [N]"); axes[0].legend(ncol=3); axes[0].grid(alpha=0.25)
+    axes[1].plot(t, wrench[:, 6], label="right Fx")
+    axes[1].plot(t, wrench[:, 7], label="right Fy")
+    axes[1].plot(t, wrench[:, 8], label="right Fz")
+    axes[1].set_ylabel("right GRF [N]"); axes[1].set_xlabel("time [s]"); axes[1].legend(ncol=3); axes[1].grid(alpha=0.25)
+    for ax in axes:
+        _shade_push(ax, t, a["push_force"])
+    fig.suptitle("Actual MuJoCo ground-reaction forces")
+    fig.tight_layout()
+    return list(_save(fig, output_dir, name))
+
+
+def plot_com_support_polygon(log, output_dir: str | Path, name: str = "com_support_polygon") -> list[Path]:
+    apply_style()
+    a = log.arrays(); com = a["com_world"][:, :2]; feet = a["foot_xy_world"].reshape(-1, 2, 2)
+    fig, ax = plt.subplots(figsize=(7, 6))
+    ax.plot(com[:, 0], com[:, 1], color="tab:blue", linewidth=2, label="CoM trajectory")
+    ax.scatter(com[0, 0], com[0, 1], color="tab:green", label="nominal CoM", zorder=3)
+    half_x, half_y, center_x = 0.17, 0.12, 0.055
+    for index, label, color in ((0, "left foot support", "tab:orange"), (1, "right foot support", "tab:red")):
+        center = feet[0, index] + np.array([center_x, 0.0])
+        polygon = np.array([[center[0] - half_x, center[1] - half_y], [center[0] + half_x, center[1] - half_y], [center[0] + half_x, center[1] + half_y], [center[0] - half_x, center[1] + half_y], [center[0] - half_x, center[1] - half_y]])
+        ax.fill(polygon[:, 0], polygon[:, 1], color=color, alpha=0.18, label=label)
+    push_mask = np.linalg.norm(a["push_force"][:, :2], axis=1) > 1e-9
+    if np.any(push_mask):
+        ax.scatter(com[push_mask, 0], com[push_mask, 1], s=5, color="tab:purple", label="push interval")
+    ax.set_aspect("equal", adjustable="box")
+    ax.set_xlabel("world x [m]"); ax.set_ylabel("world y [m]"); ax.set_title("CoM trajectory and double-support polygon"); ax.grid(alpha=0.25)
+    ax.legend(loc="best")
+    fig.tight_layout()
     return list(_save(fig, output_dir, name))

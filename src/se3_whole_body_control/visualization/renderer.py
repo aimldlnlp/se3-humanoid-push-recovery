@@ -54,16 +54,28 @@ def _draw_overlay(image, metadata: Mapping[str, object] | None) -> None:
         radius=int(10 * scale), fill=(0, 0, 0, 165), outline=(255, 255, 255, 180), width=max(1, int(scale)),
     )
     center = (x0 + inset // 2, y0 + inset // 2)
-    draw.ellipse((center[0] - int(7 * scale), center[1] - int(7 * scale), center[0] + int(7 * scale), center[1] + int(7 * scale)), fill=(50, 220, 100, 255))
-    draw.text((x0 + int(10 * scale), y0 + int(10 * scale)), "CoM", font=small, fill=(50, 255, 100, 255))
+    com = np.asarray(metadata.get("com_world", [0.0, 0.0]), dtype=float).reshape(-1)[:2]
+    feet = np.asarray(metadata.get("feet_xy", []), dtype=float).reshape(-1, 2) if metadata.get("feet_xy") is not None else np.empty((0, 2))
+
+    def map_xy(point):
+        delta = np.asarray(point, dtype=float)[:2] - com
+        return (int(center[0] + delta[0] * 95 * scale), int(center[1] - delta[1] * 95 * scale))
+
+    com_px = map_xy(com)
+    draw.ellipse((com_px[0] - int(7 * scale), com_px[1] - int(7 * scale), com_px[0] + int(7 * scale), com_px[1] + int(7 * scale)), fill=(50, 220, 100, 255))
+    draw.text((x0 + int(10 * scale), y0 + int(10 * scale)), "actual CoM", font=small, fill=(50, 255, 100, 255))
+    for foot in feet:
+        foot_px = map_xy(foot)
+        half = int(10 * scale)
+        draw.rectangle((foot_px[0] - half, foot_px[1] - half // 2, foot_px[0] + half, foot_px[1] + half // 2), outline=(255, 255, 255, 230), width=max(1, int(scale)))
     force = np.asarray(metadata.get("push_force", [0.0, 0.0]), dtype=float).reshape(-1)
     horizontal = force[:2] if force.size >= 2 else np.zeros(2)
     norm = float(np.linalg.norm(horizontal))
     if norm > 1e-9:
         direction = horizontal / norm
         length = int(48 * scale)
-        end = (int(center[0] + direction[0] * length), int(center[1] - direction[1] * length))
-        draw.line((center[0], center[1], end[0], end[1]), fill=(255, 170, 40, 255), width=max(2, int(5 * scale)))
+        end = (int(com_px[0] + direction[0] * length), int(com_px[1] - direction[1] * length))
+        draw.line((com_px[0], com_px[1], end[0], end[1]), fill=(255, 170, 40, 255), width=max(2, int(5 * scale)))
         draw.ellipse((end[0] - int(5 * scale), end[1] - int(5 * scale), end[0] + int(5 * scale), end[1] + int(5 * scale)), fill=(255, 170, 40, 255))
     contacts = f"contacts: L={'OK' if metadata.get('contact_left') else 'LOST'}  R={'OK' if metadata.get('contact_right') else 'LOST'}"
     draw.text((x0 + int(10 * scale), y0 + inset - int(30 * scale)), contacts, font=small, fill=(255, 255, 255, 255))

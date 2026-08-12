@@ -31,6 +31,8 @@ class QPResult:
     objective: float = float("nan")
     friction_margin: float = float("nan")
     contact_slack_norm: float = 0.0
+    dynamics_residual_norm: float = float("nan")
+    contact_acceleration_residual_norm: float = float("nan")
     message: str = ""
     diagnostics: dict = field(default_factory=dict)
 
@@ -75,6 +77,11 @@ class WholeBodyQPController:
 
     def _friction_rows(self, rows, lower, upper, start: int) -> None:
         mu = self.mu
+        cop_x_min = float(self.cfg.get("support_polygon_x_min_m", -0.115))
+        cop_x_max = float(self.cfg.get("support_polygon_x_max_m", 0.225))
+        cop_y_min = float(self.cfg.get("support_polygon_y_min_m", -0.12))
+        cop_y_max = float(self.cfg.get("support_polygon_y_max_m", 0.12))
+        torsional_mu = float(self.cfg.get("torsional_friction_coefficient", 0.02))
         for foot in range(2):
             off = start + 6 * foot
             # Fz >= 0; moments are bounded for numerical conditioning.
@@ -85,9 +92,20 @@ class WholeBodyQPController:
                 rows.append(row); lower.append(-np.inf); upper.append(0.0)
                 row = np.zeros(self.nx); row[off + tangential] = -1.0; row[off + 2] = -mu
                 rows.append(row); lower.append(-np.inf); upper.append(0.0)
-            for moment in (3, 4, 5):
-                row = np.zeros(self.nx); row[off + moment] = 1.0
-                rows.append(row); lower.append(-500.0); upper.append(500.0)
+            # For a horizontal rectangular support patch, Mx = y*Fz and
+            # My = -x*Fz. These are CoP limits, not arbitrary moment boxes.
+            row = np.zeros(self.nx); row[off + 3] = 1.0; row[off + 2] = -cop_y_min
+            rows.append(row); lower.append(0.0); upper.append(np.inf)
+            row = np.zeros(self.nx); row[off + 3] = 1.0; row[off + 2] = -cop_y_max
+            rows.append(row); lower.append(-np.inf); upper.append(0.0)
+            row = np.zeros(self.nx); row[off + 4] = 1.0; row[off + 2] = cop_x_max
+            rows.append(row); lower.append(0.0); upper.append(np.inf)
+            row = np.zeros(self.nx); row[off + 4] = 1.0; row[off + 2] = cop_x_min
+            rows.append(row); lower.append(-np.inf); upper.append(0.0)
+            row = np.zeros(self.nx); row[off + 5] = 1.0; row[off + 2] = -torsional_mu
+            rows.append(row); lower.append(-np.inf); upper.append(0.0)
+            row = np.zeros(self.nx); row[off + 5] = -1.0; row[off + 2] = -torsional_mu
+            rows.append(row); lower.append(-np.inf); upper.append(0.0)
 
     def _build_problem(self):
         nv, nu = self.model.nv, self.model.nu
@@ -95,7 +113,7 @@ class WholeBodyQPController:
         islack = iw + self.nw
         M = self.model.mass_matrix()
         h = self.model.data.qfrc_bias.copy()
-        external = self.model.external_generalized_force()
+        external = self.model.external_generalized_force() if bool(self.cfg.get("use_external_force_oracle", False)) else np.zeros(nv)
         B = self.model.actuator_matrix
         Jc = self.model.contact_jacobian()
         contact_bias = self.model.contact_bias_acceleration()
@@ -168,7 +186,7 @@ class WholeBodyQPController:
             rows.append(row); lower.append(float(self.model.actuator_limits[i, 0])); upper.append(float(self.model.actuator_limits[i, 1]))
         self._friction_rows(rows, lower, upper, iw)
         Acons = sparse.csc_matrix(np.vstack(rows))
-        return P, q, Acons, np.asarray(lower), np.asarray(upper), torso_error, pelvis_error
+        return P, q, Acons, np.asarray(lower), np.asarray(upper), torso_error, pelvis_error, M, h, B, Jc, contact_bias, external
 
     def _fallback(self, message: str, elapsed: float) -> QPResult:
         pd = self.pd_fallback.compute()
@@ -184,7 +202,7 @@ class WholeBodyQPController:
         if osqp is None:
             return self._fallback("osqp is not installed", time.perf_counter() - start)
         try:
-            P, q, A, l, u, torso_error, pelvis_error = self._build_problem()
+            P, q, A, l, u, torso_error, pelvis_error, M, h, B, Jc, contact_bias, external = self._build_problem()
             solver = osqp.OSQP()
             settings = self.cfg.get("solver", {})
             solver.setup(
@@ -211,14 +229,20 @@ class WholeBodyQPController:
                 off = 6 * foot
                 fz = wrench[off + 2]
                 margins.extend([self.mu * fz - abs(wrench[off]), self.mu * fz - abs(wrench[off + 1]), fz])
+            tau = np.clip(x[self.model.nv:self.model.nv + self.model.nu], self.model.actuator_limits[:, 0], self.model.actuator_limits[:, 1])
+            slack = x[iw + self.nw:iw + self.nw + self.nslack]
+            dynamics_residual = M @ x[:self.model.nv] + h - B @ tau - Jc.T @ wrench - external
+            contact_residual = Jc @ x[:self.model.nv] + contact_bias + slack[:Jc.shape[0]]
             result = QPResult(
-                control=np.clip(x[self.model.nv:self.model.nv + self.model.nu], self.model.actuator_limits[:, 0], self.model.actuator_limits[:, 1]),
+                control=tau,
                 qdd=x[:self.model.nv], contact_wrench=wrench, status=status, success=True,
                 solve_time_s=elapsed, primal_residual=float(getattr(info, "prim_res", np.nan)),
                 dual_residual=float(getattr(info, "dual_res", np.nan)), objective=float(getattr(info, "obj_val", np.nan)),
                 friction_margin=float(np.min(margins)),
                 contact_slack_norm=contact_slack_norm,
-                diagnostics={"torso_se3_error": torso_error, "pelvis_se3_error": pelvis_error},
+                dynamics_residual_norm=float(np.linalg.norm(dynamics_residual)),
+                contact_acceleration_residual_norm=float(np.linalg.norm(contact_residual)),
+                diagnostics={"torso_se3_error": torso_error, "pelvis_se3_error": pelvis_error, "external_force_oracle": bool(self.cfg.get("use_external_force_oracle", False))},
             )
             self.last_result = result
             return result

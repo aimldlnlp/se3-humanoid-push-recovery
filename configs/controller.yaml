@@ -19,6 +19,12 @@ qp_pelvis_weight: 8.0
 qp_com_weight: 3.0
 qp_slack_weight: 100000.0
 friction_coefficient: 0.7
+use_external_force_oracle: false
+support_polygon_x_min_m: -0.115
+support_polygon_x_max_m: 0.225
+support_polygon_y_min_m: -0.12
+support_polygon_y_max_m: 0.12
+torsional_friction_coefficient: 0.02
 max_joint_acceleration: 250.0
 fallback_to_pd: true
 solver:

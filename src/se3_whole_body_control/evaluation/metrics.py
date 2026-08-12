@@ -19,7 +19,12 @@ class TrialLog:
     torso_rotation_error_rad: list[float]
     contact_left: list[bool]
     contact_right: list[bool]
-    contact_wrench: list[list[float]]
+    predicted_contact_wrench: list[list[float]]
+    actual_contact_wrench: list[list[float]]
+    actual_friction_utilization: list[list[float]]
+    foot_tangent_velocity: list[list[float]]
+    foot_xy_displacement: list[list[float]]
+    foot_xy_world: list[list[float]]
     control: list[list[float]]
     qp_status: list[str]
     qp_solve_time_s: list[float]
@@ -29,9 +34,12 @@ class TrialLog:
     torso_height_m: list[float]
     torque_abs_max_Nm: list[float]
     qp_success: list[bool]
-    friction_margin: list[float]
+    predicted_friction_margin: list[float]
+    actual_friction_margin: list[float]
     qp_message: list[str]
     qp_slack_norm: list[float]
+    dynamics_residual_norm: list[float]
+    contact_acceleration_residual_norm: list[float]
 
     @classmethod
     def empty(cls) -> "TrialLog":
@@ -51,11 +59,12 @@ class TrialLog:
         return out
 
 
-def save_trial_npz(log: TrialLog, path: str | Path, metadata: dict | None = None) -> None:
+def save_trial_npz(log: TrialLog, path: str | Path, metadata: dict | None = None, extra_arrays: dict | None = None) -> None:
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     arrays = log.arrays()
     arrays["metadata_json"] = np.asarray(json.dumps(metadata or {}, sort_keys=True))
+    arrays.update(extra_arrays or {})
     np.savez_compressed(path, **arrays)
 
 
@@ -71,6 +80,10 @@ def summarize_trial(log: TrialLog) -> dict:
         "max_qp_solve_time_ms": float(np.max(arrays["qp_solve_time_s"]) * 1000.0),
         "qp_failures": int(np.sum(np.char.startswith(arrays["qp_status"].astype(str), "fallback"))),
         "max_contact_slack_norm": float(np.max(arrays["qp_slack_norm"])),
+        "max_actual_contact_force_N": float(np.max(np.abs(arrays["actual_contact_wrench"][:, [0, 1, 2, 6, 7, 8]]))),
+        "max_actual_friction_utilization": float(np.max(arrays["actual_friction_utilization"])),
+        "max_dynamics_residual": float(np.max(arrays["dynamics_residual_norm"])),
+        "max_contact_acceleration_residual": float(np.max(arrays["contact_acceleration_residual_norm"])),
         "left_contact_fraction": float(np.mean(arrays["contact_left"])),
         "right_contact_fraction": float(np.mean(arrays["contact_right"])),
     }

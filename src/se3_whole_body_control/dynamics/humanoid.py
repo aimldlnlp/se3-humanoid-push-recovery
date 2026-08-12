@@ -30,6 +30,23 @@ class HumanoidState:
     contact_right: bool
 
 
+@dataclass
+class ActualContactData:
+    """Physical ground reactions extracted from MuJoCo contacts.
+
+    Wrenches are ordered per foot as ``[Fx, Fy, Fz, Mx, My, Mz]`` in world
+    coordinates, with moments about the corresponding foot body COM.  These
+    values are measured from MuJoCo's contact solver and are intentionally
+    separate from any wrench predicted by the controller QP.
+    """
+
+    wrench_world: np.ndarray
+    contact_flags: np.ndarray
+    tangent_velocity_m_s: np.ndarray
+    xy_points_m: np.ndarray
+    friction_utilization: np.ndarray
+
+
 def _transform(position: np.ndarray, rotation_flat: np.ndarray) -> np.ndarray:
     T = np.eye(4)
     T[:3, :3] = np.asarray(rotation_flat, dtype=float).reshape(3, 3)
@@ -162,6 +179,14 @@ class HumanoidModel:
         total = float(np.sum(masses))
         return np.sum(self.data.xipos * masses[:, None], axis=0) / max(total, 1e-12)
 
+    def point_jacobian(self, body_name: str, point_world: np.ndarray) -> np.ndarray:
+        """World/spatial Jacobian at an arbitrary point on a named body."""
+        body_id = self.body_ids[body_name]
+        jacp = np.zeros((3, self.nv))
+        jacr = np.zeros((3, self.nv))
+        mujoco.mj_jac(self.model, self.data, jacp, jacr, np.asarray(point_world, dtype=float), body_id)
+        return np.vstack([jacp, jacr])
+
     def contact_flags(self) -> tuple[bool, bool]:
         left_id = self.geom_ids["left_foot_geom"]
         right_id = self.geom_ids["right_foot_geom"]
@@ -180,6 +205,61 @@ class HumanoidModel:
 
     def contact_jacobian(self) -> np.ndarray:
         return np.vstack([self.body_jacobian("left_foot"), self.body_jacobian("right_foot")])
+
+    def actual_contact_data(self) -> ActualContactData:
+        """Extract actual MuJoCo ground-reaction force and slip quantities."""
+        wrench = np.zeros(12, dtype=float)
+        flags = np.zeros(2, dtype=bool)
+        tangent_velocity = np.zeros(2, dtype=float)
+        points = np.full((2, 3), np.nan, dtype=float)
+        normal_force = np.zeros(2, dtype=float)
+        tangent_force = np.zeros(2, dtype=float)
+        foot_geom_ids = [self.geom_ids["left_foot_geom"], self.geom_ids["right_foot_geom"]]
+        foot_names = ["left_foot", "right_foot"]
+        for contact_id in range(self.data.ncon):
+            contact = self.data.contact[contact_id]
+            geom1, geom2 = int(contact.geom1), int(contact.geom2)
+            foot_index = None
+            for i, geom_id in enumerate(foot_geom_ids):
+                if geom_id in (geom1, geom2) and self.geom_ids["ground"] in (geom1, geom2):
+                    foot_index = i
+                    break
+            if foot_index is None:
+                continue
+            flags[foot_index] = True
+            force_contact = np.zeros(6, dtype=float)
+            mujoco.mj_contactForce(self.model, self.data, contact_id, force_contact)
+            frame_world = np.asarray(contact.frame, dtype=float).reshape(3, 3)
+            force_world = frame_world.T @ force_contact[:3]
+            moment_world = frame_world.T @ force_contact[3:]
+            # MuJoCo's contact-frame convention is oriented from the first
+            # geom toward the second geom.  For the ground/foot pair this
+            # makes the transformed normal point downward even though the
+            # physical reaction on the foot is upward.  The ground plane is
+            # horizontal in this model, so orient the measured reaction by
+            # its world-z normal rather than by geom ordering.  Tangential
+            # utilization is sign invariant; the wrench itself is now the
+            # physically meaningful reaction on the foot.
+            if force_world[2] < 0.0:
+                force_world *= -1.0
+                moment_world *= -1.0
+            body_name = foot_names[foot_index]
+            body_id = self.body_ids[body_name]
+            moment_world += np.cross(np.asarray(contact.pos) - self.data.xipos[body_id], force_world)
+            offset = 6 * foot_index
+            wrench[offset : offset + 3] += force_world
+            wrench[offset + 3 : offset + 6] += moment_world
+            points[foot_index] = np.asarray(contact.pos)
+            jacp = np.zeros((3, self.nv))
+            jacr = np.zeros((3, self.nv))
+            mujoco.mj_jac(self.model, self.data, jacp, jacr, contact.pos, body_id)
+            velocity = jacp @ self.data.qvel
+            tangent_velocity[foot_index] = max(tangent_velocity[foot_index], float(np.linalg.norm(velocity[:2])))
+            normal_force[foot_index] += max(0.0, float(force_world[2]))
+            tangent_force[foot_index] += float(np.linalg.norm(force_world[:2]))
+        mu = np.maximum(self.model.geom_friction[foot_geom_ids, 0], 1e-9)
+        utilization = np.divide(tangent_force, mu * normal_force, out=np.zeros(2), where=normal_force > 1e-9)
+        return ActualContactData(wrench, flags, tangent_velocity, points, utilization)
 
     def contact_bias_acceleration(self, finite_difference_dt: float = 1e-6) -> np.ndarray:
         """Return ``Jdot(q, qdot) qdot`` for both foot Jacobians.
@@ -226,7 +306,13 @@ class HumanoidModel:
         self.data.xfrc_applied[body_id, :3] = force
         self.data.xfrc_applied[body_id, 3:] = 0.0
         if np.linalg.norm(point) > 0:
-            self.data.xfrc_applied[body_id, 3:] = np.cross(point, force)
+            # xfrc_applied stores a world-frame wrench about the body COM.
+            # Convert the user-specified body-local application offset before
+            # forming the moment; the previous implementation treated the
+            # local vector as if it were already world aligned.
+            R_world_body = np.asarray(self.data.xmat[body_id], dtype=float).reshape(3, 3)
+            point_world = R_world_body @ point
+            self.data.xfrc_applied[body_id, 3:] = np.cross(point_world, force)
 
     def clear_external_force(self) -> None:
         self.data.xfrc_applied[:] = 0.0

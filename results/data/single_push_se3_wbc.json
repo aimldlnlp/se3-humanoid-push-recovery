@@ -56,6 +56,12 @@
       "qp_com_weight": 3.0,
       "qp_slack_weight": 100000.0,
       "friction_coefficient": 0.7,
+      "use_external_force_oracle": false,
+      "support_polygon_x_min_m": -0.115,
+      "support_polygon_x_max_m": 0.225,
+      "support_polygon_y_min_m": -0.12,
+      "support_polygon_y_max_m": 0.12,
+      "torsional_friction_coefficient": 0.02,
       "max_joint_acceleration": 250.0,
       "fallback_to_pd": true,
       "solver": {
@@ -153,39 +159,63 @@
         "timeout_s": 6.0,
         "startup_grace_period_s": 0.25,
         "contact_loss_duration_s": 0.08,
-        "friction_margin_tolerance_N": 0.01,
+        "friction_utilization_threshold": 1.05,
+        "slip_tangent_velocity_threshold_m_s": 0.08,
+        "slip_displacement_threshold_m": 0.025,
+        "slip_duration_s": 0.04,
         "foot_contact_required": true,
         "torso_ground_height_m": 0.35
+      },
+      "perturbed_standing": {
+        "duration_s": 3.0,
+        "warmup_duration_s": 0.15,
+        "seed": 17,
+        "initial_torso_tilt_rad": 0.03,
+        "initial_com_offset_m": 0.005,
+        "initial_angular_velocity_rad_s": 0.05
+      },
+      "robustness_randomization": {
+        "initial_torso_tilt_rad": 0.025,
+        "initial_com_offset_m": 0.006,
+        "initial_angular_velocity_rad_s": 0.05,
+        "push_magnitude_jitter_fraction": 0.08,
+        "push_direction_jitter_deg": 8.0,
+        "push_duration_jitter_s": 0.015
       }
     }
   },
   "seed": 0,
   "manifest": {
-    "run_id": "run-20260812T112152Z-be0e96eb",
-    "source_version": "source-sha256:91d8493a01b77766",
+    "run_id": "run-20260812T141408Z-cd0c1c35",
+    "source_version": "b0f6a9c",
     "seed": 0,
     "hostname": "hucenrotia-ai",
-    "timestamp_utc": "2026-08-12T11:21:52.251989+00:00",
-    "config_sha256": "1ed9a45c24e648a3ca1cc0aef37d46aeeac83a7bb08c8f4d446a5b88f9953031"
+    "timestamp_utc": "2026-08-12T14:14:08.173139+00:00",
+    "config_sha256": "ab8b84dfdf9061908d5f578215e4375f4f5694b737c9df8d40f6701c035b719e"
   },
   "summary": {
     "duration_s": 5.995999999999562,
-    "max_torso_error_rad": 0.14176033835295992,
-    "max_com_displacement_m": 0.07586811392618245,
-    "max_joint_velocity": 2.4262358544416776,
-    "max_qp_solve_time_ms": 12.033676030114293,
+    "max_torso_error_rad": 0.15956951120708832,
+    "max_com_displacement_m": 0.08564070489028598,
+    "max_joint_velocity": 2.9293795006435857,
+    "max_qp_solve_time_ms": 4.76003997027874,
     "qp_failures": 0,
-    "max_contact_slack_norm": 0.0686559538272557,
-    "left_contact_fraction": 0.9953333333333333,
-    "right_contact_fraction": 0.994
+    "max_contact_slack_norm": 0.17179885950515375,
+    "max_actual_contact_force_N": 2418.6902484936963,
+    "max_actual_friction_utilization": 1.0,
+    "max_dynamics_residual": 0.0015530948434255005,
+    "max_contact_acceleration_residual": 0.0013469153126387033,
+    "left_contact_fraction": 0.988,
+    "right_contact_fraction": 0.982
   },
   "recovery": {
     "success": true,
     "failure_reason": null,
-    "recovery_time_s": 3.091999999999881,
-    "max_torso_error_rad": 0.14176033835295992,
-    "max_com_displacement_m": 0.07586811392618245,
-    "max_joint_torque_Nm": 23.063900085785527,
-    "min_friction_margin": -1.4210854715202004e-13
+    "recovered_at_s": 3.791999999999804,
+    "recovery_latency_s": 1.641999999999804,
+    "max_torso_error_rad": 0.15956951120708832,
+    "max_com_displacement_m": 0.08564070489028598,
+    "max_joint_torque_Nm": 21.108277831274062,
+    "min_friction_margin": 0.0
   }
 }

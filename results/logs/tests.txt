@@ -1,11 +1,11 @@
-Final verification (2026-08-12):
-
-Local CPU environment:
-14 passed, 1 skipped (MuJoCo unavailable locally)
+Final verification source: b0f6a9c
+Date: 2026-08-12
 
 Remote se3-wbc environment:
-16 passed in Python 3.11
+25 passed, 4 warnings in 0.40 s
+Warnings: OSQP deprecated `polish` option and pending `raise_error` default.
 
-The MuJoCo smoke and directional finite-difference Jacobian tests pass on the
-remote execution worker. The local skip is intentional because the CPU-only
-developer environment does not install MuJoCo.
+Local CPU developer environment:
+18 passed, 1 skipped
+The skipped test is the MuJoCo smoke test because the local environment does not
+install the remote MuJoCo runtime; the full MuJoCo suite passed remotely.

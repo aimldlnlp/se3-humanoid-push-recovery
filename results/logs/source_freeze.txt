@@ -1,0 +1,8 @@
+Final source freeze: b0f6a9c
+Final experiments and visual artifacts were regenerated from this checkpoint.
+Remote worker: aimldl@140.113.149.94
+Remote environment: /home/aimldl/miniconda3/envs/se3-wbc
+Primary WBC disturbance oracle: disabled
+Push sweep: 480 trials
+Robustness study: 50 randomized trials
+Temporary render frames are excluded from version control.

@@ -1,0 +1,19 @@
+{
+  "nq": 15,
+  "nv": 14,
+  "nu": 8,
+  "body_ids": {
+    "pelvis": 1,
+    "torso": 2,
+    "left_foot": 6,
+    "right_foot": 9
+  },
+  "initial_contacts": [
+    true,
+    true
+  ],
+  "steps": 225,
+  "torso_x_before_push_m": 0.007622517458078108,
+  "torso_x_after_push_m": 0.04582702328728529,
+  "push_changed_motion": true
+}

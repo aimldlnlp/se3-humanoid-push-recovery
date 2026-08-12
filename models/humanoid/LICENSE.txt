@@ -1,0 +1,3 @@
+The mini_humanoid.xml model is original project content released with this
+repository under the repository license. It uses only MuJoCo primitive geoms
+and does not redistribute third-party meshes or textures.

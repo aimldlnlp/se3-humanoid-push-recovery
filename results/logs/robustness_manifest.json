@@ -1,0 +1,162 @@
+{
+  "run_id": "run-20260812T112245Z-4b31ca38",
+  "source_version": "source-sha256:91d8493a01b77766",
+  "seed": 0,
+  "hostname": "hucenrotia-ai",
+  "timestamp_utc": "2026-08-12T11:22:45.613731+00:00",
+  "config_sha256": "1ed9a45c24e648a3ca1cc0aef37d46aeeac83a7bb08c8f4d446a5b88f9953031",
+  "config": {
+    "root": ".",
+    "robot": {
+      "model_path": "models/humanoid/mini_humanoid.xml",
+      "torso_body": "torso",
+      "pelvis_body": "pelvis",
+      "left_foot_body": "left_foot",
+      "right_foot_body": "right_foot",
+      "left_foot_geom": "left_foot_geom",
+      "right_foot_geom": "right_foot_geom",
+      "ground_geom": "ground",
+      "simulation_timestep": 0.002,
+      "control_timestep": 0.004,
+      "duration_s": 6.0,
+      "warmup_duration_s": 0.4,
+      "gravity": [
+        0.0,
+        0.0,
+        -9.81
+      ],
+      "friction_coefficient": 0.7,
+      "mass_scale": 1.0,
+      "render_width": 1920,
+      "render_height": 1080,
+      "render_fps": 30
+    },
+    "controller": {
+      "posture_kp": 120.0,
+      "posture_kd": 18.0,
+      "torso_position_kp": 180.0,
+      "torso_position_kd": 28.0,
+      "torso_rotation_kp": 220.0,
+      "torso_rotation_kd": 32.0,
+      "pelvis_position_kp": 140.0,
+      "pelvis_position_kd": 24.0,
+      "pelvis_rotation_kp": 160.0,
+      "pelvis_rotation_kd": 26.0,
+      "com_kp": 70.0,
+      "com_kd": 18.0,
+      "qp_acceleration_weight": 0.02,
+      "qp_torque_weight": 0.0005,
+      "qp_nominal_torque_weight": 0.5,
+      "qp_posture_weight": 2.0,
+      "qp_torso_weight": 20.0,
+      "qp_pelvis_weight": 8.0,
+      "qp_com_weight": 3.0,
+      "qp_slack_weight": 100000.0,
+      "friction_coefficient": 0.7,
+      "max_joint_acceleration": 250.0,
+      "fallback_to_pd": true,
+      "solver": {
+        "eps_abs": 0.001,
+        "eps_rel": 0.001,
+        "max_iter": 20000,
+        "adaptive_rho": true,
+        "scaled_termination": true,
+        "polish": true
+      }
+    },
+    "experiments": {
+      "seed": 0,
+      "standing_duration_s": 3.0,
+      "push": {
+        "magnitude_N": 120.0,
+        "direction_deg": 0.0,
+        "duration_s": 0.15,
+        "start_time_s": 2.0,
+        "application_body": "torso"
+      },
+      "sweep": {
+        "magnitudes_N": [
+          20,
+          40,
+          60,
+          80,
+          100,
+          120,
+          140,
+          160,
+          180,
+          200
+        ],
+        "directions_deg": [
+          0,
+          15,
+          30,
+          45,
+          60,
+          75,
+          90,
+          105,
+          120,
+          135,
+          150,
+          165,
+          180,
+          195,
+          210,
+          225,
+          240,
+          255,
+          270,
+          285,
+          300,
+          315,
+          330,
+          345
+        ],
+        "duration_s": 0.15,
+        "start_time_s": 2.0,
+        "trial_duration_s": 6.0
+      },
+      "robustness": {
+        "friction": [
+          0.3,
+          0.5,
+          0.7,
+          0.9
+        ],
+        "mass_scale": [
+          0.9,
+          1.0,
+          1.1
+        ],
+        "push_duration_s": [
+          0.1,
+          0.15,
+          0.2
+        ],
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "recovery": {
+        "orientation_threshold_rad": 0.0872664626,
+        "angular_velocity_threshold_rad_s": 0.15,
+        "com_displacement_threshold_m": 0.1,
+        "stable_duration_s": 0.25,
+        "timeout_s": 6.0,
+        "startup_grace_period_s": 0.25,
+        "contact_loss_duration_s": 0.08,
+        "friction_margin_tolerance_N": 0.01,
+        "foot_contact_required": true,
+        "torso_ground_height_m": 0.35
+      }
+    }
+  },
+  "experiment": "robustness",
+  "trial_count": 50,
+  "data_file": "robustness.csv"
+}

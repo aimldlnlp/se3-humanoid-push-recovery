@@ -1,0 +1,3 @@
+trial_id,controller,push_magnitude_N,push_direction_deg,push_duration_s,impulse_Ns,success,failure_reason,recovery_time_s,max_torso_error_rad,max_com_displacement_m,max_joint_torque_Nm,max_contact_force_N,min_friction_margin,seed
+canonical_pd,pd,120.0,0.0,0.15,18.0,True,,3.111999999999879,0.17361900210124692,0.07428568326276859,21.695322916227095,0.0,nan,0
+canonical_se3_wbc,se3_wbc,120.0,0.0,0.15,18.0,True,,3.091999999999881,0.14176033835295992,0.07586811392618245,23.063900085785527,264.8136579749143,-1.4210854715202004e-13,0

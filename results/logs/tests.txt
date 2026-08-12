@@ -1,0 +1,11 @@
+Final verification (2026-08-12):
+
+Local CPU environment:
+14 passed, 1 skipped (MuJoCo unavailable locally)
+
+Remote se3-wbc environment:
+16 passed in Python 3.11
+
+The MuJoCo smoke and directional finite-difference Jacobian tests pass on the
+remote execution worker. The local skip is intentional because the CPU-only
+developer environment does not install MuJoCo.

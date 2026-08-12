@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "se3-humanoid-push-recovery"
+version = "0.1.0"
+description = "SE(3) geometric whole-body control for humanoid push recovery"
+requires-python = ">=3.10"
+dependencies = [
+  "numpy>=1.24",
+  "scipy>=1.10",
+  "mujoco>=3.1,<4",
+  "osqp>=1.0",
+  "matplotlib>=3.7",
+  "Pillow>=10",
+  "PyYAML>=6",
+  "imageio>=2.31",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4"]
+gpu = ["jax>=0.4", "mujoco-mjx>=3.1"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-ra"

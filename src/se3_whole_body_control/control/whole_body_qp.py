@@ -45,8 +45,15 @@ class WholeBodyQPController:
     origin and use MuJoCo's world-frame linear/angular convention.
     """
 
-    def __init__(self, model, controller_config: dict, recovery_config: dict | None = None):
+    def __init__(self, model, controller_config: dict, recovery_config: dict | None = None, internal_model=None):
         self.model = model
+        # ``model`` is the physical plant receiving the returned torque.
+        # ``internal_model`` is optional and exists to make plant/controller
+        # mismatch explicit in diagnostics and tests.  The normal project
+        # path leaves it unset, so the controller uses the same model.
+        self.internal_model = internal_model or model
+        if (self.internal_model.nq, self.internal_model.nv, self.internal_model.nu) != (model.nq, model.nv, model.nu):
+            raise ValueError("plant and internal controller models must have identical dimensions")
         self.cfg = controller_config
         self.mu = float(controller_config.get("friction_coefficient", 0.7))
         self.nw = 12
@@ -63,6 +70,15 @@ class WholeBodyQPController:
             q_des=self.q_des,
         )
         self.last_result: QPResult | None = None
+
+    def _sync_internal_model(self) -> None:
+        """Put an optional internal model at the plant state before solving."""
+        if self.internal_model is self.model:
+            return
+        self.internal_model.reset(qpos=self.model.data.qpos.copy(), qvel=self.model.data.qvel.copy())
+        # Copying the applied wrench is only relevant to the explicitly
+        # enabled oracle diagnostic.  The primary controller ignores it.
+        self.internal_model.data.xfrc_applied[:] = self.model.data.xfrc_applied
 
     def _add_objective(self, P: np.ndarray, q: np.ndarray, A: np.ndarray, b: np.ndarray, weight: float) -> None:
         if weight <= 0 or A.size == 0:
@@ -108,21 +124,22 @@ class WholeBodyQPController:
             rows.append(row); lower.append(-np.inf); upper.append(0.0)
 
     def _build_problem(self):
-        nv, nu = self.model.nv, self.model.nu
+        model = self.internal_model
+        nv, nu = model.nv, model.nu
         iw = nv + nu
         islack = iw + self.nw
-        M = self.model.mass_matrix()
-        h = self.model.data.qfrc_bias.copy()
-        external = self.model.external_generalized_force() if bool(self.cfg.get("use_external_force_oracle", False)) else np.zeros(nv)
-        B = self.model.actuator_matrix
-        Jc = self.model.contact_jacobian()
-        contact_bias = self.model.contact_bias_acceleration()
+        M = model.mass_matrix()
+        h = model.data.qfrc_bias.copy()
+        external = model.external_generalized_force() if bool(self.cfg.get("use_external_force_oracle", False)) else np.zeros(nv)
+        B = model.actuator_matrix
+        Jc = model.contact_jacobian()
+        contact_bias = model.contact_bias_acceleration()
         P = np.eye(self.nx) * 1e-9
         q = np.zeros(self.nx)
 
         torso_J, torso_b, torso_error = pose_task_acceleration(
-            self.model.body_pose("torso"), self.T_des_torso, self.model.body_jacobian("torso"),
-            self.model.data.qvel,
+            model.body_pose("torso"), self.T_des_torso, model.body_jacobian("torso"),
+            model.data.qvel,
             float(self.cfg.get("torso_position_kp", 180.0)), float(self.cfg.get("torso_position_kd", 28.0)),
             float(self.cfg.get("torso_rotation_kp", 220.0)), float(self.cfg.get("torso_rotation_kd", 32.0)),
         )
@@ -130,23 +147,23 @@ class WholeBodyQPController:
         self._add_objective(P, q, A, torso_b, float(self.cfg.get("qp_torso_weight", 20.0)))
 
         pelvis_J, pelvis_b, pelvis_error = pose_task_acceleration(
-            self.model.body_pose("pelvis"), self.T_des_pelvis, self.model.body_jacobian("pelvis"),
-            self.model.data.qvel,
+            model.body_pose("pelvis"), self.T_des_pelvis, model.body_jacobian("pelvis"),
+            model.data.qvel,
             float(self.cfg.get("pelvis_position_kp", 140.0)), float(self.cfg.get("pelvis_position_kd", 24.0)),
             float(self.cfg.get("pelvis_rotation_kp", 160.0)), float(self.cfg.get("pelvis_rotation_kd", 26.0)),
         )
         A = np.zeros((6, self.nx)); A[:, :nv] = pelvis_J
         self._add_objective(P, q, A, pelvis_b, float(self.cfg.get("qp_pelvis_weight", 8.0)))
 
-        Jcom = com_jacobian(self.model)
-        bcom = -float(self.cfg.get("com_kp", 70.0)) * (self.model.center_of_mass() - self.com_des)
-        bcom -= float(self.cfg.get("com_kd", 18.0)) * (Jcom @ self.model.data.qvel)
+        Jcom = com_jacobian(model)
+        bcom = -float(self.cfg.get("com_kp", 70.0)) * (model.center_of_mass() - self.com_des)
+        bcom -= float(self.cfg.get("com_kd", 18.0)) * (Jcom @ model.data.qvel)
         A = np.zeros((3, self.nx)); A[:, :nv] = Jcom
         self._add_objective(P, q, A, bcom, float(self.cfg.get("qp_com_weight", 3.0)))
 
         Apost, bpost = posture_task(
-            self.model.joint_positions(), self.q_des, self.model.joint_velocities(),
-            self.model.joint_qvel_indices, nv,
+            model.joint_positions(), self.q_des, model.joint_velocities(),
+            model.joint_qvel_indices, nv,
             float(self.cfg.get("posture_kp", 120.0)), float(self.cfg.get("posture_kd", 18.0)),
         )
         A = np.zeros((Apost.shape[0], self.nx)); A[:, :nv] = Apost
@@ -183,6 +200,9 @@ class WholeBodyQPController:
             rows.append(row); lower.append(-qdd_limit); upper.append(qdd_limit)
         for i in range(nu):
             row = np.zeros(self.nx); row[nv + i] = 1.0
+            # Torque limits belong to the physical actuator interface.  The
+            # internal model may differ in mass/friction, but cannot change
+            # what torque the plant can safely receive.
             rows.append(row); lower.append(float(self.model.actuator_limits[i, 0])); upper.append(float(self.model.actuator_limits[i, 1]))
         self._friction_rows(rows, lower, upper, iw)
         Acons = sparse.csc_matrix(np.vstack(rows))
@@ -202,6 +222,7 @@ class WholeBodyQPController:
         if osqp is None:
             return self._fallback("osqp is not installed", time.perf_counter() - start)
         try:
+            self._sync_internal_model()
             P, q, A, l, u, torso_error, pelvis_error, M, h, B, Jc, contact_bias, external = self._build_problem()
             solver = osqp.OSQP()
             settings = self.cfg.get("solver", {})
@@ -242,7 +263,16 @@ class WholeBodyQPController:
                 contact_slack_norm=contact_slack_norm,
                 dynamics_residual_norm=float(np.linalg.norm(dynamics_residual)),
                 contact_acceleration_residual_norm=float(np.linalg.norm(contact_residual)),
-                diagnostics={"torso_se3_error": torso_error, "pelvis_se3_error": pelvis_error, "external_force_oracle": bool(self.cfg.get("use_external_force_oracle", False))},
+                diagnostics={
+                    "torso_se3_error": torso_error,
+                    "pelvis_se3_error": pelvis_error,
+                    "external_force_oracle": bool(self.cfg.get("use_external_force_oracle", False)),
+                    "internal_model_is_plant": self.internal_model is self.model,
+                    "internal_mass_relative_error": float(
+                        np.linalg.norm(self.model.mass_matrix() - self.internal_model.mass_matrix())
+                        / max(np.linalg.norm(self.model.mass_matrix()), 1e-12)
+                    ),
+                },
             )
             self.last_result = result
             return result

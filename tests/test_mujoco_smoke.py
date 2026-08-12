@@ -99,6 +99,33 @@ def test_qp_residuals_and_support_wrench_limits_are_production_values():
         assert abs(mz) <= 0.02 * fz + 1e-3
 
 
+def test_real_plant_controller_model_mismatch_is_explicit():
+    repo_root = Path(__file__).resolve().parents[1]
+    plant = HumanoidModel(repo_root / "models" / "humanoid" / "mini_humanoid.xml", mass_scale=1.1, friction_coefficient=0.45)
+    internal = HumanoidModel(repo_root / "models" / "humanoid" / "mini_humanoid.xml", mass_scale=0.9, friction_coefficient=0.7)
+    config = {
+        "posture_kp": 120.0, "posture_kd": 18.0, "torso_position_kp": 180.0,
+        "torso_position_kd": 28.0, "torso_rotation_kp": 220.0, "torso_rotation_kd": 32.0,
+        "pelvis_position_kp": 140.0, "pelvis_position_kd": 24.0, "pelvis_rotation_kp": 160.0,
+        "pelvis_rotation_kd": 26.0, "com_kp": 70.0, "com_kd": 18.0, "qp_acceleration_weight": 0.02,
+        "qp_torque_weight": 0.0005, "qp_nominal_torque_weight": 0.5, "qp_posture_weight": 2.0,
+        "qp_torso_weight": 20.0, "qp_pelvis_weight": 8.0, "qp_com_weight": 3.0,
+        "qp_slack_weight": 100000.0, "friction_coefficient": 0.7, "max_joint_acceleration": 250.0,
+        "support_polygon_x_min_m": -0.115, "support_polygon_x_max_m": 0.225,
+        "support_polygon_y_min_m": -0.12, "support_polygon_y_max_m": 0.12,
+        "torsional_friction_coefficient": 0.02,
+        "solver": {"eps_abs": 1e-3, "eps_rel": 1e-3, "max_iter": 20000, "polish": True},
+    }
+    assert not np.allclose(plant.mass_matrix(), internal.mass_matrix())
+    result = WholeBodyQPController(plant, config, internal_model=internal).solve()
+    assert result.success
+    assert result.diagnostics["internal_model_is_plant"] is False
+    assert result.diagnostics["internal_mass_relative_error"] > 0.01
+    assert np.all(np.isfinite(result.control))
+    plant.step(result.control)
+    assert np.all(np.isfinite(plant.data.qpos))
+
+
 def test_contact_jacobian_directional_finite_difference_is_consistent():
     repo_root = Path(__file__).resolve().parents[1]
     model = HumanoidModel(repo_root / "models" / "humanoid" / "mini_humanoid.xml")

@@ -53,6 +53,10 @@ def test_actual_contact_reaction_is_separate_and_upward():
     assert contact.contact_flags.all()
     assert contact.wrench_world.shape == (12,)
     assert np.all(contact.wrench_world[[2, 8]] > 0.0)
+    assert contact.cop_world.shape == (2, 2)
+    vertices = model.foot_support_vertices_world()
+    assert vertices.shape == (2, 4, 2)
+    assert np.all(np.isfinite(vertices))
 
 
 def test_local_push_application_point_is_rotated_into_world_wrench():

@@ -44,7 +44,7 @@ def main() -> None:
         ax_pose.set_xlim(-0.5, 0.6); ax_pose.set_ylim(-0.5, 0.5); ax_pose.set_zlim(-0.3, 0.6)
         ax_pose.set_xlabel("x"); ax_pose.set_ylabel("y"); ax_pose.set_zlabel("z")
         current_error = log_se3(intermediate @ inverse_se3(desired))
-        ax_error.set_title(r"$E=T_d^{-1}T$ in the chosen left/spatial convention")
+        ax_error.set_title(r"$E_s=T T_d^{-1}$: right-invariant, spatial/world error")
         frame(ax_error, np.eye(4), "I", "black")
         frame(ax_error, exp_se3(current_error), "E", "tab:purple")
         ax_error.set_xlim(-0.5, 0.6); ax_error.set_ylim(-0.5, 0.5); ax_error.set_zlim(-0.3, 0.6)
@@ -54,16 +54,16 @@ def main() -> None:
         ax_twist.set_xticks(np.arange(6), ["v_x", "v_y", "v_z", "ω_x", "ω_y", "ω_z"])
         ax_twist.set_ylim(-0.45, 0.45)
         ax_twist.set_ylabel(r"$\mathrm{Log}(E)^\vee$")
-        ax_twist.set_title(r"$\xi_e = \mathrm{Log}(E)^\vee$; translation first, rotation second")
-        fig.suptitle(f"SE(3) geometry animation  |  progress={alpha:.2f}")
+        ax_twist.set_title(r"$\xi_e = \mathrm{Log}(E_s)^\vee$; world [linear, angular]")
+        fig.suptitle(f"SE(3) right-invariant spatial error  |  progress={alpha:.2f}")
         fig.tight_layout()
 
     animation = FuncAnimation(fig, update, frames=len(times), interval=70, blit=False)
     out = ROOT / "results" / "videos"
     out.mkdir(parents=True, exist_ok=True)
-    animation.save(out / "se3_geometry_animation.gif", writer=PillowWriter(fps=15))
+    animation.save(out / "se3_geometry.gif", writer=PillowWriter(fps=15))
     try:
-        animation.save(out / "se3_geometry_animation.mp4", writer="ffmpeg", fps=15, dpi=130)
+        animation.save(out / "se3_geometry.mp4", writer="ffmpeg", fps=15, dpi=130)
     except Exception as exc:
         (ROOT / "results" / "logs" / "se3_geometry_animation.txt").write_text(f"mp4_unavailable={type(exc).__name__}: {exc}\n", encoding="utf-8")
     plt.close(fig)

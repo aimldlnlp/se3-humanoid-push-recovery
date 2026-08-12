@@ -25,6 +25,8 @@ class TrialLog:
     foot_tangent_velocity: list[list[float]]
     foot_xy_displacement: list[list[float]]
     foot_xy_world: list[list[float]]
+    foot_support_vertices_world: list[list[float]]
+    foot_cop_world: list[list[float]]
     control: list[list[float]]
     qp_status: list[str]
     qp_solve_time_s: list[float]
@@ -33,6 +35,7 @@ class TrialLog:
     torso_angular_velocity_norm: list[float]
     torso_height_m: list[float]
     torque_abs_max_Nm: list[float]
+    torque_utilization: list[float]
     qp_success: list[bool]
     predicted_friction_margin: list[float]
     actual_friction_margin: list[float]
@@ -72,12 +75,19 @@ def summarize_trial(log: TrialLog) -> dict:
     arrays = log.arrays()
     if len(arrays["time_s"]) == 0:
         return {}
+    qp_ms = arrays["qp_solve_time_s"] * 1000.0
+    finite_qp_ms = qp_ms[np.isfinite(qp_ms)]
     return {
         "duration_s": float(arrays["time_s"][-1]),
         "max_torso_error_rad": float(np.max(arrays["torso_rotation_error_rad"])),
         "max_com_displacement_m": float(np.max(np.linalg.norm(arrays["com_world"] - arrays["com_world"][0], axis=1))),
         "max_joint_velocity": float(np.max(arrays["joint_velocity_norm"])),
         "max_qp_solve_time_ms": float(np.max(arrays["qp_solve_time_s"]) * 1000.0),
+        "mean_qp_solve_time_ms": float(np.mean(finite_qp_ms)) if finite_qp_ms.size else float("nan"),
+        "p95_qp_solve_time_ms": float(np.percentile(finite_qp_ms, 95)) if finite_qp_ms.size else float("nan"),
+        "p99_qp_solve_time_ms": float(np.percentile(finite_qp_ms, 99)) if finite_qp_ms.size else float("nan"),
+        "qp_deadline_ms": 4.0,
+        "qp_deadline_miss_percent": float(np.mean(finite_qp_ms > 4.0) * 100.0) if finite_qp_ms.size else float("nan"),
         "qp_failures": int(np.sum(np.char.startswith(arrays["qp_status"].astype(str), "fallback"))),
         "max_contact_slack_norm": float(np.max(arrays["qp_slack_norm"])),
         "max_actual_contact_force_N": float(np.max(np.abs(arrays["actual_contact_wrench"][:, [0, 1, 2, 6, 7, 8]]))),

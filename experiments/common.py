@@ -86,7 +86,10 @@ def run_trial(controller_name: str, configs: dict, push: Push | None = None, dur
         model, controller,
         duration_s=duration or configs["robot"]["duration_s"],
         control_timestep_s=configs["robot"]["control_timestep"],
-        warmup_duration_s=(configs["experiments"].get("perturbed_standing", {}).get("warmup_duration_s", 0.15) if perturbed else configs["robot"].get("warmup_duration_s", 0.4)),
+        # Perturbed trials start directly from the requested qpos/qvel. A PD
+        # warmup here would silently erase part of the disturbance before the
+        # measured WBC/PD response begins.
+        warmup_duration_s=(0.0 if perturbed else configs["robot"].get("warmup_duration_s", 0.4)),
         warmup_reanchor=not perturbed,
     )
     return model, runner.run(

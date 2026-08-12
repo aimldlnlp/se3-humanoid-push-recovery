@@ -110,6 +110,7 @@ class SimulationRunner:
                 if actual_contact.contact_flags[foot_id] and np.all(np.isfinite(foot_xy_reference[foot_id])):
                     foot_displacement[foot_id] = float(np.linalg.norm(foot_xy[foot_id] - foot_xy_reference[foot_id]))
             com = self.model.center_of_mass()
+            torque_limits = np.maximum(np.abs(self.model.actuator_limits[:, 1]), 1e-12)
             log.append(
                 time_s=t,
                 torso_error=torso_error.tolist(),
@@ -125,6 +126,8 @@ class SimulationRunner:
                 foot_tangent_velocity=actual_contact.tangent_velocity_m_s.tolist(),
                 foot_xy_displacement=foot_displacement.tolist(),
                 foot_xy_world=foot_xy.reshape(-1).tolist(),
+                foot_support_vertices_world=self.model.foot_support_vertices_world().reshape(-1).tolist(),
+                foot_cop_world=actual_contact.cop_world.reshape(-1).tolist(),
                 control=np.asarray(control).tolist(),
                 qp_status=qp_status,
                 qp_solve_time_s=float(qp_time),
@@ -133,6 +136,7 @@ class SimulationRunner:
                 torso_angular_velocity_norm=float(np.linalg.norm(torso_velocity[3:])),
                 torso_height_m=float(T_torso[2, 3]),
                 torque_abs_max_Nm=float(np.max(np.abs(control))) if len(control) else 0.0,
+                torque_utilization=float(np.max(np.abs(control) / torque_limits)) if len(control) else 0.0,
                 qp_success=qp_ok,
                 predicted_friction_margin=float(friction_margin),
                 actual_friction_margin=actual_friction_margin,

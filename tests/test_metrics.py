@@ -47,7 +47,7 @@ def test_recovery_before_timeout_remains_success():
 def test_serialization(tmp_path):
     log = TrialLog.empty()
     for i in range(2):
-        log.append(time_s=float(i), torso_error=[0] * 6, pelvis_error=[0] * 6, com_world=[0, 0, 1], torso_position=[0, 0, 1], torso_rotation_error_rad=0, contact_left=True, contact_right=True, predicted_contact_wrench=[0] * 12, actual_contact_wrench=[0] * 12, actual_friction_utilization=[0, 0], foot_tangent_velocity=[0, 0], foot_xy_displacement=[0, 0], foot_xy_world=[0, 0, 0, 0], control=[0], qp_status="solved", qp_solve_time_s=0.001, push_force=[0, 0, 0], joint_velocity_norm=0, torso_angular_velocity_norm=0, torso_height_m=1, torque_abs_max_Nm=0, qp_success=True, predicted_friction_margin=1, actual_friction_margin=1, qp_message="", qp_slack_norm=0, dynamics_residual_norm=0, contact_acceleration_residual_norm=0)
+        log.append(time_s=float(i), torso_error=[0] * 6, pelvis_error=[0] * 6, com_world=[0, 0, 1], torso_position=[0, 0, 1], torso_rotation_error_rad=0, contact_left=True, contact_right=True, predicted_contact_wrench=[0] * 12, actual_contact_wrench=[0] * 12, actual_friction_utilization=[0, 0], foot_tangent_velocity=[0, 0], foot_xy_displacement=[0, 0], foot_xy_world=[0, 0, 0, 0], foot_support_vertices_world=[0] * 16, foot_cop_world=[0] * 4, control=[0], qp_status="solved", qp_solve_time_s=0.001, push_force=[0, 0, 0], joint_velocity_norm=0, torso_angular_velocity_norm=0, torso_height_m=1, torque_abs_max_Nm=0, torque_utilization=0, qp_success=True, predicted_friction_margin=1, actual_friction_margin=1, qp_message="", qp_slack_norm=0, dynamics_residual_norm=0, contact_acceleration_residual_norm=0)
     path = tmp_path / "trial.npz"
     save_trial_npz(log, path, {"seed": 0})
     assert path.exists()

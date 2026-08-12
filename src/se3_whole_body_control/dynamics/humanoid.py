@@ -45,6 +45,7 @@ class ActualContactData:
     tangent_velocity_m_s: np.ndarray
     xy_points_m: np.ndarray
     friction_utilization: np.ndarray
+    cop_world: np.ndarray
 
 
 def _transform(position: np.ndarray, rotation_flat: np.ndarray) -> np.ndarray:
@@ -212,6 +213,7 @@ class HumanoidModel:
         flags = np.zeros(2, dtype=bool)
         tangent_velocity = np.zeros(2, dtype=float)
         points = np.full((2, 3), np.nan, dtype=float)
+        cop_world = np.full((2, 2), np.nan, dtype=float)
         normal_force = np.zeros(2, dtype=float)
         tangent_force = np.zeros(2, dtype=float)
         foot_geom_ids = [self.geom_ids["left_foot_geom"], self.geom_ids["right_foot_geom"]]
@@ -259,7 +261,34 @@ class HumanoidModel:
             tangent_force[foot_index] += float(np.linalg.norm(force_world[:2]))
         mu = np.maximum(self.model.geom_friction[foot_geom_ids, 0], 1e-9)
         utilization = np.divide(tangent_force, mu * normal_force, out=np.zeros(2), where=normal_force > 1e-9)
-        return ActualContactData(wrench, flags, tangent_velocity, points, utilization)
+        for foot_index, body_name in enumerate(foot_names):
+            fz = wrench[6 * foot_index + 2]
+            if flags[foot_index] and fz > 1e-9 and np.all(np.isfinite(wrench[6 * foot_index : 6 * foot_index + 6])):
+                # The wrench is about the body COM. For a horizontal contact
+                # plane, Mx = y Fz and My = -x Fz.
+                relative_xy = np.array([-wrench[6 * foot_index + 4] / fz, wrench[6 * foot_index + 3] / fz])
+                cop_world[foot_index] = self.data.xipos[self.body_ids[body_name]][:2] + relative_xy
+        return ActualContactData(wrench, flags, tangent_velocity, points, utilization, cop_world)
+
+    def foot_support_vertices_world(self) -> np.ndarray:
+        """Return the four ground-facing vertices of each foot geom in world XY."""
+        vertices = np.full((2, 4, 2), np.nan, dtype=float)
+        for foot_index, geom_name in enumerate(("left_foot_geom", "right_foot_geom")):
+            geom_id = self.geom_ids[geom_name]
+            if geom_id < 0 or int(self.model.geom_type[geom_id]) != int(mujoco.mjtGeom.mjGEOM_BOX):
+                continue
+            center = np.asarray(self.data.geom_xpos[geom_id], dtype=float)
+            rotation = np.asarray(self.data.geom_xmat[geom_id], dtype=float).reshape(3, 3)
+            half_size = np.asarray(self.model.geom_size[geom_id], dtype=float)
+            local = np.array(
+                [[-half_size[0], -half_size[1], -half_size[2]],
+                 [ half_size[0], -half_size[1], -half_size[2]],
+                 [ half_size[0],  half_size[1], -half_size[2]],
+                 [-half_size[0],  half_size[1], -half_size[2]]],
+                dtype=float,
+            )
+            vertices[foot_index] = (center + local @ rotation.T)[:, :2]
+        return vertices
 
     def contact_bias_acceleration(self, finite_difference_dt: float = 1e-6) -> np.ndarray:
         """Return ``Jdot(q, qdot) qdot`` for both foot Jacobians.

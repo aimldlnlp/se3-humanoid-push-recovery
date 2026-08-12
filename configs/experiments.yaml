@@ -33,7 +33,8 @@ recovery:
   torso_ground_height_m: 0.35
 perturbed_standing:
   duration_s: 3.0
-  warmup_duration_s: 0.15
+  # The perturbation is applied immediately; no PD warmup is allowed to erase it.
+  warmup_duration_s: 0.0
   seed: 17
   initial_torso_tilt_rad: 0.03
   initial_com_offset_m: 0.005

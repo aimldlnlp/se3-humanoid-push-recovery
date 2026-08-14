@@ -1,5 +1,6 @@
 Final research visual-polish verification
 raw_data_source=3be7824
+visual_source_commit=fb62e73
 scientific_logic_changed=false
 
 Local static artifact checks:

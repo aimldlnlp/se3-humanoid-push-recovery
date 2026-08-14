@@ -1,5 +1,6 @@
-timestamp_utc=2026-08-12T15:26:27.464835+00:00
+timestamp_utc=2026-08-14T04:37:53.380435+00:00
 requested_resolution=1920x1080
 actual_resolution=1920x1080
 fallback_reason=none
-overlay=time,controller,push,status,CoM-marker,contact-indicator
+camera=stable three-quarter track camera; visual-only MuJoCo lighting/material update
+overlay=controller,time,QP-status,push,CoM-marker,foot-contact

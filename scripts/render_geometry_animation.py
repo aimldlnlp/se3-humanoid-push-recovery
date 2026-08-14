@@ -1,66 +1,95 @@
-"""Animate the SE(3) error construction without a simulator."""
+"""Animate the production right-invariant spatial SE(3) error."""
 
 from __future__ import annotations
 
 import sys
 from pathlib import Path
 
-import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib.animation import FuncAnimation, PillowWriter
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 from se3_whole_body_control.geometry.se3 import exp_se3, inverse_se3, log_se3
+from se3_whole_body_control.visualization.style import COLORS, apply_style
+
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation, PillowWriter
 
 
-def frame(ax, T, label, color):
-    origin = T[:3, 3]
-    for i, axis in enumerate(("x", "y", "z")):
-        direction = T[:3, i]
-        ax.quiver(*origin, *direction, color=("tab:red", "tab:green", "tab:blue")[i], length=0.22, normalize=True)
-    ax.text(*origin, label, color=color)
+def frame(ax, transform, label, label_color):
+    origin = transform[:3, 3]
+    axis_colors = (COLORS["axis_x"], COLORS["axis_y"], COLORS["axis_z"])
+    for index, color in enumerate(axis_colors):
+        direction = transform[:3, index]
+        ax.quiver(*origin, *direction, color=color, length=0.22, normalize=True, linewidth=2.0, arrow_length_ratio=0.18)
+    ax.scatter(*origin, color=label_color, s=18, depthshade=False)
+    ax.text(*origin, label, color=label_color, fontsize=10, zorder=10)
+
+
+def clean_3d_axis(ax):
+    ax.set_xlim(-0.48, 0.60); ax.set_ylim(-0.45, 0.48); ax.set_zlim(-0.25, 0.55)
+    ax.set_box_aspect((1.15, 1.0, 0.85))
+    ax.grid(False)
+    for axis in (ax.xaxis, ax.yaxis, ax.zaxis):
+        axis.pane.set_facecolor((1.0, 1.0, 1.0, 0.0))
+        axis.pane.set_edgecolor((1.0, 1.0, 1.0, 0.0))
+        axis.set_ticks([])
+    ax.set_xlabel("x", labelpad=-4); ax.set_ylabel("y", labelpad=-4); ax.set_zlabel("z", labelpad=-4)
+    ax.view_init(elev=24, azim=-58)
 
 
 def main() -> None:
+    apply_style()
     desired = exp_se3(np.array([0.0, 0.0, 0.0, 0.12, -0.08, 0.05]))
     error_twist = np.array([0.35, -0.18, 0.12, 0.35, -0.22, 0.28])
     relative = exp_se3(error_twist)
     current = relative @ desired
     error = log_se3(current @ inverse_se3(desired))
     times = np.linspace(0.0, 1.0, 45)
-    fig = plt.figure(figsize=(12, 7))
-    ax_pose = fig.add_subplot(221, projection="3d")
-    ax_error = fig.add_subplot(222, projection="3d")
-    ax_twist = fig.add_subplot(212)
+    fig = plt.figure(figsize=(12, 6.75))
+    grid = fig.add_gridspec(2, 2, height_ratios=(1.38, 1.0), hspace=0.34, wspace=0.14)
+    ax_pose = fig.add_subplot(grid[0, 0], projection="3d")
+    ax_error = fig.add_subplot(grid[0, 1], projection="3d")
+    ax_twist = fig.add_subplot(grid[1, :])
 
     def update(index):
         alpha = times[index]
         ax_pose.clear(); ax_error.clear(); ax_twist.clear()
         intermediate = exp_se3(alpha * error) @ desired
-        ax_pose.set_title(r"$T_d$ and $T$")
-        frame(ax_pose, desired, r"$T_d$", "black")
-        frame(ax_pose, intermediate, r"$T$", "tab:orange")
-        ax_pose.set_xlim(-0.5, 0.6); ax_pose.set_ylim(-0.5, 0.5); ax_pose.set_zlim(-0.3, 0.6)
-        ax_pose.set_xlabel("x"); ax_pose.set_ylabel("y"); ax_pose.set_zlabel("z")
         current_error = log_se3(intermediate @ inverse_se3(desired))
-        ax_error.set_title(r"$E_s=T T_d^{-1}$: right-invariant, spatial/world error")
-        frame(ax_error, np.eye(4), "I", "black")
-        frame(ax_error, exp_se3(current_error), "E", "tab:purple")
-        ax_error.set_xlim(-0.5, 0.6); ax_error.set_ylim(-0.5, 0.5); ax_error.set_zlim(-0.3, 0.6)
-        ax_error.set_xlabel("linear tangent x"); ax_error.set_ylabel("linear tangent y"); ax_error.set_zlabel("linear tangent z")
-        ax_twist.bar(np.arange(6), current_error, color=["tab:blue"] * 3 + ["tab:orange"] * 3)
-        ax_twist.axhline(0.0, color="black", linewidth=0.8)
-        ax_twist.set_xticks(np.arange(6), ["v_x", "v_y", "v_z", "ω_x", "ω_y", "ω_z"])
-        ax_twist.set_ylim(-0.45, 0.45)
-        ax_twist.set_ylabel(r"$\mathrm{Log}(E)^\vee$")
-        ax_twist.set_title(r"$\xi_e = \mathrm{Log}(E_s)^\vee$; world [linear, angular]")
-        fig.suptitle(f"SE(3) right-invariant spatial error  |  progress={alpha:.2f}")
-        fig.tight_layout()
+
+        ax_pose.set_title(r"Desired and current body frames", loc="left", pad=7)
+        frame(ax_pose, desired, r"$T_d$", COLORS["desired"])
+        frame(ax_pose, intermediate, r"$T$", COLORS["push"])
+        clean_3d_axis(ax_pose)
+
+        ax_error.set_title(r"Relative error frame $E_s$", loc="left", pad=7)
+        frame(ax_error, np.eye(4), r"$I$", COLORS["desired"])
+        frame(ax_error, exp_se3(current_error), r"$E_s$", COLORS["wbc"])
+        clean_3d_axis(ax_error)
+
+        values = current_error
+        positions = np.arange(6)
+        bar_colors = [COLORS["axis_x"], COLORS["axis_y"], COLORS["axis_z"]] * 2
+        ax_twist.axvspan(-0.5, 2.5, color=COLORS["linear"], alpha=0.10, linewidth=0)
+        ax_twist.axvspan(2.5, 5.5, color=COLORS["angular"], alpha=0.08, linewidth=0)
+        ax_twist.bar(positions, values, color=bar_colors, width=0.62, edgecolor="white", linewidth=0.5)
+        ax_twist.axhline(0.0, color=COLORS["boundary"], linewidth=0.8)
+        ax_twist.set_xticks(positions, [r"$v_x$", r"$v_y$", r"$v_z$", r"$\omega_x$", r"$\omega_y$", r"$\omega_z$"])
+        ax_twist.set_xlim(-0.6, 5.6); ax_twist.set_ylim(-0.45, 0.45)
+        ax_twist.set_ylabel(r"$\xi_e = \mathrm{Log}(E_s)^\vee$", labelpad=8)
+        ax_twist.text(0.25, 1.04, "linear", transform=ax_twist.transAxes, ha="center", color=COLORS["linear"], fontsize=9)
+        ax_twist.text(0.75, 1.04, "angular", transform=ax_twist.transAxes, ha="center", color=COLORS["angular"], fontsize=9)
+        ax_twist.text(0.5, 1.04, "world / spatial tangent coordinates  •  [linear | angular]", transform=ax_twist.transAxes, ha="center", fontsize=9, color=COLORS["ink"])
+        ax_twist.spines["top"].set_visible(False); ax_twist.spines["right"].set_visible(False)
+        ax_twist.grid(axis="y", color=COLORS["grid"], alpha=0.42, linewidth=0.6)
+        ax_twist.set_axisbelow(True)
+        fig.suptitle(f"SE(3) geometric error  •  progress = {alpha:.2f}", fontsize=12, y=0.985)
+        fig.text(0.5, 0.485, r"$E_s = T\,T_d^{-1}$    $\longrightarrow$    $\xi_e = \mathrm{Log}(E_s)^\vee$", ha="center", va="center", fontsize=12, color=COLORS["ink"])
+        return []
 
     animation = FuncAnimation(fig, update, frames=len(times), interval=70, blit=False)
-    out = ROOT / "results" / "videos"
-    out.mkdir(parents=True, exist_ok=True)
+    out = ROOT / "results" / "videos"; out.mkdir(parents=True, exist_ok=True)
     animation.save(out / "se3_geometry.gif", writer=PillowWriter(fps=15))
     try:
         animation.save(out / "se3_geometry.mp4", writer="ffmpeg", fps=15, dpi=130)

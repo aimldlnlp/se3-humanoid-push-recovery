@@ -10,7 +10,17 @@ sys.path.insert(0, str(ROOT / "experiments"))
 
 from common import ROOT, output_dirs, read_csv
 from se3_whole_body_control.evaluation.metrics import TrialLog
-from se3_whole_body_control.visualization.plots import plot_actual_grf, plot_com_support_polygon, plot_comparison, plot_flagship, plot_recovery_heatmap, plot_trial
+from se3_whole_body_control.visualization.plots import (
+    plot_actual_grf,
+    plot_com_support_polygon,
+    plot_comparison,
+    plot_contact_diagnostics,
+    plot_flagship,
+    plot_qp_diagnostics,
+    plot_recovery_envelope,
+    plot_recovery_heatmap,
+    plot_trial,
+)
 
 
 def load_log(path: Path) -> TrialLog:
@@ -29,7 +39,13 @@ def main() -> None:
         log = load_log(path)
         plot_trial(log, dirs["png"], path.stem)
         if "single_push_se3_wbc" in path.stem:
-            for plotter, name in ((plot_flagship, "canonical_response"), (plot_actual_grf, "actual_ground_reaction_forces"), (plot_com_support_polygon, "com_support_polygon")):
+            for plotter, name in (
+                (plot_flagship, "canonical_response"),
+                (plot_actual_grf, "actual_ground_reaction_forces"),
+                (plot_com_support_polygon, "com_support_polygon"),
+                (plot_contact_diagnostics, "contact_slip_diagnostics"),
+                (plot_qp_diagnostics, "qp_timing_diagnostics"),
+            ):
                 plotter(log, dirs["png"], name)
     sweep = dirs["data"] / "push_sweep.csv"
     if sweep.exists():
@@ -37,6 +53,7 @@ def main() -> None:
         for controller in ("pd", "se3_wbc"):
             plot_recovery_heatmap(rows, dirs["png"], controller, f"recovery_heatmap_{controller}")
         plot_comparison(rows, dirs["png"])
+        plot_recovery_envelope(rows, dirs["png"])
     for path in dirs["png"].glob("*.pdf"):
         path.replace(dirs["pdf"] / path.name)
 

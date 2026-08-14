@@ -1,4 +1,4 @@
-"""Headless MuJoCo renderer for demo frames."""
+"""Headless MuJoCo renderer with restrained research overlays."""
 
 from __future__ import annotations
 
@@ -6,6 +6,12 @@ from pathlib import Path
 from typing import Mapping, Sequence
 
 import numpy as np
+
+
+PUSH_RGBA = np.array([0.84, 0.37, 0.08, 1.0], dtype=float)
+COM_RGBA = np.array([0.0, 0.45, 0.70, 1.0], dtype=float)
+CONTACT_RGBA = np.array([0.0, 0.62, 0.45, 1.0], dtype=float)
+CONTACT_LOST_RGBA = np.array([0.75, 0.30, 0.25, 1.0], dtype=float)
 
 
 def _font(size: int):
@@ -18,67 +24,105 @@ def _font(size: int):
 
 
 def _draw_overlay(image, metadata: Mapping[str, object] | None) -> None:
-    """Draw a compact, renderer-independent status overlay on a frame."""
+    """Draw compact essential telemetry without covering the robot."""
     if not metadata:
         return
     from PIL import ImageDraw
 
     draw = ImageDraw.Draw(image, "RGBA")
-    scale = max(1.0, image.width / 960.0)
-    margin = int(18 * scale)
-    font = _font(max(16, int(20 * scale)))
-    small = _font(max(14, int(16 * scale)))
+    scale = float(np.clip(image.width / 1920.0, 0.72, 1.0))
+    margin = int(28 * scale)
+    title_font = _font(max(16, int(25 * scale)))
+    body_font = _font(max(13, int(16 * scale)))
+    controller = str(metadata.get("controller", "unknown"))
+    qp_status = str(metadata.get("status", "unknown"))
+    force = np.asarray(metadata.get("push_force", [0.0, 0.0]), dtype=float).reshape(-1)
+    push_active = force.size >= 2 and float(np.linalg.norm(force[:2])) > 1e-9
+    push_label = (
+        f"Push  {float(metadata.get('push_magnitude_N', 0.0)):.0f} N @ "
+        f"{float(metadata.get('push_direction_deg', 0.0)):.0f}°"
+        if push_active else "Push  inactive"
+    )
     lines = [
-        f"t = {float(metadata.get('time_s', 0.0)):.2f} s",
-        f"controller: {metadata.get('controller', 'unknown')}",
-        f"push: {float(metadata.get('push_magnitude_N', 0.0)):.0f} N @ {float(metadata.get('push_direction_deg', 0.0)):.0f} deg",
-        f"status: {metadata.get('status', 'unknown')}",
+        controller,
+        f"t = {float(metadata.get('time_s', 0.0)):.2f} s    QP: {qp_status}",
+        push_label,
     ]
-    line_height = int(28 * scale)
-    panel_width = int(430 * scale)
-    panel_height = margin * 2 + line_height * len(lines)
+    panel_width = int(392 * scale)
+    panel_height = int(104 * scale)
     draw.rounded_rectangle(
         (margin, margin, margin + panel_width, margin + panel_height),
-        radius=int(10 * scale), fill=(0, 0, 0, 165), outline=(255, 255, 255, 180), width=max(1, int(scale)),
+        radius=int(10 * scale), fill=(255, 255, 255, 224), outline=(31, 41, 51, 180), width=max(1, int(scale)),
     )
-    for i, line in enumerate(lines):
-        draw.text((margin + int(14 * scale), margin + int(8 * scale) + i * line_height), line, font=font, fill=(255, 255, 255, 255))
+    draw.text((margin + int(16 * scale), margin + int(10 * scale)), lines[0], font=title_font, fill=(31, 41, 51, 255))
+    for index, line in enumerate(lines[1:]):
+        draw.text((margin + int(17 * scale), margin + int(46 * scale) + index * int(23 * scale)), line, font=body_font, fill=(31, 41, 51, 255))
 
-    # A small top-down diagnostic inset gives the CoM and horizontal push a
-    # visible marker without relying on renderer-specific world projection APIs.
-    inset = int(170 * scale)
-    x0 = image.width - inset - margin
-    y0 = margin
+    contacts = f"L  {'CONTACT' if metadata.get('contact_left') else 'LOST'}     R  {'CONTACT' if metadata.get('contact_right') else 'LOST'}"
+    status_width = int(250 * scale)
+    status_height = int(32 * scale)
+    y0 = image.height - margin - status_height
     draw.rounded_rectangle(
-        (x0, y0, x0 + inset, y0 + inset),
-        radius=int(10 * scale), fill=(0, 0, 0, 165), outline=(255, 255, 255, 180), width=max(1, int(scale)),
+        (margin, y0, margin + status_width, y0 + status_height),
+        radius=int(8 * scale), fill=(255, 255, 255, 218), outline=(31, 41, 51, 150), width=max(1, int(scale)),
     )
-    center = (x0 + inset // 2, y0 + inset // 2)
-    com = np.asarray(metadata.get("com_world", [0.0, 0.0]), dtype=float).reshape(-1)[:2]
-    feet = np.asarray(metadata.get("feet_xy", []), dtype=float).reshape(-1, 2) if metadata.get("feet_xy") is not None else np.empty((0, 2))
+    draw.text((margin + int(12 * scale), y0 + int(7 * scale)), contacts, font=body_font, fill=(31, 41, 51, 255))
 
-    def map_xy(point):
-        delta = np.asarray(point, dtype=float)[:2] - com
-        return (int(center[0] + delta[0] * 95 * scale), int(center[1] - delta[1] * 95 * scale))
 
-    com_px = map_xy(com)
-    draw.ellipse((com_px[0] - int(7 * scale), com_px[1] - int(7 * scale), com_px[0] + int(7 * scale), com_px[1] + int(7 * scale)), fill=(50, 220, 100, 255))
-    draw.text((x0 + int(10 * scale), y0 + int(10 * scale)), "actual CoM", font=small, fill=(50, 255, 100, 255))
-    for foot in feet:
-        foot_px = map_xy(foot)
-        half = int(10 * scale)
-        draw.rectangle((foot_px[0] - half, foot_px[1] - half // 2, foot_px[0] + half, foot_px[1] + half // 2), outline=(255, 255, 255, 230), width=max(1, int(scale)))
-    force = np.asarray(metadata.get("push_force", [0.0, 0.0]), dtype=float).reshape(-1)
-    horizontal = force[:2] if force.size >= 2 else np.zeros(2)
-    norm = float(np.linalg.norm(horizontal))
-    if norm > 1e-9:
-        direction = horizontal / norm
-        length = int(48 * scale)
-        end = (int(com_px[0] + direction[0] * length), int(com_px[1] - direction[1] * length))
-        draw.line((com_px[0], com_px[1], end[0], end[1]), fill=(255, 170, 40, 255), width=max(2, int(5 * scale)))
-        draw.ellipse((end[0] - int(5 * scale), end[1] - int(5 * scale), end[0] + int(5 * scale), end[1] + int(5 * scale)), fill=(255, 170, 40, 255))
-    contacts = f"contacts: L={'OK' if metadata.get('contact_left') else 'LOST'}  R={'OK' if metadata.get('contact_right') else 'LOST'}"
-    draw.text((x0 + int(10 * scale), y0 + inset - int(30 * scale)), contacts, font=small, fill=(255, 255, 255, 255))
+def _rotation_from_z(direction: np.ndarray) -> np.ndarray:
+    z = np.asarray(direction, dtype=float)
+    z /= max(float(np.linalg.norm(z)), 1e-12)
+    reference = np.array([0.0, 0.0, 1.0]) if abs(z[2]) < 0.9 else np.array([1.0, 0.0, 0.0])
+    x = np.cross(reference, z); x /= max(float(np.linalg.norm(x)), 1e-12)
+    y = np.cross(z, x); y /= max(float(np.linalg.norm(y)), 1e-12)
+    return np.column_stack((x, y, z))
+
+
+def _add_scene_geom(renderer, mujoco, geom_type, size, position, rotation, rgba) -> None:
+    scene = renderer.scene
+    if int(scene.ngeom) >= int(scene.maxgeom):
+        return
+    geom = scene.geoms[scene.ngeom]
+    mujoco.mjv_initGeom(
+        geom,
+        geom_type,
+        np.asarray(size, dtype=float),
+        np.asarray(position, dtype=float),
+        np.asarray(rotation, dtype=float).reshape(-1),
+        np.asarray(rgba, dtype=float),
+    )
+    scene.ngeom += 1
+
+
+def _add_scene_annotations(renderer, mujoco, metadata: Mapping[str, object] | None) -> None:
+    if not metadata:
+        return
+    com = np.asarray(metadata.get("com_world", []), dtype=float).reshape(-1)
+    if com.size >= 3 and np.all(np.isfinite(com[:3])):
+        # The projection is deliberately visible on the ground even when the
+        # physical CoM lies inside the torso.  The vertical marker remains at
+        # the measured 3-D CoM and is useful in close three-quarter views.
+        _add_scene_geom(renderer, mujoco, mujoco.mjtGeom.mjGEOM_SPHERE, [0.038, 0.0, 0.0], com[:3], np.eye(3), COM_RGBA)
+        _add_scene_geom(renderer, mujoco, mujoco.mjtGeom.mjGEOM_SPHERE, [0.028, 0.0, 0.0], [com[0], com[1], 0.035], np.eye(3), COM_RGBA)
+
+    feet_xy = np.asarray(metadata.get("feet_xy", []), dtype=float).reshape(-1, 2) if metadata.get("feet_xy") is not None else np.empty((0, 2))
+    for index, foot in enumerate(feet_xy[:2]):
+        color = CONTACT_RGBA if bool(metadata.get("contact_left" if index == 0 else "contact_right")) else CONTACT_LOST_RGBA
+        _add_scene_geom(renderer, mujoco, mujoco.mjtGeom.mjGEOM_SPHERE, [0.026, 0.0, 0.0], [foot[0], foot[1], 0.055], np.eye(3), color)
+
+    force = np.asarray(metadata.get("push_force", []), dtype=float).reshape(-1)
+    point = np.asarray(metadata.get("push_point_world", []), dtype=float).reshape(-1)
+    if force.size >= 3 and point.size >= 3:
+        horizontal = force[:3]
+        magnitude = float(np.linalg.norm(horizontal))
+        if magnitude > 1e-9:
+            direction = horizontal / magnitude
+            length = float(np.clip(0.0032 * magnitude, 0.20, 0.48))
+            origin = point[:3] + 0.20 * direction
+            center = origin + 0.5 * length * direction
+            rotation = _rotation_from_z(direction)
+            _add_scene_geom(renderer, mujoco, mujoco.mjtGeom.mjGEOM_CAPSULE, [0.022, 0.5 * length, 0.0], center, rotation, PUSH_RGBA)
+            _add_scene_geom(renderer, mujoco, mujoco.mjtGeom.mjGEOM_SPHERE, [0.034, 0.0, 0.0], origin + length * direction, np.eye(3), PUSH_RGBA)
 
 
 def render_trial_frames(
@@ -97,19 +141,20 @@ def render_trial_frames(
     out.mkdir(parents=True, exist_ok=True)
     renderer = mujoco.Renderer(model.model, height=height, width=width)
     paths = []
-    history = qpos_history[::max(1, stride)] if max_frames is None else qpos_history[::max(1, stride)][:max_frames]
+    step = max(1, stride)
+    history = qpos_history[::step] if max_frames is None else qpos_history[::step][:max_frames]
     for i, qpos in enumerate(history):
         model.data.qpos[:] = qpos
         mujoco.mj_forward(model.model, model.data)
         renderer.update_scene(model.data, camera="track")
-        path = out / f"frame_{i:06d}.png"
+        overlay_index = i * step
+        metadata = overlay_data[overlay_index] if overlay_data is not None and overlay_index < len(overlay_data) else None
+        _add_scene_annotations(renderer, mujoco, metadata)
         pixels = renderer.render()
         from PIL import Image
         image = Image.fromarray(pixels)
-        if overlay_data is not None:
-            overlay_index = i * max(1, stride)
-            if overlay_index < len(overlay_data):
-                _draw_overlay(image, overlay_data[overlay_index])
+        _draw_overlay(image, metadata)
+        path = out / f"frame_{i:06d}.png"
         image.save(path)
         paths.append(path)
     renderer.close()

@@ -1,7 +1,11 @@
 <mujoco model="mini_humanoid">
   <compiler angle="radian" coordinate="local" inertiafromgeom="true" autolimits="true"/>
   <option timestep="0.002" integrator="implicitfast" gravity="0 0 -9.81" iterations="80" solver="Newton"/>
-  <visual><global offwidth="1920" offheight="1080"/></visual>
+  <visual>
+    <global offwidth="1920" offheight="1080"/>
+    <headlight ambient="0.42 0.45 0.50" diffuse="0.78 0.80 0.84" specular="0.18 0.20 0.24"/>
+    <quality shadowsize="2048" offsamples="4"/>
+  </visual>
   <size njmax="200" nconmax="80"/>
   <default>
     <joint damping="1.0" armature="0.02" limited="true"/>
@@ -9,15 +13,16 @@
     <motor ctrllimited="true" ctrlrange="-180 180" gear="1"/>
   </default>
   <asset>
-    <texture name="floor_tex" type="2d" builtin="checker" width="256" height="256" rgb1="0.16 0.18 0.21" rgb2="0.24 0.26 0.30"/>
-    <material name="floor_mat" texture="floor_tex" texrepeat="8 8" reflectance="0.1"/>
-    <material name="body_mat" rgba="0.12 0.34 0.72 1"/>
-    <material name="joint_mat" rgba="0.85 0.35 0.12 1"/>
-    <material name="foot_mat" rgba="0.20 0.65 0.35 1"/>
+    <texture name="sky_tex" type="skybox" builtin="gradient" width="512" height="512" rgb1="0.96 0.97 0.99" rgb2="0.78 0.84 0.91"/>
+    <texture name="floor_tex" type="2d" builtin="checker" width="256" height="256" rgb1="0.73 0.76 0.80" rgb2="0.88 0.89 0.91"/>
+    <material name="floor_mat" texture="floor_tex" texrepeat="7 7" reflectance="0.04"/>
+    <material name="body_mat" rgba="0.08 0.31 0.62 1"/>
+    <material name="joint_mat" rgba="0.82 0.29 0.07 1"/>
+    <material name="foot_mat" rgba="0.02 0.48 0.35 1"/>
   </asset>
   <worldbody>
     <geom name="ground" type="plane" size="8 8 0.1" material="floor_mat" contype="1" conaffinity="1"/>
-    <camera name="track" mode="targetbody" target="torso" pos="3 -4 2.4"/>
+    <camera name="track" mode="targetbody" target="pelvis" pos="2.2 -3.0 1.6" fovy="36"/>
     <body name="pelvis" pos="0 0 1.04999">
       <freejoint name="root"/>
       <geom name="pelvis_geom" type="box" pos="0 0 0" size="0.20 0.14 0.12" material="body_mat" mass="7"/>

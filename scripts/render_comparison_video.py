@@ -28,6 +28,7 @@ def overlay_data(run, controller, push):
             "push_direction_deg": push.direction_deg, "status": a["qp_status"][i],
             "com_world": a["com_world"][i], "feet_xy": a["foot_xy_world"][i], "push_point_world": a["torso_position"][i], "push_force": a["push_force"][i],
             "contact_left": a["contact_left"][i], "contact_right": a["contact_right"][i],
+            "compact_overlay": True,
         }
         for i in range(len(run.qpos_history))
     ]

@@ -1,5 +1,3 @@
-frames=94
-requested_fps=30
-initial_torso_error_rad=0.000000000
-initial_torso_angular_velocity_rad_s=0.046753621
-recovery_success=True
+source=existing results/data/perturbed_standing_se3_wbc.npz
+camera=fixed closer three-quarter track view
+overlay=time,controller,push,status,CoM-marker,contact-indicator

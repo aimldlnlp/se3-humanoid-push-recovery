@@ -90,13 +90,13 @@ def _qp_timing(ax, t: np.ndarray, solve_time_s: np.ndarray, deadline_ms: float =
     ax.axhline(deadline_ms, color=COLORS["push"], linestyle=(0, (4, 3)), linewidth=1.0, label=f"deadline {deadline_ms:.1f} ms")
     ax.set_ylabel("QP solve time [ms]")
     ax.text(
-        0.98, 0.96,
+        0.02, 0.96,
         "mean {:.2f} | p95 {:.2f} | p99 {:.2f}\nmax {:.2f} | misses {:.1f}%".format(
             stats["mean_ms"], stats["p95_ms"], stats["p99_ms"], stats["max_ms"], stats["deadline_miss_pct"]
         ),
-        transform=ax.transAxes, ha="right", va="top", fontsize=8,
+        transform=ax.transAxes, ha="left", va="top", fontsize=7.8,
         color=COLORS["ink"],
-        bbox={"facecolor": COLORS["paper"], "alpha": 0.86, "edgecolor": COLORS["grid"], "pad": 4},
+        bbox={"facecolor": COLORS["paper"], "alpha": 0.86, "edgecolor": COLORS["grid"], "pad": 3},
     )
     return stats
 
@@ -277,7 +277,8 @@ def plot_recovery_envelope(rows: list[dict], output_dir: str | Path, name: str =
     apply_style()
     dirs = np.asarray(sorted({float(r["push_direction_deg"]) for r in rows}))
     theta = np.deg2rad(dirs)
-    fig, ax = plt.subplots(figsize=(6.4, 6.0), subplot_kw={"projection": "polar"})
+    fig, ax = plt.subplots(figsize=(6.4, 5.8), subplot_kw={"projection": "polar"})
+    fig.subplots_adjust(top=0.79, bottom=0.15, left=0.07, right=0.93)
     for controller in ("pd", "se3_wbc"):
         envelope = _recovery_envelope(rows, controller, dirs)
         finite = np.isfinite(envelope)
@@ -291,9 +292,9 @@ def plot_recovery_envelope(rows: list[dict], output_dir: str | Path, name: str =
     ax.set_rlabel_position(105)
     max_magnitude = max((float(r["push_magnitude_N"]) for r in rows), default=1.0)
     ax.set_ylim(0, max(max_magnitude, 1.0) + 10.0)
-    ax.set_title("Sampled measured recovery envelope", va="bottom", pad=18)
-    ax.text(0.5, 1.04, "largest recovered tested push by direction — not a continuous boundary", transform=ax.transAxes, ha="center", va="bottom", fontsize=8.2, color=COLORS["muted"])
-    ax.legend(loc="lower center", bbox_to_anchor=(0.5, -0.18), ncol=2)
+    fig.suptitle("Sampled measured recovery envelope", fontsize=12, y=0.97)
+    fig.text(0.5, 0.915, "largest recovered tested push by direction — not a continuous boundary", ha="center", va="center", fontsize=8.2, color=COLORS["muted"])
+    ax.legend(loc="lower center", bbox_to_anchor=(0.5, -0.12), ncol=2)
     ax.grid(color=COLORS["grid"], alpha=0.5, linewidth=0.6)
     return list(_save(fig, output_dir, name))
 
@@ -416,7 +417,7 @@ def plot_com_support_polygon(log, output_dir: str | Path, name: str = "com_suppo
     apply_style()
     a = log.arrays(); com = a["com_world"][:, :2]; vertices = _foot_support_vertices(a)
     active = np.column_stack([a["contact_left"], a["contact_right"]]).astype(bool)
-    fig, ax = plt.subplots(figsize=(6.6, 6.0))
+    fig, ax = plt.subplots(figsize=(7.4, 5.8))
     for index, label, color in ((0, "left foot", COLORS["left_foot"]), (1, "right foot", COLORS["right_foot"])):
         polygon = np.vstack([vertices[0, index], vertices[0, index, 0]])
         ax.fill(polygon[:, 0], polygon[:, 1], color=color, alpha=0.16, label=label, zorder=1)
@@ -425,13 +426,13 @@ def plot_com_support_polygon(log, output_dir: str | Path, name: str = "com_suppo
     if len(hull) >= 3:
         closed = np.vstack([hull, hull[0]])
         ax.fill(closed[:, 0], closed[:, 1], color=COLORS["wbc"], alpha=0.09, label="double-support hull", zorder=0)
-        ax.plot(closed[:, 0], closed[:, 1], color=COLORS["wbc"], linewidth=1.7, label="support boundary", zorder=3)
+        ax.plot(closed[:, 0], closed[:, 1], color=COLORS["wbc"], linewidth=1.7, zorder=3)
     ax.plot(com[:, 0], com[:, 1], color=COLORS["com"], linewidth=2.0, label="CoM trajectory", zorder=4)
     push_mask = np.linalg.norm(a["push_force"][:, :2], axis=1) > 1e-9
     if np.any(push_mask):
         ax.plot(com[push_mask, 0], com[push_mask, 1], color=COLORS["push"], linewidth=3.0, label="push interval", zorder=5)
     peak = int(np.argmax(np.linalg.norm(com - com[0], axis=1)))
-    ax.scatter(com[0, 0], com[0, 1], color=COLORS["desired"], marker="o", s=42, label="initial / nominal CoM", zorder=7)
+    ax.scatter(com[0, 0], com[0, 1], color=COLORS["desired"], marker="o", s=42, label="initial CoM", zorder=7)
     ax.scatter(com[peak, 0], com[peak, 1], color=COLORS["push"], marker="^", s=48, label="peak CoM", zorder=7)
     ax.scatter(com[-1, 0], com[-1, 1], color=COLORS["actual"], marker="s", s=40, label="final CoM", zorder=7)
     for foot, color in ((0, COLORS["left_foot"]), (1, COLORS["right_foot"])):
@@ -450,6 +451,10 @@ def plot_com_support_polygon(log, output_dir: str | Path, name: str = "com_suppo
     ax.set_xlabel("World x [m]"); ax.set_ylabel("World y [m]")
     ax.set_title("CoM motion inside the measured double-support region", loc="left", pad=9)
     style_axes(ax)
-    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.12), ncol=3, columnspacing=1.0)
-    fig.subplots_adjust(left=0.11, right=0.98, bottom=0.20, top=0.92)
+    ax.legend(
+        loc="upper center", bbox_to_anchor=(0.5, -0.10), ncol=4,
+        columnspacing=0.8, handlelength=1.8, handletextpad=0.5,
+        labelspacing=0.35, fontsize=8.0,
+    )
+    fig.subplots_adjust(left=0.11, right=0.98, bottom=0.16, top=0.92)
     return list(_save(fig, output_dir, name))

@@ -1,1 +1,3 @@
-frames=188
+source=existing results/data/single_push_pd.npz + single_push_se3_wbc.npz
+camera=identical closer three-quarter track view
+overlay=compact panel telemetry plus shared timestamp header

@@ -32,8 +32,9 @@ def _draw_overlay(image, metadata: Mapping[str, object] | None) -> None:
     draw = ImageDraw.Draw(image, "RGBA")
     scale = float(np.clip(image.width / 1920.0, 0.72, 1.0))
     margin = int(28 * scale)
-    title_font = _font(max(16, int(25 * scale)))
-    body_font = _font(max(13, int(16 * scale)))
+    compact = bool(metadata.get("compact_overlay", False))
+    title_font = _font(max(15, int((21 if compact else 25) * scale)))
+    body_font = _font(max(12, int((14 if compact else 16) * scale)))
     controller = str(metadata.get("controller", "unknown"))
     qp_status = str(metadata.get("status", "unknown"))
     force = np.asarray(metadata.get("push_force", [0.0, 0.0]), dtype=float).reshape(-1)
@@ -43,23 +44,32 @@ def _draw_overlay(image, metadata: Mapping[str, object] | None) -> None:
         f"{float(metadata.get('push_direction_deg', 0.0)):.0f}°"
         if push_active else "Push  inactive"
     )
-    lines = [
+    lines = ([
+        f"t = {float(metadata.get('time_s', 0.0)):.2f} s    QP: {qp_status}",
+        push_label,
+    ] if compact else [
         controller,
         f"t = {float(metadata.get('time_s', 0.0)):.2f} s    QP: {qp_status}",
         push_label,
-    ]
-    panel_width = int(392 * scale)
-    panel_height = int(104 * scale)
+    ])
+    line_widths = [draw.textbbox((0, 0), line, font=title_font if index == 0 and not compact else body_font)[2] for index, line in enumerate(lines)]
+    panel_width = max(int(214 * scale), max(line_widths, default=0) + int(30 * scale))
+    panel_height = int((70 if compact else 96) * scale)
     draw.rounded_rectangle(
         (margin, margin, margin + panel_width, margin + panel_height),
         radius=int(10 * scale), fill=(255, 255, 255, 224), outline=(31, 41, 51, 180), width=max(1, int(scale)),
     )
-    draw.text((margin + int(16 * scale), margin + int(10 * scale)), lines[0], font=title_font, fill=(31, 41, 51, 255))
-    for index, line in enumerate(lines[1:]):
-        draw.text((margin + int(17 * scale), margin + int(46 * scale) + index * int(23 * scale)), line, font=body_font, fill=(31, 41, 51, 255))
+    if compact:
+        for index, line in enumerate(lines):
+            draw.text((margin + int(14 * scale), margin + int(11 * scale) + index * int(22 * scale)), line, font=body_font, fill=(31, 41, 51, 255))
+    else:
+        draw.text((margin + int(16 * scale), margin + int(10 * scale)), lines[0], font=title_font, fill=(31, 41, 51, 255))
+        for index, line in enumerate(lines[1:]):
+            draw.text((margin + int(17 * scale), margin + int(42 * scale) + index * int(22 * scale)), line, font=body_font, fill=(31, 41, 51, 255))
 
     contacts = f"L  {'CONTACT' if metadata.get('contact_left') else 'LOST'}     R  {'CONTACT' if metadata.get('contact_right') else 'LOST'}"
-    status_width = int(250 * scale)
+    contacts_bbox = draw.textbbox((0, 0), contacts, font=body_font)
+    status_width = max(int(190 * scale), contacts_bbox[2] + int(22 * scale))
     status_height = int(32 * scale)
     y0 = image.height - margin - status_height
     draw.rounded_rectangle(

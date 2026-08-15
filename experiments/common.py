@@ -221,8 +221,9 @@ def execution_manifest(metadata: dict | None = None, seed: int = 0) -> dict:
     if config is not None:
         config_sha256 = hashlib.sha256(json.dumps(portable_config, sort_keys=True, default=str).encode()).hexdigest()
     timestamp = datetime.now(timezone.utc).isoformat()
+    run_id = metadata.get("run_id") or os.environ.get("SE3_RUN_ID")
     return {
-        "run_id": metadata.get("run_id") or f"run-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}-{uuid.uuid4().hex[:8]}",
+        "run_id": run_id or f"run-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}-{uuid.uuid4().hex[:8]}",
         "source_version": _source_version(),
         "seed": int(seed),
         "hostname": socket.gethostname(),

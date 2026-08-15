@@ -1,12 +1,27 @@
 param(
     [string]$HostName = "aimldl@140.113.149.94",
-    [string]$RemoteRoot = "/home/aimldl/workspaces/se3-humanoid-push-recovery",
-    [string]$EnvironmentName = "se3-wbc"
+    [string]$RemoteRoot = "",
+    [string]$EnvironmentName = "se3-wbc",
+    [string]$KnownHostsFile = "$env:USERPROFILE\.ssh\known_hosts",
+    [string]$IdentityFile = ""
 )
 
 $ErrorActionPreference = "Stop"
 $repoRoot = Split-Path -Parent $PSScriptRoot
-$sshOptions = @("-o", "BatchMode=yes", "-o", "ConnectTimeout=15", "-o", "UserKnownHostsFile=NUL", "-o", "StrictHostKeyChecking=no")
+$sshOptions = @("-o", "BatchMode=yes", "-o", "ConnectTimeout=15")
+if (-not (Test-Path -LiteralPath $KnownHostsFile)) {
+    throw "Verified SSH known_hosts file was not found: $KnownHostsFile"
+}
+$sshOptions += @("-o", "UserKnownHostsFile=$KnownHostsFile")
+if (-not [string]::IsNullOrWhiteSpace($IdentityFile)) {
+    if (-not (Test-Path -LiteralPath $IdentityFile)) {
+        throw "SSH identity file was not found: $IdentityFile"
+    }
+    $sshOptions += @("-i", $IdentityFile)
+}
+if ([string]::IsNullOrWhiteSpace($RemoteRoot)) {
+    throw "RemoteRoot must be provided explicitly for bootstrap."
+}
 $remoteVenv = "/home/aimldl/.venvs/$EnvironmentName"
 $remotePython = "$remoteVenv/bin/python"
 

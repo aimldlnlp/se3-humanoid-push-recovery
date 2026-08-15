@@ -1,4 +1,4 @@
-"""Run the canonical 120 N push for both controllers."""
+"""Run the configured canonical push for both controllers."""
 
 from __future__ import annotations
 

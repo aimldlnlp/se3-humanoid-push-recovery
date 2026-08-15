@@ -285,12 +285,17 @@
     }
   },
   "seed": 0,
+  "robot": "unitree_g1",
+  "model_path": "models/unitree_g1/scene_push_recovery.xml",
+  "mass_kg": 35.112142000000006,
+  "nv": 35,
+  "nu": 29,
   "manifest": {
-    "run_id": "run-20260815T020601Z-d48a14d7",
-    "source_version": "bfde1f1cecc4ef3476b617d53057a53f3726b7a8",
+    "run_id": "final-a0d5055-canonical",
+    "source_version": "a0d5055da703e8256333b50ffbee85d88abbefc2",
     "seed": 0,
     "hostname": "hucenrotia-ai",
-    "timestamp_utc": "2026-08-15T02:06:01.865339+00:00",
+    "timestamp_utc": "2026-08-15T07:42:06.357134+00:00",
     "config_sha256": "a8a272a147a3f6095811987e6623d4d5c4915d6985955e7af60c1d155ddd62d9"
   },
   "summary": {

@@ -22,6 +22,8 @@ The frozen canonical trial uses the same initial state, plant, camera, and physi
 
 The sweep contains 10–80 N at 24 directions spaced by 15 degrees. The envelope is a discrete, sampled measured result—not a theoretical continuous recovery boundary and not a claim of universal superiority. The canonical response is shown in the [3x2 paper-style figure](results/figures/png/canonical_response.png); the [comparison summary](results/figures/png/controller_comparison.png), [WBC basin](results/figures/png/recovery_heatmap_se3_wbc.png), [PD basin](results/figures/png/recovery_heatmap_pd.png), and [sampled polar envelope](results/figures/png/recovery_envelope.png) retain the trial-level evidence.
 
+These are measured results from the final rerun at source checkpoint `a0d5055da703e8256333b50ffbee85d88abbefc2` (`final-a0d5055-sweep`, `final-a0d5055-robustness`). The earlier G1 artifact is retained as a previous/frozen run in Git history and was not mixed into these numbers.
+
 ![Canonical response](results/figures/png/canonical_response.png)
 
 ![Sampled measured recovery envelope](results/figures/png/recovery_envelope.png)
@@ -116,7 +118,7 @@ The static and animated views show both measured foot supports, their active dou
 
 Quiet standing is a physics sanity check, not a recovery claim. In the final source, both controllers maintain both contacts. The WBC quiet-standing run has peak torso error 0.00344 rad and peak CoM displacement 0.00416 m; the PD run has 0.02795 rad and 0.01475 m. The contact-preserving perturbed-standing gate uses a randomized initial angular velocity bounded by 0.05 rad/s; both final trials recover with both feet in contact. The [perturbed-standing animation](results/videos/perturbed_standing_recovery.gif) is available separately.
 
-Actual GRF spikes around contact events are retained rather than clipped or hidden. The canonical WBC QP timing is mean 2.490 ms, p95 2.981 ms, p99 3.237 ms, maximum 5.275 ms, with 0.2% of solves above the 4 ms diagnostic deadline. These are offline measurements; this project makes no hard-real-time claim. See the [timing diagnostic](results/figures/png/qp_timing_diagnostics.png).
+Actual GRF spikes around contact events are retained rather than clipped or hidden. The canonical WBC QP timing is mean 2.620 ms, p95 3.590 ms, p99 5.309 ms, maximum 9.324 ms, with 3.7% of solves above the 4 ms diagnostic deadline. These are offline measurements; this project makes no hard-real-time claim. See the [timing diagnostic](results/figures/png/qp_timing_diagnostics.png).
 
 ![Contact and slip diagnostics](results/figures/png/contact_slip_diagnostics.png)
 
@@ -125,10 +127,12 @@ Actual GRF spikes around contact events are retained rather than clipped or hidd
 The final source checkpoint was created before the final G1 experiments:
 
 ```text
-bfde1f1cecc4ef3476b617d53057a53f3726b7a8
+a0d5055da703e8256333b50ffbee85d88abbefc2
 ```
 
-All final raw runs carry this source version plus a run ID, seed, hostname, UTC timestamp, and configuration hash in their manifests. The final raw artifacts include [JSON summaries](results/data/), [NPZ trajectories](results/data/), [CSV sweeps](results/data/push_sweep.csv), [PNG/PDF figures](results/figures/), [GIF/MP4 videos](results/videos/), and [execution logs](results/logs/).
+All final raw runs carry this full source version plus a run ID, seed, hostname, UTC timestamp, and configuration hash in their manifests. The final configuration hash is `a8a272a147a3f6095811987e6623d4d5c4915d6985955e7af60c1d155ddd62d9`; the worker was `hucenrotia-ai` with Python 3.12.3, MuJoCo 3.11.0, FFmpeg 6.1.1, and an NVIDIA RTX A5000. The final raw artifacts include [JSON summaries](results/data/), [NPZ trajectories](results/data/), [CSV sweeps](results/data/push_sweep.csv), [PNG/PDF figures](results/figures/), [GIF/MP4 videos](results/videos/), and [execution logs](results/logs/).
+
+The deterministic calibration used 10, 20, 40, 60, 80, and 100 N at eight directions for both controllers; the final 10–80 N grid was retained because it contains easy, near-boundary, and failed recoveries. The provenance record is in [`results/logs/source_freeze.txt`](results/logs/source_freeze.txt), with aggregate run manifests in [`results/logs/`](results/logs/).
 
 Run the lightweight local suite with:
 

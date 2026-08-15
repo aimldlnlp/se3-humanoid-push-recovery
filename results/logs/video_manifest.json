@@ -1,0 +1,97 @@
+{
+  "run_id": "final-a0d5055-videos",
+  "source_version": "a0d5055da703e8256333b50ffbee85d88abbefc2",
+  "seed": 0,
+  "hostname": "hucenrotia-ai",
+  "timestamp_utc": "2026-08-15T08:07:19.809399+00:00",
+  "config_sha256": "a8a272a147a3f6095811987e6623d4d5c4915d6985955e7af60c1d155ddd62d9",
+  "video_run_ids": {
+    "hero": "final-a0d5055-hero",
+    "comparison": "final-a0d5055-comparison",
+    "perturbed": "final-a0d5055-perturbed-video",
+    "com_support": "final-a0d5055-com-support",
+    "se3_geometry": "final-a0d5055-geometry"
+  },
+  "media": [
+    {
+      "file": "com_support_polygon.mp4",
+      "codec": "h264",
+      "width": 864,
+      "height": 744,
+      "frame_rate": "30/1",
+      "duration_s": 6.0
+    },
+    {
+      "file": "geometric_push_recovery.mp4",
+      "codec": "h264",
+      "width": 1920,
+      "height": 1080,
+      "frame_rate": "30/1",
+      "duration_s": 6.266667
+    },
+    {
+      "file": "pd_vs_se3_wbc_comparison.mp4",
+      "codec": "h264",
+      "width": 1920,
+      "height": 582,
+      "frame_rate": "30/1",
+      "duration_s": 6.266667
+    },
+    {
+      "file": "perturbed_standing_recovery.mp4",
+      "codec": "h264",
+      "width": 960,
+      "height": 540,
+      "frame_rate": "30/1",
+      "duration_s": 3.133333
+    },
+    {
+      "file": "se3_geometry.mp4",
+      "codec": "h264",
+      "width": 1560,
+      "height": 876,
+      "frame_rate": "15/1",
+      "duration_s": 3.0
+    },
+    {
+      "file": "com_support_polygon.gif",
+      "codec": "gif",
+      "width": 2160,
+      "height": 1860,
+      "frame_rate": "100/3",
+      "duration_s": 5.4
+    },
+    {
+      "file": "geometric_push_recovery.gif",
+      "codec": "gif",
+      "width": 960,
+      "height": 540,
+      "frame_rate": "50/1",
+      "duration_s": 5.4
+    },
+    {
+      "file": "pd_vs_se3_wbc_comparison.gif",
+      "codec": "gif",
+      "width": 960,
+      "height": 291,
+      "frame_rate": "1/0",
+      "duration_s": 1.4
+    },
+    {
+      "file": "perturbed_standing_recovery.gif",
+      "codec": "gif",
+      "width": 960,
+      "height": 540,
+      "frame_rate": "100/1",
+      "duration_s": 1.5
+    },
+    {
+      "file": "se3_geometry.gif",
+      "codec": "gif",
+      "width": 3600,
+      "height": 2025,
+      "frame_rate": "50/3",
+      "duration_s": 2.7
+    }
+  ]
+}

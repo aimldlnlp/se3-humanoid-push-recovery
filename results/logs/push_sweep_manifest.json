@@ -1,9 +1,9 @@
 {
-  "run_id": "run-20260815T021558Z-8136c9d9",
-  "source_version": "bfde1f1cecc4ef3476b617d53057a53f3726b7a8",
+  "run_id": "final-a0d5055-sweep",
+  "source_version": "a0d5055da703e8256333b50ffbee85d88abbefc2",
   "seed": 0,
   "hostname": "hucenrotia-ai",
-  "timestamp_utc": "2026-08-15T02:15:58.159817+00:00",
+  "timestamp_utc": "2026-08-15T07:51:08.255522+00:00",
   "config_sha256": "a8a272a147a3f6095811987e6623d4d5c4915d6985955e7af60c1d155ddd62d9",
   "config": {
     "root": ".",
@@ -282,6 +282,5 @@
     }
   },
   "experiment": "push_sweep",
-  "trial_count": 384,
-  "data_file": "push_sweep.csv"
+  "trial_count": 384
 }

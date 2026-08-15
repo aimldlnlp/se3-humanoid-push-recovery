@@ -1,0 +1,28 @@
+name: unitree_g1
+controller_profile: configs/controller.yaml
+model_path: models/unitree_g1/scene_push_recovery.xml
+model_variant: g1_29dof_no_hands
+floating_base_body: pelvis
+floating_base_joint: floating_base_joint
+torso_body: torso_link
+pelvis_body: pelvis
+left_foot_body: left_ankle_roll_link
+right_foot_body: right_ankle_roll_link
+ground_geom: ground
+left_foot_contact_geoms: []
+right_foot_contact_geoms: []
+nominal_base_qpos: [0.0, 0.0, 0.7915, 1.0, 0.0, 0.0, 0.0]
+nominal_joint_positions: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2, 0.2, 0.0, 1.28, 0.0, 0.0, 0.0, 0.2, -0.2, 0.0, 1.28, 0.0, 0.0, 0.0]
+foot_support_vertices_local:
+  - [[-0.05, -0.03, -0.03], [0.12, -0.03, -0.03], [0.12, 0.03, -0.03], [-0.05, 0.03, -0.03]]
+  - [[-0.05, -0.03, -0.03], [0.12, -0.03, -0.03], [0.12, 0.03, -0.03], [-0.05, 0.03, -0.03]]
+simulation_timestep: 0.002
+control_timestep: 0.004
+duration_s: 6.0
+warmup_duration_s: 0.6
+gravity: [0.0, 0.0, -9.81]
+friction_coefficient: 0.7
+render_width: 1920
+render_height: 1080
+render_fps: 30
+upstream_source: https://github.com/unitreerobotics/unitree_mujoco/tree/ae6a8403e272733e9996ef59990880330496177f/unitree_robots/g1

@@ -66,7 +66,7 @@ def main() -> None:
         draw.line((left.width, header_height, left.width, canvas.height), fill=(148, 163, 184), width=1)
         time_s = float(reference_arrays["time_s"][min(i * stride, len(reference_arrays["time_s"]) - 1)])
         force = float(np.linalg.norm(reference_arrays["push_force"][min(i * stride, len(reference_arrays["push_force"]) - 1), :2]))
-        shared = f"same 120 N push  |  t = {time_s:.2f} s"
+        shared = f"same {push.magnitude_N:.0f} N push  |  t = {time_s:.2f} s"
         draw.text((16, 10), "PD", font=title_font, fill=(91, 103, 112))
         draw.text((left.width + 16, 10), "SE(3) WBC", font=title_font, fill=(0, 114, 178))
         bbox = draw.textbbox((0, 0), shared, font=body_font)

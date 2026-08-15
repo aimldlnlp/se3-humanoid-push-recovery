@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from common import ROOT, flatten_result, load_configs, make_push, output_dirs, run_trial, write_csv, write_execution_manifest
-from se3_whole_body_control.visualization.plots import plot_comparison, plot_recovery_heatmap
+from se3_whole_body_control.visualization.plots import plot_comparison, plot_recovery_envelope, plot_recovery_heatmap
 
 
 def _run_one(task):
@@ -52,6 +52,9 @@ def main() -> None:
     shutil.copyfile(dirs["png"] / "recovery_heatmap_se3_wbc.png", dirs["png"] / "recovery_heatmap.png")
     shutil.copyfile(dirs["pdf"] / "recovery_heatmap_se3_wbc.pdf", dirs["pdf"] / "recovery_heatmap.pdf")
     paths = plot_comparison(rows, dirs["png"])
+    for p in paths:
+        if p.suffix == ".pdf": p.replace(dirs["pdf"] / p.name)
+    paths = plot_recovery_envelope(rows, dirs["png"])
     for p in paths:
         if p.suffix == ".pdf": p.replace(dirs["pdf"] / p.name)
 

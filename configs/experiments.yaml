@@ -1,13 +1,15 @@
 seed: 0
 standing_duration_s: 3.0
 push:
-  magnitude_N: 120.0
+  # G1 calibration: 70 N @ 0 deg is a near-boundary canonical WBC push;
+  # 80 N is retained in the sweep as a measured failure region.
+  magnitude_N: 70.0
   direction_deg: 0.0
   duration_s: 0.15
   start_time_s: 2.0
   application_body: torso
 sweep:
-  magnitudes_N: [20, 40, 60, 80, 100, 120, 140, 160, 180, 200]
+  magnitudes_N: [10, 20, 30, 40, 50, 60, 70, 80]
   directions_deg: [0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210, 225, 240, 255, 270, 285, 300, 315, 330, 345]
   duration_s: 0.15
   start_time_s: 2.0
@@ -35,13 +37,17 @@ perturbed_standing:
   duration_s: 3.0
   # The perturbation is applied immediately; no PD warmup is allowed to erase it.
   warmup_duration_s: 0.0
-  seed: 17
-  initial_torso_tilt_rad: 0.03
-  initial_com_offset_m: 0.005
+  # Keep the nominal double-support pose and inject only a base angular-rate
+  # perturbation; directly rotating/translating a free base would move both
+  # feet off the ground before the controller is evaluated.
+  seed: 0
+  initial_torso_tilt_rad: 0.0
+  initial_com_offset_m: 0.0
   initial_angular_velocity_rad_s: 0.05
 robustness_randomization:
-  initial_torso_tilt_rad: 0.025
-  initial_com_offset_m: 0.006
+  # Same contact-preserving convention as perturbed_standing.
+  initial_torso_tilt_rad: 0.0
+  initial_com_offset_m: 0.0
   initial_angular_velocity_rad_s: 0.05
   push_magnitude_jitter_fraction: 0.08
   push_direction_jitter_deg: 8.0

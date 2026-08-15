@@ -144,6 +144,12 @@ class SimulationRunner:
                 qp_slack_norm=float(getattr(result, "contact_slack_norm", 0.0)),
                 dynamics_residual_norm=float(dynamics_residual_norm),
                 contact_acceleration_residual_norm=float(contact_acceleration_residual_norm),
+                joint_limit_violation=bool(self.model.joint_position_limit_violation()),
+                numerical_valid=bool(
+                    np.all(np.isfinite(self.model.data.qpos))
+                    and np.all(np.isfinite(self.model.data.qvel))
+                    and np.all(np.isfinite(control))
+                ),
             )
             qpos_history.append(self.model.data.qpos.copy())
             if frame_callback is not None and t + 1e-10 >= next_frame:
@@ -168,10 +174,26 @@ class SimulationRunner:
                 actual_friction_utilization=arrays["actual_friction_utilization"],
                 foot_tangent_velocity=arrays["foot_tangent_velocity"],
                 foot_xy_displacement=arrays["foot_xy_displacement"],
+                torque_utilization=arrays["torque_utilization"],
+                joint_limit_violation=arrays["joint_limit_violation"],
+                numerical_valid=arrays["numerical_valid"],
                 config=recovery_config,
                 push_end_s=(push.start_time_s + push.duration_s) if push is not None else 0.0,
             )
-        return TrialRun(log=log, recovery=recovery, qpos_history=qpos_history, metadata={"seed": seed, "push": repr(push)})
+        return TrialRun(
+            log=log,
+            recovery=recovery,
+            qpos_history=qpos_history,
+            metadata={
+                "seed": seed,
+                "push": repr(push),
+                "robot": getattr(self.model.adapter, "name", "unknown"),
+                "model_path": str(self.model.model_path),
+                "mass_kg": float(np.sum(self.model.model.body_mass)),
+                "nv": int(self.model.nv),
+                "nu": int(self.model.nu),
+            },
+        )
 
     def _warmup_and_reanchor(self) -> None:
         """Settle the common initial state before measuring a trial."""

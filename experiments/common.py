@@ -49,7 +49,12 @@ def output_dirs() -> dict[str, Path]:
 def make_model(configs: dict | None = None, mass_scale: float = 1.0, friction_coefficient: float | None = None) -> HumanoidModel:
     cfg = configs or load_configs(ROOT)
     friction = float(friction_coefficient if friction_coefficient is not None else cfg["controller"].get("friction_coefficient", cfg["robot"].get("friction_coefficient", 0.7)))
-    return HumanoidModel(resolve_model_path(cfg), mass_scale=mass_scale, friction_coefficient=friction)
+    return HumanoidModel(
+        resolve_model_path(cfg),
+        mass_scale=mass_scale,
+        friction_coefficient=friction,
+        robot_config=cfg["robot"],
+    )
 
 
 def recovery_config(configs: dict) -> RecoveryConfig:
@@ -70,7 +75,17 @@ def make_push(configs: dict, magnitude: float | None = None, direction_deg: floa
 def run_controller(controller_name: str, model, configs: dict):
     c = configs["controller"]
     if controller_name in {"pd", "joint_pd"}:
-        return JointPDController(model, kp=c["posture_kp"], kd=c["posture_kd"])
+        controller = JointPDController(model, kp=c["posture_kp"], kd=c["posture_kd"])
+        if bool(c.get("use_nominal_contact_feedforward", False)):
+            # A fixed, disturbance-unaware contact-equilibrium bias makes the
+            # PD reference physically valid on the G1's multi-point foot
+            # contacts. It is computed once at nominal standing and never
+            # updated from the push or measured GRF during the trial.
+            bootstrap = WholeBodyQPController(model, c, configs["experiments"].get("recovery"))
+            equilibrium = bootstrap.solve().control
+            gravity_pd = model.actuator_matrix.T @ model.data.qfrc_bias
+            controller.feedforward_control = np.asarray(equilibrium - gravity_pd, dtype=float)
+        return controller
     return WholeBodyQPController(model, c, configs["experiments"]["recovery"])
 
 
@@ -147,6 +162,12 @@ def randomized_initial_state(configs: dict, seed: int, mass_scale: float = 1.0, 
 
 def save_run(run, path: Path, metadata: dict | None = None) -> None:
     meta = dict(metadata or {})
+    # Carry the physical run identity into every artifact.  Keep paths
+    # portable so committed results never expose an operator's local checkout.
+    for key, value in run.metadata.items():
+        if key == "model_path":
+            value = Path(value)
+        meta.setdefault(key, value)
     meta.setdefault("seed", int(run.metadata.get("seed", 0)))
     meta["manifest"] = execution_manifest(meta, seed=meta["seed"])
     meta = _json_safe(meta)
@@ -241,6 +262,13 @@ def flatten_result(run, controller: str, push: Push, trial_id: str, seed: int = 
         "min_friction_margin": rec.min_friction_margin if rec else float(np.nanmin(a["actual_friction_margin"])),
         "seed": seed,
     }
+    mass_kg = float(run.metadata.get("mass_kg", float("nan")))
+    force_over_mg, impulse_over_mass = push.normalized(mass_kg) if np.isfinite(mass_kg) else (float("nan"), float("nan"))
+    row.update({
+        "mass_kg": mass_kg,
+        "force_over_mg": force_over_mg,
+        "impulse_over_mass_m_s": impulse_over_mass,
+    })
     row.update(extra or {})
     return row
 

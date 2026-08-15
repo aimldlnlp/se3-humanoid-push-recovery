@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any, Mapping
 
 import numpy as np
 
@@ -28,6 +29,82 @@ class HumanoidState:
     right_foot_jacobian: np.ndarray
     contact_left: bool
     contact_right: bool
+
+
+@dataclass(frozen=True)
+class RobotAdapterConfig:
+    """Name-based robot interface shared by the legacy and G1 models."""
+
+    name: str
+    floating_base_body: str
+    floating_base_joint: str
+    torso_body: str
+    pelvis_body: str
+    left_foot_body: str
+    right_foot_body: str
+    ground_geom: str
+    left_foot_contact_geoms: tuple[str, ...]
+    right_foot_contact_geoms: tuple[str, ...]
+    nominal_base_qpos: np.ndarray
+    nominal_joint_positions: np.ndarray
+    foot_support_vertices_local: np.ndarray
+    actuated_joint_names: tuple[str, ...]
+
+    @classmethod
+    def from_mapping(cls, mapping: Mapping[str, Any] | None, model_path: Path) -> "RobotAdapterConfig":
+        """Build a model adapter from YAML, with a compatibility fallback.
+
+        The fallback exists only for direct library users constructing the
+        legacy model by path. Production experiments always pass the selected
+        profile from ``configs/robots``.
+        """
+        raw = dict(mapping or {})
+        is_mini = "mini_humanoid" in model_path.name
+        defaults = {
+            "name": "mini_humanoid" if is_mini else "humanoid",
+            "floating_base_body": "pelvis",
+            "floating_base_joint": "root" if is_mini else "floating_base_joint",
+            "torso_body": "torso" if is_mini else "torso_link",
+            "pelvis_body": "pelvis",
+            "left_foot_body": "left_foot" if is_mini else "left_ankle_roll_link",
+            "right_foot_body": "right_foot" if is_mini else "right_ankle_roll_link",
+            "ground_geom": "ground",
+            "left_foot_contact_geoms": ["left_foot_geom"] if is_mini else [],
+            "right_foot_contact_geoms": ["right_foot_geom"] if is_mini else [],
+            "nominal_base_qpos": [0.0, 0.0, 1.04999 if is_mini else 0.793, 1.0, 0.0, 0.0, 0.0],
+            "nominal_joint_positions": [],
+            "foot_support_vertices_local": [],
+            "actuated_joint_names": [],
+        }
+        for key, value in defaults.items():
+            raw.setdefault(key, value)
+        vertices = np.asarray(raw["foot_support_vertices_local"], dtype=float)
+        if vertices.size == 0:
+            if is_mini:
+                vertices = np.asarray([
+                    [[-0.115, -0.12, -0.09], [0.225, -0.12, -0.09],
+                     [0.225, 0.12, -0.09], [-0.115, 0.12, -0.09]],
+                    [[-0.115, -0.12, -0.09], [0.225, -0.12, -0.09],
+                     [0.225, 0.12, -0.09], [-0.115, 0.12, -0.09]],
+                ], dtype=float)
+            else:
+                vertices = np.zeros((2, 0, 3), dtype=float)
+        return cls(
+            name=str(raw["name"]),
+            floating_base_body=str(raw["floating_base_body"]),
+            floating_base_joint=str(raw["floating_base_joint"]),
+            torso_body=str(raw["torso_body"]),
+            pelvis_body=str(raw["pelvis_body"]),
+            left_foot_body=str(raw["left_foot_body"]),
+            right_foot_body=str(raw["right_foot_body"]),
+            ground_geom=str(raw["ground_geom"]),
+            left_foot_contact_geoms=tuple(str(v) for v in raw["left_foot_contact_geoms"]),
+            right_foot_contact_geoms=tuple(str(v) for v in raw["right_foot_contact_geoms"]),
+            nominal_base_qpos=np.asarray(raw["nominal_base_qpos"], dtype=float),
+            nominal_joint_positions=np.asarray(raw["nominal_joint_positions"], dtype=float),
+            foot_support_vertices_local=vertices,
+            actuated_joint_names=tuple(str(v) for v in raw["actuated_joint_names"]),
+        )
 
 
 @dataclass
@@ -58,10 +135,17 @@ def _transform(position: np.ndarray, rotation_flat: np.ndarray) -> np.ndarray:
 class HumanoidModel:
     """Thin, testable wrapper around ``mujoco.MjModel`` and ``MjData``."""
 
-    def __init__(self, model_path: str | Path, mass_scale: float = 1.0, friction_coefficient: float | None = None):
+    def __init__(
+        self,
+        model_path: str | Path,
+        mass_scale: float = 1.0,
+        friction_coefficient: float | None = None,
+        robot_config: Mapping[str, Any] | None = None,
+    ):
         if mujoco is None:
             raise ImportError("MuJoCo is required for HumanoidModel")
         self.model_path = Path(model_path)
+        self.adapter = RobotAdapterConfig.from_mapping(robot_config, self.model_path)
         self.model = mujoco.MjModel.from_xml_path(str(self.model_path))
         self.data = mujoco.MjData(self.model)
         if mass_scale != 1.0:
@@ -69,21 +153,57 @@ class HumanoidModel:
             self.model.body_inertia[:] *= float(mass_scale)
         if friction_coefficient is not None:
             self.model.geom_friction[:, 0] = float(friction_coefficient)
-        self.body_ids = {
-            name: mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_BODY, name)
-            for name in ["pelvis", "torso", "left_foot", "right_foot"]
+        body_names = {
+            "floating_base": self.adapter.floating_base_body,
+            "pelvis": self.adapter.pelvis_body,
+            "torso": self.adapter.torso_body,
+            "left_foot": self.adapter.left_foot_body,
+            "right_foot": self.adapter.right_foot_body,
         }
-        self.geom_ids = {
-            name: mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_GEOM, name)
-            for name in ["ground", "left_foot_geom", "right_foot_geom"]
+        self.body_ids = {
+            alias: mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_BODY, name)
+            for alias, name in body_names.items()
         }
         if any(v < 0 for v in self.body_ids.values()):
             raise ValueError(f"required body missing: {self.body_ids}")
-        self.joint_names = [
-            mujoco.mj_id2name(self.model, mujoco.mjtObj.mjOBJ_JOINT, j)
+        ground_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_GEOM, self.adapter.ground_geom)
+        if ground_id < 0:
+            # A scene wrapper may use ``floor`` while the adapter keeps the
+            # semantic alias ``ground``.
+            ground_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_GEOM, "floor")
+        if ground_id < 0:
+            raise ValueError(f"required ground geom missing: {self.adapter.ground_geom}")
+        self.geom_ids = {"ground": int(ground_id)}
+        self.foot_contact_geom_ids = (
+            self._discover_contact_geoms(self.adapter.left_foot_body, self.adapter.left_foot_contact_geoms),
+            self._discover_contact_geoms(self.adapter.right_foot_body, self.adapter.right_foot_contact_geoms),
+        )
+        self.geom_ids.update({
+            "left_foot_geom": int(self.foot_contact_geom_ids[0][0]) if self.foot_contact_geom_ids[0] else -1,
+            "right_foot_geom": int(self.foot_contact_geom_ids[1][0]) if self.foot_contact_geom_ids[1] else -1,
+        })
+        if not all(self.foot_contact_geom_ids):
+            raise ValueError(f"no contact geoms found for both feet: {self.foot_contact_geom_ids}")
+        actuator_joint_ids = []
+        for actuator_id in range(self.model.nu):
+            joint_id = int(self.model.actuator_trnid[actuator_id, 0])
+            actuator_joint_ids.append(joint_id)
+        all_joint_names = {
+            mujoco.mj_id2name(self.model, mujoco.mjtObj.mjOBJ_JOINT, j): j
             for j in range(self.model.njnt)
             if self.model.jnt_type[j] != mujoco.mjtJoint.mjJNT_FREE
-        ]
+        }
+        if self.adapter.actuated_joint_names:
+            missing = [name for name in self.adapter.actuated_joint_names if name not in all_joint_names]
+            if missing:
+                raise ValueError(f"configured actuated joints missing from model: {missing}")
+            self.joint_names = list(self.adapter.actuated_joint_names)
+        else:
+            self.joint_names = [
+                mujoco.mj_id2name(self.model, mujoco.mjtObj.mjOBJ_JOINT, joint_id)
+                for joint_id in actuator_joint_ids
+                if joint_id >= 0 and joint_id in all_joint_names.values()
+            ]
         self.joint_ids = {
             name: mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_JOINT, name)
             for name in self.joint_names
@@ -96,16 +216,53 @@ class HumanoidModel:
         )
         self.actuator_matrix = self._build_actuator_matrix()
         self.actuator_limits = self._actuator_limits()
+        self.support_vertices_local = np.asarray(self.adapter.foot_support_vertices_local, dtype=float)
         self.qpos0 = self._standing_qpos()
         self.reset()
+
+    def _discover_contact_geoms(self, foot_body_name: str, explicit_names: tuple[str, ...]) -> tuple[int, ...]:
+        """Return all physical contact geoms attached to a configured foot body."""
+        if explicit_names:
+            ids = tuple(
+                int(mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_GEOM, name))
+                for name in explicit_names
+            )
+            if any(geom_id < 0 for geom_id in ids):
+                raise ValueError(f"configured foot contact geom missing: {explicit_names}")
+            return ids
+        body_id = int(mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_BODY, foot_body_name))
+        ids = []
+        for geom_id in range(self.model.ngeom):
+            if int(self.model.geom_bodyid[geom_id]) != body_id:
+                continue
+            if int(self.model.geom_contype[geom_id]) == 0 or int(self.model.geom_conaffinity[geom_id]) == 0:
+                continue
+            ids.append(int(geom_id))
+        return tuple(ids)
 
     def _standing_qpos(self) -> np.ndarray:
         q = np.zeros(self.model.nq, dtype=float)
         q[:] = self.model.qpos0
-        free = [j for j in range(self.model.njnt) if self.model.jnt_type[j] == mujoco.mjtJoint.mjJNT_FREE]
-        if free:
-            adr = self.model.jnt_qposadr[free[0]]
-            q[adr : adr + 7] = np.array([0.0, 0.0, 1.04999, 1.0, 0.0, 0.0, 0.0])
+        free_joint_id = mujoco.mj_name2id(
+            self.model, mujoco.mjtObj.mjOBJ_JOINT, self.adapter.floating_base_joint,
+        )
+        if free_joint_id < 0:
+            free = [j for j in range(self.model.njnt) if self.model.jnt_type[j] == mujoco.mjtJoint.mjJNT_FREE]
+            free_joint_id = free[0] if free else -1
+        if free_joint_id >= 0:
+            adr = int(self.model.jnt_qposadr[free_joint_id])
+            base = np.asarray(self.adapter.nominal_base_qpos, dtype=float).reshape(-1)
+            if base.size != 7:
+                raise ValueError("nominal_base_qpos must contain 7 values for a free joint")
+            q[adr : adr + 7] = base
+        nominal = np.asarray(self.adapter.nominal_joint_positions, dtype=float).reshape(-1)
+        if nominal.size not in (0, len(self.joint_names)):
+            raise ValueError(
+                f"nominal_joint_positions has {nominal.size} values, expected {len(self.joint_names)}"
+            )
+        if nominal.size:
+            for name, value in zip(self.joint_names, nominal):
+                q[int(self.model.jnt_qposadr[self.joint_ids[name]])] = float(value)
         return q
 
     def _build_actuator_matrix(self) -> np.ndarray:
@@ -121,9 +278,20 @@ class HumanoidModel:
     def _actuator_limits(self) -> np.ndarray:
         if self.model.nu == 0:
             return np.zeros((0, 2))
-        if np.all(self.model.actuator_ctrllimited):
-            return self.model.actuator_ctrlrange.copy()
-        return np.tile(np.array([-180.0, 180.0]), (self.model.nu, 1))
+        limits = np.tile(np.array([-180.0, 180.0]), (self.model.nu, 1))
+        for actuator_id in range(self.model.nu):
+            if bool(self.model.actuator_ctrllimited[actuator_id]):
+                limits[actuator_id] = self.model.actuator_ctrlrange[actuator_id]
+                continue
+            if bool(getattr(self.model, "actuator_forcelimited", np.zeros(self.model.nu, dtype=bool))[actuator_id]):
+                limits[actuator_id] = self.model.actuator_forcerange[actuator_id]
+                continue
+            joint_id = int(self.model.actuator_trnid[actuator_id, 0])
+            joint_limited = getattr(self.model, "jnt_actfrclimited", None)
+            joint_range = getattr(self.model, "jnt_actfrcrange", None)
+            if joint_id >= 0 and joint_limited is not None and bool(joint_limited[joint_id]):
+                limits[actuator_id] = joint_range[joint_id]
+        return limits
 
     @property
     def nq(self) -> int:
@@ -189,20 +357,18 @@ class HumanoidModel:
         return np.vstack([jacp, jacr])
 
     def contact_flags(self) -> tuple[bool, bool]:
-        left_id = self.geom_ids["left_foot_geom"]
-        right_id = self.geom_ids["right_foot_geom"]
         ground_id = self.geom_ids["ground"]
-        left = False
-        right = False
+        flags = [False, False]
         for i in range(self.data.ncon):
             a = int(self.data.contact[i].geom1)
             b = int(self.data.contact[i].geom2)
-            pair = {a, b}
-            if {left_id, ground_id}.issubset(pair):
-                left = True
-            if {right_id, ground_id}.issubset(pair):
-                right = True
-        return left, right
+            if ground_id not in (a, b):
+                continue
+            foot_geom = b if a == ground_id else a
+            for foot_index, geom_ids in enumerate(self.foot_contact_geom_ids):
+                if foot_geom in geom_ids:
+                    flags[foot_index] = True
+        return bool(flags[0]), bool(flags[1])
 
     def contact_jacobian(self) -> np.ndarray:
         return np.vstack([self.body_jacobian("left_foot"), self.body_jacobian("right_foot")])
@@ -216,14 +382,16 @@ class HumanoidModel:
         cop_world = np.full((2, 2), np.nan, dtype=float)
         normal_force = np.zeros(2, dtype=float)
         tangent_force = np.zeros(2, dtype=float)
-        foot_geom_ids = [self.geom_ids["left_foot_geom"], self.geom_ids["right_foot_geom"]]
+        foot_geom_ids = self.foot_contact_geom_ids
         foot_names = ["left_foot", "right_foot"]
+        point_weight = np.zeros(2, dtype=float)
+        point_sum = np.zeros((2, 3), dtype=float)
         for contact_id in range(self.data.ncon):
             contact = self.data.contact[contact_id]
             geom1, geom2 = int(contact.geom1), int(contact.geom2)
             foot_index = None
-            for i, geom_id in enumerate(foot_geom_ids):
-                if geom_id in (geom1, geom2) and self.geom_ids["ground"] in (geom1, geom2):
+            for i, geom_ids in enumerate(foot_geom_ids):
+                if any(geom_id in (geom1, geom2) for geom_id in geom_ids) and self.geom_ids["ground"] in (geom1, geom2):
                     foot_index = i
                     break
             if foot_index is None:
@@ -257,9 +425,20 @@ class HumanoidModel:
             mujoco.mj_jac(self.model, self.data, jacp, jacr, contact.pos, body_id)
             velocity = jacp @ self.data.qvel
             tangent_velocity[foot_index] = max(tangent_velocity[foot_index], float(np.linalg.norm(velocity[:2])))
-            normal_force[foot_index] += max(0.0, float(force_world[2]))
+            normal = max(0.0, float(force_world[2]))
+            normal_force[foot_index] += normal
             tangent_force[foot_index] += float(np.linalg.norm(force_world[:2]))
-        mu = np.maximum(self.model.geom_friction[foot_geom_ids, 0], 1e-9)
+            weight = max(normal, 1e-12)
+            point_sum[foot_index] += weight * np.asarray(contact.pos)
+            point_weight[foot_index] += weight
+        for foot_index in range(2):
+            if point_weight[foot_index] > 0:
+                points[foot_index] = point_sum[foot_index] / point_weight[foot_index]
+        mu_values = []
+        for geom_ids in foot_geom_ids:
+            values = [float(self.model.geom_friction[geom_id, 0]) for geom_id in geom_ids]
+            mu_values.append(max(values) if values else 1.0)
+        mu = np.maximum(np.asarray(mu_values, dtype=float), 1e-9)
         utilization = np.divide(tangent_force, mu * normal_force, out=np.zeros(2), where=normal_force > 1e-9)
         for foot_index, body_name in enumerate(foot_names):
             fz = wrench[6 * foot_index + 2]
@@ -273,6 +452,13 @@ class HumanoidModel:
     def foot_support_vertices_world(self) -> np.ndarray:
         """Return the four ground-facing vertices of each foot geom in world XY."""
         vertices = np.full((2, 4, 2), np.nan, dtype=float)
+        if self.support_vertices_local.shape == (2, 4, 3):
+            for foot_index, body_name in enumerate(("left_foot", "right_foot")):
+                T = self.body_pose(body_name)
+                local_h = np.c_[self.support_vertices_local[foot_index], np.ones(4)]
+                vertices[foot_index] = (local_h @ T.T)[:, :2]
+            return vertices
+        # Compatibility fallback for an unprofiled box-foot model.
         for foot_index, geom_name in enumerate(("left_foot_geom", "right_foot_geom")):
             geom_id = self.geom_ids[geom_name]
             if geom_id < 0 or int(self.model.geom_type[geom_id]) != int(mujoco.mjtGeom.mjGEOM_BOX):
@@ -369,3 +555,12 @@ class HumanoidModel:
         lo = np.array([self.model.jnt_range[j] [0] for j in self.joint_ids.values()])
         hi = np.array([self.model.jnt_range[j] [1] for j in self.joint_ids.values()])
         return lo, hi
+
+    def joint_position_limit_violation(self, margin_rad: float = 1e-5) -> bool:
+        """Return whether an actuated joint is outside its configured range."""
+        lo, hi = self.joint_position_limits()
+        if not len(lo):
+            return False
+        q = self.joint_positions()
+        limited = np.asarray([bool(self.model.jnt_limited[j]) for j in self.joint_ids.values()], dtype=bool)
+        return bool(np.any(limited & ((q < lo - margin_rad) | (q > hi + margin_rad))))

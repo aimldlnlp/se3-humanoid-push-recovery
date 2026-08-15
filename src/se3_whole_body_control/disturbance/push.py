@@ -24,6 +24,11 @@ class Push:
     def direction_deg(self) -> float:
         return float(np.rad2deg(self.direction_rad))
 
+    def normalized(self, mass_kg: float, gravity_m_s2: float = 9.81) -> tuple[float, float]:
+        """Return the measured dimensionless force and impulse for a model mass."""
+        mass = max(float(mass_kg), 1e-12)
+        return float(self.magnitude_N / (mass * gravity_m_s2)), float(self.impulse_Ns / mass)
+
 
 def active_push(push: Push | None, time_s: float) -> bool:
     return push is not None and push.start_time_s <= time_s < push.start_time_s + push.duration_s

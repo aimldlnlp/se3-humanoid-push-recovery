@@ -1,0 +1,26 @@
+name: mini_humanoid
+controller_profile: configs/controllers/mini_humanoid.yaml
+model_path: models/humanoid/mini_humanoid.xml
+floating_base_body: pelvis
+floating_base_joint: root
+torso_body: torso
+pelvis_body: pelvis
+left_foot_body: left_foot
+right_foot_body: right_foot
+ground_geom: ground
+left_foot_contact_geoms: [left_foot_geom]
+right_foot_contact_geoms: [right_foot_geom]
+nominal_base_qpos: [0.0, 0.0, 1.04999, 1.0, 0.0, 0.0, 0.0]
+nominal_joint_positions: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+foot_support_vertices_local:
+  - [[-0.115, -0.12, -0.09], [0.225, -0.12, -0.09], [0.225, 0.12, -0.09], [-0.115, 0.12, -0.09]]
+  - [[-0.115, -0.12, -0.09], [0.225, -0.12, -0.09], [0.225, 0.12, -0.09], [-0.115, 0.12, -0.09]]
+simulation_timestep: 0.002
+control_timestep: 0.004
+duration_s: 6.0
+warmup_duration_s: 0.4
+gravity: [0.0, 0.0, -9.81]
+friction_coefficient: 0.7
+render_width: 1920
+render_height: 1080
+render_fps: 30

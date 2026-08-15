@@ -1,0 +1,37 @@
+posture_kp: 120.0
+posture_kd: 18.0
+torso_position_kp: 180.0
+torso_position_kd: 28.0
+torso_rotation_kp: 220.0
+torso_rotation_kd: 32.0
+pelvis_position_kp: 140.0
+pelvis_position_kd: 24.0
+pelvis_rotation_kp: 160.0
+pelvis_rotation_kd: 26.0
+com_kp: 70.0
+com_kd: 18.0
+qp_acceleration_weight: 0.02
+qp_torque_weight: 0.0005
+qp_nominal_torque_weight: 0.5
+qp_posture_weight: 2.0
+qp_torso_weight: 20.0
+qp_pelvis_weight: 8.0
+qp_com_weight: 3.0
+qp_slack_weight: 100000.0
+friction_coefficient: 0.7
+use_external_force_oracle: false
+support_polygon_x_min_m: -0.115
+support_polygon_x_max_m: 0.225
+support_polygon_y_min_m: -0.12
+support_polygon_y_max_m: 0.12
+torsional_friction_coefficient: 0.02
+max_joint_acceleration: 250.0
+fallback_to_pd: true
+use_nominal_contact_feedforward: false
+solver:
+  eps_abs: 1.0e-3
+  eps_rel: 1.0e-3
+  max_iter: 20000
+  adaptive_rho: true
+  scaled_termination: true
+  polish: true

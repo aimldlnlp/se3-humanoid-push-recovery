@@ -9,7 +9,7 @@ import numpy as np
 
 
 FailureReason = Literal[
-    "FALL", "SLIP", "CONTACT_LOSS", "QP_FAILURE", "TIMEOUT", "NUMERICAL_FAILURE",
+    "FALL", "SLIP", "CONTACT_LOSS", "TORQUE_LIMIT", "JOINT_LIMIT", "QP_FAILURE", "TIMEOUT", "NUMERICAL_FAILURE",
 ]
 
 
@@ -57,6 +57,9 @@ def classify_recovery(
     actual_friction_utilization: np.ndarray | None = None,
     foot_tangent_velocity: np.ndarray | None = None,
     foot_xy_displacement: np.ndarray | None = None,
+    torque_utilization: np.ndarray | None = None,
+    joint_limit_violation: np.ndarray | None = None,
+    numerical_valid: np.ndarray | None = None,
     push_end_s: float = 0.0,
     recovery_start_s: float | None = None,
 ) -> RecoveryResult:
@@ -76,12 +79,18 @@ def classify_recovery(
     min_margin = float(np.nanmin(finite_margin)) if np.any(np.isfinite(finite_margin)) else float("nan")
     eval_start = max(cfg.startup_grace_period_s, float(push_end_s))
     eval_mask = time_s >= eval_start
-    if np.any(np.asarray(torso_height_m)[eval_mask] < cfg.torso_ground_height_m):
+    if numerical_valid is not None and not np.all(np.asarray(numerical_valid, dtype=bool)[eval_mask]):
+        reason = "NUMERICAL_FAILURE"
+    elif np.any(np.asarray(torso_height_m)[eval_mask] < cfg.torso_ground_height_m):
         reason = "FALL"
     elif cfg.foot_contact_required and _sustained_contact_loss(time_s, contact_left, contact_right, cfg, eval_start):
         reason = "CONTACT_LOSS"
     elif _slip_event(time_s, eval_mask, actual_friction_utilization, foot_tangent_velocity, foot_xy_displacement, cfg):
         reason = "SLIP"
+    elif torque_utilization is not None and np.any(np.asarray(torque_utilization, dtype=float)[eval_mask] > 1.0005):
+        reason = "TORQUE_LIMIT"
+    elif joint_limit_violation is not None and np.any(np.asarray(joint_limit_violation, dtype=bool)[eval_mask]):
+        reason = "JOINT_LIMIT"
     elif not np.all(np.asarray(qp_ok, dtype=bool)[eval_mask]):
         reason = "QP_FAILURE"
     else:

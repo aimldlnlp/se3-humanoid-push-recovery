@@ -1,18 +1,5 @@
-model_path: models/humanoid/mini_humanoid.xml
-torso_body: torso
-pelvis_body: pelvis
-left_foot_body: left_foot
-right_foot_body: right_foot
-left_foot_geom: left_foot_geom
-right_foot_geom: right_foot_geom
-ground_geom: ground
-simulation_timestep: 0.002
-control_timestep: 0.004
-duration_s: 6.0
-warmup_duration_s: 0.4
-gravity: [0.0, 0.0, -9.81]
-friction_coefficient: 0.7
-mass_scale: 1.0
-render_width: 1920
-render_height: 1080
-render_fps: 30
+active_robot: unitree_g1
+profiles_dir: configs/robots
+profiles:
+  mini_humanoid: configs/robots/mini_humanoid.yaml
+  unitree_g1: configs/robots/unitree_g1.yaml

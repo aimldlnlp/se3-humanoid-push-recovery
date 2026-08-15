@@ -43,6 +43,8 @@ class TrialLog:
     qp_slack_norm: list[float]
     dynamics_residual_norm: list[float]
     contact_acceleration_residual_norm: list[float]
+    joint_limit_violation: list[bool]
+    numerical_valid: list[bool]
 
     @classmethod
     def empty(cls) -> "TrialLog":

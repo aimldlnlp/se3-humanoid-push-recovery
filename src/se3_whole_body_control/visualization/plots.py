@@ -120,6 +120,16 @@ def _shade_push(ax, time_s: np.ndarray, push_force: np.ndarray) -> None:
         ax.axvspan(float(time_s[indices[0]]), float(time_s[indices[-1]]), color=COLORS["push"], alpha=0.11, linewidth=0)
 
 
+def _push_summary(push_force: np.ndarray) -> tuple[float, float]:
+    """Return the measured force magnitude and direction in a logged trial."""
+    force = np.asarray(push_force, dtype=float)
+    active = np.linalg.norm(force[:, :2], axis=1) > 1e-9 if force.ndim == 2 and len(force) else np.zeros(0, dtype=bool)
+    if not np.any(active):
+        return 0.0, 0.0
+    sample = force[np.flatnonzero(active)[0], :2]
+    return float(np.linalg.norm(sample)), float(np.rad2deg(np.arctan2(sample[1], sample[0])) % 360.0)
+
+
 def _finish_shared_time_axes(axes: np.ndarray, t: np.ndarray, push: np.ndarray) -> None:
     for ax in np.asarray(axes).reshape(-1):
         _shade_push(ax, t, push)
@@ -197,7 +207,8 @@ def plot_comparison(rows: list[dict], output_dir: str | Path, name: str = "contr
     bars = ax.bar(labels, rates, color=[_controller_color(c) for c in controllers], width=0.58)
     for bar, rate in zip(bars, rates):
         ax.text(bar.get_x() + bar.get_width() / 2, rate + 0.025, f"{100 * rate:.1f}%", ha="center", va="bottom", color=COLORS["ink"], fontsize=9)
-    ax.set_ylim(0, 1.08); ax.set_ylabel("recovery rate"); ax.set_title("Success over 480 deterministic pushes", loc="left", pad=8); style_axes(ax)
+    per_controller = max((sum(str(r["controller"]) == c for r in rows) for c in controllers), default=0)
+    ax.set_ylim(0, 1.08); ax.set_ylabel("recovery rate"); ax.set_title(f"Success over {per_controller} tested pushes / controller", loc="left", pad=8); style_axes(ax)
 
     ax_table = fig.add_subplot(grid[0, 1]); ax_table.axis("off")
     ax_table.set_title("Measured basin summary", loc="left", pad=8)
@@ -280,7 +291,8 @@ def plot_recovery_envelope(rows: list[dict], output_dir: str | Path, name: str =
     ax.set_rlabel_position(105)
     max_magnitude = max((float(r["push_magnitude_N"]) for r in rows), default=1.0)
     ax.set_ylim(0, max(max_magnitude, 1.0) + 10.0)
-    ax.set_title("Measured recovery envelope", va="bottom", pad=18)
+    ax.set_title("Sampled measured recovery envelope", va="bottom", pad=18)
+    ax.text(0.5, 1.04, "largest recovered tested push by direction — not a continuous boundary", transform=ax.transAxes, ha="center", va="bottom", fontsize=8.2, color=COLORS["muted"])
     ax.legend(loc="lower center", bbox_to_anchor=(0.5, -0.18), ncol=2)
     ax.grid(color=COLORS["grid"], alpha=0.5, linewidth=0.6)
     return list(_save(fig, output_dir, name))
@@ -304,13 +316,14 @@ def plot_flagship(log, output_dir: str | Path, name: str = "canonical_response")
     a = log.arrays()
     t = a["time_s"]
     push = a["push_force"]
+    push_magnitude, push_direction = _push_summary(push)
     fig, axes = plt.subplots(3, 2, figsize=(12, 7.1), sharex=True)
     fig.subplots_adjust(left=0.075, right=0.985, bottom=0.105, top=0.94, hspace=0.48, wspace=0.24)
 
     axes[0, 0].plot(t, np.linalg.norm(push[:, :2], axis=1), color=COLORS["push"])
     axes[0, 0].set_ylabel("Push force [N]")
     axes[0, 0].set_title("(a) Applied disturbance", loc="left", pad=7)
-    axes[0, 0].text(0.98, 0.88, "120 N @ 0°", transform=axes[0, 0].transAxes, ha="right", color=COLORS["push"], fontsize=8.5)
+    axes[0, 0].text(0.98, 0.88, f"{push_magnitude:.0f} N @ {push_direction:.0f}°", transform=axes[0, 0].transAxes, ha="right", color=COLORS["push"], fontsize=8.5)
 
     axes[0, 1].plot(t, a["torso_rotation_error_rad"], color=COLORS["actual"])
     axes[0, 1].set_ylabel("Torso orientation error [rad]")
@@ -346,7 +359,7 @@ def plot_flagship(log, output_dir: str | Path, name: str = "canonical_response")
     _finish_shared_time_axes(axes, t, push)
     axes[2, 0].set_xlabel("Time [s]")
     axes[2, 1].set_xlabel("Time [s]")
-    fig.suptitle("Canonical 120 N push: measured SE(3) WBC response", fontsize=12, y=0.99)
+    fig.suptitle(f"Canonical {push_magnitude:.0f} N push: measured SE(3) WBC response", fontsize=12, y=0.99)
     return list(_save(fig, output_dir, name))
 
 

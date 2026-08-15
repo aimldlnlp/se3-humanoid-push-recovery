@@ -16,6 +16,7 @@ se3_wbc_remote_*/
 .upstream_*/
 results/tmp/
 results/staging/
+results/archive/
 results/frames/
 .tmp/
 *.log.tmp

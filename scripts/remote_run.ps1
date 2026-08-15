@@ -25,9 +25,12 @@ if ($RunId -notmatch '^[A-Za-z0-9._-]+$') {
 }
 if ([string]::IsNullOrWhiteSpace($SourceVersion)) {
     $SourceVersion = (& git -c "safe.directory=$repoRoot" rev-parse HEAD).Trim()
-    if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($SourceVersion)) {
-        throw "Unable to determine source version."
-    }
+} else {
+    $sourceRef = $SourceVersion
+    $SourceVersion = (& git -c "safe.directory=$repoRoot" rev-parse "$sourceRef^{commit}").Trim()
+}
+if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($SourceVersion) -or $SourceVersion -notmatch '^[0-9a-fA-F]{40}$') {
+    throw "Unable to resolve SourceVersion to a full commit SHA."
 }
 if ([string]::IsNullOrWhiteSpace($RemoteRoot)) {
     $RemoteRoot = "/home/aimldl/workspaces/se3-humanoid-push-recovery-rerun-$RunId"

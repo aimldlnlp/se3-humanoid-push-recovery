@@ -42,11 +42,11 @@ The legacy compact robot remains selectable as `mini_humanoid` and its original 
 
 ![Paper-style control architecture](results/figures/png/system_architecture.png)
 
-The architecture is generated from the editable TikZ source in [`docs/figures/system_architecture.tex`](docs/figures/system_architecture.tex); the dashed controller boundary excludes the MuJoCo plant, while measured GRF remains an evaluation-only physical measurement.
+The paper-style control architecture summarizes the measured loop: desired quantities generate geometric tasks, the contact-constrained QP produces torque commands, the Unitree G1 plant returns state and contact feedback, and physical ground-reaction forces are reserved for evaluation.
 
-Static figures, TikZ output, and video overlays use the repository-bundled Latin Modern Roman family with Computer Modern math for portable paper-style typography.
+Static figures, mathematical diagrams, and video overlays use the repository-bundled Latin Modern Roman family with Computer Modern math for portable paper-style typography.
 
-Regenerate the final figure and the three comparison layouts with `python scripts/render_system_architecture.py` (the renderer uses Tectonic when available, otherwise `pdflatex`; set `PDFTOPPM_BIN` when `pdftoppm` is not on `PATH`).
+Regenerate the architecture figure and its comparison layouts with `python scripts/render_system_architecture.py`.
 
 The primary plant is Unitree G1 in MuJoCo. Physics runs at 0.002 s and control runs at 0.004 s. The robot adapter supplies the floating base, pelvis and torso bodies, feet, actuated joints, limits, nominal pose, support vertices, mass/CoM, Jacobians, and contact definitions; the legacy `mini_humanoid` uses the same interface.
 

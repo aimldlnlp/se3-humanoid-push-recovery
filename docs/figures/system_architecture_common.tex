@@ -246,10 +246,8 @@
     \draw[archboundary] (3.55,1.55) rectangle (11.85,4.05);
     \node[archboundarylabel] at (7.70,4.05) {controller};
 
-    \node[archinput] (hdesired) at (2.55,3.15)
+    \node[archinput,anchor=east,text width=27mm] (hdesired) at (2.65,3.15)
       {$T_d$\\[-1pt]$p_{\mathrm{CoM},d}$\\[-1pt]$q_{\mathrm{posture},d}$};
-    \node[font=\scriptsize\itshape,text=archmuted,anchor=east]
-      at (2.55,3.78) {desired};
 
     \node[archtask] (htask) at (5.45,3.15)
       {\textbf{SE(3) / CoM tasks}\\[-1pt]
@@ -262,16 +260,17 @@
     \node[archplant] (hplant) at (14.90,3.15)
       {\textbf{Unitree G1}\\[-1pt]
       {\scriptsize MuJoCo plant}\\[-1pt]
-      {\scriptsize floating-base $\cdot$ fixed-foot DS}};
+      {\scriptsize floating base}\\[-1pt]
+      {\scriptsize fixed-foot double support}};
     \node[archeval] (heval) at (14.90,0.35)
       {\textbf{Evaluation}\\[-1pt]
       {\scriptsize recovery $\cdot$ slip $\cdot$ basin}};
 
     \draw[archsignal] (hdesired.east) --
-      node[archlabel,above] {targets}
+      node[archlabel,above=8pt] {targets}
       (htask.west);
     \draw[archsignal] (htask.east) --
-      node[archmathlabel,above] {$a^\star$}
+      node[archmathlabel,above=1.5pt] {$a^\star$}
       (hqp.west);
     \draw[archsignal] (hqp.east) --
       node[archmathlabel,above] {$\tau$}
@@ -290,7 +289,7 @@
 
     % Direct physical measurement path to evaluation; no side U-turn.
     \draw[archmeasurement] (hplant.south) -- (heval.north);
-    \node[archmeasurelabel,anchor=east,align=right] at (14.55,1.72)
-      {state, contacts\\ measured GRF};
+    \node[archmeasurelabel,anchor=west,align=left] at (15.05,1.72)
+      {state + contacts\\ actual GRF};
   \end{tikzpicture}%
 }

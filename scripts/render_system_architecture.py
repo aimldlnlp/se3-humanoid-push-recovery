@@ -1,74 +1,200 @@
-"""Render the reproducible control-and-evaluation architecture diagram."""
+"""Build the paper-style system architecture from its TikZ source.
+
+The controller implementation and experiment data are intentionally outside
+this renderer. The final figure is sourced from
+``docs/figures/system_architecture.tex``; the optional candidate sheet keeps
+the three layouts used during visual selection reproducible.
+"""
 
 from __future__ import annotations
 
+import argparse
+import os
 from pathlib import Path
+import shutil
+import subprocess
 import sys
+import tempfile
+
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
-from se3_whole_body_control.visualization.style import COLORS, apply_style
+FINAL_SOURCE = ROOT / "docs" / "figures" / "system_architecture.tex"
+CANDIDATE_SOURCE = ROOT / "docs" / "figures" / "system_architecture_candidates.tex"
+FINAL_PDF = ROOT / "results" / "figures" / "pdf" / "system_architecture.pdf"
+FINAL_PNG = ROOT / "results" / "figures" / "png" / "system_architecture.png"
+CANDIDATE_DIR = ROOT / "docs" / "figures" / "candidates"
 
-import matplotlib.pyplot as plt
-from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
 
-
-def _box(ax, center, width, height, title, subtitle, color, *, dashed=False):
-    x, y = center
-    patch = FancyBboxPatch(
-        (x - width / 2, y - height / 2), width, height,
-        boxstyle="round,pad=0.018,rounding_size=0.025",
-        facecolor=COLORS["paper"], edgecolor=color, linewidth=1.6,
-        linestyle=(0, (4, 3)) if dashed else "-",
+def _tool(name: str, environment_name: str) -> str:
+    configured = os.environ.get(environment_name)
+    if configured:
+        path = Path(configured)
+        if path.is_file():
+            return str(path)
+        raise FileNotFoundError(f"{environment_name} does not point to a file: {path}")
+    discovered = shutil.which(name)
+    if discovered:
+        return discovered
+    raise FileNotFoundError(
+        f"Could not find {name!r}. Install it or set {environment_name}."
     )
-    ax.add_patch(patch)
-    ax.text(x, y + 0.02, title, ha="center", va="center", fontsize=10.5, color=COLORS["ink"])
-    ax.text(x, y - 0.055, subtitle, ha="center", va="center", fontsize=7.8, color=COLORS["muted"], linespacing=1.25)
 
 
-def _arrow(ax, start, end, label, color=COLORS["muted"], *, dashed=False, label_offset=(0.0, 0.035)):
-    ax.add_patch(FancyArrowPatch(
-        start, end, arrowstyle="-|>", mutation_scale=13, linewidth=1.25, color=color,
-        linestyle=(0, (4, 3)) if dashed else "-", connectionstyle="arc3,rad=0.0",
-    ))
-    if label:
-        x = (start[0] + end[0]) / 2 + label_offset[0]
-        y = (start[1] + end[1]) / 2 + label_offset[1]
-        ax.text(x, y, label, ha="center", va="center", fontsize=7.8, color=color, bbox={"facecolor": "white", "edgecolor": "none", "pad": 1.5})
+def _run(command: list[str], *, cwd: Path, environment: dict[str, str]) -> None:
+    print("+", " ".join(command))
+    subprocess.run(command, cwd=cwd, env=environment, check=True)
 
 
-def main() -> None:
-    apply_style()
-    fig, ax = plt.subplots(figsize=(11.5, 5.4))
-    ax.set_xlim(0, 1); ax.set_ylim(0, 1); ax.axis("off")
+def _compile(
+    source: Path,
+    output_dir: Path,
+    tectonic: str,
+    environment: dict[str, str],
+) -> Path:
+    output_dir.mkdir(parents=True, exist_ok=True)
+    command = [tectonic, "--keep-logs", "--outdir", str(output_dir)]
+    bundle = environment.get("TECTONIC_BUNDLE_URL")
+    if bundle:
+        command.extend(["-b", bundle])
+    command.append(source.name)
+    _run(command, cwd=source.parent, environment=environment)
+    compiled = output_dir / f"{source.stem}.pdf"
+    if not compiled.is_file():
+        raise RuntimeError(f"Tectonic did not produce the expected PDF: {compiled}")
+    return compiled
 
-    _box(ax, (0.13, 0.72), 0.17, 0.15, "Desired torso / CoM", "pose and regulation targets", COLORS["desired"])
-    _box(ax, (0.35, 0.72), 0.17, 0.15, "SE(3) tasks", r"$\xi_e = \mathrm{Log}(E_s)^\vee$", COLORS["wbc"])
-    _box(ax, (0.58, 0.72), 0.21, 0.17, "Whole-body QP", r"dynamics + contact + friction", COLORS["wbc"])
-    _box(ax, (0.82, 0.72), 0.15, 0.15, "Torques", "actuator limits", COLORS["angular"])
-    _box(ax, (0.82, 0.37), 0.22, 0.18, "MuJoCo plant", "floating-base humanoid\nfixed-foot contact", COLORS["actual"])
-    _box(ax, (0.53, 0.19), 0.22, 0.16, "Evaluation", "recovery, slip, GRF, basin", COLORS["cop"])
 
-    _arrow(ax, (0.215, 0.72), (0.265, 0.72), "targets", COLORS["desired"])
-    _arrow(ax, (0.435, 0.72), (0.475, 0.72), "task acceleration", COLORS["wbc"])
-    _arrow(ax, (0.685, 0.72), (0.745, 0.72), r"$\tau$", COLORS["angular"])
-    _arrow(ax, (0.82, 0.635), (0.82, 0.47), "control", COLORS["angular"], label_offset=(0.06, 0.0))
-    _arrow(ax, (0.70, 0.37), (0.69, 0.63), r"$q,\dot q$, contacts", COLORS["actual"], label_offset=(-0.08, 0.0))
-    _arrow(ax, (0.76, 0.32), (0.64, 0.23), "actual GRF", COLORS["cop"], label_offset=(0.0, -0.035))
-    _arrow(ax, (0.79, 0.27), (0.90, 0.34), "push disturbance", COLORS["push"], dashed=True, label_offset=(0.0, -0.04))
+def _render_png(
+    pdf: Path,
+    output: Path,
+    pdftoppm: str,
+    dpi: int,
+    environment: dict[str, str],
+) -> None:
+    output.parent.mkdir(parents=True, exist_ok=True)
+    prefix = output.with_suffix("")
+    command = [
+        pdftoppm,
+        "-png",
+        "-r",
+        str(dpi),
+        "-singlefile",
+        str(pdf),
+        str(prefix),
+    ]
+    _run(command, cwd=ROOT, environment=environment)
+    rendered = prefix.with_suffix(".png")
+    if not rendered.is_file():
+        raise RuntimeError(f"pdftoppm did not produce the expected PNG: {rendered}")
 
-    ax.text(0.58, 0.58, r"$M(q)\ddot q+h=B\tau+J_c^T\lambda$", ha="center", va="center", fontsize=8.2, color=COLORS["muted"])
-    ax.text(0.5, 0.965, "Fixed-foot humanoid push-recovery architecture", ha="center", va="top", fontsize=13, color=COLORS["ink"])
-    ax.text(0.5, 0.915, "The primary controller does not receive an oracle copy of the external push", ha="center", va="top", fontsize=8.5, color=COLORS["muted"])
-    fig.subplots_adjust(left=0.02, right=0.98, top=0.98, bottom=0.03)
-    out_png = ROOT / "results" / "figures" / "png" / "system_architecture.png"
-    out_pdf = ROOT / "results" / "figures" / "pdf" / "system_architecture.pdf"
-    out_png.parent.mkdir(parents=True, exist_ok=True); out_pdf.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(out_png, dpi=300, bbox_inches="tight", facecolor=COLORS["paper"])
-    fig.savefig(out_pdf, bbox_inches="tight", facecolor=COLORS["paper"])
-    plt.close(fig)
-    print(out_png)
+
+def _render_candidate_pages(
+    pdf: Path,
+    output_dir: Path,
+    pdftoppm: str,
+    dpi: int,
+    environment: dict[str, str],
+) -> None:
+    names = (
+        "system_architecture_candidate_a.png",
+        "system_architecture_candidate_b.png",
+        "system_architecture_candidate_c.png",
+    )
+    for page, name in enumerate(names, start=1):
+        output = output_dir / name
+        prefix = output.with_suffix("")
+        command = [
+            pdftoppm,
+            "-png",
+            "-r",
+            str(dpi),
+            "-f",
+            str(page),
+            "-l",
+            str(page),
+            "-singlefile",
+            str(pdf),
+            str(prefix),
+        ]
+        _run(command, cwd=ROOT, environment=environment)
+        rendered = prefix.with_suffix(".png")
+        if not rendered.is_file():
+            raise RuntimeError(f"pdftoppm did not produce the expected PNG: {rendered}")
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="Compile and render the TikZ system-architecture figure."
+    )
+    parser.add_argument(
+        "--dpi",
+        type=int,
+        default=300,
+        help="PNG render resolution (default: 300).",
+    )
+    parser.add_argument(
+        "--no-candidates",
+        action="store_true",
+        help="Only build the selected final layout.",
+    )
+    args = parser.parse_args()
+    if args.dpi <= 0:
+        parser.error("--dpi must be positive")
+
+    try:
+        tectonic = _tool("tectonic", "TECTONIC_BIN")
+        pdftoppm = _tool("pdftoppm", "PDFTOPPM_BIN")
+    except FileNotFoundError as error:
+        print(error, file=sys.stderr)
+        return 2
+
+    environment = os.environ.copy()
+    cache_dir = Path(
+        environment.get(
+            "TECTONIC_CACHE_DIR",
+            ROOT / ".tmp" / "tectonic-cache",
+        )
+    )
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    environment["TECTONIC_CACHE_DIR"] = str(cache_dir)
+
+    FINAL_PDF.parent.mkdir(parents=True, exist_ok=True)
+    FINAL_PNG.parent.mkdir(parents=True, exist_ok=True)
+    CANDIDATE_DIR.mkdir(parents=True, exist_ok=True)
+    build_root = ROOT / ".tmp"
+    build_root.mkdir(parents=True, exist_ok=True)
+
+    with tempfile.TemporaryDirectory(
+        prefix="system_architecture_", dir=build_root
+    ) as temp:
+        build_dir = Path(temp)
+        final_pdf = _compile(FINAL_SOURCE, build_dir / "final", tectonic, environment)
+        shutil.copy2(final_pdf, FINAL_PDF)
+        _render_png(final_pdf, FINAL_PNG, pdftoppm, args.dpi, environment)
+
+        if not args.no_candidates:
+            candidates_pdf = _compile(
+                CANDIDATE_SOURCE,
+                build_dir / "candidates",
+                tectonic,
+                environment,
+            )
+            stable_candidates_pdf = CANDIDATE_DIR / "system_architecture_candidates.pdf"
+            shutil.copy2(candidates_pdf, stable_candidates_pdf)
+            _render_candidate_pages(
+                candidates_pdf,
+                CANDIDATE_DIR,
+                pdftoppm,
+                args.dpi,
+                environment,
+            )
+
+    print(f"Wrote {FINAL_PDF}")
+    print(f"Wrote {FINAL_PNG}")
+    if not args.no_candidates:
+        print(f"Wrote candidate sheet and previews under {CANDIDATE_DIR}")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

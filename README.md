@@ -36,7 +36,11 @@ The legacy compact robot remains selectable as `mini_humanoid` and its original 
 
 ## Method
 
-![Control architecture](results/figures/png/system_architecture.png)
+![Paper-style control architecture](results/figures/png/system_architecture.png)
+
+The architecture is generated from the editable TikZ source in [`docs/figures/system_architecture.tex`](docs/figures/system_architecture.tex); the dashed controller boundary excludes the MuJoCo plant, while measured GRF remains an evaluation-only physical measurement.
+
+Regenerate the final figure and the three comparison layouts with `python scripts/render_system_architecture.py` (set `TECTONIC_BIN` and `PDFTOPPM_BIN` when those tools are not on `PATH`).
 
 The primary plant is Unitree G1 in MuJoCo. Physics runs at 0.002 s and control runs at 0.004 s. The robot adapter supplies the floating base, pelvis and torso bodies, feet, actuated joints, limits, nominal pose, support vertices, mass/CoM, Jacobians, and contact definitions; the legacy `mini_humanoid` uses the same interface.
 

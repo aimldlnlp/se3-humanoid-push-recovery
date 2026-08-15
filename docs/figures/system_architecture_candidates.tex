@@ -1,0 +1,18 @@
+% Three genuinely different paper-style layouts used for visual selection.
+% Page order: A classical horizontal loop, B vertical controller boundary,
+% C compact two-row control/measurement bus.
+\documentclass[tikz,border=1.5mm]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{tikz}
+\newcommand{\Log}{\operatorname{Log}}
+\def\CandidateSheet{1}
+\input{system_architecture_common.tex}
+
+\begin{document}
+\DrawArchitectureCandidateA
+\newpage
+\DrawArchitectureCandidateB
+\newpage
+\DrawArchitectureCandidateC
+\end{document}

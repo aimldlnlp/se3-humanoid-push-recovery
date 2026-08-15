@@ -20,13 +20,15 @@ The frozen canonical trial uses the same initial state, plant, camera, and physi
 | Largest recovered tested push [N] | 20 | 80 |
 | Push-sweep recovery | 32/192 (16.7%) | 146/192 (76.0%) |
 
-The sweep contains 10–80 N at 24 directions spaced by 15 degrees. The envelope is a discrete, sampled measured result—not a theoretical continuous recovery boundary and not a claim of universal superiority. The canonical response is shown in the [3x2 paper-style figure](results/figures/png/canonical_response.png); the [comparison summary](results/figures/png/controller_comparison.png), [WBC basin](results/figures/png/recovery_heatmap_se3_wbc.png), [PD basin](results/figures/png/recovery_heatmap_pd.png), and [sampled polar envelope](results/figures/png/recovery_envelope.png) retain the trial-level evidence.
+The sweep contains 10–80 N at 24 directions spaced by 15 degrees. The envelope is a discrete, sampled measured result—not a theoretical continuous recovery boundary and not a claim of universal superiority. The canonical response is shown in the [3x2 paper-style figure](results/figures/png/canonical_response.png); the [comparison summary](results/figures/png/controller_comparison.png), [combined PD/WBC recovery basin](results/figures/png/recovery_basin.png), and [sampled polar envelope](results/figures/png/recovery_envelope.png) retain the trial-level evidence.
 
 These are measured results from the final rerun at source checkpoint `a0d5055da703e8256333b50ffbee85d88abbefc2` (`final-a0d5055-sweep`, `final-a0d5055-robustness`). The earlier G1 artifact is retained as a previous/frozen run in Git history and was not mixed into these numbers.
 
 ![Canonical response](results/figures/png/canonical_response.png)
 
 ![Sampled measured recovery envelope](results/figures/png/recovery_envelope.png)
+
+![Sampled PD/WBC recovery basin](results/figures/png/recovery_basin.png)
 
 ## Robot and provenance
 
@@ -42,7 +44,9 @@ The legacy compact robot remains selectable as `mini_humanoid` and its original 
 
 The architecture is generated from the editable TikZ source in [`docs/figures/system_architecture.tex`](docs/figures/system_architecture.tex); the dashed controller boundary excludes the MuJoCo plant, while measured GRF remains an evaluation-only physical measurement.
 
-Regenerate the final figure and the three comparison layouts with `python scripts/render_system_architecture.py` (set `TECTONIC_BIN` and `PDFTOPPM_BIN` when those tools are not on `PATH`).
+Static figures, TikZ output, and video overlays use the repository-bundled Latin Modern Roman family with Computer Modern math for portable paper-style typography.
+
+Regenerate the final figure and the three comparison layouts with `python scripts/render_system_architecture.py` (the renderer uses Tectonic when available, otherwise `pdflatex`; set `PDFTOPPM_BIN` when `pdftoppm` is not on `PATH`).
 
 The primary plant is Unitree G1 in MuJoCo. Physics runs at 0.002 s and control runs at 0.004 s. The robot adapter supplies the floating base, pelvis and torso bodies, feet, actuated joints, limits, nominal pose, support vertices, mass/CoM, Jacobians, and contact definitions; the legacy `mini_humanoid` uses the same interface.
 
@@ -120,7 +124,12 @@ Quiet standing is a physics sanity check, not a recovery claim. In the final sou
 
 Actual GRF spikes around contact events are retained rather than clipped or hidden. The canonical WBC QP timing is mean 2.620 ms, p95 3.590 ms, p99 5.309 ms, maximum 9.324 ms, with 3.7% of solves above the 4 ms diagnostic deadline. These are offline measurements; this project makes no hard-real-time claim. See the [timing diagnostic](results/figures/png/qp_timing_diagnostics.png).
 
+<details>
+<summary>Additional contact and slip diagnostic</summary>
+
 ![Contact and slip diagnostics](results/figures/png/contact_slip_diagnostics.png)
+
+</details>
 
 ## Verification and reproduction
 

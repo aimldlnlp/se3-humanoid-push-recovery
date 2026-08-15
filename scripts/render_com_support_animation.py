@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 import sys
+import os
 from pathlib import Path
 
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
+OUTPUT_ROOT = Path(os.environ.get("VISUAL_OUTPUT_ROOT", ROOT / "results" / "videos"))
 sys.path.insert(0, str(ROOT / "experiments"))
 sys.path.insert(0, str(ROOT / "src"))
 from common import ROOT
@@ -56,7 +58,7 @@ def main() -> None:
     lo = finite_points.min(axis=0); hi = finite_points.max(axis=0)
     pad = max(0.025, 0.08 * float(np.max(hi - lo)))
 
-    fig, ax = plt.subplots(figsize=(7.2, 6.2))
+    fig, ax = plt.subplots(figsize=(6.8, 5.2))
     ax.set_aspect("equal", adjustable="box")
     ax.set_xlim(lo[0] - pad, hi[0] + pad); ax.set_ylim(lo[1] - pad, hi[1] + pad)
     style_axes(ax)
@@ -81,8 +83,8 @@ def main() -> None:
     peak = ax.scatter([com[peak_index, 0]], [com[peak_index, 1]], color=COLORS["push"], marker="^", s=42, label="peak")
     final = ax.scatter([com[-1, 0]], [com[-1, 1]], color=COLORS["actual"], marker="s", s=34, label="final")
     ax.set_xlabel("World x [m]"); ax.set_ylabel("World y [m]")
-    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.10), ncol=4, columnspacing=0.9)
-    fig.subplots_adjust(left=0.10, right=0.98, bottom=0.18, top=0.91)
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.11), ncol=4, columnspacing=0.75, handlelength=1.4, fontsize=7.2)
+    fig.subplots_adjust(left=0.10, right=0.98, bottom=0.18, top=0.90)
 
     def update(frame_number):
         sample = int(frame_indices[frame_number])
@@ -115,16 +117,17 @@ def main() -> None:
                 history.set_offsets(np.empty((0, 2)))
         cop_current.set_offsets(np.asarray(current_cop) if current_cop else np.empty((0, 2)))
         push_active = bool(np.linalg.norm(a["push_force"][sample, :2]) > 1e-9)
-        ax.set_title(f"CoM + support  |  t = {time_s[sample]:.2f} s  |  {'PUSH' if push_active else 'idle'}", loc="left", fontsize=10.5, pad=9)
+        ax.set_title(f"CoM + support  |  t = {time_s[sample]:.2f} s  |  {'PUSH' if push_active else 'idle'}", loc="left", fontsize=9.5, pad=7)
         return [trail, current, push_trail, cop_current, *cop_history, *foot_polygons, support_polygon]
 
     animation = FuncAnimation(fig, update, frames=len(frame_indices), interval=1000.0 / fps, blit=False)
-    out = ROOT / "results" / "videos"; out.mkdir(parents=True, exist_ok=True)
+    out = OUTPUT_ROOT; out.mkdir(parents=True, exist_ok=True)
     animation.save(out / "com_support_polygon.gif", writer=PillowWriter(fps=fps))
     try:
         animation.save(out / "com_support_polygon.mp4", writer="ffmpeg", fps=fps, dpi=120)
     except Exception as exc:
-        (ROOT / "results" / "logs" / "com_support_polygon.txt").write_text(f"mp4_unavailable={type(exc).__name__}: {exc}\n", encoding="utf-8")
+        (out.parent / "logs").mkdir(parents=True, exist_ok=True)
+        (out.parent / "logs" / "com_support_polygon.txt").write_text(f"mp4_unavailable={type(exc).__name__}: {exc}\n", encoding="utf-8")
     plt.close(fig)
 
 

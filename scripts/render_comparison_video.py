@@ -11,13 +11,14 @@ if sys.platform.startswith("linux") and not os.environ.get("DISPLAY"):
     os.environ.setdefault("MUJOCO_GL", "egl")
 
 import numpy as np
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "experiments"))
 from common import load_configs, make_push, output_dirs, run_trial
 from se3_whole_body_control.visualization.renderer import render_trial_frames
 from se3_whole_body_control.visualization.video import encode_video, make_gif
+from se3_whole_body_control.visualization.fonts import pil_font
 
 
 def overlay_data(run, controller, push):
@@ -51,12 +52,8 @@ def main() -> None:
     if output_dir.exists(): shutil.rmtree(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     count = min(len(paths) for paths in rendered)
-    font_path = "DejaVuSans.ttf"
-    try:
-        title_font = ImageFont.truetype(font_path, 22)
-        body_font = ImageFont.truetype(font_path, 16)
-    except OSError:
-        title_font = body_font = ImageFont.load_default()
+    title_font = pil_font(22, weight="bold")
+    body_font = pil_font(16)
     for i in range(count):
         left = Image.open(rendered[0][i]).convert("RGB"); right = Image.open(rendered[1][i]).convert("RGB")
         header_height = 42

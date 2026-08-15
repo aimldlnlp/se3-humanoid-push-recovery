@@ -17,6 +17,7 @@ from se3_whole_body_control.visualization.plots import (
     plot_contact_diagnostics,
     plot_flagship,
     plot_qp_diagnostics,
+    plot_recovery_basin,
     plot_recovery_envelope,
     plot_recovery_heatmap,
     plot_trial,
@@ -52,6 +53,7 @@ def main() -> None:
         rows = read_csv(sweep)
         for controller in ("pd", "se3_wbc"):
             plot_recovery_heatmap(rows, dirs["png"], controller, f"recovery_heatmap_{controller}")
+        plot_recovery_basin(rows, dirs["png"])
         plot_comparison(rows, dirs["png"])
         plot_recovery_envelope(rows, dirs["png"])
     for path in dirs["png"].glob("*.pdf"):

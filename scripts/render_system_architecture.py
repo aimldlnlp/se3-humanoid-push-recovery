@@ -48,19 +48,30 @@ def _run(command: list[str], *, cwd: Path, environment: dict[str, str]) -> None:
 def _compile(
     source: Path,
     output_dir: Path,
-    tectonic: str,
+    compiler: str,
+    compiler_kind: str,
     environment: dict[str, str],
 ) -> Path:
     output_dir.mkdir(parents=True, exist_ok=True)
-    command = [tectonic, "--keep-logs", "--outdir", str(output_dir)]
-    bundle = environment.get("TECTONIC_BUNDLE_URL")
-    if bundle:
-        command.extend(["-b", bundle])
-    command.append(source.name)
+    if compiler_kind == "pdflatex":
+        command = [
+            compiler,
+            "-interaction=nonstopmode",
+            "-halt-on-error",
+            "-output-directory",
+            str(output_dir),
+            source.name,
+        ]
+    else:
+        command = [compiler, "--keep-logs", "--outdir", str(output_dir)]
+        bundle = environment.get("TECTONIC_BUNDLE_URL")
+        if bundle:
+            command.extend(["-b", bundle])
+        command.append(source.name)
     _run(command, cwd=source.parent, environment=environment)
     compiled = output_dir / f"{source.stem}.pdf"
     if not compiled.is_file():
-        raise RuntimeError(f"Tectonic did not produce the expected PDF: {compiled}")
+        raise RuntimeError(f"The selected LaTeX compiler did not produce the expected PDF: {compiled}")
     return compiled
 
 
@@ -142,7 +153,12 @@ def main() -> int:
         parser.error("--dpi must be positive")
 
     try:
-        tectonic = _tool("tectonic", "TECTONIC_BIN")
+        try:
+            compiler = _tool("tectonic", "TECTONIC_BIN")
+            compiler_kind = "tectonic"
+        except FileNotFoundError:
+            compiler = _tool("pdflatex", "PDFLATEX_BIN")
+            compiler_kind = "pdflatex"
         pdftoppm = _tool("pdftoppm", "PDFTOPPM_BIN")
     except FileNotFoundError as error:
         print(error, file=sys.stderr)
@@ -168,7 +184,7 @@ def main() -> int:
         prefix="system_architecture_", dir=build_root
     ) as temp:
         build_dir = Path(temp)
-        final_pdf = _compile(FINAL_SOURCE, build_dir / "final", tectonic, environment)
+        final_pdf = _compile(FINAL_SOURCE, build_dir / "final", compiler, compiler_kind, environment)
         shutil.copy2(final_pdf, FINAL_PDF)
         _render_png(final_pdf, FINAL_PNG, pdftoppm, args.dpi, environment)
 
@@ -176,7 +192,8 @@ def main() -> int:
             candidates_pdf = _compile(
                 CANDIDATE_SOURCE,
                 build_dir / "candidates",
-                tectonic,
+                compiler,
+                compiler_kind,
                 environment,
             )
             stable_candidates_pdf = CANDIDATE_DIR / "system_architecture_candidates.pdf"

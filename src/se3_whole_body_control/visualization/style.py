@@ -9,6 +9,8 @@ import matplotlib
 matplotlib.use("Agg", force=True)
 import matplotlib.pyplot as plt
 
+from .fonts import FONT_FAMILY, register_matplotlib_fonts
+
 
 # Okabe--Ito-inspired colors.  Semantic names are used throughout the
 # project so a controller or physical quantity never changes color by plot.
@@ -39,18 +41,21 @@ COLORS = {
 
 def apply_style() -> None:
     """Apply the shared, portable, publication-oriented Matplotlib style."""
+    register_matplotlib_fonts()
     plt.rcParams.update({
-        "font.family": "DejaVu Sans",
-        "mathtext.fontset": "dejavusans",
-        "font.size": 10,
-        "axes.titlesize": 11,
-        "axes.labelsize": 10,
-        "xtick.labelsize": 8.5,
-        "ytick.labelsize": 8.5,
-        "legend.fontsize": 8.5,
-        "axes.linewidth": 0.8,
-        "lines.linewidth": 1.6,
-        "lines.markersize": 4.5,
+        "font.family": FONT_FAMILY,
+        "font.serif": [FONT_FAMILY],
+        "mathtext.fontset": "cm",
+        "font.size": 9.5,
+        "axes.titlesize": 10.0,
+        "axes.titleweight": "normal",
+        "axes.labelsize": 9.2,
+        "xtick.labelsize": 8.0,
+        "ytick.labelsize": 8.0,
+        "legend.fontsize": 7.8,
+        "axes.linewidth": 0.75,
+        "lines.linewidth": 1.35,
+        "lines.markersize": 4.0,
         "axes.edgecolor": COLORS["ink"],
         "axes.labelcolor": COLORS["ink"],
         "xtick.color": COLORS["ink"],
@@ -62,9 +67,9 @@ def apply_style() -> None:
         "axes.grid": False,
         "grid.color": COLORS["grid"],
         "grid.linewidth": 0.6,
-        "grid.alpha": 0.42,
+        "grid.alpha": 0.30,
         "legend.frameon": False,
-        "legend.handlelength": 2.2,
+        "legend.handlelength": 1.8,
         "figure.facecolor": COLORS["paper"],
         "axes.facecolor": COLORS["paper"],
         "savefig.facecolor": COLORS["paper"],
@@ -82,7 +87,7 @@ def style_axes(ax, *, grid: bool = True) -> None:
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
     if grid:
-        ax.grid(True, color=COLORS["grid"], alpha=0.42, linewidth=0.6)
+        ax.grid(True, color=COLORS["grid"], alpha=0.30, linewidth=0.6)
         ax.set_axisbelow(True)
 
 
@@ -90,5 +95,5 @@ def panel_label(ax, label: str) -> None:
     """Place a restrained publication-style panel label."""
     ax.text(
         0.0, 1.04, label, transform=ax.transAxes, ha="left", va="bottom",
-        fontsize=10.5, color=COLORS["ink"], fontweight="normal",
+        fontsize=9.5, color=COLORS["ink"], fontweight="normal",
     )

@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 import sys
+import os
 from pathlib import Path
 
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
+OUTPUT_ROOT = Path(os.environ.get("VISUAL_OUTPUT_ROOT", ROOT / "results" / "videos"))
 sys.path.insert(0, str(ROOT / "src"))
 from se3_whole_body_control.geometry.se3 import exp_se3, inverse_se3, log_se3
 from se3_whole_body_control.visualization.style import COLORS, apply_style
@@ -46,7 +48,7 @@ def main() -> None:
     current = relative @ desired
     error = log_se3(current @ inverse_se3(desired))
     times = np.linspace(0.0, 1.0, 45)
-    fig = plt.figure(figsize=(12, 6.75))
+    fig = plt.figure(figsize=(10.4, 5.8))
     grid = fig.add_gridspec(2, 2, height_ratios=(1.38, 1.0), hspace=0.34, wspace=0.14)
     ax_pose = fig.add_subplot(grid[0, 0], projection="3d")
     ax_error = fig.add_subplot(grid[0, 1], projection="3d")
@@ -78,23 +80,24 @@ def main() -> None:
         ax_twist.set_xticks(positions, [r"$v_x$", r"$v_y$", r"$v_z$", r"$\omega_x$", r"$\omega_y$", r"$\omega_z$"])
         ax_twist.set_xlim(-0.6, 5.6); ax_twist.set_ylim(-0.45, 0.45)
         ax_twist.set_ylabel(r"$\xi_e = \mathrm{Log}(E_s)^\vee$", labelpad=8)
-        ax_twist.text(0.25, 1.04, "linear", transform=ax_twist.transAxes, ha="center", color=COLORS["linear"], fontsize=9)
-        ax_twist.text(0.75, 1.04, "angular", transform=ax_twist.transAxes, ha="center", color=COLORS["angular"], fontsize=9)
-        ax_twist.text(0.5, 1.04, "world / spatial tangent coordinates  •  [linear | angular]", transform=ax_twist.transAxes, ha="center", fontsize=9, color=COLORS["ink"])
+        ax_twist.text(0.25, 1.04, "linear", transform=ax_twist.transAxes, ha="center", color=COLORS["linear"], fontsize=8.2)
+        ax_twist.text(0.75, 1.04, "angular", transform=ax_twist.transAxes, ha="center", color=COLORS["angular"], fontsize=8.2)
+        ax_twist.text(0.5, 1.04, "world / spatial tangent coordinates  •  [linear | angular]", transform=ax_twist.transAxes, ha="center", fontsize=8.2, color=COLORS["ink"])
         ax_twist.spines["top"].set_visible(False); ax_twist.spines["right"].set_visible(False)
         ax_twist.grid(axis="y", color=COLORS["grid"], alpha=0.42, linewidth=0.6)
         ax_twist.set_axisbelow(True)
-        fig.suptitle(f"SE(3) geometric error  •  progress = {alpha:.2f}", fontsize=12, y=0.985)
-        fig.text(0.5, 0.485, r"$E_s = T\,T_d^{-1}$    $\longrightarrow$    $\xi_e = \mathrm{Log}(E_s)^\vee$", ha="center", va="center", fontsize=12, color=COLORS["ink"])
+        fig.suptitle(f"SE(3) geometric error  •  progress = {alpha:.2f}", fontsize=10.5, y=0.98)
+        fig.text(0.5, 0.485, r"$E_s = T\,T_d^{-1}$    $\longrightarrow$    $\xi_e = \mathrm{Log}(E_s)^\vee$", ha="center", va="center", fontsize=10.5, color=COLORS["ink"])
         return []
 
     animation = FuncAnimation(fig, update, frames=len(times), interval=70, blit=False)
-    out = ROOT / "results" / "videos"; out.mkdir(parents=True, exist_ok=True)
+    out = OUTPUT_ROOT; out.mkdir(parents=True, exist_ok=True)
     animation.save(out / "se3_geometry.gif", writer=PillowWriter(fps=15))
     try:
         animation.save(out / "se3_geometry.mp4", writer="ffmpeg", fps=15, dpi=130)
     except Exception as exc:
-        (ROOT / "results" / "logs" / "se3_geometry_animation.txt").write_text(f"mp4_unavailable={type(exc).__name__}: {exc}\n", encoding="utf-8")
+        (out.parent / "logs").mkdir(parents=True, exist_ok=True)
+        (out.parent / "logs" / "se3_geometry_animation.txt").write_text(f"mp4_unavailable={type(exc).__name__}: {exc}\n", encoding="utf-8")
     plt.close(fig)
 
 

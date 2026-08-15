@@ -7,6 +7,8 @@ from typing import Mapping, Sequence
 
 import numpy as np
 
+from .fonts import pil_font
+
 
 PUSH_RGBA = np.array([0.84, 0.37, 0.08, 1.0], dtype=float)
 COM_RGBA = np.array([0.0, 0.45, 0.70, 1.0], dtype=float)
@@ -15,12 +17,7 @@ CONTACT_LOST_RGBA = np.array([0.75, 0.30, 0.25, 1.0], dtype=float)
 
 
 def _font(size: int):
-    from PIL import ImageFont
-
-    try:
-        return ImageFont.truetype("DejaVuSans.ttf", size=size)
-    except OSError:
-        return ImageFont.load_default()
+    return pil_font(size)
 
 
 def _draw_overlay(image, metadata: Mapping[str, object] | None) -> None:
@@ -33,7 +30,7 @@ def _draw_overlay(image, metadata: Mapping[str, object] | None) -> None:
     scale = float(np.clip(image.width / 1920.0, 0.72, 1.0))
     margin = int(28 * scale)
     compact = bool(metadata.get("compact_overlay", False))
-    title_font = _font(max(15, int((21 if compact else 25) * scale)))
+    title_font = pil_font(max(15, int((21 if compact else 25) * scale)), weight="bold")
     body_font = _font(max(12, int((14 if compact else 16) * scale)))
     controller = str(metadata.get("controller", "unknown"))
     qp_status = str(metadata.get("status", "unknown"))

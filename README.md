@@ -55,7 +55,7 @@ The primary plant is Unitree G1 in MuJoCo. Physics runs at 0.002 s and control r
 For a body transform $T$ and desired transform $T_d$, production control uses the spatial/world-frame convention
 
 $$
-E_s = T T_d^{-1}, \qquad \xi_e = \operatorname{Log}(E_s)^\vee.
+E_s = T T_d^{-1}, \qquad \xi_e = \mathrm{Log}(E_s)^\vee.
 $$
 
 The tangent vector is ordered as
@@ -64,7 +64,7 @@ $$
 \xi_e = [v_x,v_y,v_z,\omega_x,\omega_y,\omega_z]^T,
 $$
 
-with linear components first and angular components second. The MuJoCo body Jacobian is interpreted as a spatial/world Jacobian. The production-task equivariance test verifies, for a global $G\in SE(3)$, that $E_s'=G E_s G^{-1}$ and $\xi_e'=\operatorname{Ad}_G\xi_e$. The [SE(3) animation](results/videos/se3_geometry.gif) uses exactly this convention.
+with linear components first and angular components second. The MuJoCo body Jacobian is interpreted as a spatial/world Jacobian. The production-task equivariance test verifies, for a global $G\in SE(3)$, that $E_s'=G E_s G^{-1}$ and $\xi_e'=\mathrm{Ad}_G\xi_e$. The [SE(3) animation](results/videos/se3_geometry.gif) uses exactly this convention.
 
 ![SE(3) geometry](results/videos/se3_geometry.gif)
 

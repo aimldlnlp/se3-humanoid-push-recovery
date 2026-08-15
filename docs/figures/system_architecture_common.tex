@@ -71,6 +71,12 @@
     fill=white,
     inner sep=1pt,
   },
+  archinput/.style={
+    font=\scriptsize,
+    text=archtext,
+    align=right,
+    inner sep=0pt,
+  },
 }
 
 % Candidate A: a conventional horizontal controls loop.  The controller
@@ -232,5 +238,62 @@
       (ceval.north east);
     \node[archmeasurelabel,above] at (12.30,0.78)
       {$w_{\mathrm{GRF,measured}}$};
+  \end{tikzpicture}%
+}
+
+% Final horizontal controls-paper layout. Desired quantities are signals
+% rather than a separate subsystem; the plant and evaluation remain outside
+% the dashed controller boundary.
+\newcommand{\DrawArchitectureHorizontalFinal}{%
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \draw[archboundary] (3.55,1.55) rectangle (11.85,4.05);
+    \node[archboundarylabel] at (7.70,4.05) {controller};
+
+    \node[archinput] (hdesired) at (2.55,3.15)
+      {$T_d$\\[-1pt]$p_{\mathrm{CoM},d}$\\[-1pt]$q_{\mathrm{posture},d}$};
+    \node[font=\scriptsize\itshape,text=archmuted,anchor=east]
+      at (2.55,3.78) {desired};
+
+    \node[archtask] (htask) at (5.45,3.15)
+      {\textbf{SE(3) / CoM tasks}\\[-1pt]
+      $\xi_e=\Log(TT_d^{-1})^\vee$\\[-1pt]
+      {\scriptsize torso $\cdot$ CoM $\cdot$ posture}};
+    \node[archqp] (hqp) at (9.65,3.15)
+      {\textbf{whole-body QP}\\[-1pt]
+      $\min_{\ddot q,\tau,\lambda,s}\mathcal{J}$\\[-1pt]
+      {\scriptsize dynamics $\cdot$ contact $\cdot$ friction/CoP $\cdot$ limits}};
+    \node[archplant] (hplant) at (14.90,3.15)
+      {\textbf{Unitree G1}\\[-1pt]
+      {\scriptsize MuJoCo plant}\\[-1pt]
+      {\scriptsize floating-base $\cdot$ fixed-foot DS}};
+    \node[archeval] (heval) at (14.90,0.35)
+      {\textbf{Evaluation}\\[-1pt]
+      {\scriptsize recovery $\cdot$ slip $\cdot$ basin}};
+
+    \draw[archsignal] (hdesired.east) --
+      node[archlabel,above] {targets}
+      (htask.west);
+    \draw[archsignal] (htask.east) --
+      node[archmathlabel,above] {$a^\star$}
+      (hqp.west);
+    \draw[archsignal] (hqp.east) --
+      node[archmathlabel,above] {$\tau$}
+      (hplant.west);
+
+    \draw[archpushsignal] (14.90,4.42) --
+      node[archpushlabel,right] {$F_{\mathrm{push}}$}
+      (hplant.north);
+
+    % One bottom state bus feeds both controller blocks.
+    \draw[archfeedback] (hplant.south) -- ++(-1.70,0) |- (5.45,1.25);
+    \draw[archfeedback] (5.45,1.25) -- (htask.south);
+    \draw[archfeedback] (9.65,1.25) -- (hqp.south);
+    \node[archlabel,above] at (10.10,1.25)
+      {$q,\ \dot q,\ \mathrm{contacts}$};
+
+    % Direct physical measurement path to evaluation; no side U-turn.
+    \draw[archmeasurement] (hplant.south) -- (heval.north);
+    \node[archmeasurelabel,anchor=east,align=right] at (14.55,1.72)
+      {state, contacts\\ measured GRF};
   \end{tikzpicture}%
 }

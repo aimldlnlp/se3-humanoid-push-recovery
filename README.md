@@ -1,162 +1,280 @@
-# Unitree G1 SE(3) Whole-Body Push Recovery
+# SE(3) Whole-Body Push Recovery for Unitree G1
 
-**SE(3) geometric pose-error resolved-acceleration tasks embedded in a contact-constrained whole-body QP for fixed-foot humanoid push recovery.**
+> A research codebase and MuJoCo study of geometric torso regulation with a contact-constrained whole-body QP for fixed-foot humanoid push recovery.
 
-The project asks a concrete robotics question: when a floating-base humanoid is pushed, can a whole-body controller regulate the torso while respecting double-support dynamics, unilateral contact, friction, and actuator limits? The external push is applied to the MuJoCo plant; the primary controller does not receive an oracle copy of that force.
+<p align="center">
+  <img src="results/videos/geometric_push_recovery.gif" alt="Unitree G1 recovering from a horizontal push with the SE(3) whole-body controller" width="920">
+</p>
 
-![Hero push recovery](results/videos/geometric_push_recovery.gif)
+<p align="center">
+  <a href="results/videos/geometric_push_recovery.mp4">H.264 demo video</a>
+  ·
+  <a href="results/videos/pd_vs_se3_wbc_comparison.mp4">PD vs SE(3) WBC comparison</a>
+  ·
+  <a href="results/figures/png/canonical_response.png">canonical response figure</a>
+</p>
 
-## Measured G1 result
+## Why this matters
 
-The frozen canonical trial uses the same initial state, plant, camera, and physical recovery classifier for both controllers: a 70 N horizontal torso push at 0 degrees, applied for 0.15 s from $t=2.0$ s. For the 35.112 kg model this is $F/(mg)=0.2032$ and impulse/mass $J/m=0.2990$ m/s.
+Push recovery is a coupled geometry, dynamics, and contact problem. A controller can look stable while violating unilateral contact, friction, actuator, or support constraints—or while benefiting from an oracle copy of the applied disturbance. This project evaluates the complete physical loop instead: the push enters the MuJoCo plant, the primary controller remains disturbance-unaware, and recovery is judged with the same physical classifier for both controllers.
 
-| Metric | Joint PD | SE(3) WBC |
+The central question is narrow and testable:
+
+> Can spatial/world-frame SE(3) torso tasks embedded in a whole-body QP improve fixed-foot recovery while respecting floating-base dynamics and double-support contact mechanics?
+
+## Headline result
+
+The canonical trial is a **70 N horizontal torso push at 0°**, applied for **0.15 s** at **t = 2.0 s** to a **35.112 kg** Unitree G1 model. The sweep contains 8 magnitudes × 24 directions × 2 controllers = **384 trials**.
+
+| Measured quantity | Joint PD | SE(3) WBC |
 |---|---:|---:|
-| Canonical recovery | failed: `FALL` | recovered |
-| Recovery latency [s] | — | 0.270 |
-| Peak torso error [rad] | 1.8635 | 0.0507 |
+| Canonical recovery | **failed (`FALL`)** | **recovered** |
+| Peak torso orientation error [rad] | 1.8635 | 0.0507 |
 | Peak horizontal CoM displacement [m] | 0.8394 | 0.0918 |
-| Maximum actuator torque [N m] | 139.00 | 20.28 |
+| Maximum joint torque [N·m] | 139.00 | 20.28 |
+| Recovery latency [s] | — | 0.270 |
 | Largest recovered tested push [N] | 20 | 80 |
 | Push-sweep recovery | 32/192 (16.7%) | 146/192 (76.0%) |
 
-The sweep contains 10–80 N at 24 directions spaced by 15 degrees. The envelope is a discrete, sampled measured result—not a theoretical continuous recovery boundary and not a claim of universal superiority. The canonical response is shown in the [3x2 paper-style figure](results/figures/png/canonical_response.png); the [comparison summary](results/figures/png/controller_comparison.png), [combined PD/WBC recovery basin](results/figures/png/recovery_basin.png), and [sampled polar envelope](results/figures/png/recovery_envelope.png) retain the trial-level evidence.
+These are measured results for this model, controller configuration, finite push grid, and physical recovery definition. They are not a claim of universal superiority, walking recovery, or hardware performance.
 
-These are measured results from the final rerun at source checkpoint `a0d5055da703e8256333b50ffbee85d88abbefc2` (`final-a0d5055-sweep`, `final-a0d5055-robustness`). The earlier G1 artifact is retained as a previous/frozen run in Git history and was not mixed into these numbers.
+## Evidence at a glance
 
-![Canonical response](results/figures/png/canonical_response.png)
+### Canonical response
 
-![Sampled measured recovery envelope](results/figures/png/recovery_envelope.png)
+The six-panel response keeps the applied-force interval, orientation error, CoM displacement, actual ground-reaction forces, torque utilization, and friction utilization in one synchronized view. Impact and contact spikes are retained.
 
-![Sampled PD/WBC recovery basin](results/figures/png/recovery_basin.png)
+![Canonical 70 N push response](results/figures/png/canonical_response.png)
 
-## Robot and provenance
+### Directional recovery profile
 
-The primary model is the official Unitree Robotics `g1_29dof.xml` torque-actuated MJCF without dexterous hands, pinned to `unitree_mujoco` commit [`ae6a8403e272733e9996ef59990880330496177f`](https://github.com/unitreerobotics/unitree_mujoco/tree/ae6a8403e272733e9996ef59990880330496177f/unitree_robots/g1). The project includes the upstream XML, meshes, motor-order documentation, and BSD-3-Clause license in [`models/unitree_g1/`](models/unitree_g1/).
+The recovery plot is intentionally Cartesian rather than polar: push direction is the horizontal coordinate and the largest recovered **tested** magnitude is the vertical coordinate. Points are the 24 measured directions; connecting lines are visual guides, not a continuous boundary.
 
-The selected model has 29 actuated DoF, $(n_q,n_v,n_u)=(36,35,29)$, a floating pelvis, `torso_link`, two ankle-roll foot bodies, and physically connected torque actuators. The upstream revision also contains `g1_23dof.xml`, but its current file includes six simulator placeholder joints/actuators outside the physical 23-DoF tree. The 29-DoF variant is therefore used as the closest maintained, unambiguous no-hands G1 model; the reason and exact pin are recorded in [`models/unitree_g1/UPSTREAM.md`](models/unitree_g1/UPSTREAM.md).
+![Measured recovery by push direction](results/figures/png/recovery_envelope.png)
 
-The legacy compact robot remains selectable as `mini_humanoid` and its original measurements are preserved under [`results/legacy_mini_humanoid/`](results/legacy_mini_humanoid/). No compact-humanoid numbers are used as G1 evidence.
+![Sampled PD and SE(3) WBC recovery basin](results/figures/png/recovery_basin.png)
 
 ## Method
 
-![Paper-style control architecture](results/figures/png/system_architecture.png)
+![System architecture](results/figures/png/system_architecture.png)
 
-The paper-style control architecture summarizes the measured loop: desired quantities generate geometric tasks, the contact-constrained QP produces torque commands, the Unitree G1 plant returns state and contact feedback, and physical ground-reaction forces are reserved for evaluation.
+The control loop has four physically distinct parts:
 
-Static figures, mathematical diagrams, and video overlays use the repository-bundled Latin Modern Roman family with Computer Modern math for portable paper-style typography.
+1. **Reference and task generation** produce torso, CoM, and posture targets from the current measured state.
+2. **Geometric tasks** use the production spatial/world-frame error
 
-Regenerate the architecture figure and its comparison layouts with `python scripts/render_system_architecture.py`.
+   $$
+   E_s = T T_d^{-1}, \qquad \xi_e = \mathrm{Log}(E_s)^\vee,
+   $$
 
-The primary plant is Unitree G1 in MuJoCo. Physics runs at 0.002 s and control runs at 0.004 s. The robot adapter supplies the floating base, pelvis and torso bodies, feet, actuated joints, limits, nominal pose, support vertices, mass/CoM, Jacobians, and contact definitions; the legacy `mini_humanoid` uses the same interface.
+   with tangent ordering $[v_x,v_y,v_z,\omega_x,\omega_y,\omega_z]^\mathsf{T}$.
+3. **Whole-body QP** solves for
 
-### Production SE(3) task
+   $$
+   x = [\ddot q,\tau,\lambda],
+   $$
 
-For a body transform $T$ and desired transform $T_d$, production control uses the spatial/world-frame convention
+   subject to floating-base dynamics, fixed-foot contact acceleration, torque limits, friction inequalities, support/CoP limits, and bounded task slack.
+4. **The Unitree G1 MuJoCo plant** receives only the torque signal and the external push. State and contacts feed back to the controller; actual MuJoCo ground-reaction forces feed evaluation.
 
-$$
-E_s = T T_d^{-1}, \qquad \xi_e = \mathrm{Log}(E_s)^\vee.
-$$
+The QP contact variable $\lambda$ is not treated as a measurement. Actual GRF is extracted from MuJoCo contact forces, transformed to the world frame, and kept separate from the optimizer prediction.
 
-The tangent vector is ordered as
+## Experimental scope
 
-$$
-\xi_e = [v_x,v_y,v_z,\omega_x,\omega_y,\omega_z]^T,
-$$
+| Item | Final study |
+|---|---|
+| Robot | Unitree G1, 29 actuated DoF, no dexterous hands |
+| Model dimensions | $(n_q,n_v,n_u)=(36,35,29)$ with a floating pelvis |
+| Contact scope | Fixed-foot double support; no stepping or walking |
+| Physics / control | 0.002 s simulation step / 0.004 s control step |
+| Canonical push | 70 N at 0°, 0.15 s, applied to the torso at t = 2.0 s |
+| Sweep | 10–80 N in 10 N increments, 24 directions at 15° spacing |
+| Normalized disturbance | Each trial records $F$, $J=F\Delta t$, $F/(mg)$, and $J/m$ |
+| Robustness study | 50 randomized SE(3) WBC trials; 32/50 recovered (64.0%) |
+| Evaluation | Common PD/WBC classifier using contact, slip, torso/CoM, actuator, friction, and numerical criteria |
 
-with linear components first and angular components second. The MuJoCo body Jacobian is interpreted as a spatial/world Jacobian. The production-task equivariance test verifies, for a global $G\in SE(3)$, that $E_s'=G E_s G^{-1}$ and $\xi_e'=\mathrm{Ad}_G\xi_e$. The [SE(3) animation](results/videos/se3_geometry.gif) uses exactly this convention.
+The primary controller does not receive an external-force oracle. The final sweep and robustness data retain failure reasons, measured GRF, friction utilization, torque utilization, seeds, and run provenance.
 
-![SE(3) geometry](results/videos/se3_geometry.gif)
+## Results and demonstrations
 
-### Whole-body QP and contacts
+### Synchronized controller comparison
 
-The decision vector is
+The comparison uses the same camera, scale, initial state, push, timestamps, and overlay semantics for Joint PD and SE(3) WBC. The orange push arrow appears only while the disturbance is applied.
 
-$$
-x=[\ddot q,\tau,\lambda].
-$$
+![Synchronized Joint PD and SE(3) WBC comparison](results/videos/pd_vs_se3_wbc_comparison.gif)
 
-The constrained problem retains floating-base dynamics, fixed-foot double-support acceleration, torque limits, friction inequalities, support-polygon/CoP limits, and bounded task slack:
+[Download the synchronized H.264 comparison](results/videos/pd_vs_se3_wbc_comparison.mp4) · [Open the comparison summary](results/figures/png/controller_comparison.png)
 
-$$
-M(q)\ddot q+h(q,\dot q)=B\tau+J_c^T\lambda,
-$$
+### CoM and support geometry
 
-$$
-J_c\ddot q+\dot J_c\dot q=0.
-$$
+The support figure combines the measured left and right foot regions, active double-support hull, CoM path, sparse measured CoP, push interval, and initial/peak/final CoM markers with the time-resolved along-push and lateral CoM response.
 
-For each measured ground reaction, the friction utilization is
+![CoM trajectory and measured support response](results/figures/png/com_support_polygon.png)
 
-$$
-\eta=\frac{\sqrt{F_x^2+F_y^2}}{\mu F_z},
-$$
+### Physical contact evidence
 
-where $\eta=1$ is the physical friction boundary. The QP-predicted contact wrench is kept separate from the actual MuJoCo ground-reaction wrench. Actual GRFs are extracted from `mj_contactForce`, transformed to the world frame, and summed about the foot body. PD and WBC use the same recovery classifier, including contact loss, measured slip, torso/CoM limits, actuator limits, and numerical failure.
+Actual ground-reaction forces are shown independently from the QP wrench variable. The timing diagnostic reports mean, p95, p99, maximum, and the 4 ms diagnostic deadline; it is an offline measurement and is not a hard-real-time claim.
 
-![Actual ground-reaction forces](results/figures/png/actual_ground_reaction_forces.png)
+<p align="center">
+  <img src="results/figures/png/actual_ground_reaction_forces.png" alt="Measured MuJoCo ground-reaction forces" width="48%">
+  <img src="results/figures/png/qp_timing_diagnostics.png" alt="Whole-body QP timing diagnostic" width="48%">
+</p>
 
-![CoM, CoP, and double-support polygon](results/figures/png/com_support_polygon.png)
+The canonical WBC timing is mean **2.620 ms**, p95 **3.590 ms**, p99 **5.309 ms**, maximum **9.324 ms**, with **3.7%** of solves above the 4 ms diagnostic deadline.
 
-## Experiments
+### Geometry convention
 
-### Synchronized PD versus SE(3) WBC
+![SE(3) error geometry](results/videos/se3_geometry.gif)
 
-The two panels use identical camera, scale, push, timestamps, and G1 initial state. The overlay reports actual contacts and solver state; an orange push arrow appears only during the applied disturbance.
+The animation uses the same $E_s = T T_d^{-1}$ and $\xi_e = \mathrm{Log}(E_s)^\vee$ convention as the production controller.
 
-![Synchronized comparison](results/videos/pd_vs_se3_wbc_comparison.gif)
+## Reproduce the project
 
-See the [H.264 comparison video](results/videos/pd_vs_se3_wbc_comparison.mp4) and [summary figure](results/figures/png/controller_comparison.png).
+### Requirements
 
-### Recovery basin and robustness
+- Python **3.10 or newer**
+- MuJoCo **3.1 ≤ version < 4** through the project dependencies
+- FFmpeg on `PATH` for MP4/GIF generation
+- A working OpenGL context for interactive rendering; Linux headless runs can use EGL
 
-The push sweep contains 384 trials: 192 PD and 192 SE(3) WBC trials over 8 magnitudes and 24 directions. Every row records force, impulse, $F/(mg)$, $J/m$, seed, mass, measured GRF, friction utilization, recovery result, and failure reason in [results/data/push_sweep.csv](results/data/push_sweep.csv). The polar plot reports the largest recovered tested push by direction.
+The demo and local tests do not require the SSH worker. The committed final raw experiments were executed on the configured worker and include their environment manifests.
 
-The randomized robustness study contains 50 SE(3) WBC trials, with 32/50 recoveries (64.0%), over friction $\mu\in\{0.3,0.5,0.7,0.9\}$, mass scale $\in\{0.9,1.0,1.1\}$, push duration $\in\{0.10,0.15,0.20\}$ s, and seeds 0–4. Results are in [results/data/robustness.csv](results/data/robustness.csv).
+### Linux
 
-### CoM and support region
+~~~bash
+git clone https://github.com/aimldlnlp/se3-humanoid-push-recovery.git
+cd se3-humanoid-push-recovery
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -e ".[dev]"
 
-The static and animated views show both measured foot supports, their active double-support convex hull, CoM trajectory, nominal/peak/final CoM, push interval, and sparse measured CoP samples. The [animated CoM/support view](results/videos/com_support_polygon.gif) uses the same support-polygon geometry and color system.
+# Only for headless Linux rendering:
+export MUJOCO_GL=egl
 
-### Standing, perturbation, and timing
+python scripts/run_demo.py
+python -m pytest -q
+~~~
 
-Quiet standing is a physics sanity check, not a recovery claim. In the final source, both controllers maintain both contacts. The WBC quiet-standing run has peak torso error 0.00344 rad and peak CoM displacement 0.00416 m; the PD run has 0.02795 rad and 0.01475 m. The contact-preserving perturbed-standing gate uses a randomized initial angular velocity bounded by 0.05 rad/s; both final trials recover with both feet in contact. The [perturbed-standing animation](results/videos/perturbed_standing_recovery.gif) is available separately.
+Install FFmpeg with the package manager appropriate for the machine, for example `sudo apt install ffmpeg` on Debian/Ubuntu.
 
-Actual GRF spikes around contact events are retained rather than clipped or hidden. The canonical WBC QP timing is mean 2.620 ms, p95 3.590 ms, p99 5.309 ms, maximum 9.324 ms, with 3.7% of solves above the 4 ms diagnostic deadline. These are offline measurements; this project makes no hard-real-time claim. See the [timing diagnostic](results/figures/png/qp_timing_diagnostics.png).
+### macOS
 
-<details>
-<summary>Additional contact and slip diagnostic</summary>
+~~~bash
+git clone https://github.com/aimldlnlp/se3-humanoid-push-recovery.git
+cd se3-humanoid-push-recovery
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -e ".[dev]"
+python scripts/run_demo.py
+python -m pytest -q
+~~~
 
-![Contact and slip diagnostics](results/figures/png/contact_slip_diagnostics.png)
+Install FFmpeg with Homebrew when video encoding is needed: `brew install ffmpeg`.
 
-</details>
+### Windows PowerShell
 
-## Verification and reproduction
+~~~powershell
+git clone https://github.com/aimldlnlp/se3-humanoid-push-recovery.git
+Set-Location se3-humanoid-push-recovery
+py -3 -m venv .venv
+.\\.venv\\Scripts\\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -e ".[dev]"
+python scripts\\run_demo.py
+python -m pytest -q
+~~~
 
-The final source checkpoint was created before the final G1 experiments:
+If PowerShell blocks activation, run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once, or invoke the environment Python directly. Install FFmpeg separately and make sure `ffmpeg.exe` is available on `PATH` for video output.
 
-```text
-a0d5055da703e8256333b50ffbee85d88abbefc2
-```
+### Regenerate figures from committed raw data
 
-All final raw runs carry this full source version plus a run ID, seed, hostname, UTC timestamp, and configuration hash in their manifests. The final configuration hash is `a8a272a147a3f6095811987e6623d4d5c4915d6985955e7af60c1d155ddd62d9`; the worker was `hucenrotia-ai` with Python 3.12.3, MuJoCo 3.11.0, FFmpeg 6.1.1, and an NVIDIA RTX A5000. The final raw artifacts include [JSON summaries](results/data/), [NPZ trajectories](results/data/), [CSV sweeps](results/data/push_sweep.csv), [PNG/PDF figures](results/figures/), [GIF/MP4 videos](results/videos/), and [execution logs](results/logs/).
+The figure pipeline reads the saved NPZ/CSV artifacts; it does not rerun an experiment:
 
-The deterministic calibration used 10, 20, 40, 60, 80, and 100 N at eight directions for both controllers; the final 10–80 N grid was retained because it contains easy, near-boundary, and failed recoveries. The provenance record is in [`results/logs/source_freeze.txt`](results/logs/source_freeze.txt), with aggregate run manifests in [`results/logs/`](results/logs/).
+~~~bash
+python scripts/generate_figures.py
+~~~
 
-Run the lightweight local suite with:
+The generated PNG/PDF/SVG files are written under `results/figures/`. The demo writes a saved trajectory and rendered video under `results/data/` and `results/videos/`.
 
-```powershell
-py -3.12 -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
-python -m pip install -e .
-pytest -q
-```
+### Run the full experiment sequence
 
-The full MuJoCo suite and final sweeps were executed on the configured SSH worker. The worker-side sequence followed G1 load/mapping, standing, Jacobian and mass, contact/support, gravity compensation, PD/WBC standing, perturbation, canonical push, calibration, sweep, and robustness gates. The final source tests passed remotely before the checkpoint; final results were then run from that exact checkpoint.
+These commands write new files under `results/` and are intended for a clean checkout or an isolated artifact directory:
 
-## Scope and limitations
+~~~bash
+python experiments/standing.py
+python experiments/perturbed_standing.py
+python experiments/single_push.py
+python experiments/push_calibration.py
+python experiments/push_sweep.py
+python experiments/robustness.py
+python scripts/generate_figures.py
+~~~
 
-This is a simulation study of fixed-foot double support. It does not claim walking, stepping recovery, hardware validation, perception, formal nonlinear stability, hard real-time control, or universal superiority over PD. The disturbance is external and applied to the plant, while the controller remains disturbance-unaware. The measured basin is finite and directional; failures and GRF spikes are retained in the raw data and figures. Actual GRF is a MuJoCo contact measurement, not the QP's predicted wrench.
+For repeatable worker runs, set `SE3_SOURCE_VERSION` and `SE3_RUN_ID` in the environment and retain the generated manifests in `results/logs/`. The sweep and calibration scripts support process parallelism through `SE3_SWEEP_WORKERS`, `SE3_CALIBRATION_WORKERS`, and `SE3_ROBUSTNESS_WORKERS`.
 
-The project is distributed with the upstream Unitree model attribution and license. No credentials or machine-specific absolute paths are required for reproduction.
+## Repository map
+
+~~~text
+src/se3_whole_body_control/
+  geometry/       SO(3)/SE(3) operations and frame conventions
+  control/        Joint PD and contact-constrained whole-body QP
+  dynamics/       Floating-base humanoid model and Jacobians
+  simulation/     MuJoCo runner, contacts, and state logging
+  evaluation/     Recovery classifier and trial metrics
+  visualization/  Paper figures, renderer, videos, and font resolver
+experiments/      Standing, push, calibration, sweep, and robustness runners
+configs/          Robot, controller, and experiment configuration
+models/unitree_g1/ Pinned G1 MJCF, meshes, provenance, and upstream license
+results/data/     Raw NPZ/CSV trial artifacts
+results/figures/  PNG, PDF, and SVG figures
+results/videos/   GIF and MP4 demonstrations
+tests/            Geometry, frame, contact, dynamics, mapping, and metric tests
+docs/figures/     Reproducible architecture figure sources and candidates
+~~~
+
+## Provenance and model attribution
+
+The numerical results shown above were generated from source checkpoint `a0d5055da703e8256333b50ffbee85d88abbefc2`. The final experiment configuration hash is `a8a272a147a3f6095811987e6623d4d5c4915d6985955e7af60c1d155ddd62d9`. Raw manifests record the source version, run ID, seed, hostname, UTC timestamp, and configuration hash; the [source-freeze record](results/logs/source_freeze.txt) contains the run IDs and gate sequence. Later documentation or visualization commits are not relabeled as new numerical experiments.
+
+The final worker environment was:
+
+- hostname: `hucenrotia-ai`
+- Python: `3.12.3`
+- MuJoCo: `3.11.0`
+- FFmpeg: `6.1.1`
+- GPU: NVIDIA RTX A5000
+
+The primary model is the official Unitree Robotics `g1_29dof.xml` torque-actuated MJCF without dexterous hands, pinned to [unitree_mujoco commit `ae6a8403e272733e9996ef59990880330496177f`](https://github.com/unitreerobotics/unitree_mujoco/tree/ae6a8403e272733e9996ef59990880330496177f/unitree_robots/g1). The upstream XML, meshes, motor-order documentation, model rationale, and license are retained in [models/unitree_g1/](models/unitree_g1/).
+
+The pinned upstream revision also contains a file named `g1_23dof.xml`, but its current version includes six simulator placeholder joints/actuators outside the physical 23-DoF tree. The 29-DoF no-hands variant is therefore used because it provides an unambiguous physically connected actuator map. The legacy `mini_humanoid` remains selectable and is preserved under [results/legacy_mini_humanoid/](results/legacy_mini_humanoid/); its measurements are not mixed with G1 evidence.
+
+## Limitations
+
+- This is a MuJoCo simulation study of **fixed-foot double support**. It does not evaluate walking, stepping recovery, hardware, perception, or whole-body manipulation.
+- The controller is disturbance-unaware and does not receive an external-force oracle.
+- The recovery basin is finite and directional: it is a sampled measured envelope over the tested grid, not a continuous or formal stability boundary.
+- Actual MuJoCo GRF is a physical contact measurement and is distinct from the QP-predicted wrench $\lambda$.
+- Recovery uses a declared threshold-based classifier shared by PD and WBC; changing the thresholds or discarding failed trials would invalidate the comparison.
+- QP timings are offline diagnostics. The observed deadline misses mean no hard-real-time claim is made.
+- No universal superiority claim is made: the study reports the measured behavior of the specified G1 model, gains, contacts, disturbance range, and evaluation protocol.
+
+## Citation
+
+Until a peer-reviewed publication is associated with this repository, cite the software artifact and the upstream robot model:
+
+~~~bibtex
+@software{aimldlnlp_se3_g1_push_recovery,
+  author  = {{aimldlnlp}},
+  title   = {SE(3) Whole-Body Push Recovery for Unitree G1},
+  year    = {2026},
+  url     = {https://github.com/aimldlnlp/se3-humanoid-push-recovery}
+}
+~~~
+
+For work that redistributes or builds on the robot asset, also retain the Unitree attribution and terms in [models/unitree_g1/LICENSE.txt](models/unitree_g1/LICENSE.txt) and [models/unitree_g1/UPSTREAM.md](models/unitree_g1/UPSTREAM.md).
+
+## License and attribution
+
+The bundled Unitree G1 model is distributed under the upstream **BSD-3-Clause** license, reproduced in [models/unitree_g1/LICENSE.txt](models/unitree_g1/LICENSE.txt). The repository currently does not declare a separate top-level license for project-owned source code; check the repository owner’s terms before redistributing code or generated data. MuJoCo and all other third-party components remain subject to their own licenses.

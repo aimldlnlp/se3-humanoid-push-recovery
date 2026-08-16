@@ -320,31 +320,56 @@ def plot_recovery_basin(rows: list[dict], output_dir: str | Path, name: str = "r
 
 
 def plot_recovery_envelope(rows: list[dict], output_dir: str | Path, name: str = "recovery_envelope") -> list[Path]:
-    """Plot maximum measured recovered push magnitude versus direction."""
+    """Plot the sampled recovery limit against push direction in Cartesian form."""
     apply_style()
     dirs = np.asarray(sorted({float(r["push_direction_deg"]) for r in rows}))
-    theta = np.deg2rad(dirs)
-    fig, ax = plt.subplots(figsize=(5.35, 4.85), subplot_kw={"projection": "polar"})
-    fig.subplots_adjust(top=0.82, bottom=0.18, left=0.08, right=0.92)
+    fig, ax = plt.subplots(figsize=(7.55, 4.10))
+    curves: dict[str, np.ndarray] = {}
+    labels: dict[str, str] = {}
     for controller in ("pd", "se3_wbc"):
         envelope = _recovery_envelope(rows, controller, dirs)
+        curves[controller] = envelope
+        subset = [r for r in rows if str(r["controller"]) == controller]
+        recovered = sum(_as_bool(r.get("success", False)) for r in subset)
+        labels[controller] = f"{_controller_label(controller)}  {recovered}/{len(subset)} recovered"
+
+    # Close the 0/360-degree seam without suggesting an unsampled boundary.
+    closes_seam = len(dirs) > 1 and np.isclose(dirs[0], 0.0) and dirs[-1] < 360.0
+    xline = np.r_[dirs, 360.0] if closes_seam else dirs
+    for controller in ("pd", "se3_wbc"):
+        envelope = curves[controller]
+        yline = np.r_[envelope, envelope[0]] if closes_seam else envelope
         finite = np.isfinite(envelope)
-        radial = np.where(finite, envelope, 0.0)
-        theta_closed = np.r_[theta, theta[0]]
-        radial_closed = np.r_[radial, radial[0]]
-        ax.plot(theta_closed, radial_closed, color=_controller_color(controller), linewidth=1.55, marker="o", markersize=3.0, label=_controller_label(controller))
-    ax.set_theta_zero_location("E")
-    ax.set_theta_direction(1)
-    ax.set_thetagrids(np.arange(0, 360, 45), labels=["0°", "45°", "90°", "135°", "180°", "225°", "270°", "315°"])
-    ax.set_rlabel_position(108)
-    max_magnitude = max((float(r["push_magnitude_N"]) for r in rows), default=1.0)
-    radial_limit = max(20.0, float(np.ceil(max_magnitude / 20.0) * 20.0))
-    ax.set_ylim(0, radial_limit + max(5.0, 0.05 * radial_limit))
-    ax.set_yticks(np.arange(20.0, radial_limit + 0.1, 20.0))
-    fig.text(0.5, 0.965, "Sampled measured recovery envelope", ha="center", va="center", fontsize=10.5)
-    fig.text(0.5, 0.925, "largest recovered tested push [N] by direction; not a continuous boundary", ha="center", va="center", fontsize=7.8, color=COLORS["muted"])
-    ax.legend(loc="lower center", bbox_to_anchor=(0.5, -0.20), ncol=2)
-    ax.grid(color=COLORS["grid"], alpha=0.42, linewidth=0.55)
+        ax.plot(xline, yline, color=_controller_color(controller), linewidth=1.65, label=labels[controller], zorder=3)
+        ax.scatter(dirs[finite], envelope[finite], color=_controller_color(controller), s=23, zorder=4)
+
+    pd_curve = curves["pd"]
+    wbc_curve = curves["se3_wbc"]
+    if closes_seam:
+        pd_curve = np.r_[pd_curve, pd_curve[0]]
+        wbc_curve = np.r_[wbc_curve, wbc_curve[0]]
+    finite_gap = np.isfinite(pd_curve) & np.isfinite(wbc_curve)
+    if np.any(finite_gap):
+        ax.fill_between(xline, pd_curve, wbc_curve, where=finite_gap, color=COLORS["wbc"], alpha=0.08, zorder=1)
+
+    magnitudes = sorted({float(r["push_magnitude_N"]) for r in rows})
+    max_magnitude = max(magnitudes, default=1.0)
+    y_limit = max(20.0, float(np.ceil(max_magnitude / 20.0) * 20.0))
+    ax.set_xlim(0.0, 360.0)
+    ax.set_ylim(0.0, y_limit + 4.0)
+    ax.set_xticks(np.arange(0.0, 361.0, 45.0))
+    ax.set_xticklabels(["0°", "45°", "90°", "135°", "180°", "225°", "270°", "315°", "360°"])
+    ax.set_yticks(np.arange(0.0, y_limit + 0.1, 20.0))
+    ax.set_xlabel("push direction [deg]")
+    ax.set_ylabel("largest recovered tested push [N]")
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.23), ncol=2, handlelength=1.8, columnspacing=1.8)
+    style_axes(ax)
+    ax.grid(axis="y", color=COLORS["grid"], alpha=0.42, linewidth=0.6)
+    for direction in (0.0, 90.0, 180.0, 270.0):
+        ax.axvline(direction, color=COLORS["grid"], alpha=0.22, linewidth=0.55, zorder=0)
+    fig.text(0.5, 0.965, "Measured recovery by push direction", ha="center", va="center", fontsize=10.5)
+    fig.text(0.5, 0.925, "24 sampled directions at 15° spacing · connecting lines are visual guides, not a continuous boundary", ha="center", va="center", fontsize=7.6, color=COLORS["muted"])
+    fig.subplots_adjust(left=0.105, right=0.985, bottom=0.25, top=0.80)
     return list(_save(fig, output_dir, name))
 
 
@@ -465,28 +490,39 @@ def _finite_cop(a: dict[str, np.ndarray], foot: int) -> np.ndarray:
 
 
 def plot_com_support_polygon(log, output_dir: str | Path, name: str = "com_support_polygon") -> list[Path]:
+    """Show spatial support geometry alongside the time-resolved CoM response."""
     apply_style()
     a = log.arrays(); com = a["com_world"][:, :2]; vertices = _foot_support_vertices(a)
     active = np.column_stack([a["contact_left"], a["contact_right"]]).astype(bool)
-    fig, ax = plt.subplots(figsize=(7.0, 4.85))
+    t = np.asarray(a["time_s"], dtype=float)
+    push = np.asarray(a["push_force"], dtype=float)
+    push_magnitude, push_direction = _push_summary(push)
+    push_unit = np.array([np.cos(np.deg2rad(push_direction)), np.sin(np.deg2rad(push_direction))])
+    lateral_unit = np.array([-push_unit[1], push_unit[0]])
+    displacement = com - com[0]
+    along_push = displacement @ push_unit
+    lateral = displacement @ lateral_unit
+    peak = int(np.argmax(np.linalg.norm(displacement, axis=1)))
+
+    fig, axes = plt.subplots(1, 2, figsize=(8.8, 3.95), gridspec_kw={"width_ratios": (1.0, 1.25)})
+    ax, response_ax = axes
     for index, label, color in ((0, "left foot", COLORS["left_foot"]), (1, "right foot", COLORS["right_foot"])):
         polygon = np.vstack([vertices[0, index], vertices[0, index, 0]])
         ax.fill(polygon[:, 0], polygon[:, 1], color=color, alpha=0.10, zorder=1)
-        ax.plot(polygon[:, 0], polygon[:, 1], color=color, linewidth=0.95, zorder=2)
+        ax.plot(polygon[:, 0], polygon[:, 1], color=color, linewidth=1.05, zorder=2)
         centroid = np.mean(polygon[:-1], axis=0)
-        ax.text(centroid[0], centroid[1], "L foot" if index == 0 else "R foot", ha="center", va="center", fontsize=7.8, color=color, zorder=8)
+        ax.text(centroid[0] + 0.032, centroid[1] + 0.006, label, ha="left", va="center", fontsize=7.6, color=color, zorder=8)
     hull = _active_support_hull(vertices[0], active[0])
     if len(hull) >= 3:
         closed = np.vstack([hull, hull[0]])
-        ax.fill(closed[:, 0], closed[:, 1], color=COLORS["wbc"], alpha=0.06, zorder=0)
-        ax.plot(closed[:, 0], closed[:, 1], color=COLORS["wbc"], linewidth=1.45, linestyle=(0, (3, 2)), zorder=3)
+        ax.fill(closed[:, 0], closed[:, 1], color=COLORS["wbc"], alpha=0.055, zorder=0)
+        ax.plot(closed[:, 0], closed[:, 1], color=COLORS["boundary"], linewidth=1.15, linestyle=(0, (3, 2)), zorder=3)
         hull_centroid = np.mean(hull, axis=0)
-        ax.text(hull_centroid[0], hull_centroid[1] + 0.045, "double support", ha="center", va="center", fontsize=7.7, color=COLORS["wbc"], zorder=8)
+        ax.text(hull_centroid[0], hull_centroid[1] + 0.045, "double-support hull", ha="center", va="center", fontsize=7.4, color=COLORS["boundary"], zorder=8)
     ax.plot(com[:, 0], com[:, 1], color=COLORS["com"], linewidth=1.8, zorder=4)
     push_mask = np.linalg.norm(a["push_force"][:, :2], axis=1) > 1e-9
     if np.any(push_mask):
         ax.plot(com[push_mask, 0], com[push_mask, 1], color=COLORS["push"], linewidth=2.7, zorder=5)
-    peak = int(np.argmax(np.linalg.norm(com - com[0], axis=1)))
     ax.scatter(com[0, 0], com[0, 1], color=COLORS["desired"], marker="o", s=34, zorder=7)
     ax.scatter(com[peak, 0], com[peak, 1], color=COLORS["push"], marker="^", s=40, zorder=7)
     ax.scatter(com[-1, 0], com[-1, 1], color=COLORS["actual"], marker="s", s=34, zorder=7)
@@ -495,25 +531,45 @@ def plot_com_support_polygon(log, output_dir: str | Path, name: str = "com_suppo
     for foot, color in ((0, COLORS["left_foot"]), (1, COLORS["right_foot"])):
         cop = _finite_cop(a, foot)
         if len(cop):
-            stride = max(1, len(cop) // 10)
-            ax.scatter(cop[::stride, 0], cop[::stride, 1], color=COLORS["cop"], alpha=0.62, s=18, marker=".", zorder=6)
+            stride = max(1, len(cop) // 8)
+            ax.scatter(cop[::stride, 0], cop[::stride, 1], color=COLORS["cop"], alpha=0.72, s=16, marker=".", zorder=6)
+
+    if push_magnitude > 0.0:
+        arrow_start = com[0] + 0.006 * push_unit
+        arrow_end = com[0] + 0.040 * push_unit
+        ax.annotate("", xy=arrow_end, xytext=arrow_start, arrowprops={"arrowstyle": "-|>", "color": COLORS["push"], "lw": 1.15})
+        ax.text(arrow_end[0] + 0.004, arrow_end[1] + 0.004, "push", color=COLORS["push"], fontsize=7.3, ha="left", va="bottom")
+
     finite_points = np.concatenate([com, vertices.reshape(-1, 2)], axis=0)
     finite_points = finite_points[np.all(np.isfinite(finite_points), axis=1)]
     lo = finite_points.min(axis=0); hi = finite_points.max(axis=0)
-    pad = max(0.018, 0.06 * float(np.max(hi - lo)))
+    pad = max(0.018, 0.075 * float(np.max(hi - lo)))
     ax.set_xlim(lo[0] - pad, hi[0] + pad); ax.set_ylim(lo[1] - pad, hi[1] + pad)
     ax.set_aspect("equal", adjustable="box")
     ax.set_xlabel("world x [m]"); ax.set_ylabel("world y [m]")
-    ax.set_title("CoM and measured support geometry", loc="left", pad=6)
+    ax.set_title("(a) support geometry", loc="left", pad=6)
     style_axes(ax)
     handles = [
         Line2D([0], [0], color=COLORS["com"], linewidth=1.8, label="CoM path"),
         Line2D([0], [0], color=COLORS["push"], linewidth=2.7, label="push interval"),
         Line2D([0], [0], color=COLORS["cop"], marker=".", linewidth=0, markersize=6, label="measured CoP"),
-        Line2D([0], [0], color=COLORS["desired"], marker="o", linewidth=0, markersize=4.5, label="initial / nominal"),
-        Line2D([0], [0], color=COLORS["push"], marker="^", linewidth=0, markersize=5, label="peak"),
-        Line2D([0], [0], color=COLORS["actual"], marker="s", linewidth=0, markersize=4.5, label="final"),
     ]
-    ax.legend(handles=handles, loc="upper center", bbox_to_anchor=(0.5, -0.12), ncol=3, columnspacing=1.0, handlelength=1.6, handletextpad=0.45)
-    fig.subplots_adjust(left=0.11, right=0.98, bottom=0.20, top=0.90)
+    ax.legend(handles=handles, loc="upper center", bbox_to_anchor=(0.5, -0.16), ncol=3, columnspacing=0.7, handlelength=1.5, handletextpad=0.4)
+
+    _shade_push(response_ax, t, push)
+    response_ax.axhline(0.0, color=COLORS["grid"], linewidth=0.75, zorder=0)
+    response_ax.plot(t, along_push, color=COLORS["com"], linewidth=1.65, label="along push")
+    response_ax.plot(t, lateral, color=COLORS["muted"], linewidth=1.05, linestyle=(0, (3, 2)), label="lateral")
+    response_ax.scatter(t[peak], along_push[peak], color=COLORS["push"], marker="^", s=34, zorder=5)
+    response_ax.scatter(t[-1], along_push[-1], color=COLORS["actual"], marker="s", s=28, zorder=5)
+    response_ax.annotate("peak", xy=(t[peak], along_push[peak]), xytext=(5, 7), textcoords="offset points", fontsize=7.2, color=COLORS["ink"])
+    response_ax.set_xlabel("time [s]")
+    response_ax.set_ylabel("CoM displacement [m]")
+    response_ax.set_title("(b) CoM response", loc="left", pad=6)
+    response_ax.text(0.98, 0.90, f"{push_magnitude:.0f} N @ {push_direction:.0f}°", transform=response_ax.transAxes, ha="right", va="top", fontsize=7.7, color=COLORS["push"])
+    response_ax.legend(loc="upper left", ncol=2, handlelength=1.5, columnspacing=0.8)
+    style_axes(response_ax)
+
+    fig.text(0.5, 0.965, "CoM trajectory and support response", ha="center", va="center", fontsize=10.5)
+    fig.subplots_adjust(left=0.085, right=0.985, bottom=0.235, top=0.86, wspace=0.28)
     return list(_save(fig, output_dir, name))

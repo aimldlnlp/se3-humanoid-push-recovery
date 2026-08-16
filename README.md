@@ -113,7 +113,7 @@ The comparison uses the same camera, scale, initial state, push, timestamps, and
 
 The support figure combines the measured left and right foot regions, active double-support hull, CoM path, sparse measured CoP, push interval, and initial/peak/final CoM markers with the time-resolved along-push and lateral CoM response.
 
-![CoM trajectory and measured support response](results/figures/png/com_support_polygon.png)
+![Plan-view support geometry and CoM response](results/figures/png/com_support_polygon.png)
 
 ### Physical contact evidence
 

@@ -1,0 +1,363 @@
+{
+  "controller": "se3_wbc",
+  "push": {
+    "magnitude_N": 70.0,
+    "direction_rad": 0.0,
+    "duration_s": 0.15,
+    "start_time_s": 2.0,
+    "application_body": "torso",
+    "application_point_local": null
+  },
+  "config": {
+    "root": ".",
+    "robot_catalog": {
+      "active_robot": "unitree_g1",
+      "profiles_dir": "configs/robots",
+      "profiles": {
+        "mini_humanoid": "configs/robots/mini_humanoid.yaml",
+        "unitree_g1": "configs/robots/unitree_g1.yaml"
+      }
+    },
+    "robot": {
+      "name": "unitree_g1",
+      "controller_profile": "configs/controller.yaml",
+      "model_path": "models/unitree_g1/scene_push_recovery.xml",
+      "model_variant": "g1_29dof_no_hands",
+      "floating_base_body": "pelvis",
+      "floating_base_joint": "floating_base_joint",
+      "torso_body": "torso_link",
+      "pelvis_body": "pelvis",
+      "left_foot_body": "left_ankle_roll_link",
+      "right_foot_body": "right_ankle_roll_link",
+      "ground_geom": "ground",
+      "left_foot_contact_geoms": [],
+      "right_foot_contact_geoms": [],
+      "nominal_base_qpos": [
+        0.0,
+        0.0,
+        0.7915,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "nominal_joint_positions": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.2,
+        0.2,
+        0.0,
+        1.28,
+        0.0,
+        0.0,
+        0.0,
+        0.2,
+        -0.2,
+        0.0,
+        1.28,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "foot_support_vertices_local": [
+        [
+          [
+            -0.05,
+            -0.03,
+            -0.03
+          ],
+          [
+            0.12,
+            -0.03,
+            -0.03
+          ],
+          [
+            0.12,
+            0.03,
+            -0.03
+          ],
+          [
+            -0.05,
+            0.03,
+            -0.03
+          ]
+        ],
+        [
+          [
+            -0.05,
+            -0.03,
+            -0.03
+          ],
+          [
+            0.12,
+            -0.03,
+            -0.03
+          ],
+          [
+            0.12,
+            0.03,
+            -0.03
+          ],
+          [
+            -0.05,
+            0.03,
+            -0.03
+          ]
+        ]
+      ],
+      "simulation_timestep": 0.002,
+      "control_timestep": 0.004,
+      "duration_s": 6.0,
+      "warmup_duration_s": 0.6,
+      "gravity": [
+        0.0,
+        0.0,
+        -9.81
+      ],
+      "friction_coefficient": 0.7,
+      "render_width": 1920,
+      "render_height": 1080,
+      "render_fps": 30,
+      "upstream_source": "https://github.com/unitreerobotics/unitree_mujoco/tree/ae6a8403e272733e9996ef59990880330496177f/unitree_robots/g1",
+      "profile_name": "unitree_g1",
+      "profile_path": "configs/robots/unitree_g1.yaml"
+    },
+    "controller": {
+      "posture_kp": 200.0,
+      "posture_kd": 40.0,
+      "torso_position_kp": 70.0,
+      "torso_position_kd": 16.0,
+      "torso_rotation_kp": 100.0,
+      "torso_rotation_kd": 20.0,
+      "pelvis_position_kp": 55.0,
+      "pelvis_position_kd": 13.0,
+      "pelvis_rotation_kp": 70.0,
+      "pelvis_rotation_kd": 16.0,
+      "com_kp": 35.0,
+      "com_kd": 10.0,
+      "qp_acceleration_weight": 0.1,
+      "qp_torque_weight": 0.001,
+      "qp_nominal_torque_weight": 1.0,
+      "qp_posture_weight": 1.0,
+      "qp_torso_weight": 200.0,
+      "qp_pelvis_weight": 100.0,
+      "qp_com_weight": 2.0,
+      "qp_swing_weight": 200.0,
+      "swing_position_kp": 300.0,
+      "swing_position_kd": 35.0,
+      "swing_rotation_kp": 100.0,
+      "swing_rotation_kd": 18.0,
+      "qp_slack_weight": 100000.0,
+      "friction_coefficient": 0.7,
+      "use_external_force_oracle": false,
+      "support_polygon_x_min_m": -0.05,
+      "support_polygon_x_max_m": 0.12,
+      "support_polygon_y_min_m": -0.03,
+      "support_polygon_y_max_m": 0.03,
+      "torsional_friction_coefficient": 0.02,
+      "max_joint_acceleration": 150.0,
+      "fallback_to_pd": true,
+      "use_nominal_contact_feedforward": true,
+      "solver": {
+        "eps_abs": 0.001,
+        "eps_rel": 0.001,
+        "max_iter": 20000,
+        "adaptive_rho": true,
+        "scaled_termination": true,
+        "polish": true
+      }
+    },
+    "experiments": {
+      "seed": 0,
+      "standing_duration_s": 3.0,
+      "push": {
+        "magnitude_N": 70.0,
+        "direction_deg": 0.0,
+        "duration_s": 0.15,
+        "start_time_s": 2.0,
+        "application_body": "torso"
+      },
+      "sweep": {
+        "magnitudes_N": [
+          10,
+          20,
+          30,
+          40,
+          50,
+          60,
+          70,
+          80
+        ],
+        "directions_deg": [
+          0,
+          15,
+          30,
+          45,
+          60,
+          75,
+          90,
+          105,
+          120,
+          135,
+          150,
+          165,
+          180,
+          195,
+          210,
+          225,
+          240,
+          255,
+          270,
+          285,
+          300,
+          315,
+          330,
+          345
+        ],
+        "duration_s": 0.15,
+        "start_time_s": 2.0,
+        "trial_duration_s": 6.0
+      },
+      "robustness": {
+        "friction": [
+          0.3,
+          0.5,
+          0.7,
+          0.9
+        ],
+        "mass_scale": [
+          0.9,
+          1.0,
+          1.1
+        ],
+        "push_duration_s": [
+          0.1,
+          0.15,
+          0.2
+        ],
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "recovery": {
+        "orientation_threshold_rad": 0.0872664626,
+        "angular_velocity_threshold_rad_s": 0.15,
+        "com_displacement_threshold_m": 0.1,
+        "stable_duration_s": 0.25,
+        "timeout_s": 6.0,
+        "startup_grace_period_s": 0.25,
+        "contact_loss_duration_s": 0.08,
+        "friction_utilization_threshold": 1.05,
+        "slip_tangent_velocity_threshold_m_s": 0.08,
+        "slip_displacement_threshold_m": 0.025,
+        "slip_duration_s": 0.04,
+        "foot_contact_required": true,
+        "torso_ground_height_m": 0.35
+      },
+      "perturbed_standing": {
+        "duration_s": 3.0,
+        "warmup_duration_s": 0.0,
+        "seed": 0,
+        "initial_torso_tilt_rad": 0.0,
+        "initial_com_offset_m": 0.0,
+        "initial_angular_velocity_rad_s": 0.05
+      },
+      "robustness_randomization": {
+        "initial_torso_tilt_rad": 0.0,
+        "initial_com_offset_m": 0.0,
+        "initial_angular_velocity_rad_s": 0.05,
+        "push_magnitude_jitter_fraction": 0.08,
+        "push_direction_jitter_deg": 8.0,
+        "push_duration_jitter_s": 0.015
+      },
+      "hybrid_recovery": {
+        "max_steps": 1,
+        "minimum_step_time_s": 0.35,
+        "trigger_margin_m": 0.04,
+        "trigger_speed_m_s": 0.15,
+        "trigger_com_displacement_m": 0.1,
+        "trigger_torso_error_rad": 0.35,
+        "trigger_contact_slack_norm": 0.025,
+        "step_length_m": 0.32,
+        "step_clearance_m": 0.06,
+        "swing_duration_s": 0.34,
+        "transfer_duration_s": 0.24,
+        "max_transfer_duration_s": 0.48,
+        "transfer_margin_m": 0.004,
+        "transfer_speed_m_s": 0.15,
+        "transfer_com_weight": 80.0,
+        "transfer_com_kp": 180.0,
+        "transfer_com_kd": 30.0,
+        "landing_duration_s": 0.18,
+        "post_landing_duration_s": 0.5,
+        "step_cooldown_s": 0.35,
+        "displacement_direction_gain": 3.0
+      }
+    }
+  },
+  "seed": 0,
+  "robot": "unitree_g1",
+  "model_path": "models/unitree_g1/scene_push_recovery.xml",
+  "mass_kg": 35.112142000000006,
+  "nv": 35,
+  "nu": 29,
+  "controller_summary": {},
+  "manifest": {
+    "run_id": "final-6024ce9-g1",
+    "source_version": "6024ce9af3b63d62c584d120fe2309ef10297198",
+    "seed": 0,
+    "hostname": "LAPTOP-5FHHA9LI",
+    "timestamp_utc": "2026-08-16T11:00:40.973655+00:00",
+    "config_sha256": "6bd9912b7daf2a3534264cb2ca327b04151773dd5ac33293be02475b90f53f72"
+  },
+  "summary": {
+    "duration_s": 5.995999999999562,
+    "max_torso_error_rad": 0.05069388000063684,
+    "max_com_displacement_m": 0.09178860255308961,
+    "max_joint_velocity": 1.9085395327621426,
+    "max_qp_solve_time_ms": 5.606799968518317,
+    "mean_qp_solve_time_ms": 3.788897599753303,
+    "p95_qp_solve_time_ms": 4.237509961239994,
+    "p99_qp_solve_time_ms": 4.6523929765680805,
+    "qp_deadline_ms": 4.0,
+    "qp_deadline_miss_percent": 15.533333333333331,
+    "qp_failures": 0,
+    "max_contact_slack_norm": 0.006940498813602967,
+    "max_actual_contact_force_N": 511.39412014517717,
+    "max_actual_friction_utilization": 0.1792357719215237,
+    "max_dynamics_residual": 2.845286049735986e-13,
+    "max_contact_acceleration_residual": 1.2845406947655302e-14,
+    "left_contact_fraction": 1.0,
+    "right_contact_fraction": 1.0,
+    "qp_measured_vertical_grf_rmse_N": 13.177027997734422,
+    "qp_measured_vertical_grf_bias_N": -0.014615396446052727,
+    "qp_measured_force_rmse_N": 7.63221983633126
+  },
+  "recovery": {
+    "success": true,
+    "failure_reason": null,
+    "recovered_at_s": 2.419999999999955,
+    "recovery_latency_s": 0.26999999999995516,
+    "max_torso_error_rad": 0.05069388000063684,
+    "max_com_displacement_m": 0.09178860255308961,
+    "max_joint_torque_Nm": 20.279941408860367,
+    "min_friction_margin": 0.8207642280784763
+  }
+}

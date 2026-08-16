@@ -11,6 +11,7 @@ dependencies = [
   "numpy>=1.24",
   "scipy>=1.10",
   "mujoco>=3.1,<4",
+  "glfw>=2.7",
   "osqp>=1.0",
   "matplotlib>=3.7",
   "Pillow>=10",

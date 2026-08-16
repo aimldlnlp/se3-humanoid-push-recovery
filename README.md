@@ -60,22 +60,26 @@ The recovery plot is intentionally Cartesian rather than polar: push direction i
 
 The control loop has four physically distinct parts:
 
-1. **Reference and task generation** produce torso, CoM, and posture targets from the current measured state.
-2. **Geometric tasks** use the production spatial/world-frame error
-
-   $$
-   E_s = T T_d^{-1}, \qquad \xi_e = \mathrm{Log}(E_s)^\vee,
-   $$
-
-   with tangent ordering $[v_x,v_y,v_z,\omega_x,\omega_y,\omega_z]^\mathsf{T}$.
-3. **Whole-body QP** solves for
-
-   $$
-   x = [\ddot q,\tau,\lambda],
-   $$
-
-   subject to floating-base dynamics, fixed-foot contact acceleration, torque limits, friction inequalities, support/CoP limits, and bounded task slack.
+1. **Reference and task generation** produces torso, CoM, and posture targets from the current measured state.
+2. **Geometric tasks** use the production spatial/world-frame error.
+3. **Whole-body QP** solves for accelerations, torques, and contact wrenches subject to the physical constraints.
 4. **The Unitree G1 MuJoCo plant** receives only the torque signal and the external push. State and contacts feed back to the controller; actual MuJoCo ground-reaction forces feed evaluation.
+
+The production task error is:
+
+$$
+E_s = T T_d^{-1}, \qquad \xi_e = \mathrm{Log}(E_s)^\vee.
+$$
+
+The tangent vector is ordered as $[v_x,v_y,v_z,\omega_x,\omega_y,\omega_z]^\mathsf{T}$.
+
+The whole-body QP decision vector is:
+
+$$
+x = [\ddot q,\tau,\lambda].
+$$
+
+The QP retains floating-base dynamics, fixed-foot contact acceleration, torque limits, friction inequalities, support/CoP limits, and bounded task slack.
 
 The QP contact variable $\lambda$ is not treated as a measurement. Actual GRF is extracted from MuJoCo contact forces, transformed to the world frame, and kept separate from the optimizer prediction.
 

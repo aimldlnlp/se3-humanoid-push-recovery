@@ -242,9 +242,8 @@ docs/figures/     Reproducible architecture figure sources and candidates
 
 The numerical results shown above were generated from source checkpoint `a0d5055da703e8256333b50ffbee85d88abbefc2`. The final experiment configuration hash is `a8a272a147a3f6095811987e6623d4d5c4915d6985955e7af60c1d155ddd62d9`. Raw manifests record the source version, run ID, seed, hostname, UTC timestamp, and configuration hash; the [source-freeze record](results/logs/source_freeze.txt) contains the run IDs and gate sequence. Later documentation or visualization commits are not relabeled as new numerical experiments.
 
-The final worker environment was:
+The final execution environment was:
 
-- hostname: `hucenrotia-ai`
 - Python: `3.12.3`
 - MuJoCo: `3.11.0`
 - FFmpeg: `6.1.1`

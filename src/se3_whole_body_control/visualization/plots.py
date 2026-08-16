@@ -516,42 +516,62 @@ def plot_com_support_polygon(log, output_dir: str | Path, name: str = "com_suppo
     push_origin = torso_xy[push_indices[0]] if len(push_indices) else torso_xy[0]
     push_end = push_origin + 0.045 * push_unit
 
-    fig, axes = plt.subplots(1, 2, figsize=(9.15, 4.05), gridspec_kw={"width_ratios": (1.0, 1.30)})
+    fig, axes = plt.subplots(1, 2, figsize=(9.15, 3.75), gridspec_kw={"width_ratios": (1.0, 1.30)})
     ax, response_ax = axes
 
-    # Draw the physical support hierarchy from back to front: active region,
-    # individual feet, measured CoP, then the moving CoM and disturbance.
+    # The map is deliberately sparse: the support hull establishes the
+    # physical frame, the footprints establish contact, and the CoM/push
+    # marks tell the recovery story.  Labels are local to their marks so the
+    # panel remains legible without a large legend.
     if len(hull) >= 3:
         closed_hull = np.vstack([hull, hull[0]])
-        ax.fill(closed_hull[:, 0], closed_hull[:, 1], color=COLORS["wbc"], alpha=0.075, zorder=0)
-        ax.plot(closed_hull[:, 0], closed_hull[:, 1], color=COLORS["wbc"], linewidth=1.25, zorder=2)
+        ax.fill(closed_hull[:, 0], closed_hull[:, 1], color=COLORS["wbc"], alpha=0.035, zorder=0)
         hull_centroid = np.mean(hull, axis=0)
         ax.text(
-            hull_centroid[0], hull_centroid[1] + 0.043, "double-support region",
-            ha="center", va="center", fontsize=7.1, color=COLORS["boundary"], zorder=8,
+            hull_centroid[0], hull_centroid[1] - 0.044, "double support",
+            ha="center", va="center", fontsize=6.8, color=COLORS["boundary"],
+            bbox={"facecolor": COLORS["paper"], "edgecolor": "none", "pad": 1.2}, zorder=8,
         )
 
-    for index, label, color in ((0, "L foot", COLORS["left_foot"]), (1, "R foot", COLORS["right_foot"])):
+    for index, label in ((0, "L foot"), (1, "R foot")):
         polygon = np.vstack([support_vertices[index], support_vertices[index, 0]])
-        ax.fill(polygon[:, 0], polygon[:, 1], color=color, alpha=0.14, zorder=1)
-        ax.plot(polygon[:, 0], polygon[:, 1], color=color, linewidth=0.95, zorder=3)
-        label_position = np.array([np.max(polygon[:, 0]) - 0.008, np.max(polygon[:, 1]) - 0.012])
-        ax.text(label_position[0], label_position[1], label, ha="right", va="top", fontsize=7.0, color=color, zorder=8)
+        ax.fill(polygon[:, 0], polygon[:, 1], color=COLORS["grid"], alpha=0.20, zorder=1)
+        ax.plot(polygon[:, 0], polygon[:, 1], color=COLORS["ink"], linewidth=0.85, zorder=3)
+        if index == 0:
+            label_position = np.array([np.max(polygon[:, 0]) - 0.007, np.max(polygon[:, 1]) - 0.012])
+            label_align = {"ha": "right", "va": "top"}
+        else:
+            label_position = np.array([np.max(polygon[:, 0]) - 0.007, np.min(polygon[:, 1]) + 0.012])
+            label_align = {"ha": "right", "va": "bottom"}
+        ax.text(label_position[0], label_position[1], label, fontsize=7.0, color=COLORS["ink"], zorder=8, **label_align)
 
-    cop_handles = []
+    if len(hull) >= 3:
+        ax.plot(
+            closed_hull[:, 0], closed_hull[:, 1], color=COLORS["wbc"],
+            linewidth=1.0, linestyle=(0, (3, 2)), zorder=4,
+        )
+
     for foot, marker in ((0, "o"), (1, "x")):
         cop = _finite_cop(a, foot)
         if len(cop):
-            stride = max(1, len(cop) // 6)
-            samples = cop[::stride]
+            sample_count = min(5, len(cop))
+            sample_indices = np.linspace(0, len(cop) - 1, sample_count, dtype=int)
+            samples = cop[sample_indices]
             ax.plot(
-                samples[:, 0], samples[:, 1], color=COLORS["cop"], linewidth=0.75,
-                linestyle=(0, (2, 2)), marker=marker, markersize=3.0,
-                markeredgewidth=0.8, alpha=0.78, zorder=4,
+                samples[:, 0], samples[:, 1], color=COLORS["cop"], linewidth=0.65,
+                linestyle=(0, (2, 2)), marker=marker, markersize=2.8,
+                markeredgewidth=0.75, alpha=0.72, zorder=4,
             )
-    cop_handles.append(Line2D([0], [0], color=COLORS["cop"], marker="o", linewidth=0, markersize=4.2, label="measured CoP"))
+            if foot == 0:
+                label_point = samples[0] + np.array([0.004, 0.018])
+                ax.annotate(
+                    "measured CoP", xy=samples[0], xytext=label_point,
+                    fontsize=6.6, color=COLORS["cop"], ha="left", va="bottom",
+                    arrowprops={"arrowstyle": "-", "color": COLORS["cop"], "lw": 0.45},
+                    bbox={"facecolor": COLORS["paper"], "edgecolor": "none", "pad": 1.0}, zorder=8,
+                )
 
-    ax.plot(com[:, 0], com[:, 1], color=COLORS["com"], linewidth=1.9, zorder=5)
+    ax.plot(com[:, 0], com[:, 1], color=COLORS["com"], linewidth=2.15, zorder=5)
     if len(push_indices) > 1:
         ax.plot(com[push_indices, 0], com[push_indices, 1], color=COLORS["push"], linewidth=3.0, solid_capstyle="round", zorder=6)
         middle = int(push_indices[len(push_indices) // 2])
@@ -563,18 +583,37 @@ def plot_com_support_polygon(log, output_dir: str | Path, name: str = "com_suppo
                 arrowprops={"arrowstyle": "-|>", "color": COLORS["com"], "lw": 1.05, "mutation_scale": 8},
             )
 
-    ax.scatter(com[0, 0], com[0, 1], facecolor=COLORS["paper"], edgecolor=COLORS["ink"], linewidth=1.15, marker="o", s=34, zorder=9)
-    ax.scatter(com[peak, 0], com[peak, 1], facecolor=COLORS["push"], edgecolor=COLORS["paper"], linewidth=0.7, marker="^", s=43, zorder=9)
-    ax.scatter(com[-1, 0], com[-1, 1], facecolor=COLORS["actual"], edgecolor=COLORS["paper"], linewidth=0.7, marker="s", s=36, zorder=9)
+    ax.scatter(com[0, 0], com[0, 1], facecolor=COLORS["paper"], edgecolor=COLORS["ink"], linewidth=1.05, marker="o", s=30, zorder=9)
+    ax.scatter(com[peak, 0], com[peak, 1], facecolor=COLORS["push"], edgecolor=COLORS["paper"], linewidth=0.7, marker="^", s=42, zorder=9)
+    ax.scatter(com[-1, 0], com[-1, 1], facecolor=COLORS["actual"], edgecolor=COLORS["paper"], linewidth=0.7, marker="s", s=34, zorder=9)
+    state_handles = [
+        Line2D([0], [0], color=COLORS["ink"], marker="o", markerfacecolor=COLORS["paper"], linewidth=0, markersize=4.8, label="initial"),
+        Line2D([0], [0], color=COLORS["actual"], marker="s", markerfacecolor=COLORS["actual"], linewidth=0, markersize=4.8, label="final"),
+        Line2D([0], [0], color=COLORS["push"], marker="^", markerfacecolor=COLORS["push"], linewidth=0, markersize=4.8, label="peak"),
+    ]
+    ax.legend(
+        handles=state_handles, loc="upper center", bbox_to_anchor=(0.5, -0.105),
+        ncol=3, columnspacing=0.75, handletextpad=0.25, handlelength=0.7, fontsize=6.6,
+    )
 
     if push_magnitude > 0.0:
-        ax.scatter(push_origin[0], push_origin[1], facecolor=COLORS["paper"], edgecolor=COLORS["push"], linewidth=1.0, marker="o", s=24, zorder=8)
-        ax.annotate(
-            "", xy=push_end, xytext=push_origin,
-            arrowprops={"arrowstyle": "-|>", "color": COLORS["push"], "lw": 1.45, "mutation_scale": 9},
+        push_anchor = push_origin + 0.027 * lateral_unit
+        push_end = push_anchor + 0.038 * push_unit
+        ax.plot(
+            [push_origin[0], push_anchor[0]], [push_origin[1], push_anchor[1]],
+            color=COLORS["push"], linewidth=0.7, linestyle=(0, (2, 2)), zorder=7,
         )
-        ax.text(push_end[0] + 0.006, push_end[1] + 0.004, r"$F_{\mathrm{push}}$", color=COLORS["push"], fontsize=7.2, ha="left", va="bottom")
-        ax.text(0.98, 0.96, f"{push_magnitude:.0f} N @ {push_direction:.0f}°", transform=ax.transAxes, ha="right", va="top", fontsize=7.4, color=COLORS["push"])
+        ax.scatter(push_origin[0], push_origin[1], facecolor=COLORS["paper"], edgecolor=COLORS["push"], linewidth=0.95, marker="o", s=22, zorder=8)
+        ax.annotate(
+            "", xy=push_end, xytext=push_anchor,
+            arrowprops={"arrowstyle": "-|>", "color": COLORS["push"], "lw": 1.35, "mutation_scale": 9},
+        )
+        ax.text(
+            push_anchor[0] + 0.004 * push_unit[0], push_anchor[1] + 0.006 * lateral_unit[1],
+            rf"$F_{{\mathrm{{push}}}}$  {push_magnitude:.0f} N @ {push_direction:.0f}°",
+            color=COLORS["push"], fontsize=6.8, ha="left", va="bottom",
+            bbox={"facecolor": COLORS["paper"], "edgecolor": "none", "pad": 1.0}, zorder=10,
+        )
 
     finite_points = np.concatenate([com, vertices.reshape(-1, 2), push_origin[None, :], push_end[None, :]], axis=0)
     finite_points = finite_points[np.all(np.isfinite(finite_points), axis=1)]
@@ -583,18 +622,8 @@ def plot_com_support_polygon(log, output_dir: str | Path, name: str = "com_suppo
     ax.set_xlim(lo[0] - pad, hi[0] + pad); ax.set_ylim(lo[1] - pad, hi[1] + pad)
     ax.set_aspect("equal", adjustable="box")
     ax.set_xlabel("world x [m]"); ax.set_ylabel("world y [m]")
-    ax.set_title("(a) support geometry", loc="left", pad=6)
-    style_axes(ax)
-    handles = [
-        Patch(facecolor=COLORS["wbc"], edgecolor=COLORS["wbc"], alpha=0.16, label="DS hull"),
-        Line2D([0], [0], color=COLORS["com"], linewidth=1.9, label="CoM path"),
-        cop_handles[0],
-        Line2D([0], [0], color=COLORS["push"], linewidth=2.5, label=r"$F_{\mathrm{push}}$"),
-        Line2D([0], [0], color=COLORS["ink"], marker="o", markerfacecolor=COLORS["paper"], linewidth=0, markersize=5, label="initial"),
-        Line2D([0], [0], color=COLORS["push"], marker="^", markerfacecolor=COLORS["push"], linewidth=0, markersize=5, label="peak"),
-        Line2D([0], [0], color=COLORS["actual"], marker="s", markerfacecolor=COLORS["actual"], linewidth=0, markersize=5, label="final"),
-    ]
-    ax.legend(handles=handles, loc="upper center", bbox_to_anchor=(0.5, -0.15), ncol=3, columnspacing=0.7, handlelength=1.45, handletextpad=0.35, fontsize=6.8)
+    ax.set_title("(a) support-plane geometry", loc="left", pad=5)
+    style_axes(ax, grid=False)
 
     _shade_push(response_ax, t, push)
     response_ax.axhline(0.0, color=COLORS["grid"], linewidth=0.75, zorder=0)
@@ -610,6 +639,5 @@ def plot_com_support_polygon(log, output_dir: str | Path, name: str = "com_suppo
     response_ax.legend(loc="upper left", ncol=2, handlelength=1.5, columnspacing=0.8)
     style_axes(response_ax)
 
-    fig.text(0.5, 0.965, "CoM trajectory and support response", ha="center", va="center", fontsize=10.5)
-    fig.subplots_adjust(left=0.085, right=0.985, bottom=0.235, top=0.86, wspace=0.28)
+    fig.subplots_adjust(left=0.085, right=0.985, bottom=0.14, top=0.88, wspace=0.28)
     return list(_save(fig, output_dir, name))

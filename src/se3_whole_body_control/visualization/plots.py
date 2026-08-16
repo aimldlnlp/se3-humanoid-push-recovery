@@ -20,11 +20,11 @@ def _as_bool(value) -> bool:
 
 
 def _controller_label(name: str) -> str:
-    return {"pd": "PD", "se3_wbc": "SE(3) WBC"}.get(str(name), str(name))
+    return {"pd": "PD", "se3_wbc": "SE(3) WBC", "fixed_foot_wbc": "fixed-foot WBC", "hybrid_se3_wbc": "hybrid one-step WBC"}.get(str(name), str(name))
 
 
 def _controller_color(name: str) -> str:
-    return COLORS["wbc"] if str(name) == "se3_wbc" else COLORS["pd"]
+    return COLORS["wbc"] if str(name) in {"se3_wbc", "fixed_foot_wbc", "hybrid_se3_wbc"} else COLORS["pd"]
 
 
 def _foot_support_vertices(a: dict[str, np.ndarray]) -> np.ndarray:
@@ -335,6 +335,69 @@ def plot_recovery_basin(rows: list[dict], output_dir: str | Path, name: str = "r
     return list(_save(fig, output_dir, name))
 
 
+def plot_hybrid_recovery_basin(rows: list[dict], output_dir: str | Path, name: str = "hybrid_recovery_basin") -> list[Path]:
+    """Compare fixed-foot and one-step recovery without hiding failures."""
+    apply_style()
+    fixed_mags, fixed_dirs, fixed = _recovery_grid(rows, "fixed_foot_wbc")
+    hybrid_mags, hybrid_dirs, hybrid = _recovery_grid(rows, "hybrid_se3_wbc")
+    if not (np.array_equal(fixed_mags, hybrid_mags) and np.array_equal(fixed_dirs, hybrid_dirs)):
+        raise ValueError("fixed-foot and hybrid grids must have identical tested cells")
+    step_grid = np.full_like(hybrid, False, dtype=bool)
+    for row in rows:
+        if str(row.get("controller")) == "hybrid_se3_wbc":
+            i = list(hybrid_mags).index(float(row["push_magnitude_N"]))
+            j = list(hybrid_dirs).index(float(row["push_direction_deg"]))
+            step_grid[i, j] = _as_bool(row.get("step_triggered", False))
+
+    cmap = ListedColormap([COLORS["failure"], COLORS["pd"], COLORS["push"], COLORS["wbc"]])
+    norm = BoundaryNorm([-0.5, 0.5, 1.5, 2.5, 3.5], cmap.N)
+    comparable = np.isfinite(fixed) & np.isfinite(hybrid)
+    delta = np.full_like(fixed, np.nan, dtype=float)
+    delta[comparable] = np.where((fixed[comparable] == 1.0) & (hybrid[comparable] == 1.0), 3.0,
+                                 np.where((fixed[comparable] == 1.0) & (hybrid[comparable] == 0.0), 1.0,
+                                          np.where((fixed[comparable] == 0.0) & (hybrid[comparable] == 1.0), 2.0, 0.0)))
+    fig, axes = plt.subplots(1, 3, figsize=(10.0, 3.45), sharex=True, sharey=True,
+                             gridspec_kw={"width_ratios": (1.0, 1.0, 1.10)})
+    grids = ((fixed, "fixed-foot WBC"), (hybrid, "hybrid one-step WBC"), (delta, "hybrid effect"))
+    for index, (ax, (grid, title)) in enumerate(zip(axes, grids)):
+        ax.imshow(grid, aspect="auto", origin="lower", cmap=cmap, norm=norm, interpolation="nearest")
+        ax.set_xticks(range(len(fixed_dirs)))
+        ax.set_xticklabels([f"{int(d)}" if int(d) % 45 == 0 else "" for d in fixed_dirs])
+        ax.set_yticks(range(len(fixed_mags)), [f"{m:.0f}" for m in fixed_mags])
+        ax.set_xticks(np.arange(-0.5, len(fixed_dirs), 1), minor=True)
+        ax.set_yticks(np.arange(-0.5, len(fixed_mags), 1), minor=True)
+        ax.grid(which="minor", color=COLORS["paper"], linewidth=0.8)
+        ax.tick_params(which="minor", bottom=False, left=False)
+        ax.set_xlabel("push direction [deg]")
+        ax.set_title(title, loc="left", pad=5)
+        if index == 0:
+            ax.set_ylabel("push magnitude [N]")
+        else:
+            ax.set_ylabel("")
+        recovered = int(np.nansum(grid == 1.0)) if index < 2 else int(np.nansum(grid >= 2.0))
+        total = int(np.sum(np.isfinite(grid)))
+        if index < 2:
+            recovered = int(np.nansum(grid == 1.0))
+        ax.text(0.99, 1.02, f"{recovered}/{total} recovered", transform=ax.transAxes, ha="right", va="bottom", fontsize=7.7, color=COLORS["muted"])
+        style_axes(ax, grid=False)
+    # A star marks cells in which the hybrid controller actually entered the
+    # single-support mode; recovery alone does not imply a step occurred.
+    for i, j in zip(*np.where(step_grid)):
+        axes[1].plot(j, i, marker="*", markersize=5.0, markerfacecolor=COLORS["paper"], markeredgecolor=COLORS["ink"], markeredgewidth=0.55)
+    handles = [
+        Patch(facecolor=COLORS["failure"], edgecolor="none", label="both failed"),
+        Patch(facecolor=COLORS["pd"], edgecolor="none", label="fixed-foot only"),
+        Patch(facecolor=COLORS["push"], edgecolor="none", label="hybrid only"),
+        Patch(facecolor=COLORS["wbc"], edgecolor="none", label="both recovered"),
+        Line2D([0], [0], marker="*", color="none", markerfacecolor=COLORS["paper"], markeredgecolor=COLORS["ink"], markersize=5.0, label="hybrid entered swing mode"),
+    ]
+    fig.text(0.5, 0.965, "Fixed-foot versus one-step recovery", ha="center", va="center", fontsize=10.5)
+    fig.text(0.5, 0.915, "same G1 model, push grid, classifier, and source; cells remain measured trials", ha="center", va="center", fontsize=7.8, color=COLORS["muted"])
+    fig.legend(handles=handles, loc="lower center", bbox_to_anchor=(0.5, 0.005), ncol=3, columnspacing=1.4)
+    fig.subplots_adjust(left=0.08, right=0.985, bottom=0.22, top=0.84, wspace=0.11)
+    return list(_save(fig, output_dir, name))
+
+
 def plot_recovery_envelope(rows: list[dict], output_dir: str | Path, name: str = "recovery_envelope") -> list[Path]:
     """Plot the sampled recovery limit against push direction in Cartesian form."""
     apply_style()
@@ -494,6 +557,68 @@ def plot_actual_grf(log, output_dir: str | Path, name: str = "actual_ground_reac
     _finish_shared_time_axes(axes, t, a["push_force"])
     fig.text(0.5, 0.972, "Measured MuJoCo ground-reaction forces", ha="center", va="center", fontsize=10.5)
     fig.subplots_adjust(left=0.10, right=0.985, bottom=0.11, top=0.90, hspace=0.38)
+    return list(_save(fig, output_dir, name))
+
+
+def plot_contact_wrench_consistency(log, output_dir: str | Path, name: str = "contact_wrench_consistency") -> list[Path]:
+    """Compare QP-predicted contact quantities with MuJoCo measurements.
+
+    The comparison is diagnostic: the QP wrench and the measured ground
+    reaction are not assumed to be identical. Both are expressed at the foot
+    body-frame origin, so force and CoP differences are physically interpretable.
+    """
+    apply_style()
+    a = log.arrays(); t = a["time_s"]
+    predicted = np.asarray(a["predicted_contact_wrench"], dtype=float)
+    actual = np.asarray(a["actual_contact_wrench"], dtype=float)
+    if predicted.ndim != 2 or actual.ndim != 2 or predicted.shape[1] < 12 or actual.shape[1] < 12:
+        raise ValueError("contact-wrench consistency requires 12-component predicted and measured wrenches")
+    fig, axes = plt.subplots(2, 2, figsize=(8.1, 5.0), sharex=True)
+    foot_specs = ((0, "left foot", COLORS["left_foot"]), (1, "right foot", COLORS["right_foot"]))
+    for foot, label, color in foot_specs:
+        off = 6 * foot
+        axes[0, 0].plot(t, actual[:, off + 2], color=color, linewidth=1.3, label=f"{label} measured")
+        axes[0, 0].plot(t, predicted[:, off + 2], color=color, linestyle=(0, (4, 2)), linewidth=1.0, label=f"{label} QP")
+        actual_tangent = np.linalg.norm(actual[:, off:off + 2], axis=1)
+        predicted_tangent = np.linalg.norm(predicted[:, off:off + 2], axis=1)
+        axes[0, 1].plot(t, actual_tangent, color=color, linewidth=1.3, label=f"{label} measured")
+        axes[0, 1].plot(t, predicted_tangent, color=color, linestyle=(0, (4, 2)), linewidth=1.0, label=f"{label} QP")
+    axes[0, 0].set_ylabel("vertical force [N]")
+    axes[0, 0].set_title("(a) vertical GRF", loc="left", pad=5)
+    axes[0, 0].legend(ncol=2, loc="upper right", handlelength=1.4)
+    axes[0, 1].set_ylabel("tangential force [N]")
+    axes[0, 1].set_title("(b) tangential force", loc="left", pad=5)
+    axes[0, 1].legend(ncol=2, loc="upper right", handlelength=1.4)
+
+    total_force_delta = np.linalg.norm(
+        predicted[:, [0, 1, 2, 6, 7, 8]].reshape(-1, 2, 3).sum(axis=1)
+        - actual[:, [0, 1, 2, 6, 7, 8]].reshape(-1, 2, 3).sum(axis=1), axis=1,
+    )
+    axes[1, 0].plot(t, total_force_delta, color=COLORS["actual"], linewidth=1.2)
+    axes[1, 0].set_ylabel("force discrepancy [N]")
+    axes[1, 0].set_title("(c) total-force discrepancy", loc="left", pad=5)
+
+    foot_xy = np.asarray(a["foot_xy_world"], dtype=float).reshape(-1, 2, 2)
+    measured_cop = np.asarray(a["foot_cop_world"], dtype=float).reshape(-1, 2, 2)
+    predicted_cop = np.full_like(measured_cop, np.nan)
+    for foot in range(2):
+        off = 6 * foot
+        fz = predicted[:, off + 2]
+        valid = fz > 1e-8
+        predicted_cop[valid, foot, 0] = foot_xy[valid, foot, 0] - predicted[valid, off + 4] / fz[valid]
+        predicted_cop[valid, foot, 1] = foot_xy[valid, foot, 1] + predicted[valid, off + 3] / fz[valid]
+    cop_error = np.linalg.norm(predicted_cop - measured_cop, axis=2)
+    for foot, label, color in foot_specs:
+        axes[1, 1].plot(t, cop_error[:, foot], color=color, linewidth=1.2, label=label)
+    axes[1, 1].set_ylabel("CoP discrepancy [m]")
+    axes[1, 1].set_title("(d) contact-point discrepancy", loc="left", pad=5)
+    axes[1, 1].legend(loc="upper right", handlelength=1.4)
+    for ax in axes.flat:
+        style_axes(ax)
+        _shade_push(ax, t, a["push_force"])
+    axes[1, 0].set_xlabel("time [s]"); axes[1, 1].set_xlabel("time [s]")
+    fig.text(0.5, 0.972, "QP prediction versus physical MuJoCo contact measurement", ha="center", va="center", fontsize=10.5)
+    fig.subplots_adjust(left=0.09, right=0.985, bottom=0.11, top=0.90, wspace=0.25, hspace=0.38)
     return list(_save(fig, output_dir, name))
 
 

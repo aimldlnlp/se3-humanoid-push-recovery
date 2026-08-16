@@ -52,6 +52,8 @@ class SimulationRunner:
     ) -> TrialRun:
         np.random.seed(seed)
         self.model.reset(qpos=initial_qpos, qvel=initial_qvel)
+        if hasattr(self.controller, "reset_trial"):
+            self.controller.reset_trial()
         self._warmup_and_reanchor()
         log = TrialLog.empty()
         qpos_history: list[np.ndarray] = []
@@ -93,6 +95,18 @@ class SimulationRunner:
                 friction_margin = np.nan
                 dynamics_residual_norm = np.nan
                 contact_acceleration_residual_norm = np.nan
+            diagnostics = getattr(result, "diagnostics", {}) or {}
+            predicted_wrench = np.zeros(12, dtype=float)
+            active_contact_names = diagnostics.get("active_contacts", ["left_foot", "right_foot"])
+            raw_wrench = np.asarray(wrench, dtype=float).reshape(-1)
+            for contact_index, contact_name in enumerate(active_contact_names):
+                if contact_name not in {"left_foot", "right_foot"}:
+                    continue
+                source = raw_wrench[6 * contact_index : 6 * contact_index + 6]
+                if len(source) != 6:
+                    continue
+                target_index = 0 if contact_name == "left_foot" else 1
+                predicted_wrench[6 * target_index : 6 * target_index + 6] = source
             T_torso = self.model.body_pose("torso")
             T_pelvis = self.model.body_pose("pelvis")
             # Match the world/spatial convention used by pose_task_acceleration.
@@ -120,7 +134,7 @@ class SimulationRunner:
                 torso_rotation_error_rad=float(np.linalg.norm(torso_error[3:])),
                 contact_left=left,
                 contact_right=right,
-                predicted_contact_wrench=np.asarray(wrench).tolist(),
+                predicted_contact_wrench=predicted_wrench.tolist(),
                 actual_contact_wrench=actual_contact.wrench_world.tolist(),
                 actual_friction_utilization=actual_contact.friction_utilization.tolist(),
                 foot_tangent_velocity=actual_contact.tangent_velocity_m_s.tolist(),
@@ -150,6 +164,10 @@ class SimulationRunner:
                     and np.all(np.isfinite(self.model.data.qvel))
                     and np.all(np.isfinite(control))
                 ),
+                control_mode=str(diagnostics.get("control_mode", "fixed")),
+                step_phase=str(diagnostics.get("step_phase", "none")),
+                swing_foot=str(diagnostics.get("swing_foot") or ""),
+                support_margin_m=float(diagnostics.get("support_margin_m", np.nan)),
             )
             qpos_history.append(self.model.data.qpos.copy())
             if frame_callback is not None and t + 1e-10 >= next_frame:
@@ -179,6 +197,8 @@ class SimulationRunner:
                 numerical_valid=arrays["numerical_valid"],
                 config=recovery_config,
                 push_end_s=(push.start_time_s + push.duration_s) if push is not None else 0.0,
+                allow_single_support=bool(getattr(self.controller, "allows_single_support", False)),
+                require_final_double_support=bool(getattr(self.controller, "requires_final_double_support", False)),
             )
         return TrialRun(
             log=log,
@@ -192,6 +212,7 @@ class SimulationRunner:
                 "mass_kg": float(np.sum(self.model.model.body_mass)),
                 "nv": int(self.model.nv),
                 "nu": int(self.model.nu),
+                "controller_summary": self.controller.summary() if hasattr(self.controller, "summary") else {},
             },
         )
 

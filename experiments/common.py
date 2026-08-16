@@ -24,6 +24,7 @@ if str(SRC) not in sys.path:
 from se3_whole_body_control.config import load_configs, resolve_model_path
 from se3_whole_body_control.control.joint_pd import JointPDController
 from se3_whole_body_control.control.whole_body_qp import WholeBodyQPController
+from se3_whole_body_control.control.hybrid_recovery import HybridRecoveryController
 from se3_whole_body_control.disturbance.push import Push
 from se3_whole_body_control.dynamics.humanoid import HumanoidModel
 from se3_whole_body_control.evaluation.metrics import save_trial_npz, summarize_trial
@@ -32,14 +33,20 @@ from se3_whole_body_control.simulation.mujoco_sim import SimulationRunner
 from se3_whole_body_control.geometry.so3 import exp_so3
 
 
-def output_dirs() -> dict[str, Path]:
+def output_dirs(root: Path | None = None) -> dict[str, Path]:
+    """Return an isolated result tree, optionally selected by the caller.
+
+    ``SE3_RESULTS_ROOT`` is used by worker/staging runs so experiments never
+    overwrite the checked-in or previously archived result set implicitly.
+    """
+    results_root = Path(os.environ.get("SE3_RESULTS_ROOT", str(root or ROOT / "results"))).expanduser()
     dirs = {
-        "data": ROOT / "results" / "data",
-        "png": ROOT / "results" / "figures" / "png",
-        "pdf": ROOT / "results" / "figures" / "pdf",
-        "videos": ROOT / "results" / "videos",
-        "logs": ROOT / "results" / "logs",
-        "frames": ROOT / "results" / "frames",
+        "data": results_root / "data",
+        "png": results_root / "figures" / "png",
+        "pdf": results_root / "figures" / "pdf",
+        "videos": results_root / "videos",
+        "logs": results_root / "logs",
+        "frames": results_root / "frames",
     }
     for path in dirs.values():
         path.mkdir(parents=True, exist_ok=True)
@@ -86,6 +93,13 @@ def run_controller(controller_name: str, model, configs: dict):
             gravity_pd = model.actuator_matrix.T @ model.data.qfrc_bias
             controller.feedforward_control = np.asarray(equilibrium - gravity_pd, dtype=float)
         return controller
+    if controller_name in {"hybrid_wbc", "hybrid_se3_wbc"}:
+        return HybridRecoveryController(
+            model,
+            c,
+            configs["experiments"]["recovery"],
+            configs["experiments"].get("hybrid_recovery", {}),
+        )
     return WholeBodyQPController(model, c, configs["experiments"]["recovery"])
 
 

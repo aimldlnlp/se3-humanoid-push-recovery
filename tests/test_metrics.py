@@ -44,6 +44,21 @@ def test_recovery_before_timeout_remains_success():
     assert result.recovery_latency_s is not None
 
 
+def test_recovery_after_timeout_is_not_counted_as_success():
+    t = np.arange(0, 3.0, 0.01)
+    zeros = np.zeros_like(t)
+    late_stable = t >= 0.8
+    result = classify_recovery(
+        t, np.where(late_stable, 0.0, 1.0), np.where(late_stable, 0.0, 1.0),
+        np.where(late_stable, 0.0, 1.0),
+        np.ones_like(t, dtype=bool), np.ones_like(t, dtype=bool),
+        np.ones_like(t), zeros, np.ones_like(t, dtype=bool), np.ones_like(t),
+        RecoveryConfig(timeout_s=0.5), push_end_s=0.2,
+    )
+    assert not result.success
+    assert result.failure_reason == "TIMEOUT"
+
+
 def test_serialization(tmp_path):
     log = TrialLog.empty()
     for i in range(2):
@@ -68,3 +83,33 @@ def test_physical_slip_detection_uses_measured_contact_metrics():
     )
     assert not result.success
     assert result.failure_reason == "SLIP"
+
+
+def test_hybrid_recovery_allows_single_support_but_requires_landing():
+    t = np.arange(0, 2.0, 0.01)
+    zeros = np.zeros_like(t)
+    left = np.ones_like(t, dtype=bool)
+    right = np.ones_like(t, dtype=bool)
+    right[(t >= 0.5) & (t < 1.2)] = False
+    result = classify_recovery(
+        t, zeros, zeros, zeros, left, right, np.ones_like(t), zeros,
+        np.ones_like(t, dtype=bool), np.ones_like(t), RecoveryConfig(),
+        push_end_s=0.2, allow_single_support=True, require_final_double_support=True,
+    )
+    assert result.success
+
+
+def test_hybrid_recovery_fails_if_support_is_lost_during_step():
+    t = np.arange(0, 2.0, 0.01)
+    zeros = np.zeros_like(t)
+    left = np.ones_like(t, dtype=bool)
+    right = np.ones_like(t, dtype=bool)
+    left[(t >= 0.5) & (t < 0.8)] = False
+    right[(t >= 0.5) & (t < 0.8)] = False
+    result = classify_recovery(
+        t, zeros, zeros, zeros, left, right, np.ones_like(t), zeros,
+        np.ones_like(t, dtype=bool), np.ones_like(t), RecoveryConfig(),
+        push_end_s=0.2, allow_single_support=True, require_final_double_support=True,
+    )
+    assert not result.success
+    assert result.failure_reason == "CONTACT_LOSS"

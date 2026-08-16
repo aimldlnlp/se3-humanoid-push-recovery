@@ -56,13 +56,20 @@ class WholeBodyQPController:
             raise ValueError("plant and internal controller models must have identical dimensions")
         self.cfg = controller_config
         self.mu = float(controller_config.get("friction_coefficient", 0.7))
-        self.nw = 12
-        self.nslack = 12
-        self.nx = model.nv + model.nu + self.nw + self.nslack
+        self.contact_names = ("left_foot", "right_foot")
+        self.nw = 0
+        self.nslack = 0
+        self.nx = 0
+        self.set_active_contacts(self.contact_names)
         self.q_des = model.joint_positions()
         self.T_des_torso = model.body_pose("torso")
         self.T_des_pelvis = model.body_pose("pelvis")
         self.com_des = model.center_of_mass()
+        self.swing_foot: str | None = None
+        self.swing_target: np.ndarray | None = None
+        self.com_task_weight_override: float | None = None
+        self.com_task_kp_override: float | None = None
+        self.com_task_kd_override: float | None = None
         self.pd_fallback = JointPDController(
             model,
             kp=float(controller_config.get("posture_kp", 120.0)),
@@ -70,6 +77,38 @@ class WholeBodyQPController:
             q_des=self.q_des,
         )
         self.last_result: QPResult | None = None
+
+    def set_active_contacts(self, contact_names: tuple[str, ...] | list[str]) -> None:
+        """Select the feet constrained as fixed contacts in the next solve.
+
+        Contact mode is deliberately explicit.  A one-foot mode removes the
+        swing foot from both the dynamics wrench variables and the fixed-foot
+        acceleration constraints; the physical simulator still reports any
+        accidental ground contact separately.
+        """
+        names = tuple(str(name) for name in contact_names)
+        valid = {"left_foot", "right_foot"}
+        if not names or any(name not in valid for name in names) or len(set(names)) != len(names):
+            raise ValueError(f"active contacts must be a non-empty subset of {sorted(valid)}")
+        self.contact_names = names
+        self.nw = 6 * len(names)
+        self.nslack = self.nw
+        self.nx = self.model.nv + self.model.nu + self.nw + self.nslack
+
+    def set_swing_target(self, foot_name: str | None, target_pose: np.ndarray | None = None) -> None:
+        """Set or clear a Cartesian target for the non-contact swing foot."""
+        if foot_name is None:
+            self.swing_foot = None
+            self.swing_target = None
+            return
+        foot_name = str(foot_name)
+        if foot_name not in {"left_foot", "right_foot"} or foot_name in self.contact_names:
+            raise ValueError("swing foot must be a named foot outside the active contact set")
+        target = np.asarray(target_pose, dtype=float)
+        if target.shape != (4, 4) or not np.all(np.isfinite(target)):
+            raise ValueError("swing target must be a finite 4x4 pose")
+        self.swing_foot = foot_name
+        self.swing_target = target.copy()
 
     def _sync_internal_model(self) -> None:
         """Put an optional internal model at the plant state before solving."""
@@ -98,7 +137,7 @@ class WholeBodyQPController:
         cop_y_min = float(self.cfg.get("support_polygon_y_min_m", -0.12))
         cop_y_max = float(self.cfg.get("support_polygon_y_max_m", 0.12))
         torsional_mu = float(self.cfg.get("torsional_friction_coefficient", 0.02))
-        for foot in range(2):
+        for foot in range(len(self.contact_names)):
             off = start + 6 * foot
             # Fz >= 0; moments are bounded for numerical conditioning.
             row = np.zeros(self.nx); row[off + 2] = 1.0
@@ -132,8 +171,8 @@ class WholeBodyQPController:
         h = model.data.qfrc_bias.copy()
         external = model.external_generalized_force() if bool(self.cfg.get("use_external_force_oracle", False)) else np.zeros(nv)
         B = model.actuator_matrix
-        Jc = model.contact_jacobian()
-        contact_bias = model.contact_bias_acceleration()
+        Jc = model.contact_jacobian(self.contact_names)
+        contact_bias = model.contact_bias_acceleration(foot_names=self.contact_names)
         P = np.eye(self.nx) * 1e-9
         q = np.zeros(self.nx)
 
@@ -156,10 +195,13 @@ class WholeBodyQPController:
         self._add_objective(P, q, A, pelvis_b, float(self.cfg.get("qp_pelvis_weight", 8.0)))
 
         Jcom = com_jacobian(model)
-        bcom = -float(self.cfg.get("com_kp", 70.0)) * (model.center_of_mass() - self.com_des)
-        bcom -= float(self.cfg.get("com_kd", 18.0)) * (Jcom @ model.data.qvel)
+        com_kp = self.com_task_kp_override if self.com_task_kp_override is not None else float(self.cfg.get("com_kp", 70.0))
+        com_kd = self.com_task_kd_override if self.com_task_kd_override is not None else float(self.cfg.get("com_kd", 18.0))
+        com_weight = self.com_task_weight_override if self.com_task_weight_override is not None else float(self.cfg.get("qp_com_weight", 3.0))
+        bcom = -com_kp * (model.center_of_mass() - self.com_des)
+        bcom -= com_kd * (Jcom @ model.data.qvel)
         A = np.zeros((3, self.nx)); A[:, :nv] = Jcom
-        self._add_objective(P, q, A, bcom, float(self.cfg.get("qp_com_weight", 3.0)))
+        self._add_objective(P, q, A, bcom, com_weight)
 
         Apost, bpost = posture_task(
             model.joint_positions(), self.q_des, model.joint_velocities(),
@@ -168,6 +210,18 @@ class WholeBodyQPController:
         )
         A = np.zeros((Apost.shape[0], self.nx)); A[:, :nv] = Apost
         self._add_objective(P, q, A, bpost, float(self.cfg.get("qp_posture_weight", 2.0)))
+
+        if self.swing_foot is not None and self.swing_target is not None:
+            swing_J, swing_b, _ = pose_task_acceleration(
+                model.body_pose(self.swing_foot), self.swing_target,
+                model.body_jacobian(self.swing_foot), model.data.qvel,
+                float(self.cfg.get("swing_position_kp", 180.0)),
+                float(self.cfg.get("swing_position_kd", 24.0)),
+                float(self.cfg.get("swing_rotation_kp", 80.0)),
+                float(self.cfg.get("swing_rotation_kd", 14.0)),
+            )
+            A = np.zeros((6, self.nx)); A[:, :nv] = swing_J
+            self._add_objective(P, q, A, swing_b, float(self.cfg.get("qp_swing_weight", 35.0)))
 
         self._add_objective(P, q, np.eye(self.nx)[:nv], np.zeros(nv), float(self.cfg.get("qp_acceleration_weight", 0.02)))
         self._add_objective(P, q, np.eye(self.nx)[nv:nv + nu], np.zeros(nu), float(self.cfg.get("qp_torque_weight", 0.0005)))
@@ -213,6 +267,7 @@ class WholeBodyQPController:
         result = QPResult(
             control=pd.control, qdd=np.zeros(self.model.nv), contact_wrench=np.zeros(self.nw),
             status="fallback_pd", success=False, solve_time_s=elapsed, message=message,
+            diagnostics={"active_contacts": list(self.contact_names), "swing_foot": self.swing_foot},
         )
         self.last_result = result
         return result
@@ -246,7 +301,7 @@ class WholeBodyQPController:
             wrench = x[iw:iw + self.nw]
             contact_slack_norm = float(np.linalg.norm(x[iw + self.nw:iw + self.nw + self.nslack]))
             margins = []
-            for foot in range(2):
+            for foot in range(len(self.contact_names)):
                 off = 6 * foot
                 fz = wrench[off + 2]
                 margins.extend([self.mu * fz - abs(wrench[off]), self.mu * fz - abs(wrench[off + 1]), fz])
@@ -268,6 +323,8 @@ class WholeBodyQPController:
                     "pelvis_se3_error": pelvis_error,
                     "external_force_oracle": bool(self.cfg.get("use_external_force_oracle", False)),
                     "internal_model_is_plant": self.internal_model is self.model,
+                    "active_contacts": list(self.contact_names),
+                    "swing_foot": self.swing_foot,
                     "internal_mass_relative_error": float(
                         np.linalg.norm(self.model.mass_matrix() - self.internal_model.mass_matrix())
                         / max(np.linalg.norm(self.model.mass_matrix()), 1e-12)

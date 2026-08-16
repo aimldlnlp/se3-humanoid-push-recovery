@@ -87,10 +87,30 @@ def test_g1_qp_contact_constraints_and_measured_grf_are_separate():
     assert actual.contact_flags.all()
     assert np.all(np.isfinite(actual.wrench_world))
     assert np.all(actual.wrench_world[[2, 8]] > 0.0)
+    for foot_index, foot_name in enumerate(("left_foot", "right_foot")):
+        fz = actual.wrench_world[6 * foot_index + 2]
+        expected_cop = model.body_pose(foot_name)[:2, 3] + np.array([
+            -actual.wrench_world[6 * foot_index + 4] / fz,
+            actual.wrench_world[6 * foot_index + 3] / fz,
+        ])
+        np.testing.assert_allclose(actual.cop_world[foot_index], expected_cop, atol=1e-10)
     # The QP wrench is a prediction; the plant wrench is measured from the
     # MuJoCo contact solver and is intentionally a separate signal.
     assert result.contact_wrench.shape == (12,)
     assert actual.wrench_world.shape == (12,)
+
+
+def test_g1_qp_single_support_mode_has_explicit_contact_dimension():
+    root = Path(__file__).resolve().parents[1]
+    configs = load_configs(root, robot_name="unitree_g1")
+    model = _g1()
+    controller = WholeBodyQPController(model, configs["controller"], configs["experiments"]["recovery"])
+    controller.set_active_contacts(("left_foot",))
+    result = controller.solve()
+    assert result.success
+    assert result.contact_wrench.shape == (6,)
+    assert result.diagnostics["active_contacts"] == ["left_foot"]
+    controller.set_active_contacts(("left_foot", "right_foot"))
 
 
 def test_g1_push_application_point_uses_body_local_frame():

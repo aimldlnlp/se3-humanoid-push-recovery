@@ -17,6 +17,11 @@ qp_posture_weight: 1.0
 qp_torso_weight: 200.0
 qp_pelvis_weight: 100.0
 qp_com_weight: 2.0
+qp_swing_weight: 200.0
+swing_position_kp: 300.0
+swing_position_kd: 35.0
+swing_rotation_kp: 100.0
+swing_rotation_kd: 18.0
 qp_slack_weight: 100000.0
 friction_coefficient: 0.7
 use_external_force_oracle: false

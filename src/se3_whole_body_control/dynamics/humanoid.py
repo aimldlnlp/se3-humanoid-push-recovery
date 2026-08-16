@@ -112,7 +112,7 @@ class ActualContactData:
     """Physical ground reactions extracted from MuJoCo contacts.
 
     Wrenches are ordered per foot as ``[Fx, Fy, Fz, Mx, My, Mz]`` in world
-    coordinates, with moments about the corresponding foot body COM.  These
+    coordinates, with moments about the corresponding foot body-frame origin.  These
     values are measured from MuJoCo's contact solver and are intentionally
     separate from any wrench predicted by the controller QP.
     """
@@ -370,8 +370,18 @@ class HumanoidModel:
                     flags[foot_index] = True
         return bool(flags[0]), bool(flags[1])
 
-    def contact_jacobian(self) -> np.ndarray:
-        return np.vstack([self.body_jacobian("left_foot"), self.body_jacobian("right_foot")])
+    def contact_jacobian(self, foot_names: tuple[str, ...] | list[str] | None = None) -> np.ndarray:
+        """Return stacked spatial Jacobians for the selected fixed contacts.
+
+        The original controller always used both feet.  Keeping the selection
+        here, at the robot-adapter boundary, lets higher-level contact-mode
+        controllers change the active support set without scattering G1 body
+        indices through the QP implementation.
+        """
+        names = tuple(foot_names or ("left_foot", "right_foot"))
+        if not names:
+            return np.zeros((0, self.nv), dtype=float)
+        return np.vstack([self.body_jacobian(name) for name in names])
 
     def actual_contact_data(self) -> ActualContactData:
         """Extract actual MuJoCo ground-reaction force and slip quantities."""
@@ -415,7 +425,11 @@ class HumanoidModel:
                 moment_world *= -1.0
             body_name = foot_names[foot_index]
             body_id = self.body_ids[body_name]
-            moment_world += np.cross(np.asarray(contact.pos) - self.data.xipos[body_id], force_world)
+            # The production contact Jacobian is ``mj_jacBody``, whose
+            # translational reference is the body-frame origin ``xpos``. Keep
+            # the measured wrench at that same point so QP and MuJoCo signals
+            # can be compared without an inertial-offset moment bias.
+            moment_world += np.cross(np.asarray(contact.pos) - self.data.xpos[body_id], force_world)
             offset = 6 * foot_index
             wrench[offset : offset + 3] += force_world
             wrench[offset + 3 : offset + 6] += moment_world
@@ -443,10 +457,10 @@ class HumanoidModel:
         for foot_index, body_name in enumerate(foot_names):
             fz = wrench[6 * foot_index + 2]
             if flags[foot_index] and fz > 1e-9 and np.all(np.isfinite(wrench[6 * foot_index : 6 * foot_index + 6])):
-                # The wrench is about the body COM. For a horizontal contact
-                # plane, Mx = y Fz and My = -x Fz.
+                # The wrench is about the body-frame origin. For a horizontal
+                # contact plane, Mx = y Fz and My = -x Fz.
                 relative_xy = np.array([-wrench[6 * foot_index + 4] / fz, wrench[6 * foot_index + 3] / fz])
-                cop_world[foot_index] = self.data.xipos[self.body_ids[body_name]][:2] + relative_xy
+                cop_world[foot_index] = self.data.xpos[self.body_ids[body_name]][:2] + relative_xy
         return ActualContactData(wrench, flags, tangent_velocity, points, utilization, cop_world)
 
     def foot_support_vertices_world(self) -> np.ndarray:
@@ -476,8 +490,12 @@ class HumanoidModel:
             vertices[foot_index] = (center + local @ rotation.T)[:, :2]
         return vertices
 
-    def contact_bias_acceleration(self, finite_difference_dt: float = 1e-6) -> np.ndarray:
-        """Return ``Jdot(q, qdot) qdot`` for both foot Jacobians.
+    def contact_bias_acceleration(
+        self,
+        finite_difference_dt: float = 1e-6,
+        foot_names: tuple[str, ...] | list[str] | None = None,
+    ) -> np.ndarray:
+        """Return ``Jdot(q, qdot) qdot`` for the selected foot Jacobians.
 
         MuJoCo exposes the body Jacobian directly but not this bias term. A
         directional finite difference along the current generalized velocity
@@ -485,12 +503,13 @@ class HumanoidModel:
         """
         qpos_saved = self.data.qpos.copy()
         qvel_saved = self.data.qvel.copy()
-        J0 = self.contact_jacobian()
+        names = tuple(foot_names or ("left_foot", "right_foot"))
+        J0 = self.contact_jacobian(names)
         qpos_next = qpos_saved.copy()
         mujoco.mj_integratePos(self.model, qpos_next, qvel_saved, float(finite_difference_dt))
         self.data.qpos[:] = qpos_next
         mujoco.mj_forward(self.model, self.data)
-        J1 = self.contact_jacobian()
+        J1 = self.contact_jacobian(names)
         self.data.qpos[:] = qpos_saved
         self.data.qvel[:] = qvel_saved
         mujoco.mj_forward(self.model, self.data)

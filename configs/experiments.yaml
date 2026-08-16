@@ -52,3 +52,29 @@ robustness_randomization:
   push_magnitude_jitter_fraction: 0.08
   push_direction_jitter_deg: 8.0
   push_duration_jitter_s: 0.015
+
+# One-step recovery extension.  The controller starts in the validated
+# double-support mode and switches to one-foot support only from measured
+# state; it never receives the configured push as an oracle.
+hybrid_recovery:
+  max_steps: 1
+  minimum_step_time_s: 0.35
+  trigger_margin_m: 0.040
+  trigger_speed_m_s: 0.15
+  trigger_com_displacement_m: 0.10
+  trigger_torso_error_rad: 0.35
+  trigger_contact_slack_norm: 0.025
+  step_length_m: 0.32
+  step_clearance_m: 0.06
+  swing_duration_s: 0.34
+  transfer_duration_s: 0.24
+  max_transfer_duration_s: 0.48
+  transfer_margin_m: 0.004
+  transfer_speed_m_s: 0.15
+  transfer_com_weight: 80.0
+  transfer_com_kp: 180.0
+  transfer_com_kd: 30.0
+  landing_duration_s: 0.18
+  post_landing_duration_s: 0.50
+  step_cooldown_s: 0.35
+  displacement_direction_gain: 3.0

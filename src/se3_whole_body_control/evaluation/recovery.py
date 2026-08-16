@@ -62,6 +62,8 @@ def classify_recovery(
     numerical_valid: np.ndarray | None = None,
     push_end_s: float = 0.0,
     recovery_start_s: float | None = None,
+    allow_single_support: bool = False,
+    require_final_double_support: bool = False,
 ) -> RecoveryResult:
     cfg = config or RecoveryConfig()
     time_s = np.asarray(time_s, dtype=float)
@@ -78,12 +80,16 @@ def classify_recovery(
     finite_margin = np.asarray(friction_margin, dtype=float)
     min_margin = float(np.nanmin(finite_margin)) if np.any(np.isfinite(finite_margin)) else float("nan")
     eval_start = max(cfg.startup_grace_period_s, float(push_end_s))
-    eval_mask = time_s >= eval_start
+    eval_end = eval_start + float(cfg.timeout_s)
+    eval_mask = (time_s >= eval_start) & (time_s <= eval_end)
     if numerical_valid is not None and not np.all(np.asarray(numerical_valid, dtype=bool)[eval_mask]):
         reason = "NUMERICAL_FAILURE"
     elif np.any(np.asarray(torso_height_m)[eval_mask] < cfg.torso_ground_height_m):
         reason = "FALL"
-    elif cfg.foot_contact_required and _sustained_contact_loss(time_s, contact_left, contact_right, cfg, eval_start):
+    elif cfg.foot_contact_required and _sustained_contact_loss(
+        time_s, contact_left, contact_right, cfg, eval_start,
+        require_both=not allow_single_support,
+    ):
         reason = "CONTACT_LOSS"
     elif _slip_event(time_s, eval_mask, actual_friction_utilization, foot_tangent_velocity, foot_xy_displacement, cfg):
         reason = "SLIP"
@@ -100,16 +106,18 @@ def classify_recovery(
         & (ang <= cfg.angular_velocity_threshold_rad_s)
         & (com <= cfg.com_displacement_threshold_m)
     )
+    if require_final_double_support:
+        stable &= np.asarray(contact_left, dtype=bool) & np.asarray(contact_right, dtype=bool)
     recovered_at = None
     recovery_start = eval_start
     if len(time_s) > 1:
         for i in range(len(time_s)):
-            if time_s[i] < recovery_start:
+            if time_s[i] < recovery_start or time_s[i] > eval_end:
                 continue
             if not stable[i]:
                 continue
             j = i
-            while j < len(time_s) and stable[j]:
+            while j < len(time_s) and time_s[j] <= eval_end and stable[j]:
                 if time_s[j] - time_s[i] >= cfg.stable_duration_s:
                     recovered_at = float(time_s[i])
                     break
@@ -136,8 +144,16 @@ def _slip_event(time_s, eval_mask, utilization, tangent_velocity, displacement, 
     return _sustained_event(time_s, mask & eval_mask, cfg.slip_duration_s)
 
 
-def _sustained_contact_loss(time_s: np.ndarray, left: np.ndarray, right: np.ndarray, cfg: RecoveryConfig, start_s: float | None = None) -> bool:
-    bad = ~(np.asarray(left, dtype=bool) & np.asarray(right, dtype=bool))
+def _sustained_contact_loss(
+    time_s: np.ndarray,
+    left: np.ndarray,
+    right: np.ndarray,
+    cfg: RecoveryConfig,
+    start_s: float | None = None,
+    require_both: bool = True,
+) -> bool:
+    contacts = np.asarray(left, dtype=bool) & np.asarray(right, dtype=bool) if require_both else np.asarray(left, dtype=bool) | np.asarray(right, dtype=bool)
+    bad = ~contacts
     bad &= time_s >= (cfg.startup_grace_period_s if start_s is None else start_s)
     if not np.any(bad):
         return False

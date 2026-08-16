@@ -57,6 +57,14 @@ def test_actual_contact_reaction_is_separate_and_upward():
     vertices = model.foot_support_vertices_world()
     assert vertices.shape == (2, 4, 2)
     assert np.all(np.isfinite(vertices))
+    for foot_index, foot_name in enumerate(("left_foot", "right_foot")):
+        fz = contact.wrench_world[6 * foot_index + 2]
+        assert fz > 0.0
+        expected_cop = model.body_pose(foot_name)[:2, 3] + np.array([
+            -contact.wrench_world[6 * foot_index + 4] / fz,
+            contact.wrench_world[6 * foot_index + 3] / fz,
+        ])
+        np.testing.assert_allclose(contact.cop_world[foot_index], expected_cop, atol=1e-10)
 
 
 def test_local_push_application_point_is_rotated_into_world_wrench():

@@ -45,6 +45,10 @@ class TrialLog:
     contact_acceleration_residual_norm: list[float]
     joint_limit_violation: list[bool]
     numerical_valid: list[bool]
+    control_mode: list[str]
+    step_phase: list[str]
+    swing_foot: list[str]
+    support_margin_m: list[float]
 
     @classmethod
     def empty(cls) -> "TrialLog":
@@ -79,6 +83,20 @@ def summarize_trial(log: TrialLog) -> dict:
         return {}
     qp_ms = arrays["qp_solve_time_s"] * 1000.0
     finite_qp_ms = qp_ms[np.isfinite(qp_ms)]
+    predicted = np.asarray(arrays["predicted_contact_wrench"], dtype=float)
+    actual = np.asarray(arrays["actual_contact_wrench"], dtype=float)
+    consistency = {}
+    if predicted.ndim == 2 and actual.ndim == 2 and predicted.shape == actual.shape and predicted.shape[1] >= 9:
+        predicted_force = predicted[:, [0, 1, 2, 6, 7, 8]].reshape(-1, 2, 3)
+        actual_force = actual[:, [0, 1, 2, 6, 7, 8]].reshape(-1, 2, 3)
+        valid = np.all(np.isfinite(predicted_force), axis=(1, 2)) & np.all(np.isfinite(actual_force), axis=(1, 2))
+        if np.any(valid):
+            delta = predicted_force[valid] - actual_force[valid]
+            consistency = {
+                "qp_measured_vertical_grf_rmse_N": float(np.sqrt(np.mean(delta[:, :, 2] ** 2))),
+                "qp_measured_vertical_grf_bias_N": float(np.mean(delta[:, :, 2])),
+                "qp_measured_force_rmse_N": float(np.sqrt(np.mean(delta ** 2))),
+            }
     return {
         "duration_s": float(arrays["time_s"][-1]),
         "max_torso_error_rad": float(np.max(arrays["torso_rotation_error_rad"])),
@@ -98,4 +116,5 @@ def summarize_trial(log: TrialLog) -> dict:
         "max_contact_acceleration_residual": float(np.max(arrays["contact_acceleration_residual_norm"])),
         "left_contact_fraction": float(np.mean(arrays["contact_left"])),
         "right_contact_fraction": float(np.mean(arrays["contact_right"])),
+        **consistency,
     }

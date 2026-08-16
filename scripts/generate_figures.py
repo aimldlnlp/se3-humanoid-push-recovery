@@ -15,6 +15,7 @@ from se3_whole_body_control.visualization.plots import (
     plot_com_support_polygon,
     plot_comparison,
     plot_contact_diagnostics,
+    plot_contact_wrench_consistency,
     plot_flagship,
     plot_qp_diagnostics,
     plot_recovery_basin,
@@ -45,6 +46,7 @@ def main() -> None:
                 (plot_actual_grf, "actual_ground_reaction_forces"),
                 (plot_com_support_polygon, "com_support_polygon"),
                 (plot_contact_diagnostics, "contact_slip_diagnostics"),
+                (plot_contact_wrench_consistency, "contact_wrench_consistency"),
                 (plot_qp_diagnostics, "qp_timing_diagnostics"),
             ):
                 plotter(log, dirs["png"], name)

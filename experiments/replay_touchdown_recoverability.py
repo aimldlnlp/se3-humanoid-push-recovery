@@ -282,31 +282,52 @@ def _support_margin_series(arrays: dict[str, np.ndarray], active_contacts: tuple
 
 
 def _replay_observables(model, run, capture: dict, active_contacts: tuple[str, ...]) -> dict[str, np.ndarray]:
+    import mujoco
+
     qpos = np.asarray(run.qpos_history, dtype=float)
     qvel = np.asarray(run.qvel_history, dtype=float)
     if len(qpos) != len(qvel):
         raise RuntimeError("qpos_history and qvel_history are not row aligned")
     n = len(qpos)
     com_velocity = np.full((n, 3), np.nan, dtype=float)
-    subtree_linear_velocity = np.full((n, 3), np.nan, dtype=float)
     linear_momentum = np.full((n, 3), np.nan, dtype=float)
+    linear_momentum_from_com_velocity = np.full((n, 3), np.nan, dtype=float)
+    linear_momentum_consistency_error = np.full(n, np.nan, dtype=float)
     centroidal_angular_momentum = np.full((n, 3), np.nan, dtype=float)
     torso_velocity = np.full((n, 6), np.nan, dtype=float)
-    root_body_id = int(model.body_ids["pelvis"])
+    root_body_id = int(model.body_ids["floating_base"])
     total_mass = float(np.sum(model.model.body_mass))
     for index, (state_qpos, state_qvel) in enumerate(zip(qpos, qvel)):
         model.reset(qpos=state_qpos, qvel=state_qvel)
         com_velocity[index] = com_jacobian(model) @ state_qvel
-        subtree_linear_velocity[index] = np.asarray(model.data.subtree_linvel[root_body_id], dtype=float)
-        linear_momentum[index] = total_mass * subtree_linear_velocity[index]
-        centroidal_angular_momentum[index] = np.asarray(model.data.subtree_angmom[root_body_id], dtype=float)
+        # MuJoCo exposes ``subtree_linvel``/``subtree_angmom`` in the Python
+        # bindings, but for this model they remain zero even after
+        # mj_comVel.  Use the generalized momentum produced by the public
+        # mass-matrix multiply instead.  For a free joint, its first three
+        # components are total linear momentum and the next three are
+        # angular momentum about the floating-base origin.  Translating that
+        # moment to the system CoM gives a physically meaningful centroidal
+        # angular momentum.  The linear part is checked against Jcom*qvel.
+        generalized_momentum = np.zeros(model.nv, dtype=float)
+        mujoco.mj_mulM(model.model, model.data, generalized_momentum, state_qvel)
+        linear_momentum[index] = generalized_momentum[:3]
+        linear_momentum_from_com_velocity[index] = total_mass * com_velocity[index]
+        linear_momentum_consistency_error[index] = float(
+            np.linalg.norm(linear_momentum[index] - linear_momentum_from_com_velocity[index]),
+        )
+        base_position = np.asarray(model.data.xpos[root_body_id], dtype=float)
+        centroidal_angular_momentum[index] = generalized_momentum[3:6] - np.cross(
+            model.center_of_mass() - base_position,
+            generalized_momentum[:3],
+        )
         torso_velocity[index] = model.body_velocity("torso")
     arrays = run.log.arrays()
     support_margin = _support_margin_series(arrays, active_contacts)
     return {
         "com_velocity_world": com_velocity,
-        "subtree_linear_velocity_world": subtree_linear_velocity,
         "linear_momentum_world": linear_momentum,
+        "linear_momentum_from_com_velocity_world": linear_momentum_from_com_velocity,
+        "linear_momentum_consistency_error_Ns": linear_momentum_consistency_error,
         "centroidal_angular_momentum_world": centroidal_angular_momentum,
         "torso_velocity_world": torso_velocity,
         "support_margin_m": support_margin,

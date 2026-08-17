@@ -188,7 +188,11 @@ def save_run(run, path: Path, metadata: dict | None = None) -> None:
     meta["summary"] = summarize_trial(run.log)
     if run.recovery is not None:
         meta["recovery"] = asdict(run.recovery)
-    extra_arrays = {"qpos_history": np.asarray(run.qpos_history, dtype=float)} if run.qpos_history else None
+    extra_arrays = None
+    if run.qpos_history:
+        extra_arrays = {"qpos_history": np.asarray(run.qpos_history, dtype=float)}
+        if getattr(run, "qvel_history", None):
+            extra_arrays["qvel_history"] = np.asarray(run.qvel_history, dtype=float)
     save_trial_npz(run.log, path, meta, extra_arrays=extra_arrays)
     path.with_suffix(".json").write_text(json.dumps(meta, indent=2, default=str), encoding="utf-8")
 

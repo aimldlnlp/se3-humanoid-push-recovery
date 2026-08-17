@@ -20,6 +20,7 @@ class TrialRun:
     log: TrialLog
     recovery: RecoveryResult | None
     qpos_history: list[np.ndarray]
+    qvel_history: list[np.ndarray]
     metadata: dict
 
 
@@ -57,6 +58,7 @@ class SimulationRunner:
         self._warmup_and_reanchor()
         log = TrialLog.empty()
         qpos_history: list[np.ndarray] = []
+        qvel_history: list[np.ndarray] = []
         desired_torso = self.model.body_pose("torso") if desired_torso is None else np.asarray(desired_torso, dtype=float).copy()
         desired_pelvis = self.model.body_pose("pelvis") if desired_pelvis is None else np.asarray(desired_pelvis, dtype=float).copy()
         com0 = self.model.center_of_mass().copy() if com_reference is None else np.asarray(com_reference, dtype=float).copy()
@@ -144,6 +146,7 @@ class SimulationRunner:
             if planned_target.size != 3:
                 planned_target = np.full(3, np.nan, dtype=float)
             qpos_history.append(self.model.data.qpos.copy())
+            qvel_history.append(self.model.data.qvel.copy())
             if frame_callback is not None and t + 1e-10 >= next_frame:
                 frame_callback(t, self.model)
                 next_frame += frame_period_s
@@ -252,6 +255,7 @@ class SimulationRunner:
             log=log,
             recovery=recovery,
             qpos_history=qpos_history,
+            qvel_history=qvel_history,
             metadata={
                 "seed": seed,
                 "push": repr(push),

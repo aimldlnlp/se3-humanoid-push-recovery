@@ -418,7 +418,8 @@ def _plot_replay(time_s: np.ndarray, arrays: dict[str, np.ndarray], observables:
     axes[0].set_ylabel("speed / momentum")
     axes[0].legend(fontsize=8, loc="upper right")
     axes[1].plot(time_s, angular_momentum, label="centroidal angular momentum", color="#7b3294")
-    axes[1].plot(time_s, observables["torso_velocity_world"][:, 3:], label="torso angular velocity norm", color="#238b45")
+    torso_angular_velocity_norm = np.linalg.norm(observables["torso_velocity_world"][:, 3:], axis=1)
+    axes[1].plot(time_s, torso_angular_velocity_norm, label="torso angular velocity norm", color="#238b45")
     axes[1].set_ylabel("angular state")
     axes[1].legend(fontsize=8, loc="upper right")
     axes[2].plot(time_s, normal_force[:, 0], label="left normal force", color="#1b9e77")
@@ -572,7 +573,7 @@ def main() -> None:
                 "capture_state_sha256": capture["state_sha256"],
                 "capture_state_path": str(state_path.relative_to(output_root)),
                 "initial_state": "exact_touchdown_qpos_qvel" if variant != "landed_support_zero_momentum" else "exact_touchdown_qpos_with_qvel_zero_counterfactual",
-                "initial_qvel_norm_rad_s": float(np.linalg.norm(initial_qvel)),
+                "initial_generalized_velocity_norm": float(np.linalg.norm(initial_qvel)),
                 "replay_target_policy": "captured_com_des" if variant == "double_support_current" else "hold_capture_com",
                 "momentum_capture_policy": "existing_transfer_com_gains" if variant == "landed_support_momentum_capture" else "none",
                 "observable_path": str(observable_path.relative_to(output_root)),
@@ -595,7 +596,7 @@ def main() -> None:
                 "capture_time_s": float(capture["time_s"]),
                 "capture_state_sha256": capture["state_sha256"],
                 "active_contacts": "+".join(active_contacts),
-                "initial_qvel_norm_rad_s": float(np.linalg.norm(initial_qvel)),
+                "initial_generalized_velocity_norm": float(np.linalg.norm(initial_qvel)),
                 "source_commit": source["source_commit"],
             })
             rows.append(row)

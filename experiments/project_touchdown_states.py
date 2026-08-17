@@ -39,6 +39,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import (  # noqa: E402
     load_configs,
     make_model,
+    resolve_model_path,
     write_csv,
     write_execution_manifest,
 )
@@ -638,6 +639,7 @@ def _replay_projected_state(
         "swing_generation_removed": True,
         "landing_gate_removed": True,
         "input_state_path": str(capture["input_path"]),
+        "model_path": str(resolve_model_path(configs)),
         "input_state_file_sha256": capture["input_file_sha256"],
         "input_touchdown_state_sha256": capture["state_sha256"],
         "projected_state_sha256": state["state_sha256"],
@@ -852,6 +854,7 @@ def main() -> None:
             "experiment": "project_touchdown_states",
             "question": "Does a nearby constraint-consistent touchdown state exist that the existing WBC can stabilize?",
             "run_id": output_root.name,
+            "model_path": str(resolve_model_path(configs)),
             "source_provenance": source,
             "input_states": input_records,
             "projection_stages": list(PROJECTION_STAGES),

@@ -144,7 +144,7 @@ The QP contact variable $\lambda$ is not treated as a measurement. Actual GRF is
 | Sweep | 10–80 N in 10 N increments, 24 directions at 15° spacing |
 | Normalized disturbance | Each trial records $F$, $J=F\Delta t$, $F/(mg)$, and $J/m$ |
 | Robustness study | 50 randomized SE(3) WBC trials; 32/50 recovered (64.0%) |
-| Arena run | `arena_final_render_20260817` on SSH worker `hucenrotia-ai` |
+| Arena run | `arena_final_render_20260817` on the verified SSH worker |
 | Arena scenarios | 40 N stabilize, 75 N step boundary, 70 N lateral slip boundary, 100 N overload |
 | Evaluation | Common PD/WBC classifier using contact, slip, torso/CoM, actuator, friction, and numerical criteria |
 
@@ -195,7 +195,7 @@ The animation uses the same $E_s = T T_d^{-1}$ and $\xi_e = \mathrm{Log}(E_s)^\v
 - `glfw` for MuJoCo off-screen rendering on desktop platforms (installed by the project dependencies)
 - A working OpenGL context for interactive rendering; Linux headless runs can use EGL
 
-For the current arena milestone, SSH is the execution environment for MuJoCo simulation, rendering, and physical-behavior validation. Local use is limited to source inspection, editing, static checks, and light tests. The validated worker endpoint resolves to hostname `hucenrotia-ai`, user `aimldl`, Python 3.12.3, MuJoCo 3.11.0, OSQP 1.1.3, and an NVIDIA RTX A5000. The SSH aliases `aimldl` and `hucenrotia` were not resolvable in this execution context; the endpoint was verified explicitly and is recorded in manifests.
+For the current arena milestone, SSH is the execution environment for MuJoCo simulation, rendering, and physical-behavior validation. Local use is limited to source inspection, editing, static checks, and light tests. The validated worker used Python 3.12.3, MuJoCo 3.11.0, OSQP 1.1.3, and an NVIDIA RTX A5000. Public documentation intentionally omits the worker’s network identity.
 
 ### Linux
 
@@ -264,7 +264,7 @@ The generated PNG/PDF/SVG files are written under `results/figures/`. The latest
 The worker command below is representative; use a new output root and set the source version used for the run:
 
 ~~~bash
-ssh aimldl@140.113.149.94
+ssh <user>@<worker>
 cd /home/aimldl/workspaces/se3-humanoid-push-recovery-arena-20260817/source
 SE3_SOURCE_VERSION=<commit-or-source-tree-id> PYTHONPATH=src \
   /home/aimldl/.venvs/se3-wbc/bin/python experiments/adaptive_recovery_arena.py \
@@ -315,8 +315,7 @@ Historical fixed-foot numbers were generated from source checkpoint `6024ce9af3b
 
 The final rendered arena run was executed on SSH with:
 
-- hostname: `hucenrotia-ai`
-- user: `aimldl`
+- execution host: `remote_ssh_worker` (public identity redacted)
 - Python: `3.12.3` from `/home/aimldl/.venvs/se3-wbc/bin/python`
 - NumPy: `2.5.2`; MuJoCo: `3.11.0`; OSQP: `1.1.3`
 - GPU: NVIDIA RTX A5000 (rendering/compute host)
@@ -325,7 +324,7 @@ The final rendered arena run was executed on SSH with:
 - manifest config hash: `8838329461a2d383e0564352aa69db40e9ddb13807635ac7f6c28836ee1653ef`
 - remote run: `arena_final_render_20260817`, seed `0`, rendered `true`
 
-The exact configuration, command, timestamp, dependency versions, model hash, and artifact paths are recorded in the packaged [`manifest.json`](artifacts/arena/arena_final_render_20260817/manifest.json). The SSH workspace had no Git metadata, so `a854c22` is the source version declared in the execution environment rather than a remote `git rev-parse` result; GitHub remains authoritative. The worker scene uses CRLF line endings, while the tracked local scene uses LF; normalized XML content is identical and the exact worker snapshot is retained under `artifacts/arena/arena_final_render_20260817/provenance/`.
+The exact configuration, command, timestamp, dependency versions, model hash, and artifact paths are recorded in the packaged [`manifest.json`](artifacts/arena/arena_final_render_20260817/manifest.json). The SSH workspace had no Git metadata, so `a854c22` is the source version declared in the execution environment rather than a remote `git rev-parse` result; GitHub remains authoritative. The worker identity is redacted in the public copy of the manifest. The worker scene uses CRLF line endings, while the tracked local scene uses LF; normalized XML content is identical and the exact worker snapshot is retained under `artifacts/arena/arena_final_render_20260817/provenance/`.
 
 The primary model is the official Unitree Robotics `g1_29dof.xml` torque-actuated MJCF without dexterous hands, pinned to [unitree_mujoco commit `ae6a8403e272733e9996ef59990880330496177f`](https://github.com/unitreerobotics/unitree_mujoco/tree/ae6a8403e272733e9996ef59990880330496177f/unitree_robots/g1). The upstream XML, meshes, motor-order documentation, model rationale, and license are retained in [models/unitree_g1/](models/unitree_g1/).
 

@@ -4,8 +4,8 @@ This folder is a selected local copy of the remote run `arena_final_render_20260
 
 `/home/aimldl/workspaces/se3-humanoid-push-recovery-arena-20260817/source/arena_final_render_20260817`
 
-- SSH endpoint: `aimldl@140.113.149.94`
-- Remote hostname: `hucenrotia-ai`
+- SSH endpoint: public worker identity redacted
+- Remote hostname: `remote_ssh_worker` (public identity redacted)
 - Source version declared by the run: `a854c22`
 - Remote workspace: execution copy without Git metadata; GitHub/local Git is authoritative
 - Command: `experiments/adaptive_recovery_arena.py --output-root arena_final_render_20260817 --duration 5`

@@ -2,7 +2,7 @@
   "run_id": "arena-0-arena_final_render_20260817",
   "source_version": "a854c22",
   "seed": 0,
-  "hostname": "hucenrotia-ai",
+  "hostname": "remote_ssh_worker",
   "timestamp_utc": "2026-08-17T07:13:27.901876+00:00",
   "config_sha256": "8838329461a2d383e0564352aa69db40e9ddb13807635ac7f6c28836ee1653ef",
   "model_sha256": "613781e1b87d4e0d028332bfec4be9f2db53e2ddb252c0157bcaf04de88c0d76",

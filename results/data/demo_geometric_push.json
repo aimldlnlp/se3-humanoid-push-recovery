@@ -294,7 +294,7 @@
     "run_id": "final-a0d5055-hero",
     "source_version": "a0d5055da703e8256333b50ffbee85d88abbefc2",
     "seed": 0,
-    "hostname": "hucenrotia-ai",
+    "hostname": "remote_ssh_worker",
     "timestamp_utc": "2026-08-15T08:01:23.255311+00:00",
     "config_sha256": "a8a272a147a3f6095811987e6623d4d5c4915d6985955e7af60c1d155ddd62d9"
   },

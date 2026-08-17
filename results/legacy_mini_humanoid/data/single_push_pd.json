@@ -189,7 +189,7 @@
     "run_id": "run-20260812T151633Z-9191408a",
     "source_version": "3be7824",
     "seed": 0,
-    "hostname": "hucenrotia-ai",
+    "hostname": "remote_ssh_worker",
     "timestamp_utc": "2026-08-12T15:16:33.900420+00:00",
     "config_sha256": "bc79d696af23762e49e04f488567778651caa8f9ac1877f5259f90b5b8753c79"
   },

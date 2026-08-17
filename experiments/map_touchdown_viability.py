@@ -20,7 +20,6 @@ from __future__ import annotations
 
 import argparse
 import copy
-import hashlib
 import json
 import os
 import sys
@@ -43,7 +42,6 @@ from common import (  # noqa: E402
 from diagnose_step_viability import DiagnosticHybridController  # noqa: E402
 from replay_touchdown_recoverability import (  # noqa: E402
     _capture_controller_context,
-    _json,
     _plot_replay,
     _replay,
     _replay_observables,
@@ -79,11 +77,17 @@ class OracleFootPlacementController(DiagnosticHybridController):
     def __init__(self, *args, foot_offset_m: float, **kwargs):
         self.foot_offset_m = float(foot_offset_m)
         self.touchdown_context: dict | None = None
+        self.first_step_target_world: np.ndarray | None = None
+        self.first_step_support_center_world: np.ndarray | None = None
+        self.first_step_command_reach_m: float | None = None
         super().__init__(*args, **kwargs)
 
     def reset_trial(self) -> None:
         super().reset_trial()
         self.touchdown_context = None
+        self.first_step_target_world = None
+        self.first_step_support_center_world = None
+        self.first_step_command_reach_m = None
 
     def _make_step_target(self, swing_foot: str, support_foot: str, direction_xy: np.ndarray) -> np.ndarray:
         target = super()._make_step_target(swing_foot, support_foot, direction_xy)
@@ -92,6 +96,11 @@ class OracleFootPlacementController(DiagnosticHybridController):
                 target[:2, 3] + normalize_direction(direction_xy) * self.foot_offset_m,
                 support_foot,
             )
+        if self.step_count == 0:
+            support_center = self.model.body_pose(support_foot)[:3, 3].copy()
+            self.first_step_target_world = target[:3, 3].copy()
+            self.first_step_support_center_world = support_center
+            self.first_step_command_reach_m = float(np.linalg.norm(target[:2, 3] - support_center[:2]))
         return target
 
     def solve(self):
@@ -106,6 +115,12 @@ class OracleFootPlacementController(DiagnosticHybridController):
                 event,
                 self.model.center_of_mass().copy(),
             )
+            self.touchdown_context.update({
+                "oracle_foot_offset_m": float(self.foot_offset_m),
+                "target_command_world": self.first_step_target_world.tolist() if self.first_step_target_world is not None else [],
+                "support_center_at_target_world": self.first_step_support_center_world.tolist() if self.first_step_support_center_world is not None else [],
+                "target_command_reach_m": self.first_step_command_reach_m,
+            })
             self.touchdown_context["capture_controller_time_s"] = float(self.model.data.time)
         return result
 
@@ -114,6 +129,7 @@ def _source_metadata() -> dict:
     return {
         "source_commit": os.environ.get("SE3_SOURCE_VERSION", "unknown"),
         "source_tree_sha256": os.environ.get("SE3_SOURCE_TREE_SHA256", "unknown"),
+        "source_tree_hash_algorithm": os.environ.get("SE3_SOURCE_TREE_HASH_ALGORITHM", "unknown"),
         "remote_source_root": os.environ.get("SE3_SOURCE_ROOT", "unknown"),
         "execution_environment_id": os.environ.get("SE3_EXECUTION_ENV", "unknown"),
     }
@@ -202,8 +218,7 @@ def _capture_geometry_metrics(model, capture: dict) -> dict:
     swing_complete_index = _event_index(capture["run"], "SWING_COMPLETE")
     swing_complete_error = float(errors[swing_complete_index]) if swing_complete_index is not None else float("nan")
     max_reach = float(capture["hybrid_config"].get("max_step_reach_m", np.nan))
-    support_center = model.body_pose(support_foot)[:2, 3]
-    command_reach = float(np.linalg.norm(target[:2] - support_center)) if np.all(np.isfinite(target)) else float("nan")
+    command_reach = float(context.get("target_command_reach_m", float("nan")))
     lo, hi = model.joint_position_limits()
     q = model.joint_positions()
     limited = np.asarray(
@@ -513,7 +528,6 @@ def _plot_map(capture_rows: list[dict], replay_rows: list[dict], path: Path) -> 
     if not capture_rows:
         return
     magnitudes = sorted({float(row["push_magnitude_N"]) for row in capture_rows})
-    offsets = sorted({float(row["oracle_foot_offset_m"]) for row in capture_rows})
     fig, axes = plt.subplots(1, 2, figsize=(13, 5), sharey=True)
     for magnitude in magnitudes:
         selected = [row for row in capture_rows if float(row["push_magnitude_N"]) == magnitude]
@@ -603,13 +617,13 @@ def main() -> None:
             "counterfactual_warning": "qvel_scale=0.5 and landed_support_zero_momentum are counterfactual ablations, not physically reachable recovery claims",
             "production_controller_changed": False,
             "source_provenance": source,
+            "source_tree_hash_algorithm": source.get("source_tree_hash_algorithm", "unknown"),
             "command": command,
         },
     )
 
     capture_rows: list[dict] = []
     replay_rows: list[dict] = []
-    captures: list[tuple[str, dict]] = []
     for magnitude in args.magnitudes:
         for offset in args.offsets:
             capture_id = f"capture_{magnitude:g}N_{args.direction:g}deg_offset{offset:+.3f}_seed{args.seed}"
@@ -652,7 +666,6 @@ def main() -> None:
                 continue
             state_path = state_root / f"{_safe_name(capture_id)}.npz"
             _write_touchdown_snapshot(state_path, capture)
-            captures.append((capture_id, capture))
             for variant, qvel_scale in REPLAY_PLAN:
                 replay_rows.append(
                     _replay_row(

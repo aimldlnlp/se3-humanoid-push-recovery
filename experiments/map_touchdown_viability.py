@@ -217,7 +217,7 @@ def _capture_geometry_metrics(model, capture: dict) -> dict:
     errors = _target_error_series(capture["run"])
     swing_complete_index = _event_index(capture["run"], "SWING_COMPLETE")
     swing_complete_error = float(errors[swing_complete_index]) if swing_complete_index is not None else float("nan")
-    max_reach = float(capture["hybrid_config"].get("max_step_reach_m", np.nan))
+    landing_tolerance = float(capture["hybrid_config"].get("landing_position_tolerance_m", 0.08))
     command_reach = float(context.get("target_command_reach_m", float("nan")))
     lo, hi = model.joint_position_limits()
     q = model.joint_positions()
@@ -235,13 +235,20 @@ def _capture_geometry_metrics(model, capture: dict) -> dict:
         "touchdown_confirmed": True,
         "swing_complete_confirmed": swing_complete_index is not None,
         "command_reach_m": command_reach,
-        "command_within_max_reach": bool(np.isfinite(command_reach) and command_reach <= max_reach + 1e-9),
+        "command_within_max_reach": bool(
+            np.isfinite(command_reach)
+            and command_reach <= float(capture["hybrid_config"].get("max_step_reach_m", np.nan)) + 1e-9,
+        ),
         "swing_complete_target_error_m": swing_complete_error,
-        "foot_reached_within_landing_tolerance": bool(
+        "reference_foot_error_within_landing_tolerance": bool(
             np.isfinite(swing_complete_error)
-            and swing_complete_error <= float(capture["hybrid_config"].get("landing_position_tolerance_m", 0.08)),
+            and swing_complete_error <= landing_tolerance,
         ),
         "touchdown_target_error_m": actual_landing_error,
+        "geometric_landing_reachable": bool(
+            np.isfinite(actual_landing_error)
+            and actual_landing_error <= landing_tolerance,
+        ),
         "landed_foot": landed_foot,
         "support_foot": support_foot,
         "landed_foot_support_margin_m": landed_margin,
@@ -303,6 +310,9 @@ def _run_capture(configs: dict, magnitude: float, direction: float, offset_m: fl
             "push": push,
             "hybrid_config": hybrid_config,
             "offset_m": float(offset_m),
+            "target_command_reach_m": controller.first_step_command_reach_m,
+            "target_command_world": controller.first_step_target_world.tolist() if controller.first_step_target_world is not None else [],
+            "support_center_at_target_world": controller.first_step_support_center_world.tolist() if controller.first_step_support_center_world is not None else [],
             "index": None,
             "event": None,
             "time_s": float("nan"),
@@ -329,6 +339,9 @@ def _run_capture(configs: dict, magnitude: float, direction: float, offset_m: fl
         "push": push,
         "hybrid_config": hybrid_config,
         "offset_m": float(offset_m),
+        "target_command_reach_m": controller.first_step_command_reach_m,
+        "target_command_world": controller.first_step_target_world.tolist() if controller.first_step_target_world is not None else [],
+        "support_center_at_target_world": controller.first_step_support_center_world.tolist() if controller.first_step_support_center_world is not None else [],
         "index": touchdown_index,
         "event": event,
         "time_s": float(arrays["time_s"][touchdown_index]),
@@ -368,6 +381,12 @@ def _capture_row(capture: dict, magnitude: float, direction: float, trial_id: st
         "event_count": len(events),
         "events_json": json.dumps(events, sort_keys=True),
     }
+    command_reach = float(capture.get("target_command_reach_m", float("nan")))
+    row["command_reach_m"] = command_reach
+    row["command_within_max_reach"] = bool(
+        np.isfinite(command_reach)
+        and command_reach <= float(capture["hybrid_config"].get("max_step_reach_m", np.nan)) + 1e-9,
+    )
     if capture["index"] is not None:
         row.update(_capture_geometry_metrics(capture["model"], capture))
     else:
@@ -376,11 +395,14 @@ def _capture_row(capture: dict, magnitude: float, direction: float, trial_id: st
             "capture_time_s": "",
             "touchdown_confirmed": False,
             "swing_complete_confirmed": bool(swing_index is not None),
-            "command_reach_m": float("nan"),
-            "command_within_max_reach": False,
             "swing_complete_target_error_m": float(errors[swing_index]) if swing_index is not None else float("nan"),
-            "foot_reached_within_landing_tolerance": False,
+            "reference_foot_error_within_landing_tolerance": bool(
+                swing_index is not None
+                and np.isfinite(errors[swing_index])
+                and errors[swing_index] <= float(capture["hybrid_config"].get("landing_position_tolerance_m", 0.08)),
+            ),
             "touchdown_target_error_m": float("nan"),
+            "geometric_landing_reachable": "unknown_without_touchdown",
             "landed_foot": "",
             "support_foot": "",
             "landed_foot_support_margin_m": float("nan"),
@@ -533,8 +555,13 @@ def _plot_map(capture_rows: list[dict], replay_rows: list[dict], path: Path) -> 
         selected = [row for row in capture_rows if float(row["push_magnitude_N"]) == magnitude]
         xs = [float(row["oracle_foot_offset_m"]) for row in selected]
         contact = [float(row["touchdown_confirmed"]) for row in selected]
-        geom = [float(row["foot_reached_within_landing_tolerance"]) for row in selected]
-        axes[0].plot(xs, geom, "o-", label=f"{magnitude:g} N: foot reached")
+        geom = [
+            float(row["geometric_landing_reachable"])
+            if row["geometric_landing_reachable"] in {True, "True", "true"}
+            else np.nan
+            for row in selected
+        ]
+        axes[0].plot(xs, geom, "o-", label=f"{magnitude:g} N: landing target reached")
         axes[0].plot(xs, contact, "x--", label=f"{magnitude:g} N: touchdown")
     axes[0].set_title("Reachability through MuJoCo pipeline")
     axes[0].set_xlabel("oracle foot offset along push [m]")
@@ -607,7 +634,8 @@ def main() -> None:
             "oracle_offsets_m": [float(value) for value in args.offsets],
             "offset_definition": "signed displacement of the first swing-foot target along the normalized measured push direction after the existing target heuristic and reach clamp",
             "command_reach_definition": "target distance from the measured support-foot center must be <= hybrid_config.max_step_reach_m",
-            "geometric_reach_definition": "the measured swing foot is within landing_position_tolerance_m of its target at the existing SWING_COMPLETE event",
+            "reference_completion_definition": "the measured swing foot error at the existing SWING_COMPLETE event; this is reported separately because SWING_COMPLETE is emitted when the reference trajectory finishes",
+            "geometric_landing_reach_definition": "for a confirmed touchdown, the measured swing foot is within landing_position_tolerance_m of its target at the TOUCHDOWN row; without touchdown the geometric landing result is unknown, not a proven failure",
             "contact_reach_definition": "the existing landing gate emits a sustained-load TOUCHDOWN event",
             "replay_plan": [
                 {"variant": variant, "qvel_scale": float(scale)}
@@ -708,7 +736,7 @@ def main() -> None:
             "push_magnitude_N": row["push_magnitude_N"],
             "oracle_foot_offset_m": row["oracle_foot_offset_m"],
             "command_within_max_reach": row["command_within_max_reach"],
-            "foot_reached_within_landing_tolerance": row["foot_reached_within_landing_tolerance"],
+            "geometric_landing_reachable": row["geometric_landing_reachable"],
             "touchdown_confirmed": row["touchdown_confirmed"],
             "strict_exact_replay_success_any": any(bool(value["strict_dynamically_stabilizable"]) for value in strict_exact),
             "strict_zero_momentum_counterfactual_success": any(bool(value["strict_dynamically_stabilizable"]) for value in strict_zero),
@@ -720,7 +748,7 @@ def main() -> None:
         "run_id": output_root.name,
         "capture_count": len(capture_rows),
         "confirmed_touchdown_count": int(sum(bool(row["touchdown_confirmed"]) for row in capture_rows)),
-        "geometric_foot_reached_count": int(sum(bool(row["foot_reached_within_landing_tolerance"]) for row in capture_rows)),
+        "geometric_landing_reached_count": int(sum(row["geometric_landing_reachable"] is True for row in capture_rows)),
         "replay_count": len(replay_rows),
         "strict_dynamic_success_count": int(sum(bool(row["strict_dynamically_stabilizable"]) for row in replay_rows)),
         "strict_dynamic_success_exact_qvel_count": int(sum(

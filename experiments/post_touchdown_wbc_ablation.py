@@ -24,6 +24,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from common import (  # noqa: E402
+    _json_safe,
     load_configs,
     make_model,
     recovery_config,
@@ -97,9 +98,10 @@ def _source_metadata() -> dict:
 
 
 def _canonical_config_sha(configs: dict) -> str:
-    portable = copy.deepcopy(configs)
-    portable["root"] = "."
-    return hashlib.sha256(_json(portable).encode("utf-8")).hexdigest()
+    portable = _json_safe(copy.deepcopy(configs))
+    # Match experiments.common.execution_manifest exactly so the diagnostic
+    # manifest can be compared with the historical V4 provenance hash.
+    return hashlib.sha256(json.dumps(portable, sort_keys=True, default=str).encode("utf-8")).hexdigest()
 
 
 def _raw_config_hashes() -> dict[str, str]:

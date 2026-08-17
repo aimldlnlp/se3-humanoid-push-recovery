@@ -554,6 +554,15 @@ def _state_summary(stage: str, state: dict, capture: dict, reference: dict, qp: 
         "linear_momentum_norm_Ns": float(np.linalg.norm(metrics["linear_momentum_world"])),
         "centroidal_angular_momentum_norm_Nms": float(np.linalg.norm(metrics["centroidal_angular_momentum_world"])),
         "qvel_preserved_exactly": True,
+        "qp_status": "",
+        "qp_success": False,
+        "qp_torque_utilization": float("nan"),
+        "qp_friction_utilization": float("nan"),
+        "qp_contact_slack_norm": float("nan"),
+        "qp_dynamics_residual_norm": float("nan"),
+        "qp_contact_acceleration_residual_norm": float("nan"),
+        "qp_friction_margin": float("nan"),
+        "qp_message": "",
     }
     if qp:
         row.update(qp)

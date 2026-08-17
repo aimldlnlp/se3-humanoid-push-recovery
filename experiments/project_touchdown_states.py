@@ -142,7 +142,10 @@ def _joint_info(model: HumanoidModel, qpos: np.ndarray, guard_rad: float) -> dic
     margins = np.minimum(joints - lo, hi - joints)
     guard_margins = margins - float(guard_rad)
     violation = bool(np.any(limited & (margins < 0.0)))
-    guard_violation = bool(np.any(limited & (guard_margins < 0.0)))
+    # SLSQP/bound clipping can leave a few ulps below the declared bound.
+    # Treat only a material violation as a failed guard; the raw configured
+    # joint-limit violation remains strict enough to expose the capture error.
+    guard_violation = bool(np.any(limited & (guard_margins < -1e-8)))
     names = list(model.joint_ids.keys())
     worst = int(np.argmin(margins)) if len(margins) else -1
     return {
@@ -522,6 +525,7 @@ def _state_summary(stage: str, state: dict, capture: dict, reference: dict, qp: 
         "input_state_sha256": capture["state_sha256"],
         "projected_state_sha256": state.get("state_sha256", ""),
         "projection_feasible": bool(state.get("feasible", True)),
+        "is_reference_state": bool(state.get("is_reference_state", False)),
         "solver_success": bool(state.get("solver_success", True)),
         "solver_message": state.get("solver_message", ""),
         "solver_iterations": int(state.get("solver_iterations", 0)),
@@ -695,7 +699,8 @@ def _projection_for_capture(
         "qpos": capture["qpos"].copy(),
         "qvel": capture["qvel"].copy(),
         "metrics": original_metrics,
-        "feasible": False,
+        "feasible": True,
+        "is_reference_state": True,
         "solver_success": True,
         "solver_message": "captured touchdown state; no projection",
         "solver_iterations": 0,
@@ -778,7 +783,11 @@ def _projection_for_capture(
         if stage == "joint_limit_contact_support":
             state["qp_metrics"] = qp_initial
             qp = qp_initial
-        state["state_sha256"] = _state_digest(state["qpos"], state["qvel"], stage, capture["state_sha256"])
+        state["state_sha256"] = (
+            capture["state_sha256"]
+            if stage == "original_touchdown"
+            else _state_digest(state["qpos"], state["qvel"], stage, capture["state_sha256"])
+        )
         rows.append(_state_summary(stage, state, capture, reference, qp=qp))
     return rows, states, {
         "reference": reference,

@@ -234,6 +234,21 @@ def execution_manifest(metadata: dict | None = None, seed: int = 0) -> dict:
     config_sha256 = None
     if config is not None:
         config_sha256 = hashlib.sha256(json.dumps(portable_config, sort_keys=True, default=str).encode()).hexdigest()
+    model_path = metadata.get("model_path")
+    model_sha256 = metadata.get("model_sha256")
+    if model_path and not model_sha256:
+        candidate = Path(model_path)
+        if not candidate.is_absolute():
+            candidate = ROOT / candidate
+        if candidate.exists():
+            model_sha256 = hashlib.sha256(candidate.read_bytes()).hexdigest()
+    dependency_versions = {}
+    for module_name, import_name in (("numpy", "numpy"), ("mujoco", "mujoco"), ("osqp", "osqp")):
+        try:
+            module = __import__(import_name)
+            dependency_versions[module_name] = str(getattr(module, "__version__", "unknown"))
+        except Exception:
+            dependency_versions[module_name] = "unavailable"
     timestamp = datetime.now(timezone.utc).isoformat()
     run_id = metadata.get("run_id") or os.environ.get("SE3_RUN_ID")
     return {
@@ -243,6 +258,10 @@ def execution_manifest(metadata: dict | None = None, seed: int = 0) -> dict:
         "hostname": socket.gethostname(),
         "timestamp_utc": timestamp,
         "config_sha256": config_sha256,
+        "model_sha256": model_sha256,
+        "python_version": sys.version.split()[0],
+        "dependency_versions": dependency_versions,
+        "command": metadata.get("command") or " ".join(sys.argv),
     }
 
 
@@ -268,11 +287,15 @@ def flatten_result(run, controller: str, push: Push, trial_id: str, seed: int = 
         "recovered_at_s": rec.recovered_at_s if rec and rec.recovered_at_s is not None else "",
         "recovery_latency_s": rec.recovery_latency_s if rec and rec.recovery_latency_s is not None else "",
         "max_torso_error_rad": rec.max_torso_error_rad if rec else float(np.max(a["torso_rotation_error_rad"])),
-        "max_com_displacement_m": rec.max_com_displacement_m if rec else float(np.max(np.linalg.norm(a["com_world"] - a["com_world"][0], axis=1))),
+        "max_com_displacement_m": rec.max_com_displacement_m if rec else float(np.max(np.linalg.norm(a["com_world"][:, :2] - a["com_world"][0, :2], axis=1))),
+        "max_com_3d_displacement_m": float(np.max(np.linalg.norm(a["com_world"] - a["com_world"][0], axis=1))),
         "max_joint_torque_Nm": rec.max_joint_torque_Nm if rec else float(np.max(a["torque_abs_max_Nm"])),
         "max_contact_force_N": (
-            float(np.max(np.abs(a["actual_contact_wrench"][:, [0, 1, 2, 6, 7, 8]])))
-            if len(a["actual_contact_wrench"]) else 0.0
+            float(np.max(np.linalg.norm(
+                a.get("actual_contact_wrench_post_step", a["actual_contact_wrench"])[:, [0, 1, 2, 6, 7, 8]].reshape(-1, 2, 3),
+                axis=2,
+            )))
+            if len(a.get("actual_contact_wrench_post_step", a["actual_contact_wrench"])) else 0.0
         ),
         "min_friction_margin": rec.min_friction_margin if rec else float(np.nanmin(a["actual_friction_margin"])),
         "seed": seed,

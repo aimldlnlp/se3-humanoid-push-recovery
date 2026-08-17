@@ -814,3 +814,82 @@ def plot_com_support_polygon(log, output_dir: str | Path, name: str = "com_suppo
 
     fig.subplots_adjust(left=0.085, right=0.985, bottom=0.12, top=0.90, wspace=0.30)
     return list(_save(fig, output_dir, name))
+
+
+def plot_arena_telemetry(log, output_dir: str | Path, name: str = "arena_telemetry") -> list[Path]:
+    """Create a compact mode/contact/telemetry view for arena scenarios."""
+    apply_style()
+    a = log.arrays()
+    t = np.asarray(a["time_s"], dtype=float)
+    if len(t) == 0:
+        return []
+    com = np.asarray(a["com_world"], dtype=float)
+    com_delta = com[:, :2] - com[0, :2]
+    com_norm = np.linalg.norm(com_delta, axis=1)
+    margin = np.asarray(a.get("support_margin_m", np.full(len(t), np.nan)), dtype=float)
+    post_wrench = np.asarray(a.get("actual_contact_wrench_post_step", a["actual_contact_wrench"]), dtype=float)
+    force = post_wrench[:, [0, 1, 2, 6, 7, 8]].reshape(-1, 2, 3)
+    force_norm = np.linalg.norm(force, axis=2)
+    contacts = np.column_stack([
+        np.asarray(a.get("contact_left_post_step", a["contact_left"]), dtype=bool),
+        np.asarray(a.get("contact_right_post_step", a["contact_right"]), dtype=bool),
+    ])
+    modes = np.asarray(a.get("control_mode", np.full(len(t), "double_support"))).astype(str)
+    events = np.asarray(a.get("event_label", np.full(len(t), ""))).astype(str)
+    fig, axes = plt.subplots(4, 1, figsize=(9.4, 7.2), sharex=True, gridspec_kw={"height_ratios": (1.25, 1.0, 1.0, 0.95)})
+    _shade_push(axes[0], t, a.get("push_force", np.zeros((len(t), 3))))
+    axes[0].plot(t, com_norm, color=COLORS["com"], linewidth=1.55, label="horizontal CoM displacement")
+    axes[0].axhline(0.10, color=COLORS["boundary"], linewidth=0.8, linestyle=(0, (3, 2)), label="0.10 m criterion")
+    axes[0].set_ylabel("CoM [m]")
+    axes[0].set_title("Adaptive Recovery Arena | measured response", loc="left", pad=5)
+    axes[0].legend(loc="upper left", ncol=2, handlelength=1.6)
+
+    finite_margin = np.isfinite(margin)
+    if np.any(finite_margin):
+        axes[1].axhline(0.0, color=COLORS["boundary"], linewidth=0.8, linestyle=(0, (3, 2)))
+        axes[1].plot(t, margin, color=COLORS["com"], linewidth=1.4, label="active support margin")
+        axes[1].fill_between(t, 0.0, margin, where=margin >= 0.0, color=COLORS["success"], alpha=0.10)
+    axes[1].set_ylabel("margin [m]")
+    axes[1].set_title("support geometry  (>0 = CoM inside active hull)", loc="left", pad=3)
+
+    axes[2].step(t, contacts[:, 0].astype(float), where="post", color=COLORS["left_foot"], linewidth=1.2, label="left contact")
+    axes[2].step(t, contacts[:, 1].astype(float) + 1.05, where="post", color=COLORS["right_foot"], linewidth=1.2, label="right contact")
+    axes[2].plot(t, force_norm[:, 0] / 100.0, color=COLORS["left_foot"], alpha=0.50, linewidth=0.85, linestyle=(0, (2, 2)), label="left force / 100 N")
+    axes[2].plot(t, force_norm[:, 1] / 100.0 + 1.05, color=COLORS["right_foot"], alpha=0.50, linewidth=0.85, linestyle=(0, (2, 2)), label="right force / 100 N")
+    axes[2].set_ylim(-0.15, 2.2)
+    axes[2].set_yticks([0.0, 1.05, 2.0], ["L", "R", ""])
+    axes[2].set_ylabel("contact")
+    axes[2].set_title("contact state and measured ground-reaction magnitude", loc="left", pad=3)
+    axes[2].legend(loc="upper left", ncol=2, handlelength=1.6)
+
+    mode_spans = []
+    start = 0
+    for index in range(1, len(t) + 1):
+        if index == len(t) or modes[index] != modes[start]:
+            mode_spans.append((float(t[start]), float(t[index - 1]), modes[start]))
+            start = index
+    mode_colors = {
+        "double_support": COLORS["success"],
+        "transfer": COLORS["push"],
+        "single_support": COLORS["right_foot"],
+        "landing": COLORS["left_foot"],
+        "failed_recovery": COLORS["failure"],
+    }
+    for ax in axes[:3]:
+        for left, right, mode in mode_spans:
+            ax.axvspan(left, right, color=mode_colors.get(mode, COLORS["grid"]), alpha=0.045, linewidth=0)
+
+    axes[3].plot(t, np.asarray(a["qp_solve_time_s"], dtype=float) * 1000.0, color=COLORS["muted"], linewidth=1.0, label="QP solve")
+    axes[3].axhline(4.0, color=COLORS["push"], linewidth=0.8, linestyle=(0, (3, 2)), label="4 ms control budget")
+    axes[3].set_ylabel("QP [ms]")
+    axes[3].set_xlabel("time [s]")
+    axes[3].set_title("solver timing; event labels mark supervisor decisions", loc="left", pad=3)
+    axes[3].legend(loc="upper left", ncol=2, handlelength=1.6)
+    event_indices = np.flatnonzero(events != "")
+    for index in event_indices:
+        axes[3].axvline(t[index], color=COLORS["boundary"], linewidth=0.6, alpha=0.55)
+        axes[3].text(t[index], axes[3].get_ylim()[1] * 0.82, events[index].replace("_", " "), rotation=90, fontsize=6.0, color=COLORS["ink"], ha="right", va="top")
+    for ax in axes:
+        style_axes(ax)
+    fig.tight_layout(h_pad=0.55)
+    return list(_save(fig, output_dir, name))

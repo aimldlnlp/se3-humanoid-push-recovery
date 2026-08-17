@@ -68,6 +68,11 @@ def test_serialization(tmp_path):
     assert path.exists()
     data = np.load(path)
     assert data["time_s"].shape == (2,)
+    # Post-step physical telemetry is part of the replay contract; it must be
+    # present even for logs assembled by older/simple callers.
+    assert data["contact_left_post_step"].shape == (2,)
+    assert data["actual_normal_force_post_step_N"].shape == (2, 2)
+    assert data["event_label"].shape == (2,)
 
 
 def test_physical_slip_detection_uses_measured_contact_metrics():

@@ -123,6 +123,7 @@ class ActualContactData:
     xy_points_m: np.ndarray
     friction_utilization: np.ndarray
     cop_world: np.ndarray
+    normal_force_N: np.ndarray
 
 
 def _transform(position: np.ndarray, rotation_flat: np.ndarray) -> np.ndarray:
@@ -151,6 +152,11 @@ class HumanoidModel:
         if mass_scale != 1.0:
             self.model.body_mass[:] *= float(mass_scale)
             self.model.body_inertia[:] *= float(mass_scale)
+            # MuJoCo caches subtree masses, dof_M0, and other constants used by
+            # forward dynamics.  Mutating body mass/inertia without refreshing
+            # those derived fields makes robustness trials silently use a
+            # hybrid of the nominal and perturbed models.
+            mujoco.mj_setConst(self.model, self.data)
         if friction_coefficient is not None:
             self.model.geom_friction[:, 0] = float(friction_coefficient)
         body_names = {
@@ -356,7 +362,18 @@ class HumanoidModel:
         mujoco.mj_jac(self.model, self.data, jacp, jacr, np.asarray(point_world, dtype=float), body_id)
         return np.vstack([jacp, jacr])
 
-    def contact_flags(self) -> tuple[bool, bool]:
+    def contact_flags(self, min_normal_force_N: float = 0.0) -> tuple[bool, bool]:
+        """Return physical foot contacts, optionally requiring load support.
+
+        A geometric MuJoCo contact can be a grazing or numerically transient
+        touch.  The default preserves the low-level geometric signal used by
+        existing diagnostics; recovery-mode logic can request a positive
+        normal-force threshold when it needs to establish load-bearing contact.
+        """
+        if float(min_normal_force_N) > 0.0:
+            measured = self.actual_contact_data()
+            loaded = measured.contact_flags & (measured.normal_force_N >= float(min_normal_force_N))
+            return bool(loaded[0]), bool(loaded[1])
         ground_id = self.geom_ids["ground"]
         flags = [False, False]
         for i in range(self.data.ncon):
@@ -461,7 +478,7 @@ class HumanoidModel:
                 # contact plane, Mx = y Fz and My = -x Fz.
                 relative_xy = np.array([-wrench[6 * foot_index + 4] / fz, wrench[6 * foot_index + 3] / fz])
                 cop_world[foot_index] = self.data.xpos[self.body_ids[body_name]][:2] + relative_xy
-        return ActualContactData(wrench, flags, tangent_velocity, points, utilization, cop_world)
+        return ActualContactData(wrench, flags, tangent_velocity, points, utilization, cop_world, normal_force)
 
     def foot_support_vertices_world(self) -> np.ndarray:
         """Return the four ground-facing vertices of each foot geom in world XY."""

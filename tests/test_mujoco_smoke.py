@@ -138,6 +138,16 @@ def test_real_plant_controller_model_mismatch_is_explicit():
     assert np.all(np.isfinite(plant.data.qpos))
 
 
+def test_mass_scale_refreshes_mujoco_derived_constants():
+    repo_root = Path(__file__).resolve().parents[1]
+    nominal = HumanoidModel(repo_root / "models" / "humanoid" / "mini_humanoid.xml")
+    scaled = HumanoidModel(repo_root / "models" / "humanoid" / "mini_humanoid.xml", mass_scale=1.1)
+    # mj_setConst must update subtree masses used by forward dynamics, not only
+    # the public body_mass array.
+    np.testing.assert_allclose(scaled.model.body_subtreemass, nominal.model.body_subtreemass * 1.1, rtol=1e-12, atol=1e-12)
+    assert not np.allclose(scaled.mass_matrix(), nominal.mass_matrix())
+
+
 def test_contact_jacobian_directional_finite_difference_is_consistent():
     repo_root = Path(__file__).resolve().parents[1]
     model = HumanoidModel(repo_root / "models" / "humanoid" / "mini_humanoid.xml")

@@ -21,7 +21,12 @@ def convex_hull_2d(points: np.ndarray) -> np.ndarray:
         return unique
 
     def cross(o: np.ndarray, a: np.ndarray, b: np.ndarray) -> float:
-        return float(np.cross(a - o, b - o))
+        # ``np.cross`` no longer returns a scalar for 2-D vectors in recent
+        # NumPy releases.  The monotonic-chain orientation test is the scalar
+        # determinant by definition, so keep it explicit and version-stable.
+        oa = a - o
+        ob = b - o
+        return float(oa[0] * ob[1] - oa[1] * ob[0])
 
     lower: list[np.ndarray] = []
     for point in unique:
@@ -57,4 +62,3 @@ def normalize_xy(vector: np.ndarray, minimum: float = 1e-12) -> np.ndarray:
     value = np.asarray(vector, dtype=float).reshape(2)
     norm = float(np.linalg.norm(value))
     return value / norm if norm > minimum else np.zeros(2, dtype=float)
-

@@ -14,6 +14,8 @@ PUSH_RGBA = np.array([0.84, 0.37, 0.08, 1.0], dtype=float)
 COM_RGBA = np.array([0.0, 0.45, 0.70, 1.0], dtype=float)
 CONTACT_RGBA = np.array([0.0, 0.62, 0.45, 1.0], dtype=float)
 CONTACT_LOST_RGBA = np.array([0.75, 0.30, 0.25, 1.0], dtype=float)
+TARGET_RGBA = np.array([0.0, 0.45, 0.70, 1.0], dtype=float)
+EVENT_RGBA = np.array([0.80, 0.20, 0.50, 1.0], dtype=float)
 
 
 def _font(size: int):
@@ -65,15 +67,28 @@ def _draw_overlay(image, metadata: Mapping[str, object] | None) -> None:
             draw.text((margin + int(17 * scale), margin + int(42 * scale) + index * int(22 * scale)), line, font=body_font, fill=(31, 41, 51, 255))
 
     contacts = f"L  {'CONTACT' if metadata.get('contact_left') else 'LOST'}     R  {'CONTACT' if metadata.get('contact_right') else 'LOST'}"
-    contacts_bbox = draw.textbbox((0, 0), contacts, font=body_font)
-    status_width = max(int(190 * scale), contacts_bbox[2] + int(22 * scale))
-    status_height = int(32 * scale)
+    mode = str(metadata.get("control_mode", "double_support")).replace("_", " ").upper()
+    phase = str(metadata.get("step_phase", "stance")).replace("_", " ")
+    support_margin = metadata.get("support_margin_m")
+    margin_text = f"Support margin  {float(support_margin):+.3f} m" if support_margin is not None and np.isfinite(float(support_margin)) else "Support margin  n/a"
+    event = str(metadata.get("event_label") or "")
+    event_text = f"Event  {event.replace('_', ' ')}" if event else ""
+    status_lines = [contacts, f"Mode  {mode}   |   {phase}", margin_text]
+    if event_text:
+        status_lines.append(event_text)
+    status_width = max(
+        int(190 * scale),
+        max(draw.textbbox((0, 0), line, font=body_font)[2] for line in status_lines) + int(22 * scale),
+    )
+    status_height = int((28 + 21 * len(status_lines)) * scale)
     y0 = image.height - margin - status_height
     draw.rounded_rectangle(
         (margin, y0, margin + status_width, y0 + status_height),
         radius=int(8 * scale), fill=(255, 255, 255, 218), outline=(31, 41, 51, 150), width=max(1, int(scale)),
     )
-    draw.text((margin + int(12 * scale), y0 + int(7 * scale)), contacts, font=body_font, fill=(31, 41, 51, 255))
+    for index, line in enumerate(status_lines):
+        color = (128, 32, 80, 255) if line.startswith("Event") else (31, 41, 51, 255)
+        draw.text((margin + int(12 * scale), y0 + int(6 * scale) + index * int(20 * scale)), line, font=body_font, fill=color)
 
 
 def _rotation_from_z(direction: np.ndarray) -> np.ndarray:
@@ -116,6 +131,11 @@ def _add_scene_annotations(renderer, mujoco, metadata: Mapping[str, object] | No
     for index, foot in enumerate(feet_xy[:2]):
         color = CONTACT_RGBA if bool(metadata.get("contact_left" if index == 0 else "contact_right")) else CONTACT_LOST_RGBA
         _add_scene_geom(renderer, mujoco, mujoco.mjtGeom.mjGEOM_SPHERE, [0.026, 0.0, 0.0], [foot[0], foot[1], 0.055], np.eye(3), color)
+
+    target = np.asarray(metadata.get("planned_foot_target_world", []), dtype=float).reshape(-1)
+    if target.size >= 3 and np.all(np.isfinite(target[:3])):
+        _add_scene_geom(renderer, mujoco, mujoco.mjtGeom.mjGEOM_SPHERE, [0.045, 0.0, 0.0], target[:3], np.eye(3), TARGET_RGBA)
+        _add_scene_geom(renderer, mujoco, mujoco.mjtGeom.mjGEOM_SPHERE, [0.022, 0.0, 0.0], [target[0], target[1], 0.035], np.eye(3), EVENT_RGBA)
 
     force = np.asarray(metadata.get("push_force", []), dtype=float).reshape(-1)
     point = np.asarray(metadata.get("push_point_world", []), dtype=float).reshape(-1)

@@ -124,7 +124,50 @@ class SimulationRunner:
                 if actual_contact.contact_flags[foot_id] and np.all(np.isfinite(foot_xy_reference[foot_id])):
                     foot_displacement[foot_id] = float(np.linalg.norm(foot_xy[foot_id] - foot_xy_reference[foot_id]))
             com = self.model.center_of_mass()
+            foot_support_vertices = self.model.foot_support_vertices_world()
             torque_limits = np.maximum(np.abs(self.model.actuator_limits[:, 1]), 1e-12)
+            pre_joint_velocity_norm = float(np.linalg.norm(self.model.joint_velocities()))
+            pre_torso_angular_velocity_norm = float(np.linalg.norm(torso_velocity[3:]))
+            pre_torque_abs_max = float(np.max(np.abs(control))) if len(control) else 0.0
+            pre_torque_utilization = float(np.max(np.abs(control) / torque_limits)) if len(control) else 0.0
+            pre_joint_limit_violation = bool(self.model.joint_position_limit_violation())
+            pre_numerical_valid = bool(
+                np.all(np.isfinite(self.model.data.qpos))
+                and np.all(np.isfinite(self.model.data.qvel))
+                and np.all(np.isfinite(control))
+            )
+            event_label = str(diagnostics.get("event_label") or "")
+            event_reason = str(diagnostics.get("event_reason") or "")
+            planned_target = np.asarray(
+                diagnostics.get("planned_foot_target_world", [np.nan, np.nan, np.nan]), dtype=float,
+            ).reshape(-1)
+            if planned_target.size != 3:
+                planned_target = np.full(3, np.nan, dtype=float)
+            qpos_history.append(self.model.data.qpos.copy())
+            if frame_callback is not None and t + 1e-10 >= next_frame:
+                frame_callback(t, self.model)
+                next_frame += frame_period_s
+            self.model.step(control)
+            # A final bad state is retained in the log on the next iteration;
+            # stop immediately on non-finite physics to keep the cause visible.
+            if not np.all(np.isfinite(self.model.data.qpos)) or not np.all(np.isfinite(self.model.data.qvel)):
+                post_contact = actual_contact
+            else:
+                for _ in range(self.substeps - 1):
+                    self.model.step(control)
+                post_contact = self.model.actual_contact_data()
+            post_left, post_right = (bool(post_contact.contact_flags[0]), bool(post_contact.contact_flags[1]))
+            post_friction_margin = float(1.0 - np.max(post_contact.friction_utilization)) if np.any(post_contact.contact_flags) else float("nan")
+            post_foot_xy = np.vstack([
+                self.model.body_pose("left_foot")[:2, 3],
+                self.model.body_pose("right_foot")[:2, 3],
+            ])
+            post_foot_displacement = np.zeros(2, dtype=float)
+            for foot_id in range(2):
+                if post_contact.contact_flags[foot_id] and not np.all(np.isfinite(foot_xy_reference[foot_id])):
+                    foot_xy_reference[foot_id] = post_foot_xy[foot_id]
+                if post_contact.contact_flags[foot_id] and np.all(np.isfinite(foot_xy_reference[foot_id])):
+                    post_foot_displacement[foot_id] = float(np.linalg.norm(post_foot_xy[foot_id] - foot_xy_reference[foot_id]))
             log.append(
                 time_s=t,
                 torso_error=torso_error.tolist(),
@@ -140,17 +183,17 @@ class SimulationRunner:
                 foot_tangent_velocity=actual_contact.tangent_velocity_m_s.tolist(),
                 foot_xy_displacement=foot_displacement.tolist(),
                 foot_xy_world=foot_xy.reshape(-1).tolist(),
-                foot_support_vertices_world=self.model.foot_support_vertices_world().reshape(-1).tolist(),
+                foot_support_vertices_world=foot_support_vertices.reshape(-1).tolist(),
                 foot_cop_world=actual_contact.cop_world.reshape(-1).tolist(),
                 control=np.asarray(control).tolist(),
                 qp_status=qp_status,
                 qp_solve_time_s=float(qp_time),
                 push_force=force.tolist(),
-                joint_velocity_norm=float(np.linalg.norm(self.model.joint_velocities())),
-                torso_angular_velocity_norm=float(np.linalg.norm(torso_velocity[3:])),
+                joint_velocity_norm=pre_joint_velocity_norm,
+                torso_angular_velocity_norm=pre_torso_angular_velocity_norm,
                 torso_height_m=float(T_torso[2, 3]),
-                torque_abs_max_Nm=float(np.max(np.abs(control))) if len(control) else 0.0,
-                torque_utilization=float(np.max(np.abs(control) / torque_limits)) if len(control) else 0.0,
+                torque_abs_max_Nm=pre_torque_abs_max,
+                torque_utilization=pre_torque_utilization,
                 qp_success=qp_ok,
                 predicted_friction_margin=float(friction_margin),
                 actual_friction_margin=actual_friction_margin,
@@ -158,40 +201,45 @@ class SimulationRunner:
                 qp_slack_norm=float(getattr(result, "contact_slack_norm", 0.0)),
                 dynamics_residual_norm=float(dynamics_residual_norm),
                 contact_acceleration_residual_norm=float(contact_acceleration_residual_norm),
-                joint_limit_violation=bool(self.model.joint_position_limit_violation()),
-                numerical_valid=bool(
-                    np.all(np.isfinite(self.model.data.qpos))
-                    and np.all(np.isfinite(self.model.data.qvel))
-                    and np.all(np.isfinite(control))
-                ),
+                joint_limit_violation=pre_joint_limit_violation,
+                numerical_valid=bool(pre_numerical_valid and np.all(np.isfinite(self.model.data.qpos)) and np.all(np.isfinite(self.model.data.qvel))),
                 control_mode=str(diagnostics.get("control_mode", "fixed")),
                 step_phase=str(diagnostics.get("step_phase", "none")),
                 swing_foot=str(diagnostics.get("swing_foot") or ""),
                 support_margin_m=float(diagnostics.get("support_margin_m", np.nan)),
+                contact_left_post_step=post_left,
+                contact_right_post_step=post_right,
+                actual_contact_wrench_post_step=post_contact.wrench_world.tolist(),
+                actual_normal_force_post_step_N=post_contact.normal_force_N.tolist(),
+                actual_friction_utilization_post_step=post_contact.friction_utilization.tolist(),
+                foot_tangent_velocity_post_step=post_contact.tangent_velocity_m_s.tolist(),
+                foot_xy_displacement_post_step=post_foot_displacement.tolist(),
+                foot_cop_world_post_step=post_contact.cop_world.reshape(-1).tolist(),
+                event_label=event_label,
+                event_reason=event_reason,
+                step_count=int(diagnostics.get("step_count", 0)),
+                planned_foot_target_world=planned_target.tolist(),
             )
-            qpos_history.append(self.model.data.qpos.copy())
-            if frame_callback is not None and t + 1e-10 >= next_frame:
-                frame_callback(t, self.model)
-                next_frame += frame_period_s
-            self.model.step(control)
-            # A final bad state is retained in the log on the next iteration;
-            # stop immediately on non-finite physics to keep the cause visible.
             if not np.all(np.isfinite(self.model.data.qpos)) or not np.all(np.isfinite(self.model.data.qvel)):
                 break
-            for _ in range(self.substeps - 1):
-                self.model.step(control)
 
         recovery = None
         if classify:
             arrays = log.arrays()
-            com_disp = np.linalg.norm(arrays["com_world"] - com0, axis=1)
+            com_disp = np.linalg.norm(arrays["com_world"][:, :2] - com0[:2], axis=1)
+            contact_left = arrays.get("contact_left_post_step", arrays["contact_left"])
+            contact_right = arrays.get("contact_right_post_step", arrays["contact_right"])
+            friction_utilization = arrays.get("actual_friction_utilization_post_step", arrays["actual_friction_utilization"])
+            tangent_velocity = arrays.get("foot_tangent_velocity_post_step", arrays["foot_tangent_velocity"])
+            foot_displacement = arrays.get("foot_xy_displacement_post_step", arrays["foot_xy_displacement"])
+            actual_friction_margin = 1.0 - np.max(friction_utilization, axis=1)
             recovery = classify_recovery(
                 arrays["time_s"], arrays["torso_rotation_error_rad"], arrays["torso_angular_velocity_norm"], com_disp,
-                arrays["contact_left"], arrays["contact_right"], arrays["torso_height_m"], arrays["torque_abs_max_Nm"],
-                arrays["qp_success"], arrays["actual_friction_margin"],
-                actual_friction_utilization=arrays["actual_friction_utilization"],
-                foot_tangent_velocity=arrays["foot_tangent_velocity"],
-                foot_xy_displacement=arrays["foot_xy_displacement"],
+                contact_left, contact_right, arrays["torso_height_m"], arrays["torque_abs_max_Nm"],
+                arrays["qp_success"], actual_friction_margin,
+                actual_friction_utilization=friction_utilization,
+                foot_tangent_velocity=tangent_velocity,
+                foot_xy_displacement=foot_displacement,
                 torque_utilization=arrays["torque_utilization"],
                 joint_limit_violation=arrays["joint_limit_violation"],
                 numerical_valid=arrays["numerical_valid"],

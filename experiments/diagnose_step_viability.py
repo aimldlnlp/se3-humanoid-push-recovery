@@ -52,6 +52,7 @@ VARIANTS = (
     "one_step_current",
     "one_step_capture_point",
     "one_step_reach_edge",
+    "one_step_landed_support",
 )
 
 
@@ -61,6 +62,11 @@ class DiagnosticHybridController(HybridRecoveryController):
     def __init__(self, *args, diagnostic_variant: str, **kwargs):
         self.diagnostic_variant = str(diagnostic_variant)
         super().__init__(*args, **kwargs)
+        if self.diagnostic_variant == "one_step_landed_support":
+            # This is a contact-transition ablation.  A stable one-foot state
+            # is a valid diagnostic outcome, even though the production arena
+            # deliberately requires final double support.
+            self.requires_final_double_support = False
 
     def _clamp_target_to_reach(self, target_xy: np.ndarray, support_foot: str) -> np.ndarray:
         support_center = self.model.body_pose(support_foot)[:2, 3]
@@ -92,6 +98,22 @@ class DiagnosticHybridController(HybridRecoveryController):
             max_reach = float(self.hybrid_config.get("max_step_reach_m", 0.46))
             target[:2, 3] = support_center + normalize_direction(direction_xy) * max_reach
         return target
+
+    def _update_landing(self) -> None:
+        super()._update_landing()
+        if (
+            self.diagnostic_variant == "one_step_landed_support"
+            and self.step_phase == "recovered_step"
+            and self.step_event is not None
+            and self.step_count >= 1
+            and self.contact_names != (self.step_event.swing_foot,)
+        ):
+            # Keep only the foot that actually passed the measured touchdown
+            # gate.  Holding the measured CoM avoids hiding a contact-mode
+            # failure behind an arbitrary post-landing target.
+            self.set_active_contacts((self.step_event.swing_foot,))
+            self.set_swing_target(None)
+            self.com_des = self.model.center_of_mass().copy()
 
 
 def normalize_direction(direction: np.ndarray) -> np.ndarray:

@@ -1,0 +1,379 @@
+{
+  "run_id": "arena-0-arena_final_render_20260817",
+  "source_version": "a854c22",
+  "seed": 0,
+  "hostname": "hucenrotia-ai",
+  "timestamp_utc": "2026-08-17T07:13:27.901876+00:00",
+  "config_sha256": "8838329461a2d383e0564352aa69db40e9ddb13807635ac7f6c28836ee1653ef",
+  "model_sha256": "613781e1b87d4e0d028332bfec4be9f2db53e2ddb252c0157bcaf04de88c0d76",
+  "python_version": "3.12.3",
+  "dependency_versions": {
+    "numpy": "2.5.2",
+    "mujoco": "3.11.0",
+    "osqp": "1.1.3"
+  },
+  "command": "experiments/adaptive_recovery_arena.py --output-root arena_final_render_20260817 --duration 5",
+  "config": {
+    "root": ".",
+    "robot_catalog": {
+      "active_robot": "unitree_g1",
+      "profiles_dir": "configs/robots",
+      "profiles": {
+        "mini_humanoid": "configs/robots/mini_humanoid.yaml",
+        "unitree_g1": "configs/robots/unitree_g1.yaml"
+      }
+    },
+    "robot": {
+      "name": "unitree_g1",
+      "controller_profile": "configs/controller.yaml",
+      "model_path": "models/unitree_g1/scene_push_recovery.xml",
+      "model_variant": "g1_29dof_no_hands",
+      "floating_base_body": "pelvis",
+      "floating_base_joint": "floating_base_joint",
+      "torso_body": "torso_link",
+      "pelvis_body": "pelvis",
+      "left_foot_body": "left_ankle_roll_link",
+      "right_foot_body": "right_ankle_roll_link",
+      "ground_geom": "ground",
+      "left_foot_contact_geoms": [],
+      "right_foot_contact_geoms": [],
+      "nominal_base_qpos": [
+        0.0,
+        0.0,
+        0.7915,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "nominal_joint_positions": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.2,
+        0.2,
+        0.0,
+        1.28,
+        0.0,
+        0.0,
+        0.0,
+        0.2,
+        -0.2,
+        0.0,
+        1.28,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "foot_support_vertices_local": [
+        [
+          [
+            -0.05,
+            -0.03,
+            -0.03
+          ],
+          [
+            0.12,
+            -0.03,
+            -0.03
+          ],
+          [
+            0.12,
+            0.03,
+            -0.03
+          ],
+          [
+            -0.05,
+            0.03,
+            -0.03
+          ]
+        ],
+        [
+          [
+            -0.05,
+            -0.03,
+            -0.03
+          ],
+          [
+            0.12,
+            -0.03,
+            -0.03
+          ],
+          [
+            0.12,
+            0.03,
+            -0.03
+          ],
+          [
+            -0.05,
+            0.03,
+            -0.03
+          ]
+        ]
+      ],
+      "simulation_timestep": 0.002,
+      "control_timestep": 0.004,
+      "duration_s": 6.0,
+      "warmup_duration_s": 0.6,
+      "gravity": [
+        0.0,
+        0.0,
+        -9.81
+      ],
+      "friction_coefficient": 0.7,
+      "render_width": 1920,
+      "render_height": 1080,
+      "render_fps": 30,
+      "upstream_source": "https://github.com/unitreerobotics/unitree_mujoco/tree/ae6a8403e272733e9996ef59990880330496177f/unitree_robots/g1",
+      "profile_name": "unitree_g1",
+      "profile_path": "configs/robots/unitree_g1.yaml"
+    },
+    "controller": {
+      "posture_kp": 200.0,
+      "posture_kd": 40.0,
+      "torso_position_kp": 70.0,
+      "torso_position_kd": 16.0,
+      "torso_rotation_kp": 100.0,
+      "torso_rotation_kd": 20.0,
+      "pelvis_position_kp": 55.0,
+      "pelvis_position_kd": 13.0,
+      "pelvis_rotation_kp": 70.0,
+      "pelvis_rotation_kd": 16.0,
+      "com_kp": 35.0,
+      "com_kd": 10.0,
+      "qp_acceleration_weight": 0.1,
+      "qp_torque_weight": 0.001,
+      "qp_nominal_torque_weight": 1.0,
+      "qp_posture_weight": 1.0,
+      "qp_torso_weight": 200.0,
+      "qp_pelvis_weight": 100.0,
+      "qp_com_weight": 2.0,
+      "qp_swing_weight": 200.0,
+      "swing_position_kp": 300.0,
+      "swing_position_kd": 35.0,
+      "swing_rotation_kp": 100.0,
+      "swing_rotation_kd": 18.0,
+      "qp_slack_weight": 100000.0,
+      "friction_coefficient": 0.7,
+      "use_external_force_oracle": false,
+      "support_polygon_x_min_m": -0.05,
+      "support_polygon_x_max_m": 0.12,
+      "support_polygon_y_min_m": -0.03,
+      "support_polygon_y_max_m": 0.03,
+      "torsional_friction_coefficient": 0.02,
+      "max_joint_acceleration": 150.0,
+      "fallback_to_pd": true,
+      "use_nominal_contact_feedforward": true,
+      "solver": {
+        "eps_abs": 0.001,
+        "eps_rel": 0.001,
+        "max_iter": 20000,
+        "adaptive_rho": true,
+        "scaled_termination": true,
+        "polish": true
+      }
+    },
+    "experiments": {
+      "seed": 0,
+      "standing_duration_s": 3.0,
+      "push": {
+        "magnitude_N": 70.0,
+        "direction_deg": 0.0,
+        "duration_s": 0.15,
+        "start_time_s": 2.0,
+        "application_body": "torso"
+      },
+      "sweep": {
+        "magnitudes_N": [
+          10,
+          20,
+          30,
+          40,
+          50,
+          60,
+          70,
+          80
+        ],
+        "directions_deg": [
+          0,
+          15,
+          30,
+          45,
+          60,
+          75,
+          90,
+          105,
+          120,
+          135,
+          150,
+          165,
+          180,
+          195,
+          210,
+          225,
+          240,
+          255,
+          270,
+          285,
+          300,
+          315,
+          330,
+          345
+        ],
+        "duration_s": 0.15,
+        "start_time_s": 2.0,
+        "trial_duration_s": 6.0
+      },
+      "robustness": {
+        "friction": [
+          0.3,
+          0.5,
+          0.7,
+          0.9
+        ],
+        "mass_scale": [
+          0.9,
+          1.0,
+          1.1
+        ],
+        "push_duration_s": [
+          0.1,
+          0.15,
+          0.2
+        ],
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "recovery": {
+        "orientation_threshold_rad": 0.0872664626,
+        "angular_velocity_threshold_rad_s": 0.15,
+        "com_displacement_threshold_m": 0.1,
+        "stable_duration_s": 0.25,
+        "timeout_s": 6.0,
+        "startup_grace_period_s": 0.25,
+        "contact_loss_duration_s": 0.08,
+        "friction_utilization_threshold": 1.05,
+        "slip_tangent_velocity_threshold_m_s": 0.08,
+        "slip_displacement_threshold_m": 0.025,
+        "slip_duration_s": 0.04,
+        "foot_contact_required": true,
+        "torso_ground_height_m": 0.35
+      },
+      "perturbed_standing": {
+        "duration_s": 3.0,
+        "warmup_duration_s": 0.0,
+        "seed": 0,
+        "initial_torso_tilt_rad": 0.0,
+        "initial_com_offset_m": 0.0,
+        "initial_angular_velocity_rad_s": 0.05
+      },
+      "robustness_randomization": {
+        "initial_torso_tilt_rad": 0.0,
+        "initial_com_offset_m": 0.0,
+        "initial_angular_velocity_rad_s": 0.05,
+        "push_magnitude_jitter_fraction": 0.08,
+        "push_direction_jitter_deg": 8.0,
+        "push_duration_jitter_s": 0.015
+      },
+      "hybrid_recovery": {
+        "max_steps": 2,
+        "minimum_step_time_s": 0.35,
+        "trigger_margin_m": 0.0,
+        "trigger_speed_m_s": 0.15,
+        "predictive_trigger_speed_m_s": 0.3,
+        "predictive_trigger_margin_m": 0.09,
+        "trigger_com_displacement_m": 0.1,
+        "trigger_torso_error_rad": 0.35,
+        "trigger_contact_slack_norm": 0.025,
+        "step_length_m": 0.3,
+        "min_step_length_m": 0.24,
+        "max_step_length_m": 0.42,
+        "step_length_per_severity": 0.35,
+        "second_step_max_length_m": 0.28,
+        "second_step_capture_time_s": 0.05,
+        "max_step_reach_m": 0.46,
+        "step_clearance_m": 0.06,
+        "swing_duration_s": 0.26,
+        "second_step_swing_duration_s": 0.12,
+        "transfer_duration_s": 0.18,
+        "max_transfer_duration_s": 0.32,
+        "second_step_transfer_duration_s": 0.08,
+        "second_step_max_transfer_duration_s": 0.12,
+        "transfer_margin_m": 0.004,
+        "transfer_speed_m_s": 0.15,
+        "transfer_com_weight": 80.0,
+        "transfer_com_kp": 180.0,
+        "transfer_com_kd": 30.0,
+        "step_com_target_fraction": 0.5,
+        "landing_duration_s": 0.06,
+        "landing_timeout_s": 0.7,
+        "contact_force_threshold_N": 5.0,
+        "landing_tangent_speed_m_s": 0.25,
+        "landing_position_tolerance_m": 0.08,
+        "post_landing_duration_s": 0.5,
+        "step_cooldown_s": 0.05,
+        "displacement_direction_gain": 3.0
+      }
+    }
+  },
+  "experiment": "adaptive_recovery_arena",
+  "controller": "adaptive_hybrid_se3_wbc",
+  "scenario_names": [
+    "stabilize_40N",
+    "step_75N",
+    "lateral_70N",
+    "overload_100N"
+  ],
+  "scenarios": [
+    {
+      "name": "stabilize_40N",
+      "magnitude_N": 40.0,
+      "direction_deg": 0.0,
+      "duration_s": 0.15,
+      "description": "small forward push; remain in double support"
+    },
+    {
+      "name": "step_75N",
+      "magnitude_N": 75.0,
+      "direction_deg": 0.0,
+      "duration_s": 0.15,
+      "description": "near-boundary forward push; attempt measured foot recovery"
+    },
+    {
+      "name": "lateral_70N",
+      "magnitude_N": 70.0,
+      "direction_deg": 90.0,
+      "duration_s": 0.15,
+      "description": "lateral push; test direction-aware foot selection"
+    },
+    {
+      "name": "overload_100N",
+      "magnitude_N": 100.0,
+      "direction_deg": 0.0,
+      "duration_s": 0.15,
+      "description": "strong forward push; preserve a transparent failure case"
+    }
+  ],
+  "duration_s": 5.0,
+  "model_path": "models/unitree_g1/scene_push_recovery.xml",
+  "rendered": true,
+  "artifact_root": "arena_final_render_20260817",
+  "historical_results_policy": "new output root; results/data and results/revalidation are untouched"
+}

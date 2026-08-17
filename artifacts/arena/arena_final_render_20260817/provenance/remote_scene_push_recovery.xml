@@ -1,0 +1,26 @@
+<mujoco model="g1_29dof_push_recovery">
+  <!-- The robot include is copied verbatim from Unitree unitree_mujoco commit
+       ae6a8403e272733e9996ef59990880330496177f. Only scene-level camera,
+       floor naming, and lighting are project-owned. -->
+  <include file="g1_29dof.xml"/>
+
+  <statistic center="0 0 0.65" extent="2.2"/>
+  <visual>
+    <headlight diffuse="0.72 0.74 0.78" ambient="0.38 0.40 0.44" specular="0.20 0.22 0.26"/>
+    <rgba haze="0.88 0.90 0.94 1"/>
+    <global azimuth="135" elevation="-18" offwidth="1920" offheight="1080"/>
+    <quality shadowsize="2048" offsamples="4"/>
+  </visual>
+
+  <asset>
+    <texture type="skybox" builtin="gradient" rgb1="0.92 0.95 0.99" rgb2="0.70 0.78 0.88" width="512" height="1024"/>
+    <material name="ground_material" rgba="0.78 0.80 0.84 1" reflectance="0.02"/>
+  </asset>
+
+  <worldbody>
+    <light name="key_light" pos="1.8 -2.4 3.8" dir="-0.35 0.45 -0.82" directional="true" diffuse="0.8 0.8 0.8" specular="0.2 0.2 0.2"/>
+    <geom name="ground" type="plane" size="8 8 0.1" material="ground_material" contype="1" conaffinity="1"/>
+    <!-- Fixed world camera: the same pose/scale is used for PD and WBC. -->
+    <camera name="track" mode="fixed" pos="1.65 -2.50 1.15" quat="0.71634926 0.63572670 0.19087720 0.21508415" fovy="38"/>
+  </worldbody>
+</mujoco>

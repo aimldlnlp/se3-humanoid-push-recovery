@@ -1,0 +1,100 @@
+seed: 0
+standing_duration_s: 3.0
+push:
+  # G1 calibration: 70 N @ 0 deg is a near-boundary canonical WBC push;
+  # 80 N is retained in the sweep as a measured failure region.
+  magnitude_N: 70.0
+  direction_deg: 0.0
+  duration_s: 0.15
+  start_time_s: 2.0
+  application_body: torso
+sweep:
+  magnitudes_N: [10, 20, 30, 40, 50, 60, 70, 80]
+  directions_deg: [0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210, 225, 240, 255, 270, 285, 300, 315, 330, 345]
+  duration_s: 0.15
+  start_time_s: 2.0
+  trial_duration_s: 6.0
+robustness:
+  friction: [0.3, 0.5, 0.7, 0.9]
+  mass_scale: [0.9, 1.0, 1.1]
+  push_duration_s: [0.10, 0.15, 0.20]
+  seeds: [0, 1, 2, 3, 4]
+recovery:
+  orientation_threshold_rad: 0.0872664626
+  angular_velocity_threshold_rad_s: 0.15
+  com_displacement_threshold_m: 0.10
+  stable_duration_s: 0.25
+  timeout_s: 6.0
+  startup_grace_period_s: 0.25
+  contact_loss_duration_s: 0.08
+  friction_utilization_threshold: 1.05
+  slip_tangent_velocity_threshold_m_s: 0.08
+  slip_displacement_threshold_m: 0.025
+  slip_duration_s: 0.04
+  foot_contact_required: true
+  torso_ground_height_m: 0.35
+perturbed_standing:
+  duration_s: 3.0
+  # The perturbation is applied immediately; no PD warmup is allowed to erase it.
+  warmup_duration_s: 0.0
+  # Keep the nominal double-support pose and inject only a base angular-rate
+  # perturbation; directly rotating/translating a free base would move both
+  # feet off the ground before the controller is evaluated.
+  seed: 0
+  initial_torso_tilt_rad: 0.0
+  initial_com_offset_m: 0.0
+  initial_angular_velocity_rad_s: 0.05
+robustness_randomization:
+  # Same contact-preserving convention as perturbed_standing.
+  initial_torso_tilt_rad: 0.0
+  initial_com_offset_m: 0.0
+  initial_angular_velocity_rad_s: 0.05
+  push_magnitude_jitter_fraction: 0.08
+  push_direction_jitter_deg: 8.0
+  push_duration_jitter_s: 0.015
+
+# One-step recovery extension.  The controller starts in the validated
+# double-support mode and switches to one-foot support only from measured
+# state; it never receives the configured push as an oracle.
+hybrid_recovery:
+  max_steps: 2
+  minimum_step_time_s: 0.35
+  trigger_margin_m: 0.000
+  trigger_speed_m_s: 0.15
+  # Predictive stepping is deliberately gated to high-speed, low-margin
+  # states; ordinary recoverable pushes remain in fixed-foot mode.
+  predictive_trigger_speed_m_s: 0.30
+  predictive_trigger_margin_m: 0.090
+  trigger_com_displacement_m: 0.10
+  trigger_torso_error_rad: 0.35
+  trigger_contact_slack_norm: 0.025
+  step_length_m: 0.30
+  min_step_length_m: 0.24
+  max_step_length_m: 0.42
+  step_length_per_severity: 0.35
+  second_step_max_length_m: 0.28
+  second_step_capture_time_s: 0.05
+  max_step_reach_m: 0.46
+  step_clearance_m: 0.06
+  swing_duration_s: 0.26
+  second_step_swing_duration_s: 0.12
+  transfer_duration_s: 0.18
+  max_transfer_duration_s: 0.32
+  second_step_transfer_duration_s: 0.08
+  second_step_max_transfer_duration_s: 0.12
+  transfer_margin_m: 0.004
+  transfer_speed_m_s: 0.15
+  transfer_com_weight: 80.0
+  transfer_com_kp: 180.0
+  transfer_com_kd: 30.0
+  # During transfer, keep the CoM over the remaining support foot. The
+  # double-support midpoint is restored only after measured touchdown.
+  step_com_target_fraction: 0.50
+  landing_duration_s: 0.06
+  landing_timeout_s: 0.70
+  contact_force_threshold_N: 5.0
+  landing_tangent_speed_m_s: 0.25
+  landing_position_tolerance_m: 0.08
+  post_landing_duration_s: 0.50
+  step_cooldown_s: 0.05
+  displacement_direction_gain: 3.0

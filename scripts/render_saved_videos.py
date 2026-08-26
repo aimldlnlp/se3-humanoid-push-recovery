@@ -123,17 +123,17 @@ def _render_comparison(configs: dict, data_root: Path, output_root: Path) -> Non
     count = min(len(paths) for paths in rendered)
     reference = arrays_by_controller["se3_wbc"]
     push = _push_summary(reference)
-    title_font = pil_font(22, weight="bold")
-    body_font = pil_font(16)
+    title_font = pil_font(28, weight="bold")
+    body_font = pil_font(20)
     stride = _stride(configs)
     for i in range(count):
         left = Image.open(rendered[0][i]).convert("RGB")
         right = Image.open(rendered[1][i]).convert("RGB")
-        header_height = 42
+        header_height = 52
         canvas = Image.new("RGB", (left.width + right.width, max(left.height, right.height) + header_height), "white")
         canvas.paste(left, (0, header_height)); canvas.paste(right, (left.width, header_height))
         draw = ImageDraw.Draw(canvas)
-        draw.rectangle((0, 0, canvas.width, header_height), fill=(255, 255, 255), outline=(31, 41, 51), width=1)
+        draw.rectangle((0, 0, canvas.width, header_height), fill=(255, 255, 255), outline=(0, 0, 0), width=1)
         draw.line((left.width, header_height, left.width, canvas.height), fill=(148, 163, 184), width=1)
         time_index = min(i * stride, len(reference["time_s"]) - 1)
         time_s = float(reference["time_s"][time_index])
@@ -142,7 +142,7 @@ def _render_comparison(configs: dict, data_root: Path, output_root: Path) -> Non
         draw.text((left.width + 16, 10), "SE(3) WBC", font=title_font, fill=(0, 114, 178))
         bbox = draw.textbbox((0, 0), shared, font=body_font)
         shared_x = left.width - (bbox[2] - bbox[0]) - 18
-        draw.text((shared_x, 13), shared, font=body_font, fill=(31, 41, 51))
+        draw.text((shared_x, 13), shared, font=body_font, fill=(0, 0, 0))
         if np.linalg.norm(reference["push_force"][time_index, :2]) > 1e-9:
             draw.ellipse((shared_x - 14, 13, shared_x - 4, 23), fill=(214, 94, 0))
         canvas.save(output_dir / f"frame_{i:06d}.png")
@@ -184,4 +184,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

@@ -557,11 +557,11 @@ def _plot_profile(
     axes[0].plot(time_s, friction, label="actual friction utilization")
     axes[0].axhline(HIGH_UTILIZATION_THRESHOLD, color="black", linestyle="--", linewidth=0.8, label="0.95 threshold")
     axes[0].set_ylabel("utilization")
-    axes[0].legend(fontsize=8, loc="upper right")
+    axes[0].legend(fontsize=10, loc="upper right")
     axes[1].plot(time_s, linear, label="linear momentum norm")
     axes[1].plot(time_s, angular, label="centroidal angular momentum norm")
     axes[1].set_ylabel("momentum")
-    axes[1].legend(fontsize=8, loc="upper right")
+    axes[1].legend(fontsize=10, loc="upper right")
     axes[2].plot(time_s, observables["support_margin_m"], label="support margin")
     axes[2].axhline(0.0, color="black", linewidth=0.8)
     axes[2].axhline(SUPPORT_MARGIN_THRESHOLD_M, color="red", linestyle="--", linewidth=0.8)
@@ -573,12 +573,12 @@ def _plot_profile(
         label="predicted joint margin [rad]",
     )
     axes[3].set_ylabel("constraint state")
-    axes[3].legend(fontsize=8, loc="upper right")
+    axes[3].legend(fontsize=10, loc="upper right")
     axes[4].plot(time_s, arrays["actual_normal_force_post_step_N"][:, 0], label="left normal force")
     axes[4].plot(time_s, arrays["actual_normal_force_post_step_N"][:, 1], label="right normal force")
     axes[4].set_ylabel("GRF z [N]")
     axes[4].set_xlabel("post-touchdown time [s]")
-    axes[4].legend(fontsize=8, loc="upper right")
+    axes[4].legend(fontsize=10, loc="upper right")
     for axis in axes:
         axis.grid(alpha=0.2)
     axes[0].set_title(

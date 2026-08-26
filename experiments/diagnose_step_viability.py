@@ -277,7 +277,7 @@ def _plot_diagnostic(run, variant: str, magnitude: float, direction: float, path
     mode_names = ["double_support", "transfer", "single_support", "landing", "failed_recovery"]
     mode_id = np.array([mode_names.index(value) if value in mode_names else -1 for value in modes])
     axes[3].step(time_s, mode_id, where="post", color="#222", label="controller mode")
-    axes[3].set_yticks(range(len(mode_names)), mode_names, fontsize=8)
+    axes[3].set_yticks(range(len(mode_names)), mode_names, fontsize=10)
     axes[3].set_ylabel("mode")
     axes[3].set_xlabel("time [s]")
     for event in events:
@@ -285,10 +285,10 @@ def _plot_diagnostic(run, variant: str, magnitude: float, direction: float, path
         if np.isfinite(event_time):
             for axis in axes:
                 axis.axvline(event_time, color="#cc4c02", linewidth=0.7, alpha=0.45)
-            axes[3].text(event_time, len(mode_names) - 0.2, str(event.get("label", "")), rotation=90, fontsize=7, va="top")
+            axes[3].text(event_time, len(mode_names) - 0.2, str(event.get("label", "")), rotation=90, fontsize=9, va="top")
     axes[0].set_title(f"{variant}: {magnitude:g} N @ {direction:g} deg")
-    axes[0].legend(loc="upper right", fontsize=8)
-    axes[2].legend(loc="upper right", fontsize=8)
+    axes[0].legend(loc="upper right", fontsize=10)
+    axes[2].legend(loc="upper right", fontsize=10)
     fig.tight_layout()
     path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(path, dpi=150)

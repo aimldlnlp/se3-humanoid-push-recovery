@@ -25,7 +25,7 @@ def frame(ax, transform, label, label_color):
         direction = transform[:3, index]
         ax.quiver(*origin, *direction, color=color, length=0.22, normalize=True, linewidth=2.0, arrow_length_ratio=0.18)
     ax.scatter(*origin, color=label_color, s=18, depthshade=False)
-    ax.text(*origin, label, color=label_color, fontsize=10, zorder=10)
+    ax.text(*origin, label, color=label_color, fontsize=12, zorder=10)
 
 
 def clean_3d_axis(ax):
@@ -80,14 +80,14 @@ def main() -> None:
         ax_twist.set_xticks(positions, [r"$v_x$", r"$v_y$", r"$v_z$", r"$\omega_x$", r"$\omega_y$", r"$\omega_z$"])
         ax_twist.set_xlim(-0.6, 5.6); ax_twist.set_ylim(-0.45, 0.45)
         ax_twist.set_ylabel(r"$\xi_e = \mathrm{Log}(E_s)^\vee$", labelpad=8)
-        ax_twist.text(0.25, 1.04, "linear", transform=ax_twist.transAxes, ha="center", color=COLORS["linear"], fontsize=8.2)
-        ax_twist.text(0.75, 1.04, "angular", transform=ax_twist.transAxes, ha="center", color=COLORS["angular"], fontsize=8.2)
-        ax_twist.text(0.5, 1.04, "world / spatial tangent coordinates  •  [linear | angular]", transform=ax_twist.transAxes, ha="center", fontsize=8.2, color=COLORS["ink"])
+        ax_twist.text(0.25, 1.04, "linear", transform=ax_twist.transAxes, ha="center", color=COLORS["linear"], fontsize=11.0)
+        ax_twist.text(0.75, 1.04, "angular", transform=ax_twist.transAxes, ha="center", color=COLORS["angular"], fontsize=11.0)
+        ax_twist.text(0.5, 1.04, "world / spatial tangent coordinates  •  [linear | angular]", transform=ax_twist.transAxes, ha="center", fontsize=11.0, color=COLORS["ink"])
         ax_twist.spines["top"].set_visible(False); ax_twist.spines["right"].set_visible(False)
         ax_twist.grid(axis="y", color=COLORS["grid"], alpha=0.42, linewidth=0.6)
         ax_twist.set_axisbelow(True)
-        fig.suptitle(f"SE(3) geometric error  •  progress = {alpha:.2f}", fontsize=10.5, y=0.98)
-        fig.text(0.5, 0.485, r"$E_s = T\,T_d^{-1}$    $\longrightarrow$    $\xi_e = \mathrm{Log}(E_s)^\vee$", ha="center", va="center", fontsize=10.5, color=COLORS["ink"])
+        fig.suptitle(f"SE(3) geometric error  •  progress = {alpha:.2f}", fontsize=14.0, y=0.98)
+        fig.text(0.5, 0.485, r"$E_s = T\,T_d^{-1}$    $\longrightarrow$    $\xi_e = \mathrm{Log}(E_s)^\vee$", ha="center", va="center", fontsize=13.0, color=COLORS["ink"])
         return []
 
     animation = FuncAnimation(fig, update, frames=len(times), interval=70, blit=False)

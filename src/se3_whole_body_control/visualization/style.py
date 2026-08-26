@@ -15,7 +15,7 @@ from .fonts import FONT_FAMILY, register_matplotlib_fonts
 # Okabe--Ito-inspired colors.  Semantic names are used throughout the
 # project so a controller or physical quantity never changes color by plot.
 COLORS = {
-    "ink": "#1F2933",
+    "ink": "#000000",
     "muted": "#64748B",
     "grid": "#CBD5E1",
     "paper": "#FFFFFF",
@@ -46,18 +46,20 @@ def apply_style() -> None:
         "font.family": FONT_FAMILY,
         "font.serif": [FONT_FAMILY],
         "mathtext.fontset": "cm",
-        "font.size": 9.5,
-        "axes.titlesize": 10.0,
+        "font.size": 11.5,
+        "axes.titlesize": 13.0,
         "axes.titleweight": "normal",
-        "axes.labelsize": 9.2,
-        "xtick.labelsize": 8.0,
-        "ytick.labelsize": 8.0,
-        "legend.fontsize": 7.8,
+        "axes.titlecolor": COLORS["ink"],
+        "axes.labelsize": 11.5,
+        "xtick.labelsize": 10.0,
+        "ytick.labelsize": 10.0,
+        "legend.fontsize": 10.0,
         "axes.linewidth": 0.75,
         "lines.linewidth": 1.35,
         "lines.markersize": 4.0,
         "axes.edgecolor": COLORS["ink"],
         "axes.labelcolor": COLORS["ink"],
+        "text.color": COLORS["ink"],
         "xtick.color": COLORS["ink"],
         "ytick.color": COLORS["ink"],
         "xtick.direction": "out",
@@ -95,5 +97,5 @@ def panel_label(ax, label: str) -> None:
     """Place a restrained publication-style panel label."""
     ax.text(
         0.0, 1.04, label, transform=ax.transAxes, ha="left", va="bottom",
-        fontsize=9.5, color=COLORS["ink"], fontweight="normal",
+        fontsize=12.0, color=COLORS["ink"], fontweight="normal",
     )

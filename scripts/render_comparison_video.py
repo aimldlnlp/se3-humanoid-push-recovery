@@ -52,15 +52,15 @@ def main() -> None:
     if output_dir.exists(): shutil.rmtree(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     count = min(len(paths) for paths in rendered)
-    title_font = pil_font(22, weight="bold")
-    body_font = pil_font(16)
+    title_font = pil_font(28, weight="bold")
+    body_font = pil_font(20)
     for i in range(count):
         left = Image.open(rendered[0][i]).convert("RGB"); right = Image.open(rendered[1][i]).convert("RGB")
-        header_height = 42
+        header_height = 52
         canvas = Image.new("RGB", (left.width + right.width, max(left.height, right.height) + header_height), "white")
         canvas.paste(left, (0, header_height)); canvas.paste(right, (left.width, header_height))
         draw = ImageDraw.Draw(canvas)
-        draw.rectangle((0, 0, canvas.width, header_height), fill=(255, 255, 255), outline=(31, 41, 51), width=1)
+        draw.rectangle((0, 0, canvas.width, header_height), fill=(255, 255, 255), outline=(0, 0, 0), width=1)
         draw.line((left.width, header_height, left.width, canvas.height), fill=(148, 163, 184), width=1)
         time_s = float(reference_arrays["time_s"][min(i * stride, len(reference_arrays["time_s"]) - 1)])
         force = float(np.linalg.norm(reference_arrays["push_force"][min(i * stride, len(reference_arrays["push_force"]) - 1), :2]))
@@ -70,7 +70,7 @@ def main() -> None:
         bbox = draw.textbbox((0, 0), shared, font=body_font)
         shared_width = bbox[2] - bbox[0]
         shared_x = left.width - shared_width - 18
-        draw.text((shared_x, 13), shared, font=body_font, fill=(31, 41, 51))
+        draw.text((shared_x, 13), shared, font=body_font, fill=(0, 0, 0))
         if force > 1e-9:
             draw.ellipse((shared_x - 14, 13, shared_x - 4, 23), fill=(214, 94, 0))
         canvas.save(output_dir / f"frame_{i:06d}.png")

@@ -32,8 +32,8 @@ def _draw_overlay(image, metadata: Mapping[str, object] | None) -> None:
     scale = float(np.clip(image.width / 1920.0, 0.72, 1.0))
     margin = int(28 * scale)
     compact = bool(metadata.get("compact_overlay", False))
-    title_font = pil_font(max(15, int((21 if compact else 25) * scale)), weight="bold")
-    body_font = _font(max(12, int((14 if compact else 16) * scale)))
+    title_font = pil_font(max(18, int((25 if compact else 30) * scale)), weight="bold")
+    body_font = _font(max(15, int((18 if compact else 20) * scale)))
     controller = str(metadata.get("controller", "unknown"))
     qp_status = str(metadata.get("status", "unknown"))
     force = np.asarray(metadata.get("push_force", [0.0, 0.0]), dtype=float).reshape(-1)
@@ -52,19 +52,19 @@ def _draw_overlay(image, metadata: Mapping[str, object] | None) -> None:
         push_label,
     ])
     line_widths = [draw.textbbox((0, 0), line, font=title_font if index == 0 and not compact else body_font)[2] for index, line in enumerate(lines)]
-    panel_width = max(int(214 * scale), max(line_widths, default=0) + int(30 * scale))
-    panel_height = int((70 if compact else 96) * scale)
+    panel_width = max(int(240 * scale), max(line_widths, default=0) + int(36 * scale))
+    panel_height = int((82 if compact else 124) * scale)
     draw.rounded_rectangle(
         (margin, margin, margin + panel_width, margin + panel_height),
-        radius=int(10 * scale), fill=(255, 255, 255, 224), outline=(31, 41, 51, 180), width=max(1, int(scale)),
+        radius=int(10 * scale), fill=(255, 255, 255, 224), outline=(0, 0, 0, 180), width=max(1, int(scale)),
     )
     if compact:
         for index, line in enumerate(lines):
-            draw.text((margin + int(14 * scale), margin + int(11 * scale) + index * int(22 * scale)), line, font=body_font, fill=(31, 41, 51, 255))
+            draw.text((margin + int(18 * scale), margin + int(14 * scale) + index * int(26 * scale)), line, font=body_font, fill=(0, 0, 0, 255))
     else:
-        draw.text((margin + int(16 * scale), margin + int(10 * scale)), lines[0], font=title_font, fill=(31, 41, 51, 255))
+        draw.text((margin + int(20 * scale), margin + int(12 * scale)), lines[0], font=title_font, fill=(0, 0, 0, 255))
         for index, line in enumerate(lines[1:]):
-            draw.text((margin + int(17 * scale), margin + int(42 * scale) + index * int(22 * scale)), line, font=body_font, fill=(31, 41, 51, 255))
+            draw.text((margin + int(21 * scale), margin + int(50 * scale) + index * int(26 * scale)), line, font=body_font, fill=(0, 0, 0, 255))
 
     contacts = f"L  {'CONTACT' if metadata.get('contact_left') else 'LOST'}     R  {'CONTACT' if metadata.get('contact_right') else 'LOST'}"
     mode = str(metadata.get("control_mode", "double_support")).replace("_", " ").upper()
@@ -77,18 +77,18 @@ def _draw_overlay(image, metadata: Mapping[str, object] | None) -> None:
     if event_text:
         status_lines.append(event_text)
     status_width = max(
-        int(190 * scale),
-        max(draw.textbbox((0, 0), line, font=body_font)[2] for line in status_lines) + int(22 * scale),
+        int(230 * scale),
+        max(draw.textbbox((0, 0), line, font=body_font)[2] for line in status_lines) + int(30 * scale),
     )
-    status_height = int((28 + 21 * len(status_lines)) * scale)
+    status_height = int((38 + 26 * len(status_lines)) * scale)
     y0 = image.height - margin - status_height
     draw.rounded_rectangle(
         (margin, y0, margin + status_width, y0 + status_height),
-        radius=int(8 * scale), fill=(255, 255, 255, 218), outline=(31, 41, 51, 150), width=max(1, int(scale)),
+        radius=int(8 * scale), fill=(255, 255, 255, 218), outline=(0, 0, 0, 150), width=max(1, int(scale)),
     )
     for index, line in enumerate(status_lines):
-        color = (128, 32, 80, 255) if line.startswith("Event") else (31, 41, 51, 255)
-        draw.text((margin + int(12 * scale), y0 + int(6 * scale) + index * int(20 * scale)), line, font=body_font, fill=color)
+        color = (128, 32, 80, 255) if line.startswith("Event") else (0, 0, 0, 255)
+        draw.text((margin + int(16 * scale), y0 + int(9 * scale) + index * int(25 * scale)), line, font=body_font, fill=color)
 
 
 def _rotation_from_z(direction: np.ndarray) -> np.ndarray:

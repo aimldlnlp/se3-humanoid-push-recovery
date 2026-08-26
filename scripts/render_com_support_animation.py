@@ -83,7 +83,7 @@ def main() -> None:
     peak = ax.scatter([com[peak_index, 0]], [com[peak_index, 1]], color=COLORS["push"], marker="^", s=42, label="peak")
     final = ax.scatter([com[-1, 0]], [com[-1, 1]], color=COLORS["actual"], marker="s", s=34, label="final")
     ax.set_xlabel("World x [m]"); ax.set_ylabel("World y [m]")
-    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.11), ncol=4, columnspacing=0.75, handlelength=1.4, fontsize=7.2)
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.11), ncol=4, columnspacing=0.75, handlelength=1.4, fontsize=10.0)
     fig.subplots_adjust(left=0.10, right=0.98, bottom=0.18, top=0.90)
 
     def update(frame_number):
@@ -117,7 +117,7 @@ def main() -> None:
                 history.set_offsets(np.empty((0, 2)))
         cop_current.set_offsets(np.asarray(current_cop) if current_cop else np.empty((0, 2)))
         push_active = bool(np.linalg.norm(a["push_force"][sample, :2]) > 1e-9)
-        ax.set_title(f"CoM + support  |  t = {time_s[sample]:.2f} s  |  {'PUSH' if push_active else 'idle'}", loc="left", fontsize=9.5, pad=7)
+        ax.set_title(f"CoM + support  |  t = {time_s[sample]:.2f} s  |  {'PUSH' if push_active else 'idle'}", loc="left", fontsize=12.5, pad=7)
         return [trail, current, push_trail, cop_current, *cop_history, *foot_polygons, support_polygon]
 
     animation = FuncAnimation(fig, update, frames=len(frame_indices), interval=1000.0 / fps, blit=False)

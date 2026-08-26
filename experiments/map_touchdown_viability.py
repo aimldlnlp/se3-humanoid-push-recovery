@@ -568,7 +568,7 @@ def _plot_map(capture_rows: list[dict], replay_rows: list[dict], path: Path) -> 
     axes[0].set_ylabel("boolean indicator")
     axes[0].set_yticks([0, 1], ["no", "yes"])
     axes[0].grid(alpha=0.2)
-    axes[0].legend(fontsize=7)
+    axes[0].legend(fontsize=10)
     variants = sorted({str(row["replay_variant"]) for row in replay_rows})
     for variant in variants:
         selected = [row for row in replay_rows if row["replay_variant"] == variant and float(row["qvel_scale"]) in (0.5, 1.0)]
@@ -589,7 +589,7 @@ def _plot_map(capture_rows: list[dict], replay_rows: list[dict], path: Path) -> 
     axes[1].set_xlabel("oracle foot offset along push [m]")
     axes[1].set_yticks([0, 1], ["no", "yes"])
     axes[1].grid(alpha=0.2)
-    axes[1].legend(fontsize=7)
+    axes[1].legend(fontsize=10)
     fig.tight_layout()
     path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(path, dpi=160)

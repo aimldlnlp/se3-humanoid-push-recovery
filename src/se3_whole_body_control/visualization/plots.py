@@ -111,7 +111,7 @@ def _qp_timing(ax, t: np.ndarray, solve_time_s: np.ndarray, deadline_ms: float =
         "mean {:.2f} | p95 {:.2f} | p99 {:.2f}\nmax {:.2f} | misses {:.1f}%".format(
             stats["mean_ms"], stats["p95_ms"], stats["p99_ms"], stats["max_ms"], stats["deadline_miss_pct"]
         ),
-        transform=ax.transAxes, ha="left", va="top", fontsize=7.8,
+        transform=ax.transAxes, ha="left", va="top", fontsize=10.0,
         color=COLORS["ink"],
         bbox={"facecolor": COLORS["paper"], "alpha": 0.86, "edgecolor": COLORS["grid"], "pad": 3},
     )
@@ -232,7 +232,7 @@ def plot_comparison(rows: list[dict], output_dir: str | Path, name: str = "contr
     ax.set_xlabel("recovery rate [%]")
     ax.set_title("(a) Measured recovery", loc="left", pad=5)
     for bar, ok, total in zip(bars, recovered, tested):
-        ax.text(min(float(bar.get_width()) + 2.0, 96.0), bar.get_y() + bar.get_height() / 2, f"{ok}/{total}", ha="left", va="center", color=COLORS["ink"], fontsize=8.4)
+        ax.text(min(float(bar.get_width()) + 2.0, 96.0), bar.get_y() + bar.get_height() / 2, f"{ok}/{total}", ha="left", va="center", color=COLORS["ink"], fontsize=10.5)
     ax.xaxis.set_major_locator(plt.MaxNLocator(5))
     style_axes(ax)
 
@@ -240,18 +240,18 @@ def plot_comparison(rows: list[dict], output_dir: str | Path, name: str = "contr
     ax_table.axis("off")
     ax_table.set_title("(b) Basin summary", loc="left", pad=5)
     x_values = np.linspace(0.61, 0.88, max(len(labels), 2))[:len(labels)]
-    ax_table.text(0.04, 0.78, "metric", ha="left", va="center", color=COLORS["muted"], fontsize=7.8, transform=ax_table.transAxes)
+    ax_table.text(0.04, 0.78, "metric", ha="left", va="center", color=COLORS["muted"], fontsize=10.0, transform=ax_table.transAxes)
     for x, label, controller in zip(x_values, labels, controllers):
-        ax_table.text(x, 0.78, label, ha="center", va="center", color=_controller_color(controller), fontsize=8.0, transform=ax_table.transAxes)
+        ax_table.text(x, 0.78, label, ha="center", va="center", color=_controller_color(controller), fontsize=10.0, transform=ax_table.transAxes)
     metrics = (
         ("largest recovered [N]", largest, lambda value: f"{value:.0f}" if np.isfinite(value) else "—"),
         ("median latency [s]", median_latency, lambda value: f"{value:.3f}" if np.isfinite(value) else "—"),
     )
     for row_index, (label, values, formatter) in enumerate(metrics):
         y_pos = 0.56 - 0.22 * row_index
-        ax_table.text(0.04, y_pos, label, ha="left", va="center", color=COLORS["ink"], fontsize=8.0, transform=ax_table.transAxes)
+        ax_table.text(0.04, y_pos, label, ha="left", va="center", color=COLORS["ink"], fontsize=10.0, transform=ax_table.transAxes)
         for x, value in zip(x_values, values):
-            ax_table.text(x, y_pos, formatter(value), ha="center", va="center", color=COLORS["ink"], fontsize=8.5, transform=ax_table.transAxes)
+            ax_table.text(x, y_pos, formatter(value), ha="center", va="center", color=COLORS["ink"], fontsize=10.5, transform=ax_table.transAxes)
         ax_table.plot([0.03, 0.97], [y_pos - 0.105, y_pos - 0.105], color=COLORS["grid"], linewidth=0.6, transform=ax_table.transAxes)
     ax_table.plot([0.03, 0.97], [0.69, 0.69], color=COLORS["grid"], linewidth=0.7, transform=ax_table.transAxes)
     fig.subplots_adjust(left=0.12, right=0.98, bottom=0.17, top=0.87, wspace=0.35)
@@ -297,7 +297,7 @@ def _draw_recovery_heatmap(ax, rows: list[dict], controller: str, *, show_ylabel
     recovered = int(np.nansum(grid == 1.0))
     total = int(np.sum(np.isfinite(grid)))
     ax.set_title(f"{_controller_label(controller)}", loc="left", pad=5)
-    ax.text(0.99, 1.02, f"{recovered}/{total} recovered", transform=ax.transAxes, ha="right", va="bottom", fontsize=7.7, color=COLORS["muted"])
+    ax.text(0.99, 1.02, f"{recovered}/{total} recovered", transform=ax.transAxes, ha="right", va="bottom", fontsize=10.0, color=COLORS["muted"])
     envelope = _recovery_envelope(rows, controller, dirs)
     boundary_y = np.array([mags.tolist().index(value) if np.isfinite(value) else np.nan for value in envelope], dtype=float)
     ax.plot(np.arange(len(dirs)), boundary_y, color=COLORS["boundary"], linewidth=0.9, linestyle=(0, (2, 2)), marker="o", markersize=2.2, label="last recovered tested cell")
@@ -328,8 +328,8 @@ def plot_recovery_basin(rows: list[dict], output_dir: str | Path, name: str = "r
     fig, axes = plt.subplots(1, 2, figsize=(8.3, 3.45), sharex=True, sharey=True)
     _draw_recovery_heatmap(axes[0], rows, "pd", show_ylabel=True)
     _draw_recovery_heatmap(axes[1], rows, "se3_wbc", show_ylabel=False)
-    fig.text(0.5, 0.96, "Sampled recovery basin", ha="center", va="center", fontsize=10.5)
-    fig.text(0.5, 0.915, "each cell is one tested push; colors show the common physical classifier", ha="center", va="center", fontsize=7.8, color=COLORS["muted"])
+    fig.text(0.5, 0.96, "Sampled recovery basin", ha="center", va="center", fontsize=13.0)
+    fig.text(0.5, 0.915, "each cell is one tested push; colors show the common physical classifier", ha="center", va="center", fontsize=10.0, color=COLORS["muted"])
     fig.legend(handles=_recovery_legend_handles(), loc="lower center", bbox_to_anchor=(0.5, 0.005), ncol=3)
     fig.subplots_adjust(left=0.09, right=0.985, bottom=0.22, top=0.84, wspace=0.10)
     return list(_save(fig, output_dir, name))
@@ -378,7 +378,7 @@ def plot_hybrid_recovery_basin(rows: list[dict], output_dir: str | Path, name: s
         total = int(np.sum(np.isfinite(grid)))
         if index < 2:
             recovered = int(np.nansum(grid == 1.0))
-        ax.text(0.99, 1.02, f"{recovered}/{total} recovered", transform=ax.transAxes, ha="right", va="bottom", fontsize=7.7, color=COLORS["muted"])
+        ax.text(0.99, 1.02, f"{recovered}/{total} recovered", transform=ax.transAxes, ha="right", va="bottom", fontsize=10.0, color=COLORS["muted"])
         style_axes(ax, grid=False)
     # A star marks cells in which the hybrid controller actually entered the
     # single-support mode; recovery alone does not imply a step occurred.
@@ -391,8 +391,8 @@ def plot_hybrid_recovery_basin(rows: list[dict], output_dir: str | Path, name: s
         Patch(facecolor=COLORS["wbc"], edgecolor="none", label="both recovered"),
         Line2D([0], [0], marker="*", color="none", markerfacecolor=COLORS["paper"], markeredgecolor=COLORS["ink"], markersize=5.0, label="hybrid entered swing mode"),
     ]
-    fig.text(0.5, 0.965, "Fixed-foot versus one-step recovery", ha="center", va="center", fontsize=10.5)
-    fig.text(0.5, 0.915, "same G1 model, push grid, classifier, and source; cells remain measured trials", ha="center", va="center", fontsize=7.8, color=COLORS["muted"])
+    fig.text(0.5, 0.965, "Fixed-foot versus one-step recovery", ha="center", va="center", fontsize=13.0)
+    fig.text(0.5, 0.915, "same G1 model, push grid, classifier, and source; cells remain measured trials", ha="center", va="center", fontsize=10.0, color=COLORS["muted"])
     fig.legend(handles=handles, loc="lower center", bbox_to_anchor=(0.5, 0.005), ncol=3, columnspacing=1.4)
     fig.subplots_adjust(left=0.08, right=0.985, bottom=0.22, top=0.84, wspace=0.11)
     return list(_save(fig, output_dir, name))
@@ -446,8 +446,8 @@ def plot_recovery_envelope(rows: list[dict], output_dir: str | Path, name: str =
     ax.grid(axis="y", color=COLORS["grid"], alpha=0.42, linewidth=0.6)
     for direction in (0.0, 90.0, 180.0, 270.0):
         ax.axvline(direction, color=COLORS["grid"], alpha=0.22, linewidth=0.55, zorder=0)
-    fig.text(0.5, 0.965, "Measured recovery by push direction", ha="center", va="center", fontsize=10.5)
-    fig.text(0.5, 0.925, "24 sampled directions at 15° spacing · connecting lines are visual guides, not a continuous boundary", ha="center", va="center", fontsize=7.6, color=COLORS["muted"])
+    fig.text(0.5, 0.965, "Measured recovery by push direction", ha="center", va="center", fontsize=13.0)
+    fig.text(0.5, 0.925, "24 sampled directions at 15° spacing · connecting lines are visual guides, not a continuous boundary", ha="center", va="center", fontsize=10.0, color=COLORS["muted"])
     fig.subplots_adjust(left=0.105, right=0.985, bottom=0.25, top=0.80)
     return list(_save(fig, output_dir, name))
 
@@ -477,7 +477,7 @@ def plot_flagship(log, output_dir: str | Path, name: str = "canonical_response")
     axes[0, 0].plot(t, np.linalg.norm(push[:, :2], axis=1), color=COLORS["push"])
     axes[0, 0].set_ylabel("force [N]")
     axes[0, 0].set_title("(a) push", loc="left", pad=5)
-    axes[0, 0].text(0.98, 0.84, f"{push_magnitude:.0f} N @ {push_direction:.0f}°", transform=axes[0, 0].transAxes, ha="right", color=COLORS["push"], fontsize=7.8)
+    axes[0, 0].text(0.98, 0.84, f"{push_magnitude:.0f} N @ {push_direction:.0f}°", transform=axes[0, 0].transAxes, ha="right", color=COLORS["push"], fontsize=10.0)
 
     axes[0, 1].plot(t, a["torso_rotation_error_rad"], color=COLORS["actual"])
     axes[0, 1].set_ylabel("orientation error [rad]")
@@ -513,7 +513,7 @@ def plot_flagship(log, output_dir: str | Path, name: str = "canonical_response")
     _finish_shared_time_axes(axes, t, push)
     axes[2, 0].set_xlabel("Time [s]")
     axes[2, 1].set_xlabel("Time [s]")
-    fig.text(0.5, 0.972, f"Canonical response — SE(3) WBC, {push_magnitude:.0f} N push at {push_direction:.0f}°", ha="center", va="center", fontsize=10.5)
+    fig.text(0.5, 0.972, f"Canonical response — SE(3) WBC, {push_magnitude:.0f} N push at {push_direction:.0f}°", ha="center", va="center", fontsize=13.0)
     return list(_save(fig, output_dir, name))
 
 
@@ -555,7 +555,7 @@ def plot_actual_grf(log, output_dir: str | Path, name: str = "actual_ground_reac
     axes[1].plot(t, wrench[:, 8], color=COLORS["right_foot"], label="$F_z$")
     axes[1].set_ylabel("right GRF [N]"); axes[1].set_xlabel("time [s]"); axes[1].legend(ncol=3, loc="upper right", handlelength=1.4); axes[1].set_title("(b) right contact", loc="left", pad=5)
     _finish_shared_time_axes(axes, t, a["push_force"])
-    fig.text(0.5, 0.972, "Measured MuJoCo ground-reaction forces", ha="center", va="center", fontsize=10.5)
+    fig.text(0.5, 0.972, "Measured MuJoCo ground-reaction forces", ha="center", va="center", fontsize=13.0)
     fig.subplots_adjust(left=0.10, right=0.985, bottom=0.11, top=0.90, hspace=0.38)
     return list(_save(fig, output_dir, name))
 
@@ -617,7 +617,7 @@ def plot_contact_wrench_consistency(log, output_dir: str | Path, name: str = "co
         style_axes(ax)
         _shade_push(ax, t, a["push_force"])
     axes[1, 0].set_xlabel("time [s]"); axes[1, 1].set_xlabel("time [s]")
-    fig.text(0.5, 0.972, "QP prediction versus physical MuJoCo contact measurement", ha="center", va="center", fontsize=10.5)
+    fig.text(0.5, 0.972, "QP prediction versus physical MuJoCo contact measurement", ha="center", va="center", fontsize=13.0)
     fig.subplots_adjust(left=0.09, right=0.985, bottom=0.11, top=0.90, wspace=0.25, hspace=0.38)
     return list(_save(fig, output_dir, name))
 
@@ -698,7 +698,7 @@ def plot_com_support_polygon(log, output_dir: str | Path, name: str = "com_suppo
         else:
             label_position = np.array([np.max(polygon[:, 0]) - 0.012, np.max(polygon[:, 1]) - 0.012])
             label_align = {"ha": "right", "va": "top"}
-        ax.text(label_position[0], label_position[1], label, fontsize=7.0, color=COLORS["ink"], zorder=8, **label_align)
+        ax.text(label_position[0], label_position[1], label, fontsize=9.0, color=COLORS["ink"], zorder=8, **label_align)
 
     if len(hull_map) >= 3:
         ax.plot(
@@ -707,7 +707,7 @@ def plot_com_support_polygon(log, output_dir: str | Path, name: str = "com_suppo
         )
         ax.text(
             0.50, 0.06, "double support", transform=ax.transAxes,
-            fontsize=6.7, color=COLORS["boundary"], ha="left", va="center", zorder=8,
+            fontsize=9.0, color=COLORS["boundary"], ha="left", va="center", zorder=8,
         )
 
     for foot, marker in ((0, "o"), (1, "x")):
@@ -726,7 +726,7 @@ def plot_com_support_polygon(log, output_dir: str | Path, name: str = "com_suppo
                 label_point = samples_map[0] + np.array([-0.030, 0.018])
                 ax.annotate(
                     "measured CoP", xy=samples_map[0], xytext=label_point,
-                    fontsize=6.6, color=COLORS["cop"], ha="right", va="bottom",
+                    fontsize=9.0, color=COLORS["cop"], ha="right", va="bottom",
                     arrowprops={"arrowstyle": "-", "color": COLORS["cop"], "lw": 0.45},
                     bbox={"facecolor": COLORS["paper"], "edgecolor": "none", "pad": 1.0}, zorder=8,
                 )
@@ -760,7 +760,7 @@ def plot_com_support_polygon(log, output_dir: str | Path, name: str = "com_suppo
         ax.text(
             push_anchor_map[0] + 0.004 * push_unit_map[0], push_anchor_map[1] + 0.006 * lateral_unit_map[1],
             rf"$F_{{\mathrm{{push}}}}$  {push_magnitude:.0f} N @ {push_direction:.0f}°",
-            color=COLORS["push"], fontsize=6.8, ha="left", va="bottom",
+            color=COLORS["push"], fontsize=9.0, ha="left", va="bottom",
             bbox={"facecolor": COLORS["paper"], "edgecolor": "none", "pad": 1.0}, zorder=10,
         )
 
@@ -785,12 +785,12 @@ def plot_com_support_polygon(log, output_dir: str | Path, name: str = "com_suppo
         margin_ax.scatter(t[0], support_margin[0], facecolor=COLORS["paper"], edgecolor=COLORS["ink"], linewidth=0.8, marker="o", s=20, zorder=4)
         margin_ax.scatter(t[peak], support_margin[peak], facecolor=COLORS["push"], edgecolor=COLORS["paper"], linewidth=0.5, marker="^", s=24, zorder=4)
         margin_ax.scatter(t[-1], support_margin[-1], facecolor=COLORS["actual"], edgecolor=COLORS["paper"], linewidth=0.5, marker="s", s=20, zorder=4)
-        margin_ax.annotate("initial", xy=(t[0], support_margin[0]), xytext=(4, 4), textcoords="offset points", fontsize=6.0, color=COLORS["ink"])
-        margin_ax.annotate("peak", xy=(t[peak], support_margin[peak]), xytext=(4, 4), textcoords="offset points", fontsize=6.0, color=COLORS["ink"])
-        margin_ax.annotate("final", xy=(t[-1], support_margin[-1]), xytext=(-24, 4), textcoords="offset points", fontsize=6.0, color=COLORS["ink"])
+        margin_ax.annotate("initial", xy=(t[0], support_margin[0]), xytext=(4, 4), textcoords="offset points", fontsize=9.0, color=COLORS["ink"])
+        margin_ax.annotate("peak", xy=(t[peak], support_margin[peak]), xytext=(4, 4), textcoords="offset points", fontsize=9.0, color=COLORS["ink"])
+        margin_ax.annotate("final", xy=(t[-1], support_margin[-1]), xytext=(-24, 4), textcoords="offset points", fontsize=9.0, color=COLORS["ink"])
         margin_ax.set_ylabel("margin [m]")
         margin_ax.set_xlabel("time [s]")
-        margin_ax.set_title("support margin  (>0 = inside hull)", loc="left", pad=2, fontsize=7.3)
+        margin_ax.set_title("support margin  (>0 = inside hull)", loc="left", pad=2, fontsize=10.0)
         margin_min = float(np.nanmin(support_margin)); margin_max = float(np.nanmax(support_margin))
         margin_span = max(margin_max - margin_min, 1e-4)
         margin_ax.set_ylim(min(0.0, margin_min) - 0.12 * margin_span, max(0.0, margin_max) + 0.22 * margin_span)
@@ -804,11 +804,11 @@ def plot_com_support_polygon(log, output_dir: str | Path, name: str = "com_suppo
     response_ax.plot(t, lateral, color=COLORS["muted"], linewidth=1.05, linestyle=(0, (3, 2)), label="lateral")
     response_ax.scatter(t[peak], along_push[peak], color=COLORS["push"], marker="^", s=34, zorder=5)
     response_ax.scatter(t[-1], along_push[-1], color=COLORS["actual"], marker="s", s=28, zorder=5)
-    response_ax.annotate("peak", xy=(t[peak], along_push[peak]), xytext=(5, 7), textcoords="offset points", fontsize=7.2, color=COLORS["ink"])
+    response_ax.annotate("peak", xy=(t[peak], along_push[peak]), xytext=(5, 7), textcoords="offset points", fontsize=9.0, color=COLORS["ink"])
     response_ax.set_xlabel("time [s]")
     response_ax.set_ylabel("CoM displacement [m]")
     response_ax.set_title("(b) CoM response", loc="left", pad=6)
-    response_ax.text(0.98, 0.90, f"{push_magnitude:.0f} N @ {push_direction:.0f}°", transform=response_ax.transAxes, ha="right", va="top", fontsize=7.7, color=COLORS["push"])
+    response_ax.text(0.98, 0.90, f"{push_magnitude:.0f} N @ {push_direction:.0f}°", transform=response_ax.transAxes, ha="right", va="top", fontsize=10.0, color=COLORS["push"])
     response_ax.legend(loc="upper left", ncol=2, handlelength=1.5, columnspacing=0.8)
     style_axes(response_ax)
 
@@ -888,7 +888,7 @@ def plot_arena_telemetry(log, output_dir: str | Path, name: str = "arena_telemet
     event_indices = np.flatnonzero(events != "")
     for index in event_indices:
         axes[3].axvline(t[index], color=COLORS["boundary"], linewidth=0.6, alpha=0.55)
-        axes[3].text(t[index], axes[3].get_ylim()[1] * 0.82, events[index].replace("_", " "), rotation=90, fontsize=6.0, color=COLORS["ink"], ha="right", va="top")
+        axes[3].text(t[index], axes[3].get_ylim()[1] * 0.82, events[index].replace("_", " "), rotation=90, fontsize=9.0, color=COLORS["ink"], ha="right", va="top")
     for ax in axes:
         style_axes(ax)
     fig.tight_layout(h_pad=0.55)

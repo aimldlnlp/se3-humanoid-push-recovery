@@ -31,4 +31,4 @@ All manifests carry the same configuration hash:
 - `videos/` — G1 hero, synchronized comparison, and perturbed-standing H.264/GIF outputs.
 - `logs/` — run manifests and render provenance.
 
-The numerical revalidation was executed locally because the configured SSH worker rejected the available authentication key. This artifact does not claim worker execution. The repository still retains the worker runner and host-independent provenance fields for a future remote rerun.
+Execution provenance for this artifact is recorded in the manifests. The package makes no hardware-validation claim, and its numerical results should be interpreted only with the recorded source, configuration, model, and environment metadata.

@@ -1,6 +1,6 @@
 # G1 Adaptive Recovery Arena
 
-> A polished Unitree G1 MuJoCo system that chooses between fixed-foot stabilization, measured stepping, bounded second-step recovery, and transparent failure.
+> A Unitree G1 MuJoCo system that validates fixed-foot push recovery, attempts measured stepping, and preserves transparent failure when full adaptive recovery is not achieved.
 
 <p align="center">
   <img src="artifacts/arena/arena_final_render_20260817/g1_adaptive_recovery_arena_story.gif" alt="Unitree G1 Adaptive Recovery Arena: stabilize, attempt a measured step, and expose failure" width="920">
@@ -24,7 +24,9 @@ Recovery is a coupled geometry, dynamics, and contact problem. The arena keeps t
 
 The portfolio story is intentionally easy to read:
 
-> small push → stabilize; larger push → step; stronger disturbance → adapt again or fail clearly.
+> small push → stabilize; larger disturbance → attempt a measured step; if the touchdown sequence cannot be stabilized → expose failure clearly.
+
+**Evidence boundary:** fixed-foot double-support stabilization is validated. The arena demonstrates measured liftoff, swing, and touchdown transitions, but the `step_75N` trial ends in `FALL`; no successful full adaptive stepping recovery or walking is claimed.
 
 The current stepping branch is a bounded recovery demonstrator, not a walking controller. Its artifacts deliberately preserve the case where the first foot loads successfully but a second capture step still fails.
 
@@ -43,9 +45,9 @@ Each run saves raw trial arrays, event timelines, telemetry figures, a manifest,
 
 The final rendered evidence is packaged under [`artifacts/arena/arena_final_render_20260817/`](artifacts/arena/arena_final_render_20260817/), including the hero video/GIF, compact per-scenario videos, telemetry plots, summary, manifest, and the exact model/config snapshots used for provenance.
 
-## Headline result
+## Headline fixed-foot result
 
-The canonical trial is a **70 N horizontal torso push at 0°**, applied for **0.15 s** at **t = 2.0 s** to a **35.112 kg** Unitree G1 model. The sweep contains 8 magnitudes × 24 directions × 2 controllers = **384 trials**.
+The canonical fixed-foot trial is a **70 N horizontal torso push at 0°**, applied for **0.15 s** at **t = 2.0 s** to a **35.112 kg** Unitree G1 model. The sweep contains 8 magnitudes × 24 directions × 2 controllers = **384 trials**.
 
 | Measured quantity | Joint PD | SE(3) WBC |
 |---|---:|---:|
@@ -65,6 +67,8 @@ The project now has two explicit layers:
 
 - The historical fixed-foot SE(3) WBC benchmark remains intact under `results/` and is not relabeled as a stepping result.
 - The adaptive arena adds post-step physical contact telemetry, support-margin/event overlays, deterministic scenario presets, measured landing gates, bounded foot placement, explicit touchdown/failure events, and replayable raw trial bundles.
+
+Touchdown projection, replay, and WBC ablation artifacts are diagnostic studies, not additional product modes or successful recovery results.
 
 Trust-critical corrections include refreshed MuJoCo mass-derived constants after mass scaling, physical post-step GRF/CoP/slip measurements kept separate from QP wrench predictions, horizontal-CoM metrics, and a NumPy 2.5-compatible support hull implementation. The stepping supervisor only switches modes from measured state; it does not use the configured push as a control oracle.
 
@@ -138,7 +142,7 @@ The QP contact variable $\lambda$ is not treated as a measurement. Actual GRF is
 |---|---|
 | Robot | Unitree G1, 29 actuated DoF, no dexterous hands |
 | Model dimensions | $(n_q,n_v,n_u)=(36,35,29)$ with a floating pelvis |
-| Contact scope | Double support, measured single-support swing, bounded second step; no walking |
+| Contact scope | Double support, measured single-support stepping attempt, bounded second-step attempt; no walking |
 | Physics / control | 0.002 s simulation step / 0.004 s control step |
 | Canonical push | 70 N at 0°, 0.15 s, applied to the torso at t = 2.0 s |
 | Sweep | 10–80 N in 10 N increments, 24 directions at 15° spacing |

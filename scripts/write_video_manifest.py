@@ -47,7 +47,6 @@ def main() -> None:
         "comparison": "final-a0d5055-comparison",
         "perturbed": "final-a0d5055-perturbed-video",
         "com_support": "final-a0d5055-com-support",
-        "se3_geometry": "final-a0d5055-geometry",
     }
     files = sorted((ROOT / "results" / "videos").glob("*.mp4"))
     files += sorted((ROOT / "results" / "videos").glob("*.gif"))

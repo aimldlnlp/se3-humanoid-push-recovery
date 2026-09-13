@@ -185,12 +185,6 @@ The canonical revalidation WBC timing is mean **3.789 ms**, p95 **4.238 ms**, p9
 
 The canonical contact-consistency diagnostic reports **7.63 N** total-force RMSE and **13.18 N** vertical-GRF RMSE between the QP prediction and the physical MuJoCo measurement. The quantities are intentionally kept separate: $\lambda$ is an optimizer variable, while GRF is extracted from simulated contact forces.
 
-### Geometry convention
-
-![SE(3) error geometry](results/videos/se3_geometry.gif)
-
-The animation uses the same $E_s = T T_d^{-1}$ and $\xi_e = \mathrm{Log}(E_s)^\vee$ convention as the production controller.
-
 ## Reproduce the project
 
 ### Requirements

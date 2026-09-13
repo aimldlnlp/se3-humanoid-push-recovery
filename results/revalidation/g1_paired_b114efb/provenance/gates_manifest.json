@@ -1,0 +1,22 @@
+{
+  "config_sha256": "ca8e6609f4b4e21e85a409ad672bf16ca4c9bdd37171fdda0924b559e14efb6b",
+  "controllers": [
+    "pure_pd",
+    "pd_nominal_ff",
+    "se3_wbc"
+  ],
+  "dependency_versions": {
+    "mujoco": "3.11.0",
+    "numpy": "2.5.2",
+    "osqp": "1.1.3"
+  },
+  "git_dirty": false,
+  "model_sha256": "43912c5f880adff88355c6cd1a887caec143543c7bc578234e1a369226fb0422",
+  "python_version": "3.12.3",
+  "run_id": "paired-gates",
+  "seed": 0,
+  "source_version": "b114efb8e0170592b835344eb69ea6c3ce889c6f",
+  "stage": "gates",
+  "timestamp_utc": "2026-09-13T08:14:53.388736+00:00",
+  "trial_count": 6
+}

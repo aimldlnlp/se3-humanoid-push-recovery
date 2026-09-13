@@ -71,8 +71,9 @@ Key entry points are the
 [synchronized three-controller MP4](results/revalidation/g1_paired_b114efb/videos/canonical_three_controller.mp4).
 
 Simulation provenance is the full clean source checkpoint
-`b114efb8e0170592b835344eb69ea6c3ce889c6f`; the later artifact/documentation
-commit is the Git commit containing this result tree. Every aggregate row also
+`b114efb8e0170592b835344eb69ea6c3ce889c6f`; the artifact/documentation
+commit that introduced this result tree is
+`0e478fe2ad6c336c1f6026ef11fb89c3d2abfce8`. Every aggregate row also
 records source, config, model, initial-state, reference, and force-trace hashes.
 The remote raw inventory is bound by
 [remote_raw_manifest.json](results/revalidation/g1_paired_b114efb/remote_raw_manifest.json).

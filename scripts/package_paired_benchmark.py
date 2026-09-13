@@ -7,16 +7,41 @@ import csv
 import hashlib
 import json
 import shutil
+import sys
 from collections import defaultdict
 from pathlib import Path
+
+# Keep the publication plotter runnable from a clean checkout without an
+# editable install. All shipped figures use the repository-owned Latin
+# Modern faces registered by the shared visualization style.
+SRC_ROOT = Path(__file__).resolve().parents[1] / 'src'
+if str(SRC_ROOT) not in sys.path:
+    sys.path.insert(0, str(SRC_ROOT))
 
 import matplotlib.pyplot as plt
 import numpy as np
 
+from se3_whole_body_control.visualization.style import (
+    COLORS as STYLE_COLORS,
+    apply_style,
+    style_axes as shared_style_axes,
+)
+
 
 CONTROLLERS = ('pure_pd', 'pd_nominal_ff', 'se3_wbc')
 LABELS = {'pure_pd': 'Pure PD', 'pd_nominal_ff': 'PD + nominal FF', 'se3_wbc': 'SE(3) WBC'}
-COLORS = {'pure_pd': '#7f8c8d', 'pd_nominal_ff': '#e69f00', 'se3_wbc': '#0072b2'}
+COLORS = {
+    'pure_pd': STYLE_COLORS['pd'],
+    'pd_nominal_ff': STYLE_COLORS['left_foot'],
+    'se3_wbc': STYLE_COLORS['wbc'],
+}
+FAILURE_COLORS = {
+    'FALL': STYLE_COLORS['push'],
+    'SLIP': STYLE_COLORS['left_foot'],
+    'TORQUE_LIMIT': STYLE_COLORS['boundary'],
+    'FRICTION_LIMIT': STYLE_COLORS['right_foot'],
+    'NONFINITE': STYLE_COLORS['angular'],
+}
 EXPECTED = {'canonical': 3, 'calibration': 144, 'sweep': 576, 'robustness': 150}
 PAIR_FIELDS = (
     'initial_condition_sha256', 'initial_qpos_sha256', 'initial_qvel_sha256',
@@ -133,9 +158,7 @@ def copy_json_sanitized(source: Path, target: Path) -> None:
 
 
 def style_axes(axis) -> None:
-    axis.spines['top'].set_visible(False)
-    axis.spines['right'].set_visible(False)
-    axis.grid(axis='y', alpha=0.22)
+    shared_style_axes(axis, grid=True)
 
 
 def plot_decomposition(rows: list[dict], canonical: list[dict], output: Path) -> None:
@@ -237,13 +260,18 @@ def plot_failure_modes(rows: list[dict], output: Path) -> None:
     reasons = sorted({row['failure_reason'] for row in rows if row['failure_reason']})
     figure, axis = plt.subplots(figsize=(9, 4.8))
     bottom = np.zeros(len(CONTROLLERS))
-    palette = plt.get_cmap('Set2')
     for index, reason in enumerate(reasons):
         counts = np.asarray([
             sum(row['controller'] == controller and row['failure_reason'] == reason for row in rows)
             for controller in CONTROLLERS
         ])
-        axis.bar([LABELS[item] for item in CONTROLLERS], counts, bottom=bottom, label=reason, color=palette(index))
+        axis.bar(
+            [LABELS[item] for item in CONTROLLERS],
+            counts,
+            bottom=bottom,
+            label=reason,
+            color=FAILURE_COLORS.get(reason, STYLE_COLORS['boundary']),
+        )
         bottom += counts
     axis.set_ylabel('Failed sweep trials')
     axis.set_title('Failure-mode composition')
@@ -260,6 +288,7 @@ def main() -> None:
     parser.add_argument('--output-root', type=Path, required=True)
     parser.add_argument('--video', type=Path)
     args = parser.parse_args()
+    apply_style()
     raw_root = args.raw_root.resolve()
     output = args.output_root.resolve()
     if output.exists():

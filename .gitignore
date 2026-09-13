@@ -24,3 +24,15 @@ results/frames/
 *.secret
 .env
 credentials.json
+
+# Local diagnostic captures are useful during development but are not part of
+# the curated GitHub publication. Keep them available without polluting status.
+/arena_*/
+/hybrid_remote_*/
+/step_viability_*/
+/step_viability_*.png
+/touchdown_projection_*/
+/touchdown_replay_*/
+/touchdown_viability_*/
+/artifacts/portfolio_demo_*/
+/artifacts/scenario_previews_*/

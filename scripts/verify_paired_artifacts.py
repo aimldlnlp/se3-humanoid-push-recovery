@@ -75,12 +75,18 @@ def main() -> None:
     root = args.root.resolve()
     manifest_count = verify_manifest(root, 'curated_manifest.json')
     csv_counts = verify_csvs(root)
-    video = root / 'videos' / 'canonical_three_controller.mp4'
     if not args.skip_media:
-        subprocess.run([
-            ffmpeg_executable(), '-v', 'error', '-i', str(video),
-            '-f', 'null', '-',
-        ], check=True)
+        media = (
+            root / 'videos' / 'canonical_three_controller.mp4',
+            root / 'videos' / 'canonical_three_controller.gif',
+        )
+        for path in media:
+            if not path.is_file():
+                raise RuntimeError('missing media artifact: ' + str(path))
+            subprocess.run([
+                ffmpeg_executable(), '-v', 'error', '-i', str(path),
+                '-f', 'null', '-',
+            ], check=True)
     forbidden = ('/home/', '140.113.149.94', 'hucenrotia-ai')
     checked_text = 0
     for path in root.rglob('*'):

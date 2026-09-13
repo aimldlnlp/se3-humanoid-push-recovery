@@ -547,33 +547,33 @@
     },
     {
       "path": "figures/controller_decomposition.png",
-      "sha256": "107b908ee3ca86fa9f321261d1d9157ffa53646f28bba41858ed8f543063cc18",
-      "size_bytes": 63163
+      "sha256": "6ec8ed897258966db215104c945fd10fc0ff04a2bd6436ddda17a9e5a2ffded8",
+      "size_bytes": 66223
     },
     {
       "path": "figures/failure_modes.png",
-      "sha256": "0b1f6479cca42171c811fb75963e4939e5f0fbf54d08cd2ada7be46e535baf73",
-      "size_bytes": 42849
+      "sha256": "d3a13f0bb305f894d0a934b23d31aa751bc84fee8b922dd787cab591b705da02",
+      "size_bytes": 47367
     },
     {
       "path": "figures/paired_outcome_differences.png",
-      "sha256": "3a641fd4d8c349c13915883e7272dd480cfe398e9042315771d5aaa59e03496a",
-      "size_bytes": 43568
+      "sha256": "97d20541c41b7864a3719c01079128eb181c4b5a3225671caf6996adc99cc4f5",
+      "size_bytes": 48021
     },
     {
       "path": "figures/recovery_basin.png",
-      "sha256": "85f2af7e9305176b89843b393d8027ebc9a5e150aacbb93d15ccb30036bc072e",
-      "size_bytes": 74602
+      "sha256": "b3f207d67ba08513a40914f0d347e9ed592aa8a858a2bf6457d88c012b9aaf7a",
+      "size_bytes": 61290
     },
     {
       "path": "figures/recovery_envelope.png",
-      "sha256": "7e99478f3803f0026e1c89a5b53eec9bd55d7c38bd881d29c8a009c9f9eec872",
-      "size_bytes": 95911
+      "sha256": "92cc59536f4fb1ed6ba4da21c4a3e436a38c327ae28c07353bb979709f084ec9",
+      "size_bytes": 97555
     },
     {
       "path": "figures/robustness_comparison.png",
-      "sha256": "cedd8ca613a71dd8678632e2f58b41c52a11850d776b84df974d2a3f09bdbb19",
-      "size_bytes": 51165
+      "sha256": "f27ed0f5c148f54c5d2fccc6fff5bad1ae66460be40442594f61adf57cbbd01e",
+      "size_bytes": 54787
     },
     {
       "path": "provenance/calibration_manifest.json",
@@ -8639,6 +8639,11 @@
       "path": "trial_summaries/sweep/80N_90deg_se3_wbc.json",
       "sha256": "9144cf28bb612487074998e0c8ab925cfa3a1013b1510a607389dd5e00ec30ee",
       "size_bytes": 12017
+    },
+    {
+      "path": "videos/canonical_three_controller.gif",
+      "sha256": "1cc7e16f098515b929dc70de8437ecf55049f7e95db5387c24f8ae0061a9254a",
+      "size_bytes": 4336678
     },
     {
       "path": "videos/canonical_three_controller.mp4",

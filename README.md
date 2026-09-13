@@ -107,9 +107,11 @@ MuJoCo state + post-step contacts
 
 The controller reports both predicted QP quantities and measured post-step quantities. Contact events are not inferred from solver mode alone: touchdown requires actual MuJoCo foot load and a debounced landing observation.
 
-## Method
+## G1 Recovery Architecture
 
-![System architecture](results/figures/png/system_architecture.png)
+![G1 recovery architecture: fixed-foot stabilization and stepping recovery attempt](results/figures/png/g1_recovery_architecture.png)
+
+This figure is a concise engineering overview of the simulation, state/contact processing, recovery decision layer, SE(3) whole-body controller, and validation telemetry. It is a communication asset; the measured results and failure evidence remain in the benchmark and arena artifacts below.
 
 The control loop has four physically distinct parts:
 

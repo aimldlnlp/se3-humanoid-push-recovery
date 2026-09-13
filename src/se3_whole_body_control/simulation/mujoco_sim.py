@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import hashlib
 from pathlib import Path
 from typing import Callable
 
@@ -50,6 +51,8 @@ class SimulationRunner:
         desired_torso: np.ndarray | None = None,
         desired_pelvis: np.ndarray | None = None,
         com_reference: np.ndarray | None = None,
+        joint_reference: np.ndarray | None = None,
+        initial_condition_metadata: dict | None = None,
     ) -> TrialRun:
         np.random.seed(seed)
         self.model.reset(qpos=initial_qpos, qvel=initial_qvel)
@@ -62,8 +65,14 @@ class SimulationRunner:
         desired_torso = self.model.body_pose("torso") if desired_torso is None else np.asarray(desired_torso, dtype=float).copy()
         desired_pelvis = self.model.body_pose("pelvis") if desired_pelvis is None else np.asarray(desired_pelvis, dtype=float).copy()
         com0 = self.model.center_of_mass().copy() if com_reference is None else np.asarray(com_reference, dtype=float).copy()
+        joint_reference = self.model.joint_positions() if joint_reference is None else np.asarray(joint_reference, dtype=float).copy()
+        self._set_controller_references(joint_reference, desired_torso, desired_pelvis, com0)
         foot_xy_reference = np.full((2, 2), np.nan, dtype=float)
         next_frame = 0.0
+        physics_timestep_s = float(self.model.model.opt.timestep)
+        applied_impulse = np.zeros(3, dtype=float)
+        active_push_substeps = 0
+        force_trace: list[np.ndarray] = []
         while self.model.data.time < self.duration_s - 1e-10:
             t = float(self.model.data.time)
             force = push_force(push, t)
@@ -150,14 +159,19 @@ class SimulationRunner:
             if frame_callback is not None and t + 1e-10 >= next_frame:
                 frame_callback(t, self.model)
                 next_frame += frame_period_s
-            self.model.step(control)
-            # A final bad state is retained in the log on the next iteration;
-            # stop immediately on non-finite physics to keep the cause visible.
-            if not np.all(np.isfinite(self.model.data.qpos)) or not np.all(np.isfinite(self.model.data.qvel)):
-                post_contact = actual_contact
-            else:
-                for _ in range(self.substeps - 1):
-                    self.model.step(control)
+            post_contact = actual_contact
+            for _ in range(self.substeps):
+                substep_force = push_force(push, float(self.model.data.time))
+                force_trace.append(np.asarray(substep_force, dtype="<f8"))
+                if np.any(substep_force):
+                    self.model.set_external_force(push.application_body, substep_force, push.application_point_local)
+                    applied_impulse += substep_force * physics_timestep_s
+                    active_push_substeps += 1
+                else:
+                    self.model.clear_external_force()
+                self.model.step(control)
+                if not np.all(np.isfinite(self.model.data.qpos)) or not np.all(np.isfinite(self.model.data.qvel)):
+                    break
                 post_contact = self.model.actual_contact_data()
             post_left, post_right = (bool(post_contact.contact_flags[0]), bool(post_contact.contact_flags[1]))
             post_friction_margin = float(1.0 - np.max(post_contact.friction_utilization)) if np.any(post_contact.contact_flags) else float("nan")
@@ -251,6 +265,8 @@ class SimulationRunner:
                 allow_single_support=bool(getattr(self.controller, "allows_single_support", False)),
                 require_final_double_support=bool(getattr(self.controller, "requires_final_double_support", False)),
             )
+        force_trace_array = np.ascontiguousarray(force_trace, dtype="<f8")
+        planned_duration_s = float(push.duration_s) if push is not None else 0.0
         return TrialRun(
             log=log,
             recovery=recovery,
@@ -265,8 +281,29 @@ class SimulationRunner:
                 "nv": int(self.model.nv),
                 "nu": int(self.model.nu),
                 "controller_summary": self.controller.summary() if hasattr(self.controller, "summary") else {},
+                "initial_condition_sha256": (initial_condition_metadata or {}).get("sha256", ""),
+                "initial_condition": dict(initial_condition_metadata or {}),
+                "planned_push_duration_s": planned_duration_s,
+                "realized_push_duration_s": float(active_push_substeps * physics_timestep_s),
+                "planned_impulse_Ns": float(push.impulse_Ns) if push is not None else 0.0,
+                "realized_impulse_Ns": float(np.linalg.norm(applied_impulse)),
+                "realized_impulse_vector_Ns": applied_impulse.tolist(),
+                "active_push_substeps": int(active_push_substeps),
+                "force_trace_sha256": hashlib.sha256(force_trace_array.tobytes()).hexdigest(),
             },
         )
+
+    def _set_controller_references(self, joint_reference, desired_torso, desired_pelvis, com_reference) -> None:
+        if hasattr(self.controller, "q_des"):
+            self.controller.q_des = joint_reference.copy()
+        if hasattr(self.controller, "pd_fallback"):
+            self.controller.pd_fallback.q_des = joint_reference.copy()
+        if hasattr(self.controller, "T_des_torso"):
+            self.controller.T_des_torso = desired_torso.copy()
+        if hasattr(self.controller, "T_des_pelvis"):
+            self.controller.T_des_pelvis = desired_pelvis.copy()
+        if hasattr(self.controller, "com_des"):
+            self.controller.com_des = com_reference.copy()
 
     def _warmup_and_reanchor(self) -> None:
         """Settle the common initial state before measuring a trial."""
@@ -280,7 +317,11 @@ class SimulationRunner:
             warmup_controller = JointPDController(self.model)
         self.model.clear_external_force()
         while self.model.data.time < self.warmup_duration_s - 1e-10:
-            self.model.step(warmup_controller.compute().control)
+            control = warmup_controller.compute().control
+            for _ in range(self.substeps):
+                if self.model.data.time >= self.warmup_duration_s - 1e-10:
+                    break
+                self.model.step(control)
         if not self.warmup_reanchor:
             self.model.data.time = 0.0
             self.model.clear_external_force()

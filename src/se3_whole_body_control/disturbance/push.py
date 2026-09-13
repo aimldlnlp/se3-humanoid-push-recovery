@@ -31,7 +31,15 @@ class Push:
 
 
 def active_push(push: Push | None, time_s: float) -> bool:
-    return push is not None and push.start_time_s <= time_s < push.start_time_s + push.duration_s
+    if push is None:
+        return False
+    # MuJoCo advances time by repeated floating-point additions. Compare in
+    # elapsed-time coordinates with a tiny boundary tolerance so a pulse whose
+    # duration is an exact multiple of the physics step cannot acquire an extra
+    # substep at its nominal end time.
+    elapsed_s = float(time_s) - float(push.start_time_s)
+    boundary_tolerance_s = 1e-12
+    return -boundary_tolerance_s <= elapsed_s < float(push.duration_s) - boundary_tolerance_s
 
 
 def push_force(push: Push | None, time_s: float) -> np.ndarray:

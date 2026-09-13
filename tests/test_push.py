@@ -8,5 +8,7 @@ def test_push_force_and_impulse():
     assert np.isclose(push.impulse_Ns, 18.0)
     assert not active_push(push, 1.9)
     assert active_push(push, 2.05)
+    assert active_push(push, 2.0 - 5e-13)
+    assert not active_push(push, 2.15 - 5e-13)
     np.testing.assert_allclose(push_force(push, 2.05), [0, 120, 0], atol=1e-10)
     np.testing.assert_allclose(push_force(push, 2.2), [0, 0, 0])

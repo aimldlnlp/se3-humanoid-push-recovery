@@ -53,6 +53,12 @@ robustness_randomization:
   push_direction_jitter_deg: 8.0
   push_duration_jitter_s: 0.015
 
+paired_benchmark:
+  setup_policy: pd_nominal_ff
+  setup_duration_s: 0.6
+  controllers: [pure_pd, pd_nominal_ff, se3_wbc]
+  post_push_observation_s: 6.0
+
 # One-step recovery extension.  The controller starts in the validated
 # double-support mode and switches to one-foot support only from measured
 # state; it never receives the configured push as an oracle.

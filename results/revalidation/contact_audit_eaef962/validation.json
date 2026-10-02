@@ -1,0 +1,19 @@
+{
+  "source_version": "eaef962e7cc24cee0cf499047803244eada5fb2f",
+  "source_archive_sha256": "9035bb5930f03ef1e7792be3c28b94eac9ed9586575e9e79a1d6dc2e53c82530",
+  "validated_trials": 18,
+  "timing_rows": 31883,
+  "finite_state_control_actual_grf": true,
+  "all_pair_equalities_passed": true,
+  "randomized_seeds_differ": true,
+  "canonical_realized_impulse_Ns": 10.5,
+  "qp_failure_count": 0,
+  "max_inner_L1_excess_N": 0.010084542071444602,
+  "max_physical_coulomb_excess_N": 3.552713678800501e-15,
+  "max_dynamics_residual": 0.0007014018202050987,
+  "max_contact_acceleration_residual": 0.00007471386873794488,
+  "timing_statistics_recomputed_from_csv": true,
+  "local_pytest_passed": 65,
+  "remote_pytest_passed": 65,
+  "note": "The strict 0.001 N inner-L1 residual check failed in lateral_70_cold. The measured 0.0100845 N excess is retained explicitly; the physical Coulomb circle remains satisfied. Solver settings and recovery thresholds were not retuned. This pilot does not establish exact inequality satisfaction or hard real time."
+}

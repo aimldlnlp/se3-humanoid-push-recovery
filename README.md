@@ -39,6 +39,15 @@ explicit plant/controller mismatch without overwriting the published sweep.
 python experiments/contact_audit_pilot.py --output results/staging/contact-audit-new-run
 ```
 
+The [18-trial contact audit](results/revalidation/contact_audit_eaef962/REPORT.md)
+uses source checkpoint `eaef962`. Canonical WBC still recovers in **0.270 s**;
+both PD variants fall. Workspace reuse lowers canonical mean call time from
+**3.872 to 2.852 ms**, but p99 remains **5.596 ms** and some tail metrics worsen.
+Reuse therefore remains opt-in. The lateral 70 N trial still fails by physical
+slip. Known/unknown mass and friction pairs use genuinely different seeds.
+The audit retains numerical residuals and failures; it does not replace or
+relabel the historical sweep below.
+
 The corrected protocol settles once for 0.6 s with frozen nominal equilibrium
 feedforward, snapshots the state, and starts all three controllers from that
 same snapshot. The push is applied on the 2 ms physics grid and recovery is

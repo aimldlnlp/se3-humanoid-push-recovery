@@ -7,9 +7,8 @@ Unitree G1. The research question is deliberately narrow: under one shared
 initial state and one shared disturbance, how much recovery comes from nominal
 joint feedforward and how much comes from a contact-aware SE(3) whole-body QP?
 
-<p align='center'>
-  <img src='results/revalidation/g1_paired_b114efb/videos/canonical_three_controller.gif' alt='Synchronized Pure PD, PD plus nominal feedforward, and SE(3) WBC response to the same 70 N push' width='960'>
-</p>
+https://github.com/user-attachments/assets/ee692556-7a04-4db4-b596-f8c968a0df9e
+
 <p align='center'>
   <strong>One measured state. One 70 N push. Three controllers.</strong><br>
   <a href='results/revalidation/g1_paired_b114efb/videos/canonical_three_controller.mp4'>Download the H.264 video</a>

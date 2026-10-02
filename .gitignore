@@ -23,7 +23,14 @@ results/frames/
 *.log.tmp
 *.secret
 .env
+.env.*
+!.env.example
+!.env.template
 credentials.json
+
+# Local analysis includes machine-specific paths and caches, not published results.
+/graphify-out/
+/.ssh/
 
 # Local diagnostic captures are useful during development but are not part of
 # the curated GitHub publication. Keep them available without polluting status.

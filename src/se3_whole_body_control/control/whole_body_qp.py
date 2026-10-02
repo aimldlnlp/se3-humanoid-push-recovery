@@ -71,12 +71,14 @@ class WholeBodyQPController:
         self.com_task_kp_override: float | None = None
         self.com_task_kd_override: float | None = None
         self.pd_fallback = JointPDController(
-            model,
+            self.internal_model,
             kp=float(controller_config.get("posture_kp", 120.0)),
             kd=float(controller_config.get("posture_kd", 18.0)),
             q_des=self.q_des,
         )
         self.last_result: QPResult | None = None
+        self._solver = None
+        self._solver_patterns = None
 
     def set_active_contacts(self, contact_names: tuple[str, ...] | list[str]) -> None:
         """Select the feet constrained as fixed contacts in the next solve.
@@ -139,13 +141,13 @@ class WholeBodyQPController:
         torsional_mu = float(self.cfg.get("torsional_friction_coefficient", 0.02))
         for foot in range(len(self.contact_names)):
             off = start + 6 * foot
-            # Fz >= 0; moments are bounded for numerical conditioning.
+            # Inner Coulomb approximation: |Fx| + |Fy| <= mu Fz. Independent
+            # component bounds admit sqrt(2) excess friction at their corners.
             row = np.zeros(self.nx); row[off + 2] = 1.0
             rows.append(row); lower.append(0.0); upper.append(np.inf)
-            for tangential in (0, 1):
-                row = np.zeros(self.nx); row[off + tangential] = 1.0; row[off + 2] = -mu
-                rows.append(row); lower.append(-np.inf); upper.append(0.0)
-                row = np.zeros(self.nx); row[off + tangential] = -1.0; row[off + 2] = -mu
+            for sx, sy in ((1, 1), (1, -1), (-1, 1), (-1, -1)):
+                row = np.zeros(self.nx)
+                row[off:off + 3] = [sx, sy, -mu]
                 rows.append(row); lower.append(-np.inf); upper.append(0.0)
             # For a horizontal rectangular support patch, Mx = y*Fz and
             # My = -x*Fz. These are CoP limits, not arbitrary moment boxes.
@@ -265,7 +267,8 @@ class WholeBodyQPController:
     def _fallback(self, message: str, elapsed: float) -> QPResult:
         pd = self.pd_fallback.compute()
         result = QPResult(
-            control=pd.control, qdd=np.zeros(self.model.nv), contact_wrench=np.zeros(self.nw),
+            control=np.clip(pd.control, self.model.actuator_limits[:, 0], self.model.actuator_limits[:, 1]),
+            qdd=np.zeros(self.model.nv), contact_wrench=np.zeros(self.nw),
             status="fallback_pd", success=False, solve_time_s=elapsed, message=message,
             diagnostics={"active_contacts": list(self.contact_names), "swing_foot": self.swing_foot},
         )
@@ -279,22 +282,43 @@ class WholeBodyQPController:
         try:
             self._sync_internal_model()
             P, q, A, l, u, torso_error, pelvis_error, M, h, B, Jc, contact_bias, external = self._build_problem()
-            solver = osqp.OSQP()
+            build_time = time.perf_counter() - start
+            preparation_start = time.perf_counter()
+            # Value updates require identical CSC patterns and contact order.
+            # Rebuild safely when topology, sparsity, or settings change.
+            P = sparse.triu(sparse.csc_matrix((P + P.T) * 0.5), format="csc")
+            P.sort_indices()
+            A.sort_indices()
+            patterns = (self.contact_names, P.shape, P.indptr.tobytes(), P.indices.tobytes(),
+                        A.shape, A.indptr.tobytes(), A.indices.tobytes())
             settings = self.cfg.get("solver", {})
-            solver.setup(
-                P=sparse.csc_matrix((P + P.T) * 0.5), q=q, A=A, l=l, u=u,
-                verbose=False, eps_abs=float(settings.get("eps_abs", 1e-4)),
-                eps_rel=float(settings.get("eps_rel", 1e-4)),
-                max_iter=int(settings.get("max_iter", 4000)), polish=bool(settings.get("polish", True)),
-                adaptive_rho=bool(settings.get("adaptive_rho", True)),
-                scaled_termination=bool(settings.get("scaled_termination", True)),
-            )
+            patterns += (repr(sorted(settings.items())),)
+            reused = bool(settings.get("reuse_workspace", False)) and self._solver is not None and patterns == self._solver_patterns
+            if reused:
+                solver = self._solver
+                solver.update(Px=P.data, Ax=A.data, q=q, l=l, u=u)
+            else:
+                solver = osqp.OSQP()
+                solver.setup(
+                    P=P, q=q, A=A, l=l, u=u,
+                    verbose=False, eps_abs=float(settings.get("eps_abs", 1e-4)),
+                    eps_rel=float(settings.get("eps_rel", 1e-4)),
+                    max_iter=int(settings.get("max_iter", 4000)), polish=bool(settings.get("polish", True)),
+                    adaptive_rho=bool(settings.get("adaptive_rho", True)),
+                    scaled_termination=bool(settings.get("scaled_termination", True)),
+                )
+                self._solver = solver
+                self._solver_patterns = patterns
+            preparation_time = time.perf_counter() - preparation_start
+            solve_start = time.perf_counter()
             sol = solver.solve()
+            numerical_solve_time = time.perf_counter() - solve_start
             elapsed = time.perf_counter() - start
             info = sol.info
             status = str(info.status)
             ok = status.lower() in {"solved", "solved inaccurate"} and sol.x is not None and np.all(np.isfinite(sol.x))
             if not ok:
+                self._solver = None
                 return self._fallback(f"OSQP status: {status}", elapsed)
             x = np.asarray(sol.x)
             iw = self.model.nv + self.model.nu
@@ -304,7 +328,7 @@ class WholeBodyQPController:
             for foot in range(len(self.contact_names)):
                 off = 6 * foot
                 fz = wrench[off + 2]
-                margins.extend([self.mu * fz - abs(wrench[off]), self.mu * fz - abs(wrench[off + 1]), fz])
+                margins.extend([self.mu * fz - abs(wrench[off]) - abs(wrench[off + 1]), fz])
             tau = np.clip(x[self.model.nv:self.model.nv + self.model.nu], self.model.actuator_limits[:, 0], self.model.actuator_limits[:, 1])
             slack = x[iw + self.nw:iw + self.nw + self.nslack]
             dynamics_residual = M @ x[:self.model.nv] + h - B @ tau - Jc.T @ wrench - external
@@ -319,6 +343,11 @@ class WholeBodyQPController:
                 dynamics_residual_norm=float(np.linalg.norm(dynamics_residual)),
                 contact_acceleration_residual_norm=float(np.linalg.norm(contact_residual)),
                 diagnostics={
+                    "workspace_reused": reused,
+                    "qp_build_time_s": build_time,
+                    "qp_prepare_time_s": preparation_time,
+                    "qp_numerical_solve_time_s": numerical_solve_time,
+                    "friction_approximation": "world_xy_l1_inner",
                     "torso_se3_error": torso_error,
                     "pelvis_se3_error": pelvis_error,
                     "external_force_oracle": bool(self.cfg.get("use_external_force_oracle", False)),
@@ -331,7 +360,9 @@ class WholeBodyQPController:
                     ),
                 },
             )
+            result.solve_time_s = time.perf_counter() - start
             self.last_result = result
             return result
         except Exception as exc:  # keep the simulation observable and recoverable
+            self._solver = None
             return self._fallback(f"QP exception: {type(exc).__name__}: {exc}", time.perf_counter() - start)

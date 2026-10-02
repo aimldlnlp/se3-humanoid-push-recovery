@@ -227,7 +227,10 @@ def prepare_paired_initial_condition(
     )
 
 
-def run_trial(controller_name: str, configs: dict, push: Push | None = None, duration: float | None = None, mass_scale: float = 1.0, seed: int = 0, classify: bool = False, frame_callback=None, initial_qpos: np.ndarray | None = None, initial_qvel: np.ndarray | None = None, friction_coefficient: float | None = None, initial_condition: PairedInitialCondition | None = None):
+def run_trial(controller_name: str, configs: dict, push: Push | None = None, duration: float | None = None, mass_scale: float = 1.0, seed: int = 0, classify: bool = False, frame_callback=None, initial_qpos: np.ndarray | None = None, initial_qvel: np.ndarray | None = None, friction_coefficient: float | None = None, initial_condition: PairedInitialCondition | None = None, controller_mass_scale: float | None = None, controller_friction_coefficient: float | None = None):
+    mismatch_requested = controller_mass_scale is not None or controller_friction_coefficient is not None
+    if mismatch_requested and controller_name != 'se3_wbc':
+        raise ValueError('explicit internal model is supported only for se3_wbc')
     if initial_condition is not None and (initial_qpos is not None or initial_qvel is not None):
         raise ValueError('initial_condition cannot be combined with initial_qpos/initial_qvel')
     if initial_condition is not None:
@@ -243,7 +246,17 @@ def run_trial(controller_name: str, configs: dict, push: Push | None = None, dur
         nominal_torso = initial_condition.desired_torso
         nominal_pelvis = initial_condition.desired_pelvis
         nominal_com = initial_condition.com_reference
-    controller = run_controller(controller_name, model, configs)
+    if mismatch_requested:
+        internal = make_model(
+            configs, mass_scale=1.0 if controller_mass_scale is None else controller_mass_scale,
+            friction_coefficient=controller_friction_coefficient,
+        )
+        controller_config = dict(configs['controller'])
+        if controller_friction_coefficient is not None:
+            controller_config['friction_coefficient'] = controller_friction_coefficient
+        controller = WholeBodyQPController(model, controller_config, configs['experiments']['recovery'], internal_model=internal)
+    else:
+        controller = run_controller(controller_name, model, configs)
     perturbed = initial_qpos is not None or initial_qvel is not None
     runner = SimulationRunner(
         model, controller,
@@ -255,7 +268,7 @@ def run_trial(controller_name: str, configs: dict, push: Push | None = None, dur
         warmup_duration_s=(0.0 if perturbed else configs["robot"].get("warmup_duration_s", 0.4)),
         warmup_reanchor=not perturbed,
     )
-    return model, runner.run(
+    run = runner.run(
         push=push, recovery_config=recovery_config(configs), classify=classify, seed=seed,
         frame_callback=frame_callback, initial_qpos=initial_qpos, initial_qvel=initial_qvel,
         desired_torso=nominal_torso if perturbed else None,
@@ -264,6 +277,14 @@ def run_trial(controller_name: str, configs: dict, push: Push | None = None, dur
         joint_reference=(initial_condition.joint_reference if initial_condition is not None else None),
         initial_condition_metadata=(initial_condition.metadata() if initial_condition is not None else None),
     )
+    run.metadata.update({
+        'plant_mass_scale': float(mass_scale),
+        'plant_friction_coefficient': float(friction_coefficient if friction_coefficient is not None else configs['controller']['friction_coefficient']),
+        'separate_internal_model': mismatch_requested,
+        'controller_mass_scale': float((1.0 if controller_mass_scale is None else controller_mass_scale) if mismatch_requested else mass_scale),
+        'controller_friction_coefficient': float(controller.cfg['friction_coefficient'] if hasattr(controller, 'cfg') else configs['controller']['friction_coefficient']),
+    })
+    return model, run
 
 
 def _rotation_to_quaternion(R: np.ndarray) -> np.ndarray:

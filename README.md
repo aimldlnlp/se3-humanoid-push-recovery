@@ -27,6 +27,18 @@ https://github.com/user-attachments/assets/ee692556-7a04-4db4-b596-f8c968a0df9e
 
 ## Headline result
 
+The table and portfolio media below describe the frozen `b114efb` benchmark,
+not a rerun of the current source. The subsequent contact audit replaces the
+QP's outer friction square with the conservative inner approximation
+$|F_x|+|F_y|\leq\mu F_z$. It leaves gains and physical recovery thresholds
+unchanged. Workspace reuse is an opt-in pilot (`solver.reuse_workspace`),
+not a hard-real-time claim. An isolated audit pilot measures this change and
+explicit plant/controller mismatch without overwriting the published sweep.
+
+```bash
+python experiments/contact_audit_pilot.py --output results/staging/contact-audit-new-run
+```
+
 The corrected protocol settles once for 0.6 s with frozen nominal equilibrium
 feedforward, snapshots the state, and starts all three controllers from that
 same snapshot. The push is applied on the 2 ms physics grid and recovery is

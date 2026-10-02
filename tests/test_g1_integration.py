@@ -124,3 +124,46 @@ def test_g1_push_application_point_uses_body_local_frame():
     body_id = model.body_ids["torso"]
     point_world = np.asarray(model.data.xmat[body_id]).reshape(3, 3) @ point_local
     np.testing.assert_allclose(model.data.xfrc_applied[body_id, 3:], np.cross(point_world, force), atol=1e-10)
+
+
+def test_qp_workspace_reuses_only_compatible_problem_and_contact_mode():
+    configs = load_configs(Path(__file__).resolve().parents[1], robot_name="unitree_g1")
+    config = configs["controller"]
+    config["solver"]["reuse_workspace"] = True
+    controller = WholeBodyQPController(_g1(), config)
+    first = controller.solve()
+    original_solver = controller._solver
+    second = controller.solve()
+    assert first.success and second.success
+    assert not first.diagnostics["workspace_reused"]
+    assert second.diagnostics["workspace_reused"]
+    assert controller._solver is original_solver
+    np.testing.assert_allclose(second.control, first.control, atol=2e-3, rtol=2e-3)
+    controller.set_active_contacts(("right_foot",))
+    third = controller.solve()
+    assert third.success and not third.diagnostics["workspace_reused"]
+    assert controller._solver is not original_solver
+    assert third.contact_wrench.shape == (6,)
+    for key in ("qp_build_time_s", "qp_prepare_time_s", "qp_numerical_solve_time_s"):
+        assert 0 <= third.diagnostics[key] <= third.solve_time_s
+
+
+def test_warm_and_cold_qp_solve_same_changed_state_within_solver_tolerance():
+    configs = load_configs(Path(__file__).resolve().parents[1], robot_name="unitree_g1")
+    warm_config = configs["controller"]
+    warm_config["solver"]["reuse_workspace"] = True
+    model = _g1()
+    warm = WholeBodyQPController(model, warm_config)
+    assert warm.solve().success
+    cold_config = {**warm_config, "solver": {**warm_config["solver"], "reuse_workspace": False}}
+    cold = WholeBodyQPController(model, cold_config)
+    model.data.qvel[:] = np.linspace(-1e-4, 1e-4, model.nv)
+    mujoco.mj_forward(model.model, model.data)
+    a, b = warm.solve(), cold.solve()
+    assert a.success and b.success
+    assert a.diagnostics["workspace_reused"]
+    np.testing.assert_allclose(a.control, b.control, atol=5e-3, rtol=5e-3)
+    assert a.dynamics_residual_norm < 0.1 and b.dynamics_residual_norm < 0.1
+    for result in (a, b):
+        forces = result.contact_wrench.reshape(-1, 6)
+        assert np.all(np.abs(forces[:, 0]) + np.abs(forces[:, 1]) <= 0.7 * forces[:, 2] + 1e-3)

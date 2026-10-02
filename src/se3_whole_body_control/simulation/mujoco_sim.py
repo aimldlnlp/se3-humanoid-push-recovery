@@ -317,6 +317,8 @@ class SimulationRunner:
             warmup_controller = JointPDController(self.model)
         self.model.clear_external_force()
         while self.model.data.time < self.warmup_duration_s - 1e-10:
+            if warmup_controller.model is not self.model:
+                warmup_controller.model.reset(qpos=self.model.data.qpos.copy(), qvel=self.model.data.qvel.copy())
             control = warmup_controller.compute().control
             for _ in range(self.substeps):
                 if self.model.data.time >= self.warmup_duration_s - 1e-10:

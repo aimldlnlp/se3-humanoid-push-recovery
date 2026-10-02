@@ -129,7 +129,9 @@ def test_real_plant_controller_model_mismatch_is_explicit():
         "solver": {"eps_abs": 1e-3, "eps_rel": 1e-3, "max_iter": 20000, "polish": True},
     }
     assert not np.allclose(plant.mass_matrix(), internal.mass_matrix())
-    result = WholeBodyQPController(plant, config, internal_model=internal).solve()
+    controller = WholeBodyQPController(plant, config, internal_model=internal)
+    assert controller.pd_fallback.model is internal
+    result = controller.solve()
     assert result.success
     assert result.diagnostics["internal_model_is_plant"] is False
     assert result.diagnostics["internal_mass_relative_error"] > 0.01

@@ -153,7 +153,9 @@ def main():
     if args.render_only:
         rows = json.loads((root/'study.json').read_text())['trials']
         (root/'videos').mkdir(exist_ok=False)
-        plot_results(root, rows)
+        presentation = root/'presentation'
+        presentation.mkdir(exist_ok=False)
+        plot_results(presentation, rows)
         render_saved(root, rows)
         return
     root.mkdir(parents=True, exist_ok=False)

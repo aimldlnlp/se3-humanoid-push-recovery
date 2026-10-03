@@ -66,6 +66,9 @@ def main():
     print(json.dumps(report,indent=2))
     if args.record:
         (root/'verification.json').write_text(json.dumps(report,indent=2))
+        files=[dict(path=p.relative_to(root).as_posix(),sha256=hashlib.sha256(p.read_bytes()).hexdigest())
+               for p in sorted(root.rglob('*')) if p.is_file() and p.name!='manifest.json']
+        (root/'manifest.json').write_text(json.dumps(dict(files=files),indent=2))
 
 
 if __name__=='__main__':

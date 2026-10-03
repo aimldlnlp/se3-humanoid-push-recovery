@@ -146,3 +146,18 @@ def test_tracking_calibration_rejects_unpaired_reference(tmp_path, monkeypatch):
     np.savez(new/'trajectory.npz', **arrays)
     with pytest.raises(AssertionError):
         verify_pair(old, new)
+
+
+def test_tracking_plots_include_calibration_and_control_views(tmp_path, monkeypatch):
+    monkeypatch.syspath_prepend(str(Path(__file__).resolve().parents[1]/'experiments'))
+    from reaching_tracking_study import plot
+    for stage in ('validation', 'validation_control'):
+        root = tmp_path/stage
+        root.mkdir()
+        row = dict(trial_id='front_12.5cm_w300_moving_70N', stage=stage,
+                   hold_max_error_mm=10, combined_success=True, failure_reason='PASS', reach_weight=300)
+        rows = [row]
+        if stage == 'validation':
+            rows.append({**row, 'stage': 'calibration'})
+        plot(root, rows)
+        assert (root/'tracking_results.png').stat().st_size > 1000

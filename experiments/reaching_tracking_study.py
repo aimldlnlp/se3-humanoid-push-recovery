@@ -125,18 +125,28 @@ def plot(root, rows):
     import matplotlib.pyplot as plt
     from se3_whole_body_control.visualization.style import apply_style
     apply_style()
-    fig, axes = plt.subplots(1, 2, figsize=(11, 4), constrained_layout=True)
+    calibration = any(r['stage'] in ('regression', 'calibration') for r in rows)
+    fig, axes = plt.subplots(1, 2 if calibration else 1, figsize=(11 if calibration else 8, 4), constrained_layout=True)
+    axes = np.atleast_1d(axes)
     for name in TARGETS:
         selected = [r for r in rows if r['stage'] in ('regression', 'calibration') and r['trial_id'].startswith(name)]
         axes[0].plot([r['reach_weight'] for r in selected], [r['hold_max_error_mm'] for r in selected], marker='o', label=name)
-    axes[0].set(xscale='log', xlabel='Reach objective weight', title='(a) Calibration on known tracking failures')
-    axes[0].legend(fontsize=8)
+    if calibration:
+        axes[0].set(xscale='log', xlabel='Reach objective weight', title='(a) Calibration on known tracking failures')
+        axes[0].legend(fontsize=8)
     validation = [r for r in rows if r['stage'] in ('validation', 'validation_control')]
-    axes[1].bar(range(len(validation)), [r['hold_max_error_mm'] for r in validation],
+    ax = axes[-1]
+    ax.bar(range(len(validation)), [r['hold_max_error_mm'] for r in validation],
                 color=['#257a59' if r['combined_success'] else '#ae3946' for r in validation])
-    axes[1].set(xticks=range(len(validation)), xticklabels=[r['trial_id'].split('_w')[0]+'\n'+r['trial_id'].split('_w')[1] for r in validation],
-                title='(b) Frozen validation; green = combined pass')
-    axes[1].tick_params(axis='x', labelsize=7, rotation=45)
+    ax.set(xticks=range(len(validation)), xticklabels=[r['trial_id'].split('_w')[0]+'\n'+r['trial_id'].split('_w')[1] for r in validation],
+           title='(b) Frozen validation' if calibration else 'Exploratory paired disturbance controls')
+    ax.set_yscale('symlog', linthresh=15)
+    ax.set_yticks([0, 5, 15, 50, 200, 1000], labels=['0', '5', '15', '50', '200', '1000'])
+    ax.tick_params(axis='x', labelsize=7, rotation=45)
+    for i, row in enumerate(validation):
+        ax.annotate(f"{row['hold_max_error_mm']:.1f}\n{row['failure_reason']}",
+                    (i, row['hold_max_error_mm']), xytext=(0, 4), textcoords='offset points', ha='center', fontsize=7)
+    ax.margins(y=.2)
     for ax in axes:
         ax.axhline(15, color='#ae3946', ls='--')
         ax.set_ylabel('Maximum target error in final hold [mm]')

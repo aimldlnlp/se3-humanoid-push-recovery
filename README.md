@@ -10,7 +10,7 @@ https://github.com/user-attachments/assets/219f1802-cab5-401b-a59f-0e4d30c8adbe
 
 ## Measured result
 
-All current results use frozen scientific source `a50008145b0b47d4b874002bd656355cb14687de`. Gains, pushes and recovery thresholds were not tuned for this release. A numerical correctness fix rejects solver outputs that violate original, unscaled constraint rows, even when OSQP reports `solved`.
+The primary push-recovery results use frozen scientific source `a50008145b0b47d4b874002bd656355cb14687de`. Gains, pushes and recovery thresholds were not tuned for this release. A numerical correctness fix rejects solver outputs that violate original, unscaled constraint rows, even when OSQP reports `solved`.
 
 | Controller | Canonical 70 N | Recovery latency | Peak torso error | Peak CoM displacement | Peak joint torque |
 |---|---|---:|---:|---:|---:|
@@ -183,6 +183,99 @@ python experiments/reach_and_balance.py --output results/staging/reach-push --pu
 
 Each command refuses nonempty output directories. Heavy simulation and rendering
 are run on the SSH execution worker; the local repository remains canonical.
+
+## Reach-and-Balance: sampled target limits
+
+The next milestone samples three world-frame rays from the same settled endpoint:
+front (+x), right (-y), and up (+z). It keeps the first milestone's gains, task
+weights, 2 s quintic motion, 5 s trial, and 15 mm tolerance over the final 0.5 s.
+No controller tuning or threshold relaxation is used to improve these results.
+
+There are **18 WBC trials**: two baseline regressions, eight no-push target trials,
+and eight disturbed trials. Both regressions reproduce the saved physical
+trajectories at `rtol=1e-8, atol=1e-9`, including joint state, endpoint motion,
+torque, and measured contacts. All trials share one saved initial-state hash.
+
+| Direction | Tested combined passes | First tested tracking failure | Maximum final-hold error at that failure |
+|:--|:--|:--|--:|
+| Front | 5 and 10 cm | 12.5 cm | 17.62 mm |
+| Right | 5 cm | 7.5 cm | 20.28 mm |
+| Up | None at the tested 5 cm target | 5 cm | 43.76 mm |
+
+The original coarse grid also retains front 15 cm and right 10 cm failures.
+The study stops increasing a ray after its first coarse failure and tests one
+midpoint when a smaller nonzero target passed. Smaller upward offsets are not
+tested. These are **sampled task limits under fixed weights**, not a complete
+kinematic workspace, continuous boundary, or proof that larger targets are
+unreachable. All eight no-push trials retain physical balance and double support;
+five fail the endpoint tracking requirement.
+
+![Sampled reaching outcomes and tracking errors](results/reaching_workspace/1c63402_final/presentation/workspace_results.png)
+
+Squares mark combined passes and crosses mark tracking failures. Lines connect
+tested points only; they do not establish outcomes between samples.
+
+The disturbance subset uses front 5 cm and right 5 cm targets, with 40/70 N
+world +x pushes for 0.15 s, either during motion (1.5 s) or hold (3 s).
+**Seven of eight pass both tasks.** Right 5 cm with 70 N during hold fails
+tracking: maximum final-hold error is **15.156 mm**, despite final endpoint
+error of **13.292 mm** and valid physical balance. A final-frame-only test
+would incorrectly declare that trial successful.
+
+Each study outcome adds a whole-task physical check from the existing startup
+grace period, including the push interval, and requires the final hold to remain
+inside the original balance thresholds. The historical post-push recovery result
+is retained separately. Zero QP failures and continuous double support are
+recorded for all 18 WBC trials; shared-worker 4 ms deadline misses remain
+25.2-72.64%, so this extension does not establish real-time execution.
+
+[Watch the 15 s montage](results/reaching_workspace/1c63402_final/videos/reaching_montage.mp4)
+shows front 5 cm (easy), front 10 cm (near the tested limit), and front 12.5 cm
+(tracking failure). Each full 5 s trajectory is replayed at physical speed.
+The failure is a missed target while standing, not a fabricated fall.
+
+### PD qualification pilot
+
+A PD + fixed nominal equilibrium feedforward pilot receives an offline bounded
+seven-joint right-arm IK reference sampled at 30 Hz and interpolated for the
+250 Hz control loop. Its Cartesian reference, initial state and force trace are
+verified identical to the saved WBC front 5 cm trial. The maximum IK waypoint
+error is 0.00049 mm, but the simulated PD controller **falls without any push**.
+The qualification gate therefore stops before disturbed PD trials. This failed
+pilot does not support a reaching push-recovery superiority claim; it identifies
+a baseline that needs separate qualification without tuning on the test set.
+
+[PD pilot evidence](results/reaching_pd/47d2719/comparison.json) retains the failed
+trajectory, physical telemetry, reference check and provenance.
+
+### Reproduction and evidence
+
+WBC scientific source is `1c63402aa19eb42678e85b045d02b02eb978cf66`; PD pilot
+source is `47d2719c660c1ca48561b0068c00a9cee7caa890`. Presentation source
+`455cf22d7add99be70ca7f3196108dd7c6d4d9d6` adds headless rendering and corrected
+failure labels without rerunning dynamics. All new raw trajectories are retained.
+
+From the corresponding checkout on the SSH worker, with the first milestone's
+`results/reaching/ff989e0` regression trajectories available:
+
+```bash
+export PYTHONPATH=src:scripts MUJOCO_GL=egl
+export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1
+export SE3_SOURCE_VERSION=$(git rev-parse HEAD)
+python experiments/reaching_workspace.py --output results/staging/reach-study
+python experiments/reaching_pd_comparison.py --wbc-study results/staging/reach-study --output results/staging/reach-pd
+python experiments/reaching_workspace.py --output results/staging/reach-study --render-only
+python scripts/verify_reaching_workspace.py --root results/staging/reach-study --record
+```
+
+For exact source attribution, run the WBC study at its scientific checkout,
+then switch to the PD/presentation checkouts with the raw study unchanged.
+New simulation outputs and presentation directories refuse existing destinations.
+
+[All trial outcomes](results/reaching_workspace/1c63402_final/study.csv) |
+[Study definition](results/reaching_workspace/1c63402_final/study.json) |
+[Verification](results/reaching_workspace/1c63402_final/verification.json) |
+[Artifact hashes](results/reaching_workspace/1c63402_final/manifest.json)
 
 ## Limitations
 

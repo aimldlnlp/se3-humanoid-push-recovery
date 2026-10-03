@@ -1,0 +1,36 @@
+{
+  "files": [
+    {
+      "path": "comparison.json",
+      "sha256": "85493cd29a96b65bfe92f095566500f071ab1586cf099efb745de7f434dd7785"
+    },
+    {
+      "path": "comparison.pdf",
+      "sha256": "be21054123624d93deb5783f9939406015731aa8111a628d9dd340ce0b9b1ed5"
+    },
+    {
+      "path": "comparison.png",
+      "sha256": "630cd32409ed7c3d9f0a3d5e3ec6e583fe2f8ee1f3cf7f5d64a71851c1ceaa28"
+    },
+    {
+      "path": "front_5cm/reaching_response.pdf",
+      "sha256": "b072d6c79533d2142f7f37e067289e5aa11f42a9fe05d5afaad7edb2ba8752a6"
+    },
+    {
+      "path": "front_5cm/reaching_response.png",
+      "sha256": "c86ca3529f42cc5f7debf254b642c58d0df98b86be180b80045bc686181d12d6"
+    },
+    {
+      "path": "front_5cm/summary.json",
+      "sha256": "12ed9273b38c0cab5bac89ef8406739f69acc7520c3e3d5495e25e21b80cf848"
+    },
+    {
+      "path": "front_5cm/trajectory.npz",
+      "sha256": "306f2dc3d2e33496a96e08c536006236d06dc8712db57eb76f973a921dc6fdd3"
+    },
+    {
+      "path": "front_5cm.log",
+      "sha256": "198d8826eb6227b52a66feeb12efdcb28f920aad4e10d2d27582989d2eb96b2b"
+    }
+  ]
+}

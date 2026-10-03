@@ -1,0 +1,19 @@
+{
+  "pairs": [
+    {
+      "trial_id": "front_5cm",
+      "pd_success": false,
+      "pd_failure_reason": "FALL",
+      "pd_hold_max_error_mm": 1059.9846126318575,
+      "wbc_success": true,
+      "wbc_hold_max_error_mm": 5.701393179763352,
+      "ik_max_reference_error_m": 4.892727110424553e-07,
+      "paired_state_reference_force_verified": true,
+      "pd_source_version": "47d2719c660c1ca48561b0068c00a9cee7caa890",
+      "wbc_source_version": "1c63402aa19eb42678e85b045d02b02eb978cf66"
+    }
+  ],
+  "baseline_qualified": false,
+  "method": "PD + fixed nominal equilibrium feedforward, offline bounded seven-joint arm IK at 30 Hz; identical Cartesian reference and force trace",
+  "scope": "Single-target deterministic qualification pilot; not a general controller ranking"
+}

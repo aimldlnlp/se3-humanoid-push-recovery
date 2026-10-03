@@ -1,0 +1,30 @@
+{
+  "trials_verified": 18,
+  "shared_initial_state_verified": true,
+  "outcomes_recomputed": true,
+  "manifest_files_verified": 94,
+  "deterministic_baseline_regression": true,
+  "disturbance_reference_pairs_verified": 2,
+  "videos": [
+    {
+      "path": "videos/front_10cm.mp4",
+      "frames": 150,
+      "duration_s": 5
+    },
+    {
+      "path": "videos/front_12.5cm.mp4",
+      "frames": 150,
+      "duration_s": 5
+    },
+    {
+      "path": "videos/front_5cm.mp4",
+      "frames": 150,
+      "duration_s": 5
+    },
+    {
+      "path": "videos/reaching_montage.mp4",
+      "frames": 450,
+      "duration_s": 15
+    }
+  ]
+}

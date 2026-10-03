@@ -1,0 +1,80 @@
+[
+  [
+    "Easy",
+    {
+      "trial_id": "front_5cm",
+      "stage": "workspace",
+      "direction": "front",
+      "distance_m": 0.05,
+      "push_N": 0,
+      "push_start_s": 1.5,
+      "combined_success": true,
+      "reach_success": true,
+      "balance_success": true,
+      "failure_reason": "PASS",
+      "final_error_mm": 4.598624283836274,
+      "hold_max_error_mm": 5.701393179763352,
+      "tracking_rmse_mm": 7.125471387586603,
+      "torque_peak": 1.4086926506071562,
+      "max_foot_displacement_m": 0.0003843112166056705,
+      "max_foot_tangent_velocity_m_s": 0.0001256281084786558,
+      "continuous_double_support": true,
+      "qp_failures": 0,
+      "deadline_miss_percent": 35.44,
+      "initial_condition_sha256": "5378f467006d4ddd20bad2c4ff38893ed8ac1317065f8a415de4e05627bdc275",
+      "source_version": "1c63402aa19eb42678e85b045d02b02eb978cf66"
+    }
+  ],
+  [
+    "Near tested limit",
+    {
+      "trial_id": "front_10cm",
+      "stage": "workspace",
+      "direction": "front",
+      "distance_m": 0.1,
+      "push_N": 0,
+      "push_start_s": 1.5,
+      "combined_success": true,
+      "reach_success": true,
+      "balance_success": true,
+      "failure_reason": "PASS",
+      "final_error_mm": 12.011280535614691,
+      "hold_max_error_mm": 12.958915521622561,
+      "tracking_rmse_mm": 12.012903341191429,
+      "torque_peak": 2.1230492491186634,
+      "max_foot_displacement_m": 0.000393614321555078,
+      "max_foot_tangent_velocity_m_s": 0.000140398126520368,
+      "continuous_double_support": true,
+      "qp_failures": 0,
+      "deadline_miss_percent": 33.68,
+      "initial_condition_sha256": "5378f467006d4ddd20bad2c4ff38893ed8ac1317065f8a415de4e05627bdc275",
+      "source_version": "1c63402aa19eb42678e85b045d02b02eb978cf66"
+    }
+  ],
+  [
+    "Failed task",
+    {
+      "trial_id": "front_12.5cm",
+      "stage": "workspace",
+      "direction": "front",
+      "distance_m": 0.125,
+      "push_N": 0,
+      "push_start_s": 1.5,
+      "combined_success": false,
+      "reach_success": false,
+      "balance_success": true,
+      "failure_reason": "TRACKING",
+      "final_error_mm": 16.768317305460453,
+      "hold_max_error_mm": 17.62067619369342,
+      "tracking_rmse_mm": 15.024519321398436,
+      "torque_peak": 2.778412935753527,
+      "max_foot_displacement_m": 0.0004016974356920706,
+      "max_foot_tangent_velocity_m_s": 0.00014936477449734674,
+      "continuous_double_support": true,
+      "qp_failures": 0,
+      "deadline_miss_percent": 42.559999999999995,
+      "initial_condition_sha256": "5378f467006d4ddd20bad2c4ff38893ed8ac1317065f8a415de4e05627bdc275",
+      "source_version": "1c63402aa19eb42678e85b045d02b02eb978cf66"
+    }
+  ]
+]

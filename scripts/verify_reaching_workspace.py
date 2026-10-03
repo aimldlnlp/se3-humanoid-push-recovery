@@ -21,7 +21,7 @@ def main():
     root = args.root
     study = json.loads((root/'study.json').read_text())
     rows = study['trials']
-    states, references = set(), {}
+    states, actual_states, references = set(), set(), {}
     for row in rows:
         path = root/'trials'/row['trial_id']
         s, passed, reason = assess_trial(path)
@@ -29,18 +29,19 @@ def main():
         assert s['provenance']['source_version'] == row['source_version']
         states.add(row['initial_condition_sha256'])
         with np.load(path/'trajectory.npz', allow_pickle=False) as a:
+            actual_states.add(hashlib.sha256(a['qpos_history'][0].tobytes()+a['qvel_history'][0].tobytes()).hexdigest())
             assert len(a['time_s']) == 1250
             assert np.all(np.diff(a['time_s']) > 0)
             for key in ('qpos_history','qvel_history','control','reach_point_world','reach_reference_world'):
                 assert np.all(np.isfinite(a[key])), (row['trial_id'],key)
-            if row['stage'] == 'disturbance':
+            if row['stage'] in ('workspace', 'disturbance'):
                 key = (row['direction'],row['distance_m'])
                 digest = hashlib.sha256(a['reach_reference_world'].tobytes()).hexdigest()
                 if key in references:
                     assert references[key] == digest
                 references[key] = digest
             assert abs(s['provenance']['actual_impulse_Ns']-row['push_N']*.15) < 1e-8
-    assert len(states)==1
+    assert len(states)==1 and len(actual_states)==1
     manifest = json.loads((root/'manifest.json').read_text())
     for file in manifest['files']:
         p=root/file['path']
@@ -62,7 +63,7 @@ def main():
     report=dict(trials_verified=len(rows), shared_initial_state_verified=True,
                 outcomes_recomputed=True, manifest_files_verified=len(manifest['files']),
                 deterministic_baseline_regression=study['baseline_regression_passed'],
-                disturbance_reference_pairs_verified=len(references), videos=videos)
+                target_reference_groups_verified=len(references), videos=videos)
     print(json.dumps(report,indent=2))
     if args.record:
         (root/'verification.json').write_text(json.dumps(report,indent=2))

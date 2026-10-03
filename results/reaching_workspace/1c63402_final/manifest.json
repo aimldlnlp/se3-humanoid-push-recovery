@@ -1,0 +1,412 @@
+{
+  "files": [
+    {
+      "path": "logs/baseline_no_push.txt",
+      "sha256": "733050c2dee07a7bdf820876626e9c236ec9b6d31bd82de678c55aca0ed445f8"
+    },
+    {
+      "path": "logs/baseline_push.txt",
+      "sha256": "aab54a8b60541cf4620b75a5c6357fcc4af09f32b3d8b04ba584a694f2709ecb"
+    },
+    {
+      "path": "logs/front_10cm.txt",
+      "sha256": "8cfa8ee0c52838c3ecb713b20c44399a00ac4adde3f4f0218e887c552300c9a9"
+    },
+    {
+      "path": "logs/front_12.5cm.txt",
+      "sha256": "10686336f0533cb19fc5eedee5feea4010e9bca6970b324aa304fda1a3f09966"
+    },
+    {
+      "path": "logs/front_15cm.txt",
+      "sha256": "70ebc18d57fab3640067bb35b73b0d6deb091fe81e674300ea5b1348c85b7bb4"
+    },
+    {
+      "path": "logs/front_5cm.txt",
+      "sha256": "770a780158ea39a272bd06135ceb56e099cfd88db97d2a8d4bf79073d9e27e21"
+    },
+    {
+      "path": "logs/front_5cm_hold_40N.txt",
+      "sha256": "da9d6aa560634d59adb7c0ac3e5ac9553e547121944eb7e779dd137d1a9313b3"
+    },
+    {
+      "path": "logs/front_5cm_hold_70N.txt",
+      "sha256": "3035385de4f01ed52932cb7b17f1358a44f6e36375b4c3ea1f1a03d68aa4dfae"
+    },
+    {
+      "path": "logs/front_5cm_moving_40N.txt",
+      "sha256": "d94eb29baa6c29ea7a867a4afce0c67914df3b640d110d7f39b6059e6e00d6b6"
+    },
+    {
+      "path": "logs/front_5cm_moving_70N.txt",
+      "sha256": "7de7690ffecd433cfa714da108a4e2d5c3ab94b87298be45e111021fa3af5c41"
+    },
+    {
+      "path": "logs/right_10cm.txt",
+      "sha256": "2f37184136dfb3215dbf3d58ea485cb0f30380d57b8f414e96614270b6deff3e"
+    },
+    {
+      "path": "logs/right_5cm.txt",
+      "sha256": "fc3e84673e2a41900c98788bce7e274af60cbae40ae02ceffabb5b88f2462b70"
+    },
+    {
+      "path": "logs/right_5cm_hold_40N.txt",
+      "sha256": "da84857273efae47c88373a7a2cfceea90782f1ba26b5ec7ffb06196149dea78"
+    },
+    {
+      "path": "logs/right_5cm_hold_70N.txt",
+      "sha256": "c11b1437ae31607c216a300e9b8859339b51d8baca74a7aa733891dad3cf581a"
+    },
+    {
+      "path": "logs/right_5cm_moving_40N.txt",
+      "sha256": "81df2a212cb1115520dcc0ea350d302f05c9dd43422876eaa26d25f36f3c285b"
+    },
+    {
+      "path": "logs/right_5cm_moving_70N.txt",
+      "sha256": "e0fbe4d699af659dc047e2c238b891040f828017bafc4ea129f1f77b455479bf"
+    },
+    {
+      "path": "logs/right_7.5cm.txt",
+      "sha256": "8348774b09223468f5a191710065252d6d4939578b974b38a7922e9de7013420"
+    },
+    {
+      "path": "logs/up_5cm.txt",
+      "sha256": "f9ac49b451d93501d7612fdc83bd113fd591c2b43c1758ec773677ee64c7b7b4"
+    },
+    {
+      "path": "montage_selection.json",
+      "sha256": "f372b1e300be167e8d3a6490302add90f259d33ea47c54ddb1aea3b74fa57cdf"
+    },
+    {
+      "path": "presentation/workspace_results.pdf",
+      "sha256": "88cd808533e1bf7288e2aeb4f2e586913fd1207f8981d0208ef3811b7fed80bb"
+    },
+    {
+      "path": "presentation/workspace_results.png",
+      "sha256": "a33df577cb77e4b82365c8ffa54f92ca31490d6f63e0644d9f27af7733312e69"
+    },
+    {
+      "path": "study.csv",
+      "sha256": "2a14f7ec78db013a7d197619f8cc52beb711829e1b73f6b0a13fef3af94cadbe"
+    },
+    {
+      "path": "study.json",
+      "sha256": "0ab7403feb99e0ab6df39fdd1794d23d043b6930fe2bf4fa6d7f80122401ce97"
+    },
+    {
+      "path": "trials/baseline_no_push/reaching_response.pdf",
+      "sha256": "1a9646c97f819eb07ac63f20ba628fd818532faf2924c8eff20104897ac66a80"
+    },
+    {
+      "path": "trials/baseline_no_push/reaching_response.png",
+      "sha256": "efe0fbe2fc33541655560ad4f0c47a19ccecc0e90e53b3b19523f473a71f4973"
+    },
+    {
+      "path": "trials/baseline_no_push/summary.json",
+      "sha256": "dfa34e91b8dbed29648e6d93674821b9fa385453a2daff7743f7de3bff5c4c5d"
+    },
+    {
+      "path": "trials/baseline_no_push/trajectory.npz",
+      "sha256": "2e09ca64c9e09ad2adb3c9326416eaa6b74aad5e80735750ebcc33b5cc1a4e26"
+    },
+    {
+      "path": "trials/baseline_push/reaching_response.pdf",
+      "sha256": "29d64672e24c333e10131f0982b6a581ee62f542ee9e9a234a833a853292715f"
+    },
+    {
+      "path": "trials/baseline_push/reaching_response.png",
+      "sha256": "128db4d69da0d829cfb37bb7fe20dae77b66269d8b45c172eff025f064ce5047"
+    },
+    {
+      "path": "trials/baseline_push/summary.json",
+      "sha256": "74128f48987a938faadc9c4f4ac27c110b3cf1de60801538e1f3bb9060efdb86"
+    },
+    {
+      "path": "trials/baseline_push/trajectory.npz",
+      "sha256": "c930f331b440e97fd7857df9f241c5c56693e52e62f6473fe1bb61404bc4a7bc"
+    },
+    {
+      "path": "trials/front_10cm/reaching_response.pdf",
+      "sha256": "fa39ab3140b7825a13e57ec950a8facb579ea5d5f53b85273cb26eaecd85450c"
+    },
+    {
+      "path": "trials/front_10cm/reaching_response.png",
+      "sha256": "648c9d3eca3da616178076245450ce7ac20beff7d7fc71fb914db1985ff0db07"
+    },
+    {
+      "path": "trials/front_10cm/summary.json",
+      "sha256": "c56284fc8199ec29d73992433326e1947daac85c8c16bc3ee6271a554e969f3d"
+    },
+    {
+      "path": "trials/front_10cm/trajectory.npz",
+      "sha256": "2216941e77e8d794dfd8e68675b44cd8650d3f5a1a315c79b1e148a9ac51b7f2"
+    },
+    {
+      "path": "trials/front_12.5cm/reaching_response.pdf",
+      "sha256": "f384f12d2e4df6805de6b7c5877720562633361cf7cf6647cd27f74174a33a0a"
+    },
+    {
+      "path": "trials/front_12.5cm/reaching_response.png",
+      "sha256": "65762f69779d6da8d800626d24f7b5de06e3d35b130a10b0aad5cf5ebfac53d8"
+    },
+    {
+      "path": "trials/front_12.5cm/summary.json",
+      "sha256": "e33cd83d52add9d8ded2e71e2dad7b347f56f79e569504937492665980363600"
+    },
+    {
+      "path": "trials/front_12.5cm/trajectory.npz",
+      "sha256": "a95e6b2215ff6c05f5b987197e8de51051db5d28f53dbab7b8089505475664e2"
+    },
+    {
+      "path": "trials/front_15cm/reaching_response.pdf",
+      "sha256": "2787f335d6bf2dfee84c4a5104c656676a69799175627e3c33de50f138a453d7"
+    },
+    {
+      "path": "trials/front_15cm/reaching_response.png",
+      "sha256": "a73550274f751d036b0b61ea9b2305fd584027418b0904c10b93a492cd207f68"
+    },
+    {
+      "path": "trials/front_15cm/summary.json",
+      "sha256": "78f69e66e57cfce0d9151a416a707ab51bdf682b004f9fb79120699bd9f8d87d"
+    },
+    {
+      "path": "trials/front_15cm/trajectory.npz",
+      "sha256": "7a7458244edad6f315a1b838ed1f4e485bf2452855ea534c6c8b1c98c82be44c"
+    },
+    {
+      "path": "trials/front_5cm/reaching_response.pdf",
+      "sha256": "9ed469fb68fbcf93bfee0c7ce8aa8e1dbc1f1f542dad340b7210040c025543c7"
+    },
+    {
+      "path": "trials/front_5cm/reaching_response.png",
+      "sha256": "941e9630975b6ea85ef14bb153189efcd9df6692dd6b6929aacf206b522ff63b"
+    },
+    {
+      "path": "trials/front_5cm/summary.json",
+      "sha256": "d49bcdeb7b5a5189038590719009a0bc3d2bfb449f00bdecefcf4d4d35fc8126"
+    },
+    {
+      "path": "trials/front_5cm/trajectory.npz",
+      "sha256": "6bad76e448964183a1c2954e64d596e7f5f5d12697b34985436f89d9743d0c9c"
+    },
+    {
+      "path": "trials/front_5cm_hold_40N/reaching_response.pdf",
+      "sha256": "c0c7a20c38615245c6351dd9d72cd57998435b70be8ce6b14a4b713a6e7a63cf"
+    },
+    {
+      "path": "trials/front_5cm_hold_40N/reaching_response.png",
+      "sha256": "4c92940c4fcf194f6d38e3616f9cd0f4384ecc4f23b768354831cc05ad3db401"
+    },
+    {
+      "path": "trials/front_5cm_hold_40N/summary.json",
+      "sha256": "dc7eb8fbd96d77bcef81393f3c333c18a86b85dc29a840d449e05eccce7bc363"
+    },
+    {
+      "path": "trials/front_5cm_hold_40N/trajectory.npz",
+      "sha256": "df740090163603d9d990f20c97b6cb84105923f6dc0785bf653ce39da2c92249"
+    },
+    {
+      "path": "trials/front_5cm_hold_70N/reaching_response.pdf",
+      "sha256": "40cba8ad19e2f250b244a318b683b5650c80a8360ece85def9fdf6573ca77aa7"
+    },
+    {
+      "path": "trials/front_5cm_hold_70N/reaching_response.png",
+      "sha256": "f2e1d01aa599e63123de3eec545d6d307e82bc3a11043747013f3d124fbd9f9f"
+    },
+    {
+      "path": "trials/front_5cm_hold_70N/summary.json",
+      "sha256": "811c9792a650aba10e850be601e6e1ca485f2bc5099503138bf674b79dc3dbc5"
+    },
+    {
+      "path": "trials/front_5cm_hold_70N/trajectory.npz",
+      "sha256": "ea3aa9044e327f260fa944f802382f7e4bbfb37317bac6218166199857be83ed"
+    },
+    {
+      "path": "trials/front_5cm_moving_40N/reaching_response.pdf",
+      "sha256": "01c47651a9a0bd35dd1959dda0189391281f25fe0ab95ea649e2971fb467a2f3"
+    },
+    {
+      "path": "trials/front_5cm_moving_40N/reaching_response.png",
+      "sha256": "994a692ddc8da82dfb7c60fba0e24e2568fb21f64fc5053ed7c133d718708da9"
+    },
+    {
+      "path": "trials/front_5cm_moving_40N/summary.json",
+      "sha256": "bb2a892a941a8cc886bc297b6e2e6fa4d6bd05abe4011a309981c6b50ba758fd"
+    },
+    {
+      "path": "trials/front_5cm_moving_40N/trajectory.npz",
+      "sha256": "2fb103ec17d7352f7d47b2112819151ad54a8c7cffb19f64692c68192d07bbd6"
+    },
+    {
+      "path": "trials/front_5cm_moving_70N/reaching_response.pdf",
+      "sha256": "b0a84ebc98bdbc0f9c1dc2e4db684c124c44bc315ca4c6582f3753968f3ff780"
+    },
+    {
+      "path": "trials/front_5cm_moving_70N/reaching_response.png",
+      "sha256": "f7937548558742eb202a2b0a56ae550182cabc1f1664ce802f771b14873bb02d"
+    },
+    {
+      "path": "trials/front_5cm_moving_70N/summary.json",
+      "sha256": "63fbcc2af1a0f3889e12509806b7ce4e4a0bd4411bc0d6ceb40ba44bddf9c3b5"
+    },
+    {
+      "path": "trials/front_5cm_moving_70N/trajectory.npz",
+      "sha256": "33afebe02539fe6ddd52e769a3bbc1d22df1b72bef052280ac11bc85c4c76634"
+    },
+    {
+      "path": "trials/right_10cm/reaching_response.pdf",
+      "sha256": "812e850fc115b617692f2e5bbf749dcbed07df319179874eeda636b283e7930b"
+    },
+    {
+      "path": "trials/right_10cm/reaching_response.png",
+      "sha256": "7f701fb425cf50a966de136c69a49e4a454e86d86f3c27d8feddb417f5b71fb5"
+    },
+    {
+      "path": "trials/right_10cm/summary.json",
+      "sha256": "099ddcbbe73f08c08b0d524b8c038f37ea0fb1a97ae1c280626d6c712fb544a2"
+    },
+    {
+      "path": "trials/right_10cm/trajectory.npz",
+      "sha256": "95706fe078a85b684b8b3bd8ed42855c09f867fd278d64ab4450214128517ef7"
+    },
+    {
+      "path": "trials/right_5cm/reaching_response.pdf",
+      "sha256": "e30d05840b72dd1e429d5e74dedd2684763989710d9adb1f879cf72c254b1ac2"
+    },
+    {
+      "path": "trials/right_5cm/reaching_response.png",
+      "sha256": "00545eb984457859e8a73ebe977a3521aa80f104d933b1c82b80aa51e560ad51"
+    },
+    {
+      "path": "trials/right_5cm/summary.json",
+      "sha256": "f3548c184c50685f5a22e4d5c9b8704b811f6f54dba2af76919e5bbeb88e6ed2"
+    },
+    {
+      "path": "trials/right_5cm/trajectory.npz",
+      "sha256": "ed200867f304908cb04670e17163c78e39b80ad5706a80881a8835d5ef62811e"
+    },
+    {
+      "path": "trials/right_5cm_hold_40N/reaching_response.pdf",
+      "sha256": "c6dc226048339d23eaab808f4db5ecc36b77aeb9d1ad550ccc3e394f66e1278e"
+    },
+    {
+      "path": "trials/right_5cm_hold_40N/reaching_response.png",
+      "sha256": "4e3fdd037bbe9c0053047dac9e6e3a730a74425d44162ff3b2dbecb0a13c0bb3"
+    },
+    {
+      "path": "trials/right_5cm_hold_40N/summary.json",
+      "sha256": "d64e64e1f0899c8652fdf98a235194cc0b288d6af830d4870f078552a2c89627"
+    },
+    {
+      "path": "trials/right_5cm_hold_40N/trajectory.npz",
+      "sha256": "b2e84be1a85963359a096d1cba17c524b888a23e92398a8641a6071623144a74"
+    },
+    {
+      "path": "trials/right_5cm_hold_70N/reaching_response.pdf",
+      "sha256": "efe3545281bf687a1eeb2a5433139ff018b8b2a94b27756491fb5349cf931ccb"
+    },
+    {
+      "path": "trials/right_5cm_hold_70N/reaching_response.png",
+      "sha256": "0fdffa65acd5dea24b5ab53517ad7ac7de380041e494afd0002f0bebae5c0280"
+    },
+    {
+      "path": "trials/right_5cm_hold_70N/summary.json",
+      "sha256": "1c09b034fb71bfde01ebdc4052f540ab21b69d4b9946bd77115bd00a55883c00"
+    },
+    {
+      "path": "trials/right_5cm_hold_70N/trajectory.npz",
+      "sha256": "a5b967d97fe738d977ac0abac1d35414089edec9c8f85f1705f13279028dfe0e"
+    },
+    {
+      "path": "trials/right_5cm_moving_40N/reaching_response.pdf",
+      "sha256": "6e067cffc7badd53aecb5ddc5e61e79e3d9d5b913f7eee0472945f9fbbc07983"
+    },
+    {
+      "path": "trials/right_5cm_moving_40N/reaching_response.png",
+      "sha256": "079cc248eadd8177ef4cc7cd994ffc94b1ad873704035c694df91004e8fa0efa"
+    },
+    {
+      "path": "trials/right_5cm_moving_40N/summary.json",
+      "sha256": "93e5fb1789e118798db6e38977c1cf05c5465113820d5c337fdda0dc2ed8d991"
+    },
+    {
+      "path": "trials/right_5cm_moving_40N/trajectory.npz",
+      "sha256": "b12d77c681ee2662b7d4ba5a3e9cf0c21fff7bf6bd2d0514fdd9cba56e439190"
+    },
+    {
+      "path": "trials/right_5cm_moving_70N/reaching_response.pdf",
+      "sha256": "512f51d7167832574fb0d6578b65efa3c1f6e4d217b6679565ade7a5fc7387b7"
+    },
+    {
+      "path": "trials/right_5cm_moving_70N/reaching_response.png",
+      "sha256": "9a8df283c6e198e10fb684ebb033282f8371bd0feff866e4dd593541ce4089c5"
+    },
+    {
+      "path": "trials/right_5cm_moving_70N/summary.json",
+      "sha256": "b3b801231ec857b3a2764abcaba3f7f4f04090f4f1d783bea17cdb6632d8be54"
+    },
+    {
+      "path": "trials/right_5cm_moving_70N/trajectory.npz",
+      "sha256": "073b48f9587e7af126d28867e6d6f08ba1c718c08a3d1febb4fa9a21343beff3"
+    },
+    {
+      "path": "trials/right_7.5cm/reaching_response.pdf",
+      "sha256": "a5d1fd1f525f45a4ec00108a57b034c6389f6fea5978b011bf2ca2c545f7f983"
+    },
+    {
+      "path": "trials/right_7.5cm/reaching_response.png",
+      "sha256": "171dfae8b1b504efd793a427435c98f1e380bbe954c4f5680d34378fe9cb660f"
+    },
+    {
+      "path": "trials/right_7.5cm/summary.json",
+      "sha256": "afd88825daae192fef609d2141038b899f78780ad93afa76a30cebf224d8cd40"
+    },
+    {
+      "path": "trials/right_7.5cm/trajectory.npz",
+      "sha256": "404309165e593b7deb0f113421ee067192bdf175923d46d108c422f69d78443e"
+    },
+    {
+      "path": "trials/up_5cm/reaching_response.pdf",
+      "sha256": "bc3b6b137925dc76cd20218fd8ad28dcd371540320f5b26d8791d8f515a94fc3"
+    },
+    {
+      "path": "trials/up_5cm/reaching_response.png",
+      "sha256": "d088720dfad3afb5345569535e7b99a8c1adcd74e68ce220a5c4b7073ad10477"
+    },
+    {
+      "path": "trials/up_5cm/summary.json",
+      "sha256": "3b3323f2b7cf692d0e3b8a789660291d9c20296c4d68961a33e27a887a53cab2"
+    },
+    {
+      "path": "trials/up_5cm/trajectory.npz",
+      "sha256": "5b05baefa69a052699323591a2f478fc50e4c104b39ec7670373dc80db6a7528"
+    },
+    {
+      "path": "verification.json",
+      "sha256": "7257432f88cfdbcd8a890938f691490fb079ea056ffb3a361f7f27da7dd3788a"
+    },
+    {
+      "path": "videos/front_10cm.mp4",
+      "sha256": "5fcef83fd6e19bb5755b92eb659353570599d501508dc2e8b0bd32f65d24a379"
+    },
+    {
+      "path": "videos/front_12.5cm.mp4",
+      "sha256": "488da373e84f332817d0538834c986cf724b95f84a9866e086c214c3c1c210e5"
+    },
+    {
+      "path": "videos/front_5cm.mp4",
+      "sha256": "897da54e65c5a9471798fb4d2c1ffc197610431fc9e5f03d586a6e3088fc6c27"
+    },
+    {
+      "path": "videos/reaching_montage.mp4",
+      "sha256": "6b67572b38a12b14c1ef43395516b72e301d62219d08fef763a3df9906e5fb23"
+    },
+    {
+      "path": "workspace_results.pdf",
+      "sha256": "9326b8147a50c9943adc989489dc2a8f44b623b8b513aeb47b1d120e40f4515b"
+    },
+    {
+      "path": "workspace_results.png",
+      "sha256": "9de018dafdbd82fb091aa73edcd2ab71f79c50eba4602d6cd7c8a8e2831c44cf"
+    }
+  ]
+}

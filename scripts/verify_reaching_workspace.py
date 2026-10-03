@@ -49,6 +49,8 @@ def main():
     plot = 'tracking_results.png' if 'selected_reach_weight' in study else 'workspace_results.png'
     if 'frozen_state_audit' in study:
         plot = 'conflict_results.png'
+    if 'balance_guard_policy' in study:
+        plot = 'guard_results.png'
     with Image.open(root/plot) as image:
         image.verify()
     videos = []

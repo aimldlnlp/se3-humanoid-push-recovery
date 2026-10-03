@@ -23,6 +23,29 @@ from se3_whole_body_control.control.tasks import ReachTask, quintic_reference
 from se3_whole_body_control.control.whole_body_qp import WholeBodyQPController
 from se3_whole_body_control.evaluation.metrics import save_trial_npz, summarize_trial
 from se3_whole_body_control.simulation.mujoco_sim import SimulationRunner
+from se3_whole_body_control.geometry.se3 import inverse_se3, log_se3
+
+
+class ReachBalanceGuard:
+    """Immediate reduction; one stable dwell, then one stable-duration ramp."""
+    def __init__(self, high_weight, low_weight, stable_duration):
+        if not np.all(np.isfinite([high_weight, low_weight, stable_duration])) or not 0 < low_weight <= high_weight or stable_duration <= 0:
+            raise ValueError('guard requires positive ordered weights and stable duration')
+        self.high, self.low, self.duration = high_weight, low_weight, stable_duration
+        self.recovering, self.stable_since = False, None
+
+    def update(self, time_s, stable):
+        if not stable:
+            self.recovering, self.stable_since = True, None
+            return self.low
+        if not self.recovering:
+            return self.high
+        if self.stable_since is None:
+            self.stable_since = time_s
+        fraction = float(np.clip((time_s-self.stable_since)/self.duration-1, 0, 1))
+        if fraction >= 1:
+            self.recovering = False
+        return self.low+fraction*(self.high-self.low)
 
 
 class ReachingController(WholeBodyQPController):
@@ -35,6 +58,9 @@ class ReachingController(WholeBodyQPController):
                                     self.start, np.zeros(3), np.zeros(3),
                                     settings['kp'], settings['kd'], settings['weight'])
         self.points, self.references = [], []
+        guard = settings.get('balance_guard')
+        self.guard = ReachBalanceGuard(settings['weight'], guard['minimum_weight'], guard['stable_duration_s']) if guard else None
+        self.weights, self.guard_risks = [], []
 
     def solve(self):
         task = self.reach_task
@@ -43,6 +69,20 @@ class ReachingController(WholeBodyQPController):
             self.settings['movement_duration_s'])
         self.points.append(self.model.attached_point_kinematics(task.body_name, task.point_local)[0].copy())
         self.references.append(task.position_world.copy())
+        risk = False
+        if self.guard is not None:
+            cfg = self.settings['balance_guard']
+            rotation_error = np.linalg.norm(log_se3(self.model.body_pose('torso')@inverse_se3(self.T_des_torso))[3:])
+            angular_speed = np.linalg.norm(self.model.body_velocity('torso')[3:])
+            com_error = np.linalg.norm(self.model.center_of_mass()[:2]-self.com_des[:2])
+            stable = bool(rotation_error <= cfg['orientation_threshold_rad']
+                          and angular_speed <= cfg['angular_velocity_threshold_rad_s']
+                          and com_error <= cfg['com_displacement_threshold_m']
+                          and all(self.model.contact_flags()))
+            risk = not stable
+            task.weight = self.guard.update(self.model.data.time, stable)
+        self.weights.append(task.weight)
+        self.guard_risks.append(risk)
         return super().solve()
 
 
@@ -55,9 +95,12 @@ def main():
     parser.add_argument('--reach-weight', type=float)
     parser.add_argument('--qp-posture-weight', type=float)
     parser.add_argument('--qp-nominal-torque-weight', type=float)
+    parser.add_argument('--balance-guard', action='store_true')
     parser.add_argument('--controller', choices=('se3_wbc', 'pd_nominal_ff'), default='se3_wbc')
     parser.add_argument('--render', action='store_true')
     args = parser.parse_args()
+    if args.balance_guard and args.controller != 'se3_wbc':
+        parser.error('--balance-guard applies only to se3_wbc')
     if not np.isfinite(args.push_N) or args.push_N < 0:
         parser.error('--push-N must be finite and nonnegative')
     overrides = {}
@@ -72,6 +115,7 @@ def main():
     if any(output.iterdir()):
         parser.error('output must be empty: preserve existing run artifacts')
     settings = load_yaml(ROOT/'configs/reaching.yaml')
+    default_reach_weight = settings['weight']
     if args.reach_weight is not None:
         if not np.isfinite(args.reach_weight) or args.reach_weight <= 0:
             parser.error('--reach-weight must be finite and positive')
@@ -85,6 +129,12 @@ def main():
     if not np.isfinite(args.push_start_s) or not 0 <= args.push_start_s <= settings['experiment_duration_s'] - 0.15:
         parser.error('push must fit inside the observation window')
     cfg = load_configs(ROOT, robot_name='unitree_g1')
+    if args.balance_guard:
+        recovery = recovery_config(cfg)
+        settings['balance_guard'] = {key: getattr(recovery, key) for key in (
+            'orientation_threshold_rad', 'angular_velocity_threshold_rad_s',
+            'com_displacement_threshold_m', 'stable_duration_s')}
+        settings['balance_guard']['minimum_weight'] = min(default_reach_weight, settings['weight'])
     initial = prepare_paired_initial_condition(cfg)
     cfg['controller'].update(overrides)
     model = make_model(cfg)
@@ -130,10 +180,19 @@ def main():
                'final_goal_error_m': float(goal_error[-1]), 'provenance': metadata}
     if args.controller == 'pd_nominal_ff':
         summary['ik_max_reference_error_m'] = controller.ik_max_error_m
+    extras = {}
+    if args.controller == 'se3_wbc':
+        extras = {'reach_weight_history': np.asarray(controller.weights), 'balance_guard_risk': np.asarray(controller.guard_risks)}
+        reduced = extras['reach_weight_history'] < settings['weight']-1e-9
+        summary['balance_guard'] = dict(enabled=bool(args.balance_guard),
+                                       reduced_duration_s=float(np.sum(reduced)*cfg['robot']['control_timestep']),
+                                       first_reduction_s=float(times[np.flatnonzero(reduced)[0]]) if np.any(reduced) else None,
+                                       minimum_weight=float(np.min(extras['reach_weight_history'])),
+                                       maximum_weight=float(np.max(extras['reach_weight_history'])))
     save_trial_npz(run.log, output/'trajectory.npz', metadata, {
         'qpos_history': np.asarray(run.qpos_history), 'qvel_history': np.asarray(run.qvel_history),
         'reach_point_world': points, 'reach_reference_world': references,
-        'reach_goal_world': controller.goal, 'reach_error_m': error})
+        'reach_goal_world': controller.goal, 'reach_error_m': error, **extras})
     (output/'summary.json').write_text(json.dumps(summary, indent=2), encoding='utf-8')
     from se3_whole_body_control.visualization.style import apply_style, COLORS
     import matplotlib.pyplot as plt

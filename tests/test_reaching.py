@@ -195,3 +195,45 @@ def test_objective_audit_records_the_production_qp_without_changing_it(monkeypat
         linear -= 2*weight*A.T@b
     np.testing.assert_allclose(reconstructed, actual[0], atol=1e-9)
     np.testing.assert_allclose(linear, actual[1], atol=1e-9)
+
+
+def test_balance_guard_reduces_immediately_and_restores_only_after_stable_dwell(monkeypatch):
+    monkeypatch.syspath_prepend(str(Path(__file__).resolve().parents[1]/'experiments'))
+    from reach_and_balance import ReachBalanceGuard
+    guard = ReachBalanceGuard(3000, 100, .25)
+    assert guard.update(0, True)==3000
+    assert guard.update(1, False)==100
+    assert guard.update(1.004, True)==100
+    assert guard.update(1.204, True)==100
+    assert guard.update(1.254, True)==100
+    assert guard.update(1.379, True)==pytest.approx(1550)
+    assert guard.update(1.380, False)==100
+    assert guard.update(1.4, True)==100
+    assert guard.update(1.9, True)==pytest.approx(3000)
+    assert guard.update(2, True)==3000
+
+
+def test_balance_guard_uses_measured_state_without_force_oracle(monkeypatch):
+    pytest.importorskip('mujoco')
+    monkeypatch.syspath_prepend(str(Path(__file__).resolve().parents[1]/'experiments'))
+    from common import ROOT, make_model, recovery_config
+    from reach_and_balance import ReachingController
+    from se3_whole_body_control.config import load_yaml
+    cfg = load_configs(ROOT, robot_name='unitree_g1')
+    model = make_model(cfg)
+    settings = load_yaml(ROOT/'configs/reaching.yaml')
+    settings['weight'] = 3000
+    recovery = recovery_config(cfg)
+    settings['balance_guard'] = {key: getattr(recovery, key) for key in (
+        'orientation_threshold_rad', 'angular_velocity_threshold_rad_s',
+        'com_displacement_threshold_m', 'stable_duration_s')}
+    settings['balance_guard']['minimum_weight'] = 100
+    controller = ReachingController(model, cfg['controller'], settings)
+    def forbidden():
+        raise AssertionError('external-force oracle must remain disabled')
+    monkeypatch.setattr(model, 'external_generalized_force', forbidden)
+    model.data.qvel[3] = 1
+    import mujoco
+    mujoco.mj_forward(model.model, model.data)
+    controller.solve()
+    assert controller.guard_risks[-1] and controller.weights[-1]==100

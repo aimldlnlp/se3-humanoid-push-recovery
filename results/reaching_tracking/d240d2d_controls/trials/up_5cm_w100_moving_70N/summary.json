@@ -1,0 +1,109 @@
+{
+  "duration_s": 4.995999999999672,
+  "max_torso_error_rad": 0.054502001273573485,
+  "max_com_displacement_m": 0.07779649206352436,
+  "max_com_3d_displacement_m": 0.08000655531093481,
+  "max_joint_velocity": 1.7592292115387935,
+  "max_qp_solve_time_ms": 20.522100006928667,
+  "mean_qp_solve_time_ms": 6.092269599926658,
+  "p95_qp_solve_time_ms": 7.09154001524439,
+  "p99_qp_solve_time_ms": 8.602732991566882,
+  "qp_deadline_ms": 4.0,
+  "qp_deadline_miss_percent": 100.0,
+  "qp_failures": 0,
+  "max_contact_slack_norm": 0.03698730844045729,
+  "max_actual_contact_force_N": 448.975114209096,
+  "max_actual_contact_component_N": 447.7643762305729,
+  "max_actual_friction_utilization": 0.19251738314351236,
+  "max_dynamics_residual": 7.735610899241282e-06,
+  "max_contact_acceleration_residual": 1.0766834856056503e-06,
+  "left_contact_fraction": 1.0,
+  "right_contact_fraction": 1.0,
+  "qp_measured_vertical_grf_rmse_N_post_step": 12.011685973546637,
+  "qp_measured_vertical_grf_bias_N_post_step": 0.20109583313875992,
+  "qp_measured_force_rmse_N_post_step": 6.98195428645306,
+  "reach_success": false,
+  "balance_success": true,
+  "combined_success": false,
+  "recovery": {
+    "success": true,
+    "failure_reason": null,
+    "recovered_at_s": 1.9160000000000015,
+    "recovery_latency_s": 0.26600000000000157,
+    "max_torso_error_rad": 0.054502001273573485,
+    "max_com_displacement_m": 0.07779649206352436,
+    "max_joint_torque_Nm": 20.870971587479655,
+    "min_friction_margin": 0.8074826168564877
+  },
+  "tracking_rmse_m": 0.03331487468695655,
+  "hold_max_goal_error_m": 0.04279955828095411,
+  "continuous_double_support": true,
+  "max_foot_displacement_m": 0.012067108418179946,
+  "max_foot_tangent_velocity_m_s": 0.009849358299191585,
+  "final_goal_error_m": 0.04279955828095411,
+  "provenance": {
+    "run_id": "run-20261003T061220Z-26fbb3b9",
+    "source_version": "d240d2d",
+    "git_dirty": true,
+    "seed": 0,
+    "hostname": "LAPTOP-5FHHA9LI",
+    "timestamp_utc": "2026-10-03T06:12:20.468151+00:00",
+    "config_sha256": "8ce3fbe2f6e1e3402f10505c869d7f1db883af3bdbf540047c5b51b644f6c296",
+    "model_sha256": "43912c5f880adff88355c6cd1a887caec143543c7bc578234e1a369226fb0422",
+    "python_version": "3.12.0",
+    "dependency_versions": {
+      "numpy": "1.26.3",
+      "mujoco": "3.14.0",
+      "osqp": "1.1.3"
+    },
+    "command": "D:\\Kuliah\\Semester 8\\se3-whole-body-control\\experiments\\reach_and_balance.py --output results\\reaching_tracking\\d240d2d_controls\\trials\\up_5cm_w100_moving_70N --target-offset-m 0 0 0.05 --push-N 70 --push-start-s 1.5 --reach-weight 100",
+    "initial_condition": {
+      "sha256": "03e0aae37f8d362875d2ee58632fcb897270cda3a2937dd86e40ded566595271",
+      "qpos_sha256": "a10e6ab17f4ec412f799282331302354174c48cc1363908d55e063f322ba1640",
+      "qvel_sha256": "57b1a73ee765d8ee75befa0e80bf10f06441503f5ecd8804853019bb8ee9404c",
+      "torso_reference_sha256": "03b81b93efc00c998c3f30823461e08c3847ef7a05f262d0b057c32440e065b4",
+      "pelvis_reference_sha256": "ac2970d3e358d0a6493a2c82f4c372fccf7b77670d3168b322f30a816ceea913",
+      "com_reference_sha256": "029c6f0bd539e149c28ee45dafd6d1c2bc48957a93455133f95be3a249b0fe0e",
+      "joint_reference_sha256": "67f54680793fa0440af3f9b4099c59b8a6e8313b445b5c90777b1e98f6817f5e",
+      "seed": 0,
+      "setup_policy": "pd_nominal_ff",
+      "setup_duration_s": 0.6
+    },
+    "reaching": {
+      "body_name": "right_wrist_yaw_link",
+      "point_local_m": [
+        0.08,
+        0.0,
+        0.0
+      ],
+      "target_offset_world_m": [
+        0.0,
+        0.0,
+        0.05
+      ],
+      "start_time_s": 0.5,
+      "movement_duration_s": 2.0,
+      "experiment_duration_s": 5.0,
+      "kp": 150.0,
+      "kd": 25.0,
+      "weight": 100.0,
+      "position_tolerance_m": 0.015,
+      "hold_duration_s": 0.5
+    },
+    "push_N": 70.0,
+    "push_start_s": 1.5,
+    "com_reference_world": [
+      0.004448813506768497,
+      7.296950797411584e-05,
+      0.7113150950181902
+    ],
+    "controller": "se3_wbc",
+    "ik_max_reference_error_m": null,
+    "goal_world_m": [
+      -0.008750211605730663,
+      -0.2378566028173461,
+      0.6944074611600399
+    ],
+    "actual_impulse_Ns": 10.500000000000004
+  }
+}

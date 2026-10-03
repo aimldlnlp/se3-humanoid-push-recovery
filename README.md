@@ -277,6 +277,77 @@ New simulation outputs and presentation directories refuse existing destinations
 [Verification](results/reaching_workspace/1c63402_final/verification.json) |
 [Artifact hashes](results/reaching_workspace/1c63402_final/manifest.json)
 
+## Reach-and-Balance: tracking calibration
+
+The next experiment varies **only the Cartesian reach objective weight**.
+The original default remains 100. Plant parameters, initial conditions,
+reference timing, all other gains and weights, contact/torque constraints,
+and the 15 mm final-hold tolerance are unchanged.
+
+Two known failures are used for calibration: front 12.5 cm and up 5 cm.
+Weights 300, 1000, and 3000 are tested in that order. The first weight passing
+both combined task/physical checks is 3000, then frozen before validation.
+The two weight-100 trajectories reproduce the earlier worker results within
+the published numerical tolerances. Within-study reference, force and initial
+state pairs are checked exactly.
+
+| Calibration target | Hold error, weight 100 | Hold error, weight 3000 |
+|---|---:|---:|
+| Front 12.5 cm | 17.62 mm, tracking fail | 3.23 mm, combined pass |
+| Up 5 cm | 43.76 mm, tracking fail | 9.92 mm, combined pass |
+
+Frozen validation passes 6/8 trials: mixed 8 cm, right 5 cm, front 15 cm,
+and up 10 cm without push, plus up 5 cm with 70 N pushes during motion and
+hold. **Front 12.5 cm falls with both 70 N pushes at weight 3000.**
+Front 15 cm and up 10 cm no-push hold errors are 4.09 mm and 12.07 mm,
+respectively. These are sampled outcomes, not a complete workspace claim.
+
+A separate six-trial follow-up repeats the pushed calibration targets at
+weight 100 and probes front 12.5 cm at weight 300. The weight-100 front robot
+remains physically balanced with both pushes; motion passes, hold fails
+tracking. Weight 300 passes the motion push but fails the hold push with
+slip. Weight-100 up trials remain balanced but fail tracking. These follow-up
+trials are **exploratory controls, not additional held-out validation**.
+
+This supports a tracking/balance trade-off in the existing weighted QP.
+Increasing reach weight improves accuracy but is not a safe global fix.
+**No automatic target-dependent tuning, default promotion, or PD claim is
+made.** The CLI override is opt-in: `--reach-weight 3000`.
+
+![Tracking calibration and frozen validation](results/reaching_tracking/fbc0b50_local/presentation/tracking_results.png)
+
+Scientific calibration/validation source: `fbc0b509402bc8d60a365c0b612d331a120fdc88`.
+Follow-up control source: `d240d2d`; refined presentation source: `66a23f8`.
+There are 16 primary trials and six controls. Runs use local Windows CPU
+after SSH source transfers repeatedly returned `Connection reset`; original
+worker artifacts are preserved. Local runs record 100% 4 ms deadline misses,
+so these results make **no hard-real-time claim**. Source and dependency
+versions are recorded in each trial summary. The untracked historical
+experiment wrappers are not used or changed.
+
+Reproduce in fresh output directories with the declared dependencies:
+
+```bash
+export PYTHONPATH=src:scripts OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1
+export SE3_SOURCE_VERSION=$(git rev-parse HEAD)
+python experiments/reaching_tracking_study.py --previous results/reaching_workspace/1c63402_final --output results/staging/tracking-study
+python experiments/reaching_tracking_study.py --previous results/reaching_workspace/1c63402_final --validation-controls-for results/staging/tracking-study --output results/staging/tracking-controls
+python scripts/verify_reaching_workspace.py --root results/staging/tracking-study --record
+python scripts/verify_reaching_workspace.py --root results/staging/tracking-controls --record
+```
+
+Cross-platform replay inputs allow absolute rounding error of `1e-12`;
+trajectory replay uses `rtol=1e-8, atol=1e-9`. Physical success thresholds are
+never relaxed. Refined figures use a labeled symmetric-log validation scale
+so falls and small successful tracking errors both remain visible.
+
+[Primary trial CSV](results/reaching_tracking/fbc0b50_local/study.csv) |
+[Primary verification](results/reaching_tracking/fbc0b50_local/verification.json) |
+[Exploratory controls](results/reaching_tracking/d240d2d_controls/study.csv) |
+[Control figure](results/reaching_tracking/d240d2d_controls/presentation/tracking_results.png) |
+[Primary hashes](results/reaching_tracking/fbc0b50_local/manifest.json) |
+[Control hashes](results/reaching_tracking/d240d2d_controls/manifest.json)
+
 ## Limitations
 
 - Fixed-foot double support on flat ground; no walking, hardware transfer or general locomotion claim.

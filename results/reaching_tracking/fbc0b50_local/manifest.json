@@ -1,0 +1,356 @@
+{
+  "files": [
+    {
+      "path": "logs/front_12.5cm_w100.txt",
+      "sha256": "09733376a404c76600af374c62aa8a15e0e42ff0c423f2cfa8b4a8854bf4807a"
+    },
+    {
+      "path": "logs/front_12.5cm_w1000.txt",
+      "sha256": "fdd1154777408dc399fb9afc4ee7cb8c112ca126609571226ba252161ad31bc6"
+    },
+    {
+      "path": "logs/front_12.5cm_w300.txt",
+      "sha256": "6c52854b910df928a148d24f14c1ccd2e364f8ebf8669dd2dda1e70e8b4d3dde"
+    },
+    {
+      "path": "logs/front_12.5cm_w3000.txt",
+      "sha256": "fef2ef11a44e18a621f570ed50413a053d7bed95cbba3c65848f64c76a0917a8"
+    },
+    {
+      "path": "logs/front_12.5cm_w3000_hold_70N.txt",
+      "sha256": "c5b2432f1a11aa25e9598f5b5a5183b2bd4583393354347298c83179996afa92"
+    },
+    {
+      "path": "logs/front_12.5cm_w3000_moving_70N.txt",
+      "sha256": "06f8941f7cc18b6d88049bb01ab2da980b0d3e533aecb1fe7a1e8f52b6e1fb5b"
+    },
+    {
+      "path": "logs/front_15cm_w3000.txt",
+      "sha256": "e821fe47acc3e3e958cebc1d7f73edfc1cba7471d8a751d3a67b78563e5c1146"
+    },
+    {
+      "path": "logs/mixed_8cm_w3000.txt",
+      "sha256": "c447e2679c7caab7ce0073b7fc7c9eec821a096992af0b8f9fea52d6ec17c545"
+    },
+    {
+      "path": "logs/right_5cm_w3000.txt",
+      "sha256": "a58dce2f59ba79d458fb5266535fff798f4695fd3fcfecde1b9510b3d0df0f48"
+    },
+    {
+      "path": "logs/up_10cm_w3000.txt",
+      "sha256": "138797d964ff142a4a03fe783e6a68876880f238e5216dcfd674bc897372b75a"
+    },
+    {
+      "path": "logs/up_5cm_w100.txt",
+      "sha256": "6c6fdf9d4b3500e1097dd8f1ea411f8f5c3179e69d3f5521540497fe6c1efe27"
+    },
+    {
+      "path": "logs/up_5cm_w1000.txt",
+      "sha256": "3eef9e94c6303b0d0f663811e71dd3a68bfb8480d911115b0c6463f597414634"
+    },
+    {
+      "path": "logs/up_5cm_w300.txt",
+      "sha256": "9e54b71cfde33d18e8025ede583712c4e4f9b0d5890f8d3dbd2b2d3d5db9bd8b"
+    },
+    {
+      "path": "logs/up_5cm_w3000.txt",
+      "sha256": "4ea61670c7fa79c7522f8a5e6203c53584d0a0b59e7b7936dba15c6350d5a270"
+    },
+    {
+      "path": "logs/up_5cm_w3000_hold_70N.txt",
+      "sha256": "2108ef6071219e944ec8defc2f67a14728a6a6b3a2fd7dab286ee9095be09295"
+    },
+    {
+      "path": "logs/up_5cm_w3000_moving_70N.txt",
+      "sha256": "c228a4413395ea3469ae68e2bcccae30571a805c996c401590c50676c5291eae"
+    },
+    {
+      "path": "presentation/tracking_results.pdf",
+      "sha256": "02263dd837b3bd6194cbc6427fd7b5b6498bf5d6f69046a99a538c8b4a9505a5"
+    },
+    {
+      "path": "presentation/tracking_results.png",
+      "sha256": "e698a48829557bf2b69a7b1f3671a038506505f0ae769d49174cb612a1c4bcad"
+    },
+    {
+      "path": "release_verification.json",
+      "sha256": "7446c7e9fb6f001b39e8b62089532713ff28dc491ff5ddc92ca2da79e75b2f19"
+    },
+    {
+      "path": "study.csv",
+      "sha256": "40db19f466b353b23e201523374b83a2e4931e6455e05034f50aa819b2c8051c"
+    },
+    {
+      "path": "study.json",
+      "sha256": "10432af5a34f0f70c1084a02e7c2061644933e15cea645e67580f6a84f710979"
+    },
+    {
+      "path": "tracking_results.pdf",
+      "sha256": "09f4710384826778db5661d7de933a80495e6b725d5f4f7cc9a387af88b9d05a"
+    },
+    {
+      "path": "tracking_results.png",
+      "sha256": "b83c918e0514db860717d8478a7d30fde6a88fe1aeed9a66484157bb6247ca9f"
+    },
+    {
+      "path": "trials/front_12.5cm_w100/reaching_response.pdf",
+      "sha256": "87c63afbaff2d52b081b3b7da5be7e73605800b2c4624b52f3845c9895f3c46f"
+    },
+    {
+      "path": "trials/front_12.5cm_w100/reaching_response.png",
+      "sha256": "e1c67a792abffc57c8c92ef3188c1357db0c8a62a382e4851f5fbf039a79e86b"
+    },
+    {
+      "path": "trials/front_12.5cm_w100/summary.json",
+      "sha256": "0b0a2c7dae82314a85b6e134b50b5140d08b19c95bf60f086e4ecde21825bef3"
+    },
+    {
+      "path": "trials/front_12.5cm_w100/trajectory.npz",
+      "sha256": "475a7381187ec819de5c616cbc553f375b51005e1a4f891e5c91a18a11e1c5e3"
+    },
+    {
+      "path": "trials/front_12.5cm_w1000/reaching_response.pdf",
+      "sha256": "745164797771cd95bd39bc05f1fc70ba3029f4cc641f9711dc8cf523b12d88aa"
+    },
+    {
+      "path": "trials/front_12.5cm_w1000/reaching_response.png",
+      "sha256": "73056079a8acd4593ffd90f3eeecec5daff5f11045b86f00337919d26ee710a4"
+    },
+    {
+      "path": "trials/front_12.5cm_w1000/summary.json",
+      "sha256": "fc4675947a4d9d97ee62291cda4685e2126240e673b5a55907f39e779ae61333"
+    },
+    {
+      "path": "trials/front_12.5cm_w1000/trajectory.npz",
+      "sha256": "65636b783039f2e14456e3226be891e0c90f69f934c7d9d69087a6ccc4b54c85"
+    },
+    {
+      "path": "trials/front_12.5cm_w300/reaching_response.pdf",
+      "sha256": "76faa34ca4bbdeaf4d21aa1b22874818c85f687b7093d5f867d91edb968a5ad1"
+    },
+    {
+      "path": "trials/front_12.5cm_w300/reaching_response.png",
+      "sha256": "08ccf150800236e9b5c84affe7b798fce509f2bf17e757daffc6a479620926be"
+    },
+    {
+      "path": "trials/front_12.5cm_w300/summary.json",
+      "sha256": "f8b185b33969864d0e4faacf3f1096f402a1951dab0fe833b9309e53f905490d"
+    },
+    {
+      "path": "trials/front_12.5cm_w300/trajectory.npz",
+      "sha256": "f150bffe8f406e4b66a64fb3f7497b716a3c3648f9e8b209913337ebd814aac9"
+    },
+    {
+      "path": "trials/front_12.5cm_w3000/reaching_response.pdf",
+      "sha256": "c314750a5fdb802c6edf7f776955b793e855f82c5defe2819f259637bafc9e6d"
+    },
+    {
+      "path": "trials/front_12.5cm_w3000/reaching_response.png",
+      "sha256": "46a157cdb34092af4035004588b08f71e55c7b372e9419a56151bd8b7d77f1e5"
+    },
+    {
+      "path": "trials/front_12.5cm_w3000/summary.json",
+      "sha256": "b2165b37c91633636ea450c9ff59cbcdc5a8c889b8a41aed2da4de19b799701c"
+    },
+    {
+      "path": "trials/front_12.5cm_w3000/trajectory.npz",
+      "sha256": "dc0c746f3cbeb27d8b77069fab5fff835aee660b377b710f57e9a7f22e152e4d"
+    },
+    {
+      "path": "trials/front_12.5cm_w3000_hold_70N/reaching_response.pdf",
+      "sha256": "e4633cc6fac29622d3c27fe97df921537efef7ed3fe5ffd9aa2ea1c0e5f0cd85"
+    },
+    {
+      "path": "trials/front_12.5cm_w3000_hold_70N/reaching_response.png",
+      "sha256": "f4cd31a52c469896180dcefda7d259cd9c6d58197c4b1e60b947c2a81135ef8c"
+    },
+    {
+      "path": "trials/front_12.5cm_w3000_hold_70N/summary.json",
+      "sha256": "f421198c0e1748a75174ade21524454bdfdf7ba89fea25a7cc7991e18dd978e9"
+    },
+    {
+      "path": "trials/front_12.5cm_w3000_hold_70N/trajectory.npz",
+      "sha256": "8dd0ef2015062ed1baa206be5ab69acae1f66ad999bc27c6b861bfa82339a5ac"
+    },
+    {
+      "path": "trials/front_12.5cm_w3000_moving_70N/reaching_response.pdf",
+      "sha256": "13cd25bc1cd238af9ea57b72e89dc44b75d23dc35238bdf172e20ded43f1389c"
+    },
+    {
+      "path": "trials/front_12.5cm_w3000_moving_70N/reaching_response.png",
+      "sha256": "e7d17570ded33d98a688d4e03f1bc4e3ee6badb087df43c50790b62dc3804a1c"
+    },
+    {
+      "path": "trials/front_12.5cm_w3000_moving_70N/summary.json",
+      "sha256": "1eb1c8c6af6bd2e60ddb4415f1055f71eb7014807ed8291fd566513fe36aaa47"
+    },
+    {
+      "path": "trials/front_12.5cm_w3000_moving_70N/trajectory.npz",
+      "sha256": "26f6478ada260c4e8efeeeb3036d3d0ba3b628e6ca74414bdae108d74c284b90"
+    },
+    {
+      "path": "trials/front_15cm_w3000/reaching_response.pdf",
+      "sha256": "54e10c0f95d1db0b6a5ab8b5bd15937e0c4acd7140dfac113a31a8478c1ebecd"
+    },
+    {
+      "path": "trials/front_15cm_w3000/reaching_response.png",
+      "sha256": "cca6bbe49166104d6ee22cb547538bcd221bf1ad8d33494fdfad68ccd7d2f999"
+    },
+    {
+      "path": "trials/front_15cm_w3000/summary.json",
+      "sha256": "577d77f88777d2dc86b000d2ddd586cd8aaa476c417a1a444ab40a20b8042d5f"
+    },
+    {
+      "path": "trials/front_15cm_w3000/trajectory.npz",
+      "sha256": "0c43e300ad8edcad30177c7978c47aea7f20929f3c9137a2165ed6bc698e70c1"
+    },
+    {
+      "path": "trials/mixed_8cm_w3000/reaching_response.pdf",
+      "sha256": "6f3481f317966a121f60258a71e03437f3e8e453659f89a0590746c100b0182b"
+    },
+    {
+      "path": "trials/mixed_8cm_w3000/reaching_response.png",
+      "sha256": "5643207c935ba531d53bb58145dd838ef3a86ba34ba2548218eec6cbc9ae2db2"
+    },
+    {
+      "path": "trials/mixed_8cm_w3000/summary.json",
+      "sha256": "1631f829b1249587e224a442c26cb66e93f352ae82153a0b199fa1f317b9bad3"
+    },
+    {
+      "path": "trials/mixed_8cm_w3000/trajectory.npz",
+      "sha256": "ddb53fbb88dd10f21bb366939e657c6950a5b64a22bf93fffb6dfe3e76b7a5d3"
+    },
+    {
+      "path": "trials/right_5cm_w3000/reaching_response.pdf",
+      "sha256": "ee9100594e6d26ed23a877bd88e8823519ee6329cac6ea3ca7494deb08acd46e"
+    },
+    {
+      "path": "trials/right_5cm_w3000/reaching_response.png",
+      "sha256": "b0e96252d3a90efb2a22dcab101c33a0a69be7b920a72b77bd8f4ea16ac8cff8"
+    },
+    {
+      "path": "trials/right_5cm_w3000/summary.json",
+      "sha256": "ef71d2294dc648020b1bb733185c2011926e53cc64faf46b0ae5662a4ec44b2f"
+    },
+    {
+      "path": "trials/right_5cm_w3000/trajectory.npz",
+      "sha256": "422d622cc0329af8337b369072980d89bb94108893cc7a40a03fbc77fef8f790"
+    },
+    {
+      "path": "trials/up_10cm_w3000/reaching_response.pdf",
+      "sha256": "435c37f7a20a52beaa407e35692f5578649b2eb1c57a91ee4c986cd941fc36fc"
+    },
+    {
+      "path": "trials/up_10cm_w3000/reaching_response.png",
+      "sha256": "aa463b3a22e443643af4b92a5e2c11180f46bc2b75986a32d5a2a09e09f2630d"
+    },
+    {
+      "path": "trials/up_10cm_w3000/summary.json",
+      "sha256": "7f123e1bf09d4a4b7c6d23186792e4c30a1f82ac74dbc1501224457b457b13ea"
+    },
+    {
+      "path": "trials/up_10cm_w3000/trajectory.npz",
+      "sha256": "8cff4604192b310e883a0bcbec2f730e4c8b9907af77bb523e8e5fb8eda825bb"
+    },
+    {
+      "path": "trials/up_5cm_w100/reaching_response.pdf",
+      "sha256": "47f772eae4bdc223f6200eff85f6a70e3196a4d0643dd2f30d8be832d7399f5a"
+    },
+    {
+      "path": "trials/up_5cm_w100/reaching_response.png",
+      "sha256": "8585badbf66aa9c4c5eb65c41309e8b6cbc8447d20fb34733f788e54d4fa8e61"
+    },
+    {
+      "path": "trials/up_5cm_w100/summary.json",
+      "sha256": "1d65e05717d21fc54b6b20966367b0bd92bcefe1cbcb0c64700201e650f43cbf"
+    },
+    {
+      "path": "trials/up_5cm_w100/trajectory.npz",
+      "sha256": "bd150acc153289b37d54171f4db3d6e6c579294f8a86ae87bf14576c0554527a"
+    },
+    {
+      "path": "trials/up_5cm_w1000/reaching_response.pdf",
+      "sha256": "e7b09d68c71a2fceaef8855c2a95490060c43e062c923e30e73d13e01f951c44"
+    },
+    {
+      "path": "trials/up_5cm_w1000/reaching_response.png",
+      "sha256": "64cd74ec5f42508884549b7e2dfdafab43a023929c8a7f4216985ce70a722496"
+    },
+    {
+      "path": "trials/up_5cm_w1000/summary.json",
+      "sha256": "9f53941159e3948fa222aea73ecc16696fdcbc719dfdd8c25e3baa216f12aad3"
+    },
+    {
+      "path": "trials/up_5cm_w1000/trajectory.npz",
+      "sha256": "b5a814cb9fe63d8a6310a36d7aef0cd9bff84f7ce32f0aad25d5b491d86c91d2"
+    },
+    {
+      "path": "trials/up_5cm_w300/reaching_response.pdf",
+      "sha256": "fc6f4ae5f5877c6c7d9beddb20313ecd5ea0216eba8e51004024f57411908e2c"
+    },
+    {
+      "path": "trials/up_5cm_w300/reaching_response.png",
+      "sha256": "3bfe0c15f597599282866dfc0bb90d867ef1ee05b197c36d086ef4bb7df6d463"
+    },
+    {
+      "path": "trials/up_5cm_w300/summary.json",
+      "sha256": "776e709a711ac725fe852b7df6b2b9ad9525dcc4dd5cdcc470609c873ed0380f"
+    },
+    {
+      "path": "trials/up_5cm_w300/trajectory.npz",
+      "sha256": "7da3ae7e0a4de8a2a0487a5e749a513e65a6f6d15927f68721bd4d8e8dd799e2"
+    },
+    {
+      "path": "trials/up_5cm_w3000/reaching_response.pdf",
+      "sha256": "3aa9a141dccdd745cac3eaab99ce5422549f95185b141bcb9659ee6ffa991fb3"
+    },
+    {
+      "path": "trials/up_5cm_w3000/reaching_response.png",
+      "sha256": "a199336fe36c9f43b874c01e9bbfe527ec2c48734ab4734bbd304dd5a5fca307"
+    },
+    {
+      "path": "trials/up_5cm_w3000/summary.json",
+      "sha256": "8d1ad362f74eecba7cfe95a15b64693411f7dbd5b0260a5d1f6180521e4bbdf3"
+    },
+    {
+      "path": "trials/up_5cm_w3000/trajectory.npz",
+      "sha256": "95bb32c1c67b55f188805bb933e964b42476e3a89c01a02db2a78dad1f0f2389"
+    },
+    {
+      "path": "trials/up_5cm_w3000_hold_70N/reaching_response.pdf",
+      "sha256": "6a2bc172f9f5b43654f65e00012b64bf0524f21777c8136d5586fff75d87443d"
+    },
+    {
+      "path": "trials/up_5cm_w3000_hold_70N/reaching_response.png",
+      "sha256": "ad7ee4c8e06ccb6525417c0941147a8f6166e10b96345c29dec000c671f4b6de"
+    },
+    {
+      "path": "trials/up_5cm_w3000_hold_70N/summary.json",
+      "sha256": "04c876a21b1f3b1c37c336726b358a511c19fc1e671d3add3fae6ee48c2be51e"
+    },
+    {
+      "path": "trials/up_5cm_w3000_hold_70N/trajectory.npz",
+      "sha256": "df9c1f8eeab4d60ccf51c618f4139a4993dcc13322066286b2a2c29a5e808d00"
+    },
+    {
+      "path": "trials/up_5cm_w3000_moving_70N/reaching_response.pdf",
+      "sha256": "d03511aba8d9a53d2010f9daad6233b49a09e4b5ca34bdfb016864e8d196765a"
+    },
+    {
+      "path": "trials/up_5cm_w3000_moving_70N/reaching_response.png",
+      "sha256": "7912ab67c2c83968a646f044d43a5510cedade0485cd4f10d26aeb066b343474"
+    },
+    {
+      "path": "trials/up_5cm_w3000_moving_70N/summary.json",
+      "sha256": "bdcd1112b114a65860a033ba31c62a59eca504279f019fd1e8cebfbfe134d5a2"
+    },
+    {
+      "path": "trials/up_5cm_w3000_moving_70N/trajectory.npz",
+      "sha256": "78c4d0325130db8ffe0f57b373334412a24ecc10c7d4fe0295e0419b8cf34751"
+    },
+    {
+      "path": "verification.json",
+      "sha256": "95e19adf0e1426744575998fff3d13a6d06e8997dd3f948178aa180b2fedb698"
+    }
+  ]
+}

@@ -20,6 +20,8 @@ if str(SRC_ROOT) not in sys.path:
 
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.colors import ListedColormap
+from matplotlib.patches import Patch
 
 from se3_whole_body_control.visualization.style import (
     COLORS as STYLE_COLORS,
@@ -161,6 +163,11 @@ def style_axes(axis) -> None:
     shared_style_axes(axis, grid=True)
 
 
+def save_figure(figure, output, name):
+    for extension in ('png', 'pdf'):
+        figure.savefig(output / f'{name}.{extension}', dpi=300, bbox_inches='tight')
+
+
 def plot_decomposition(rows: list[dict], canonical: list[dict], output: Path) -> None:
     rates = [100.0 * np.mean([truth(row['success']) for row in rows if row['controller'] == controller]) for controller in CONTROLLERS]
     figure, axis = plt.subplots(figsize=(8.2, 4.8))
@@ -176,7 +183,7 @@ def plot_decomposition(rows: list[dict], canonical: list[dict], output: Path) ->
     axis.text(0.5, -0.18, canonical_text, transform=axis.transAxes, ha='center', fontsize=9)
     style_axes(axis)
     figure.tight_layout()
-    figure.savefig(output / 'controller_decomposition.png', dpi=180)
+    save_figure(figure, output, 'controller_decomposition')
     plt.close(figure)
 
 
@@ -198,7 +205,7 @@ def plot_envelope(rows: list[dict], output: Path) -> None:
     axis.legend(frameon=False, ncol=3)
     style_axes(axis)
     figure.tight_layout()
-    figure.savefig(output / 'recovery_envelope.png', dpi=180)
+    save_figure(figure, output, 'recovery_envelope')
     plt.close(figure)
 
 
@@ -211,15 +218,18 @@ def plot_basin(rows: list[dict], output: Path) -> None:
         for row in rows:
             if row['controller'] == controller:
                 matrix[magnitudes.index(float(row['push_magnitude_N'])), directions.index(float(row['push_direction_deg']))] = truth(row['success'])
-        axis.imshow(matrix, origin='lower', aspect='auto', cmap='Blues', vmin=0, vmax=1)
+        axis.imshow(matrix, origin='lower', aspect='auto',
+                    cmap=ListedColormap([STYLE_COLORS['failure'], STYLE_COLORS['success']]), vmin=0, vmax=1)
         axis.set_title(LABELS[controller])
         axis.set_xticks(range(0, len(directions), 4), [int(directions[index]) for index in range(0, len(directions), 4)])
         axis.set_yticks(range(len(magnitudes)), [int(value) for value in magnitudes])
         axis.set_xlabel('Direction [deg]')
     axes[0].set_ylabel('Magnitude [N]')
-    figure.suptitle('Corrected paired recovery basin (blue = recovered)')
+    figure.legend(handles=[Patch(color=STYLE_COLORS['success'], label='Recovered'),
+                           Patch(color=STYLE_COLORS['failure'], label='Failed')],
+                  loc='upper center', ncol=2, bbox_to_anchor=(.5, 1.08), frameon=False)
     figure.tight_layout()
-    figure.savefig(output / 'recovery_basin.png', dpi=180)
+    save_figure(figure, output, 'recovery_basin')
     plt.close(figure)
 
 
@@ -239,7 +249,7 @@ def plot_outcomes(rows: list[dict], output: Path) -> None:
     axis.set_title('Paired outcome differences')
     style_axes(axis)
     figure.tight_layout()
-    figure.savefig(output / 'paired_outcome_differences.png', dpi=180)
+    save_figure(figure, output, 'paired_outcome_differences')
     plt.close(figure)
 
 
@@ -252,7 +262,7 @@ def plot_robustness(rows: list[dict], output: Path) -> None:
     axis.set_title('Paired robustness comparison (50 common conditions)')
     style_axes(axis)
     figure.tight_layout()
-    figure.savefig(output / 'robustness_comparison.png', dpi=180)
+    save_figure(figure, output, 'robustness_comparison')
     plt.close(figure)
 
 
@@ -278,7 +288,7 @@ def plot_failure_modes(rows: list[dict], output: Path) -> None:
     axis.legend(frameon=False, ncol=max(1, min(4, len(reasons))))
     style_axes(axis)
     figure.tight_layout()
-    figure.savefig(output / 'failure_modes.png', dpi=180)
+    save_figure(figure, output, 'failure_modes')
     plt.close(figure)
 
 
@@ -296,12 +306,15 @@ def main() -> None:
     output.mkdir(parents=True)
     rows = {stage: read_rows(raw_root / 'data' / (stage + '.csv')) for stage in EXPECTED}
     validations = {stage: validate_stage(stage, stage_rows) for stage, stage_rows in rows.items()}
+    source_versions = {row['source_sha256'] for stage_rows in rows.values() for row in stage_rows}
+    if len(source_versions) != 1:
+        raise RuntimeError('mixed science source versions')
 
     shutil.copytree(raw_root / 'common_states', output / 'common_states')
     shutil.copytree(raw_root / 'data', output / 'data')
     summary_root = output / 'trial_summaries'
     trajectory_root = output / 'trajectories'
-    for stage in ('gates', 'canonical', 'calibration', 'sweep', 'robustness'):
+    for stage in ('gates', 'canonical', 'calibration', 'sweep', 'robustness', 'mismatch'):
         for source in sorted((raw_root / 'raw' / stage).glob('*.json')):
             copy_json_sanitized(source, summary_root / stage / source.name)
     for stage in ('gates', 'canonical'):
@@ -331,10 +344,27 @@ def main() -> None:
     plot_outcomes(rows['sweep'], figure_root)
     plot_failure_modes(rows['sweep'], figure_root)
     plot_robustness(rows['robustness'], figure_root)
+    from render_com_support_animation import load_log
+    from se3_whole_body_control.visualization.plots import (
+        plot_flagship, plot_contact_diagnostics, plot_qp_diagnostics,
+        plot_actual_grf, plot_contact_wrench_consistency,
+    )
+    log = load_log(next((raw_root / 'raw' / 'canonical').glob('*_se3_wbc.npz')))
+    for plot in (plot_flagship, plot_contact_diagnostics, plot_qp_diagnostics,
+                 plot_actual_grf, plot_contact_wrench_consistency):
+        plot(log, figure_root)
+    audit_path = raw_root / 'contact_audit.json'
+    if audit_path.exists():
+        copy_json_sanitized(audit_path, output / 'contact_audit.json')
     if args.video is not None:
         video_root = output / 'videos'
         video_root.mkdir()
         shutil.copy2(args.video.resolve(), video_root / 'canonical_three_controller.mp4')
+        import subprocess
+        from se3_whole_body_control.visualization.video import _ffmpeg_executable
+        subprocess.run([_ffmpeg_executable(), '-v', 'error', '-i', str(args.video.resolve()),
+                        '-vf', 'fps=15,scale=960:-1:flags=lanczos,split[a][b];[a]palettegen[p];[b][p]paletteuse',
+                        '-loop', '0', str(video_root / 'canonical_three_controller.gif')], check=True)
 
     rates = {
         stage: {

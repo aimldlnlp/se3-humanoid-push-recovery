@@ -82,3 +82,34 @@ def test_trial_model_mismatch_keeps_nominal_controller_and_shared_initial_state(
     assert np.all(np.isfinite(plant.data.qpos))
     with pytest.raises(ValueError, match='only for se3_wbc'):
         run_trial('pure_pd', configs, controller_mass_scale=1.0)
+
+
+def test_mismatch_stage_builds_five_seed_shared_knowledge_pairs(tmp_path, monkeypatch):
+    import paired_benchmark
+    configs = _configs()
+    condition = prepare_paired_initial_condition(configs, setup_duration_s=0.02)
+    save_paired_initial_condition(condition, tmp_path / 'common_states' / 'nominal.npz')
+    captured = []
+
+    def inspect_tasks(tasks, workers):
+        captured.extend(tasks)
+        rows = []
+        for task in tasks:
+            initial = load_paired_initial_condition(Path(task['condition_path']))
+            rows.append({'condition_id': task['condition_id'], 'trial_id': task['trial_id'],
+                         'initial_condition_sha256': initial.sha256,
+                         'force_trace_sha256': str((task['magnitude_N'], task['direction_deg'])),
+                         'realized_impulse_Ns': task['magnitude_N'] * task['duration_s'],
+                         **task['extra']})
+        return rows
+
+    monkeypatch.setattr(paired_benchmark, '_execute', inspect_tasks)
+    paired_benchmark.mismatch(tmp_path, configs, 1)
+    assert len(captured) == 80
+    hashes = {load_paired_initial_condition(Path(t['condition_path'])).sha256 for t in captured}
+    assert len(hashes) == 5
+    for task in captured:
+        unknown = task['extra']['model_knowledge'] == 'unknown'
+        assert task['controller_mass_scale'] == (1.0 if unknown else None)
+        assert task['controller_friction_coefficient'] == (0.7 if unknown else None)
+        assert not task['configs']['controller']['solver'].get('reuse_workspace', False)

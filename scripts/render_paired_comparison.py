@@ -19,6 +19,7 @@ sys.path.insert(0, str(ROOT / 'experiments'))
 sys.path.insert(0, str(ROOT / 'src'))
 
 from common import load_configs, make_model
+from render_com_support_animation import _nearest_indices
 from se3_whole_body_control.visualization.fonts import pil_font
 from se3_whole_body_control.visualization.renderer import render_trial_frames
 from se3_whole_body_control.visualization.video import encode_video
@@ -67,7 +68,6 @@ def main() -> None:
     args = parser.parse_args()
     configs = load_configs(ROOT)
     fps = int(configs['robot']['render_fps'])
-    stride = max(1, int(round(1.0 / (float(configs['robot']['control_timestep']) * fps))))
     canonical = args.data_root.resolve() / 'raw' / 'canonical'
     output = args.output.resolve()
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -80,11 +80,17 @@ def main() -> None:
             if len(matches) != 1:
                 raise RuntimeError('expected one canonical trajectory for ' + controller)
             arrays = load_npz(matches[0])
+            times = arrays['time_s']
+            duration = float(times[-1] - times[0] + np.median(np.diff(times)))
+            frame_times = times[0] + np.arange(round(duration * fps)) / fps
+            indices = _nearest_indices(times, frame_times)
+            arrays = {key: value[indices] if value.ndim and len(value) == len(times) else value
+                      for key, value in arrays.items()}
             arrays_by_controller[controller] = arrays
             panel_dir = temp / controller
             panels.append(render_trial_frames(
                 make_model(configs), arrays['qpos_history'], panel_dir,
-                width=640, height=360, stride=stride,
+                width=640, height=1000, stride=1,
                 overlay_data=overlay(arrays, label),
             ))
         count = min(len(panel) for panel in panels)
@@ -95,7 +101,7 @@ def main() -> None:
         reference = arrays_by_controller['se3_wbc']
         for index in range(count):
             images = [Image.open(panel[index]).convert('RGB') for panel in panels]
-            header = 54
+            header = 80
             canvas = Image.new('RGB', (sum(image.width for image in images), images[0].height + header), 'white')
             draw = ImageDraw.Draw(canvas)
             x = 0
@@ -105,10 +111,10 @@ def main() -> None:
                 if x:
                     draw.line((x, header, x, canvas.height), fill=(150, 160, 170), width=1)
                 x += image.width
-            sample = min(index * stride, len(reference['time_s']) - 1)
+            sample = min(index, len(reference['time_s']) - 1)
             shared = 'same measured state + same 70 N push | t = ' + format(float(reference['time_s'][sample]), '.2f') + ' s'
             box = draw.textbbox((0, 0), shared, font=body_font)
-            draw.text((canvas.width - (box[2] - box[0]) - 18, 16), shared, font=body_font, fill=(20, 20, 20))
+            draw.text(((canvas.width - (box[2] - box[0])) / 2, 48), shared, font=body_font, fill=(20, 20, 20))
             canvas.save(combined / ('frame_' + format(index, '06d') + '.png'))
         encode_video(combined, output, fps=fps)
     print(str(output))

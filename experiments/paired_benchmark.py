@@ -72,6 +72,8 @@ def _run_task(task: dict) -> dict:
         classify=True, initial_condition=condition,
         mass_scale=task.get('mass_scale', 1.0),
         friction_coefficient=task.get('friction_coefficient'),
+        controller_mass_scale=task.get('controller_mass_scale'),
+        controller_friction_coefficient=task.get('controller_friction_coefficient'),
     )
     arrays = run.log.arrays()
     if not np.all(np.asarray(arrays['numerical_valid'], dtype=bool)):
@@ -256,9 +258,69 @@ def robustness(root: Path, configs: dict, workers: int) -> None:
     _stage_manifest(root, 'robustness', configs, validation=validation)
 
 
+def mismatch(root: Path, configs: dict, workers: int) -> None:
+    """80 WBC trials: five seeds, four plants, two pushes, two knowledge modes.
+
+    This diagnostic is separate from the three-controller known-parameter
+    robustness study. Every knowledge pair shares plant, state and force.
+    """
+    stage_root = root / 'raw' / 'mismatch'
+    _require_new(stage_root)
+    stage_root.mkdir(parents=True)
+    nominal = load_paired_initial_condition(root / 'common_states' / 'nominal.npz')
+    tasks = []
+    for seed in configs['experiments']['robustness']['seeds']:
+        rng = np.random.default_rng(seed)
+        velocity = nominal.qvel.copy()
+        velocity[3:6] += rng.normal(0, 0.01, 3)
+        condition = replace(nominal, qvel=velocity, seed=int(seed))
+        path = root / 'common_states' / 'mismatch' / f'seed{seed}.npz'
+        save_paired_initial_condition(condition, path)
+        magnitude_jitter = float(rng.uniform(0.92, 1.08))
+        direction_jitter = float(rng.normal(0, 8))
+        for factor, value in (('mass_scale', 0.9), ('mass_scale', 1.1), ('friction', 0.3), ('friction', 0.5)):
+            mass = value if factor == 'mass_scale' else 1.0
+            friction = value if factor == 'friction' else 0.7
+            for magnitude, direction in ((70, 0), (70, 90)):
+                condition_id = f'{factor}_{value:g}_{direction}deg_seed{seed}'
+                for knowledge in ('known', 'unknown'):
+                    local = copy.deepcopy(configs)
+                    local['controller']['friction_coefficient'] = friction if knowledge == 'known' else 0.7
+                    tasks.append({
+                        'configs': local, 'condition_path': str(path), 'condition_id': condition_id,
+                        'controller': 'se3_wbc', 'magnitude_N': magnitude * magnitude_jitter,
+                        'direction_deg': direction + direction_jitter,
+                        'duration_s': float(configs['experiments']['push']['duration_s']),
+                        'start_time_s': float(configs['experiments']['push']['start_time_s']),
+                        'mass_scale': mass, 'friction_coefficient': friction,
+                        'controller_mass_scale': 1.0 if knowledge == 'unknown' else None,
+                        'controller_friction_coefficient': 0.7 if knowledge == 'unknown' else None,
+                        'trial_id': f'{condition_id}_{knowledge}', 'trial_root': str(stage_root),
+                        'extra': {'factor': factor, 'factor_value': value, 'model_knowledge': knowledge,
+                                  'plant_mass_scale': mass, 'plant_friction': friction,
+                                  'controller_mass_scale': 1.0 if knowledge == 'unknown' else mass,
+                                  'controller_friction': 0.7 if knowledge == 'unknown' else friction},
+                    })
+    rows = _execute(tasks, workers)
+    groups = {}
+    for row in rows:
+        groups.setdefault(row['condition_id'], []).append(row)
+    if len(rows) != 80 or len({r['trial_id'] for r in rows}) != 80:
+        raise RuntimeError('incomplete mismatch study')
+    for group in groups.values():
+        if len(group) != 2 or {r['model_knowledge'] for r in group} != {'known', 'unknown'}:
+            raise RuntimeError('incomplete knowledge pair')
+        for field in ('initial_condition_sha256', 'force_trace_sha256', 'realized_impulse_Ns'):
+            if len({str(r[field]) for r in group}) != 1:
+                raise RuntimeError(f'mismatch pair differs: {field}')
+    write_csv(rows, root / 'data' / 'mismatch.csv')
+    _stage_manifest(root, 'mismatch', configs, trial_count=len(rows),
+                    scope='WBC known versus nominal internal model; same plant/state/push')
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument('stage', choices=('prepare', 'gates', 'canonical', 'calibration', 'sweep', 'robustness'))
+    parser.add_argument('stage', choices=('prepare', 'gates', 'canonical', 'calibration', 'sweep', 'robustness', 'mismatch'))
     parser.add_argument('--output-root', type=Path, required=True)
     parser.add_argument('--workers', type=int, default=max(1, int(os.environ.get('SE3_PAIRED_WORKERS', '8'))))
     args = parser.parse_args()
@@ -278,6 +340,8 @@ def main() -> None:
         grid(args.output_root, configs, 'sweep', sweep['magnitudes_N'], sweep['directions_deg'], args.workers)
     elif args.stage == 'robustness':
         robustness(args.output_root, configs, args.workers)
+    elif args.stage == 'mismatch':
+        mismatch(args.output_root, configs, args.workers)
 
 
 if __name__ == '__main__':

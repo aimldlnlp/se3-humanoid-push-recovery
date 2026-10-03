@@ -51,12 +51,14 @@ def assess_trial(path):
 
 
 def run_trial(root, name, offset, magnitude=0, push_start=1.5, stage='workspace', direction='', distance=0,
-              reach_weight=None):
+              reach_weight=None, objective_overrides=None):
     path = root/'trials'/name
     command = [sys.executable, str(ROOT/'experiments/reach_and_balance.py'), '--output', str(path),
                '--target-offset-m', *map(str, offset), '--push-N', str(magnitude), '--push-start-s', str(push_start)]
     if reach_weight is not None:
         command.extend(['--reach-weight', str(reach_weight)])
+    for key, value in (objective_overrides or {}).items():
+        command.extend(['--'+key.replace('_', '-'), str(value)])
     with (root/'logs'/f'{name}.txt').open('w') as log:
         subprocess.run(command, check=True, stdout=log, stderr=subprocess.STDOUT)
     s, passed, reason = assess_trial(path)

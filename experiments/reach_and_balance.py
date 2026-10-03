@@ -53,11 +53,20 @@ def main():
     parser.add_argument('--target-offset-m', type=float, nargs=3)
     parser.add_argument('--push-start-s', type=float, default=1.5)
     parser.add_argument('--reach-weight', type=float)
+    parser.add_argument('--qp-posture-weight', type=float)
+    parser.add_argument('--qp-nominal-torque-weight', type=float)
     parser.add_argument('--controller', choices=('se3_wbc', 'pd_nominal_ff'), default='se3_wbc')
     parser.add_argument('--render', action='store_true')
     args = parser.parse_args()
     if not np.isfinite(args.push_N) or args.push_N < 0:
         parser.error('--push-N must be finite and nonnegative')
+    overrides = {}
+    for key in ('qp_posture_weight', 'qp_nominal_torque_weight'):
+        value = getattr(args, key)
+        if value is not None:
+            if not np.isfinite(value) or value < 0 or args.controller != 'se3_wbc':
+                parser.error(f'--{key.replace("_", "-")} requires a finite nonnegative WBC weight')
+            overrides[key] = value
     output = args.output
     output.mkdir(parents=True, exist_ok=True)
     if any(output.iterdir()):
@@ -77,6 +86,7 @@ def main():
         parser.error('push must fit inside the observation window')
     cfg = load_configs(ROOT, robot_name='unitree_g1')
     initial = prepare_paired_initial_condition(cfg)
+    cfg['controller'].update(overrides)
     model = make_model(cfg)
     model.reset(initial.qpos, initial.qvel)
     if args.controller == 'pd_nominal_ff':
@@ -106,6 +116,7 @@ def main():
                     push_N=args.push_N, push_start_s=args.push_start_s,
                     com_reference_world=initial.com_reference.tolist(),
                     controller=args.controller,
+                    objective_weight_overrides=overrides,
                     ik_max_reference_error_m=getattr(controller, 'ik_max_error_m', None),
                     goal_world_m=controller.goal.tolist(), actual_impulse_Ns=run.metadata['realized_impulse_Ns'])
     summary = {**summarize_trial(run.log), 'reach_success': reach_ok, 'balance_success': balance_ok,

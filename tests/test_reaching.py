@@ -77,6 +77,14 @@ def test_production_reach_point_jacobian_bias_and_qp_objective():
     np.testing.assert_array_equal(A1.toarray(), A2.toarray())
     np.testing.assert_array_equal(l1, l2)
     np.testing.assert_array_equal(u1, u2)
+    for key in ('qp_posture_weight', 'qp_nominal_torque_weight'):
+        original = controller.cfg[key]
+        controller.cfg[key] = 0
+        _, _, A3, l3, u3, *_ = controller._build_problem()
+        np.testing.assert_array_equal(A2.toarray(), A3.toarray())
+        np.testing.assert_array_equal(l2, l3)
+        np.testing.assert_array_equal(u2, u3)
+        controller.cfg[key] = original
     result = controller.solve()
     assert result.success, result.message
     assert result.diagnostics['constraint_budget_ratio'] <= 1
@@ -161,3 +169,29 @@ def test_tracking_plots_include_calibration_and_control_views(tmp_path, monkeypa
             rows.append({**row, 'stage': 'calibration'})
         plot(root, rows)
         assert (root/'tracking_results.png').stat().st_size > 1000
+
+
+def test_objective_audit_records_the_production_qp_without_changing_it(monkeypatch):
+    pytest.importorskip('mujoco')
+    monkeypatch.syspath_prepend(str(Path(__file__).resolve().parents[1]/'experiments'))
+    from common import ROOT, make_model
+    from reaching_conflict_audit import ObjectiveAuditController, OBJECTIVES
+    from reach_and_balance import ReachingController
+    from se3_whole_body_control.config import load_yaml
+    cfg = load_configs(ROOT, robot_name='unitree_g1')
+    model = make_model(cfg)
+    settings = load_yaml(ROOT/'configs/reaching.yaml')
+    audit = ObjectiveAuditController(model, cfg['controller'], settings)
+    ordinary = ReachingController(model, cfg['controller'], settings)
+    actual, expected = audit._build_problem(), ordinary._build_problem()
+    assert len(audit.objectives)==len(OBJECTIVES)
+    for index in (0, 1, 3, 4):
+        np.testing.assert_array_equal(actual[index], expected[index])
+    np.testing.assert_array_equal(actual[2].toarray(), expected[2].toarray())
+    reconstructed = np.eye(audit.nx)*1e-9
+    linear = np.zeros(audit.nx)
+    for A, b, weight in audit.objectives:
+        reconstructed += 2*weight*A.T@A
+        linear -= 2*weight*A.T@b
+    np.testing.assert_allclose(reconstructed, actual[0], atol=1e-9)
+    np.testing.assert_allclose(linear, actual[1], atol=1e-9)

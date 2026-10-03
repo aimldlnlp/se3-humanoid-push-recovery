@@ -47,6 +47,8 @@ def main():
         assert hashlib.sha256(p.read_bytes()).hexdigest() == file['sha256'], p
     from PIL import Image
     plot = 'tracking_results.png' if 'selected_reach_weight' in study else 'workspace_results.png'
+    if 'frozen_state_audit' in study:
+        plot = 'conflict_results.png'
     with Image.open(root/plot) as image:
         image.verify()
     videos = []

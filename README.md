@@ -45,14 +45,14 @@ The G1 has 29 actuated joints and a floating pelvis. Physics runs at 2 ms; comma
 Poses map body coordinates into world coordinates. Production uses the **right-invariant spatial/world error**, translation first:
 
 $$
-E_s=T T_d^{-1}, \qquad \xi_e=\operatorname{Log}(E_s)^\vee
+E_s=T T_d^{-1}, \qquad \xi_e=\mathrm{Log}(E_s)^\vee
 =[v_x,v_y,v_z,\omega_x,\omega_y,\omega_z]^T.
 $$
 
 The MuJoCo body-point Jacobian is converted to a spatial-twist Jacobian in the same world tangent frame. Desired-body tangent gains are transported with the desired pose adjoint:
 
 $$
-K_{p,s}=\operatorname{Ad}_{T_d}K_{p,d}\operatorname{Ad}_{T_d}^{-1},\qquad
+K_{p,s}=\mathrm{Ad}_{T_d}K_{p,d}\mathrm{Ad}_{T_d}^{-1},\qquad
 a_s^*=-K_{p,s}\xi_e-K_{d,s}J_s\dot q.
 $$
 

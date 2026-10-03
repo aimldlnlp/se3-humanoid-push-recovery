@@ -17,7 +17,7 @@ def first_event(times, mask, start, duration=0):
     active = np.asarray(mask, dtype=bool) & (times >= start)
     indices = np.flatnonzero(active)
     for group in np.split(indices, np.flatnonzero(np.diff(indices)>1)+1):
-        if len(group) and times[group[-1]]-times[group[0]] >= duration-1e-12:
+        if len(group) and times[group[-1]]-times[group[0]] >= duration:
             return float(times[group[0]])
     return None
 

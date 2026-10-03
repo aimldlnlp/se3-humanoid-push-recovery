@@ -51,12 +51,15 @@ def assess_trial(path):
 
 
 def run_trial(root, name, offset, magnitude=0, push_start=1.5, stage='workspace', direction='', distance=0,
-              reach_weight=None, objective_overrides=None, balance_guard=False, guard_arm_posture=False):
+              reach_weight=None, objective_overrides=None, balance_guard=False, guard_arm_posture=False,
+              contact_velocity_damping=0):
     path = root/'trials'/name
     command = [sys.executable, str(ROOT/'experiments/reach_and_balance.py'), '--output', str(path),
                '--target-offset-m', *map(str, offset), '--push-N', str(magnitude), '--push-start-s', str(push_start)]
     if reach_weight is not None:
         command.extend(['--reach-weight', str(reach_weight)])
+    if contact_velocity_damping:
+        command.extend(['--contact-velocity-damping',str(contact_velocity_damping)])
     for key, value in (objective_overrides or {}).items():
         command.extend(['--'+key.replace('_', '-'), str(value)])
     if balance_guard:

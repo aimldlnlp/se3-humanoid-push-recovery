@@ -52,6 +52,9 @@ class ReachingController(WholeBodyQPController):
     def __init__(self, model, controller_config, settings):
         super().__init__(model, controller_config)
         self.settings = settings
+        damping = settings.get('contact_velocity_damping_s_inv', 0)
+        if not np.isfinite(damping) or damping < 0:
+            raise ValueError('contact velocity damping must be finite and nonnegative')
         self.start = model.attached_point_kinematics(settings['body_name'], settings['point_local_m'])[0]
         self.goal = self.start + np.asarray(settings['target_offset_world_m'])
         self.reach_task = ReachTask(settings['body_name'], np.asarray(settings['point_local_m']),
@@ -66,6 +69,18 @@ class ReachingController(WholeBodyQPController):
                                    if name.startswith('right_') and any(part in name for part in ('shoulder','elbow','wrist'))])
         if guard and guard.get('track_arm_posture_during_recovery') and len(self.guard_arm)!=7:
             raise ValueError('expected seven right-arm joints')
+
+    def _build_problem(self):
+        problem = list(super()._build_problem())
+        damping = self.settings.get('contact_velocity_damping_s_inv', 0)
+        if damping:
+            # Only the experiment changes the contact acceleration target.
+            correction = damping*(problem[10]@self.internal_model.data.qvel)
+            rows = slice(self.internal_model.nv, self.internal_model.nv+self.nw)
+            problem[3][rows] -= correction
+            problem[4][rows] -= correction
+            problem[11] = problem[11]+correction
+        return tuple(problem)
 
     def solve(self):
         task = self.reach_task
@@ -108,9 +123,12 @@ def main():
     parser.add_argument('--qp-nominal-torque-weight', type=float)
     parser.add_argument('--balance-guard', action='store_true')
     parser.add_argument('--guard-arm-posture', action='store_true')
+    parser.add_argument('--contact-velocity-damping', type=float, default=0)
     parser.add_argument('--controller', choices=('se3_wbc', 'pd_nominal_ff'), default='se3_wbc')
     parser.add_argument('--render', action='store_true')
     args = parser.parse_args()
+    if not np.isfinite(args.contact_velocity_damping) or args.contact_velocity_damping < 0 or (args.contact_velocity_damping and args.controller != 'se3_wbc'):
+        parser.error('--contact-velocity-damping requires a finite nonnegative WBC value')
     if args.balance_guard and args.controller != 'se3_wbc':
         parser.error('--balance-guard applies only to se3_wbc')
     if args.guard_arm_posture and not args.balance_guard:
@@ -129,6 +147,8 @@ def main():
     if any(output.iterdir()):
         parser.error('output must be empty: preserve existing run artifacts')
     settings = load_yaml(ROOT/'configs/reaching.yaml')
+    if args.contact_velocity_damping:
+        settings['contact_velocity_damping_s_inv'] = args.contact_velocity_damping
     default_reach_weight = settings['weight']
     if args.reach_weight is not None:
         if not np.isfinite(args.reach_weight) or args.reach_weight <= 0:

@@ -50,6 +50,8 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--push-N', type=float, default=0)
+    parser.add_argument('--target-offset-m', type=float, nargs=3)
+    parser.add_argument('--push-start-s', type=float, default=1.5)
     parser.add_argument('--render', action='store_true')
     args = parser.parse_args()
     if not np.isfinite(args.push_N) or args.push_N < 0:
@@ -59,6 +61,12 @@ def main():
     if any(output.iterdir()):
         parser.error('output must be empty: preserve existing run artifacts')
     settings = load_yaml(ROOT/'configs/reaching.yaml')
+    if args.target_offset_m is not None:
+        if not np.all(np.isfinite(args.target_offset_m)):
+            parser.error('target offset must be finite')
+        settings['target_offset_world_m'] = args.target_offset_m
+    if not np.isfinite(args.push_start_s) or not 0 <= args.push_start_s <= settings['experiment_duration_s'] - 0.15:
+        parser.error('push must fit inside the observation window')
     cfg = load_configs(ROOT, robot_name='unitree_g1')
     initial = prepare_paired_initial_condition(cfg)
     model = make_model(cfg)
@@ -66,7 +74,7 @@ def main():
     controller = ReachingController(model, cfg['controller'], settings)
     runner = SimulationRunner(model, controller, duration_s=settings['experiment_duration_s'],
                               control_timestep_s=cfg['robot']['control_timestep'], warmup_duration_s=0)
-    push = make_push(cfg, magnitude=args.push_N, start=1.5) if args.push_N else None
+    push = make_push(cfg, magnitude=args.push_N, start=args.push_start_s) if args.push_N else None
     run = runner.run(initial_qpos=initial.qpos, initial_qvel=initial.qvel,
                      desired_torso=initial.desired_torso, desired_pelvis=initial.desired_pelvis,
                      com_reference=initial.com_reference, joint_reference=initial.joint_reference,
@@ -80,12 +88,20 @@ def main():
     reach_ok = bool(np.any(hold) and np.all(goal_error[hold] <= settings['position_tolerance_m']))
     balance_ok = bool(run.recovery.success)
     metadata = execution_manifest({'config': {'robot': cfg['robot'], 'controller': cfg['controller'],
-                                  'reaching': settings, 'push_N': args.push_N}})
+                                  'reaching': settings, 'push_N': args.push_N,
+                                  'push_start_s': args.push_start_s}})
     metadata.update(initial_condition=initial.metadata(), reaching=settings,
+                    push_N=args.push_N, push_start_s=args.push_start_s,
+                    com_reference_world=initial.com_reference.tolist(),
                     goal_world_m=controller.goal.tolist(), actual_impulse_Ns=run.metadata['realized_impulse_Ns'])
     summary = {**summarize_trial(run.log), 'reach_success': reach_ok, 'balance_success': balance_ok,
                'combined_success': reach_ok and balance_ok, 'recovery': asdict(run.recovery),
                'tracking_rmse_m': float(np.sqrt(np.mean(error**2))),
+               'hold_max_goal_error_m': float(np.max(goal_error[hold])),
+               'continuous_double_support': bool(np.all(run.log.arrays()['contact_left_post_step'])
+                                                and np.all(run.log.arrays()['contact_right_post_step'])),
+               'max_foot_displacement_m': float(np.max(run.log.arrays()['foot_xy_displacement_post_step'])),
+               'max_foot_tangent_velocity_m_s': float(np.max(run.log.arrays()['foot_tangent_velocity_post_step'])),
                'final_goal_error_m': float(goal_error[-1]), 'provenance': metadata}
     save_trial_npz(run.log, output/'trajectory.npz', metadata, {
         'qpos_history': np.asarray(run.qpos_history), 'qvel_history': np.asarray(run.qvel_history),

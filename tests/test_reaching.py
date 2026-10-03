@@ -77,3 +77,27 @@ def test_production_reach_point_jacobian_bias_and_qp_objective():
     task.position_world = np.array([np.nan, 0, 0])
     with pytest.raises(ValueError):
         task.acceleration_target(model)
+
+
+def test_workspace_audit_catches_joint_failure_during_push(tmp_path, monkeypatch):
+    import json
+    monkeypatch.syspath_prepend(str(Path(__file__).resolve().parents[1]/'experiments'))
+    from reaching_workspace import assess_trial
+    times = np.arange(0, 5, .004)
+    n = len(times)
+    summary = {'combined_success': True, 'reach_success': True,
+               'recovery': {'failure_reason': None},
+               'provenance': {'com_reference_world': [0, 0, 1]}}
+    (tmp_path/'summary.json').write_text(json.dumps(summary))
+    arrays = dict(time_s=times, torso_rotation_error_rad=np.zeros(n),
+                  torso_angular_velocity_norm=np.zeros(n), com_world=np.tile([0,0,1], (n,1)),
+                  contact_left_post_step=np.ones(n, bool), contact_right_post_step=np.ones(n, bool),
+                  torso_height_m=np.ones(n), torque_abs_max_Nm=np.zeros(n), qp_success=np.ones(n, bool),
+                  actual_friction_margin=np.ones(n), actual_friction_utilization_post_step=np.zeros((n,2)),
+                  foot_tangent_velocity_post_step=np.zeros((n,2)), foot_xy_displacement_post_step=np.zeros((n,2)),
+                  torque_utilization=np.zeros(n), joint_limit_violation=np.zeros(n, bool), numerical_valid=np.ones(n, bool))
+    np.savez(tmp_path/'trajectory.npz', **arrays)
+    assert assess_trial(tmp_path)[1:] == (True, 'PASS')
+    arrays['joint_limit_violation'][int(1.55/.004)] = True
+    np.savez(tmp_path/'trajectory.npz', **arrays)
+    assert assess_trial(tmp_path)[1:] == (False, 'JOINT_LIMIT')

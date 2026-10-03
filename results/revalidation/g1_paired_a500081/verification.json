@@ -1,0 +1,56 @@
+{
+  "finite_trajectories_verified": 81,
+  "force_audit_strict_1mN_pass": true,
+  "force_audit_trajectory_count": 373,
+  "gif": {
+    "duration_s": 8.2,
+    "frames": 123,
+    "height": 540,
+    "width": 960
+  },
+  "mismatch_distinct_force_traces": 10,
+  "mismatch_distinct_initial_states": 5,
+  "mismatch_pairs": 40,
+  "mismatch_rows": 80,
+  "mp4": {
+    "codec": "h264",
+    "duration_s": 8.166666666666666,
+    "fps": 30,
+    "frames": 245,
+    "height": 1080,
+    "simulation_sample_span_s": 8.15199999999939,
+    "width": 1920
+  },
+  "paired_stages": {
+    "calibration": {
+      "conditions": 48,
+      "paired_equality": true,
+      "rows": 144
+    },
+    "canonical": {
+      "conditions": 1,
+      "paired_equality": true,
+      "rows": 3
+    },
+    "robustness": {
+      "conditions": 50,
+      "paired_equality": true,
+      "rows": 150
+    },
+    "sweep": {
+      "conditions": 192,
+      "paired_equality": true,
+      "rows": 576
+    }
+  },
+  "pdf_glyph_embedding": "vector Type 3; no invalid TrueType wrapper",
+  "pdf_opened_and_rendered": 12,
+  "png_opened": 12,
+  "pytest_frozen_worker": "70 passed",
+  "pytest_local": "73 passed",
+  "relative_readme_links_verified": 17,
+  "science_source_git_sha": "a50008145b0b47d4b874002bd656355cb14687de",
+  "static_figure_source_git_sha": "5428497a3af6b299819a39736cffaab511fd6256",
+  "trial_summaries_verified": 959,
+  "video_source_git_sha": "5428497a3af6b299819a39736cffaab511fd6256"
+}

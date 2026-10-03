@@ -1,0 +1,78 @@
+{
+  "perturbation": {
+    "angular_velocity_rad_s": 0.04675362118938842,
+    "com_offset_m": 0.0,
+    "tilt_rad": 0.0
+  },
+  "records": [
+    {
+      "condition_id": "quiet",
+      "controller": "pure_pd",
+      "initial_condition_sha256": "5378f467006d4ddd20bad2c4ff38893ed8ac1317065f8a415de4e05627bdc275",
+      "recovery": null,
+      "trial_id": "quiet_pure_pd"
+    },
+    {
+      "condition_id": "quiet",
+      "controller": "pd_nominal_ff",
+      "initial_condition_sha256": "5378f467006d4ddd20bad2c4ff38893ed8ac1317065f8a415de4e05627bdc275",
+      "recovery": null,
+      "trial_id": "quiet_pd_nominal_ff"
+    },
+    {
+      "condition_id": "quiet",
+      "controller": "se3_wbc",
+      "initial_condition_sha256": "5378f467006d4ddd20bad2c4ff38893ed8ac1317065f8a415de4e05627bdc275",
+      "recovery": null,
+      "trial_id": "quiet_se3_wbc"
+    },
+    {
+      "condition_id": "perturbed",
+      "controller": "pure_pd",
+      "initial_condition_sha256": "eeae18c13e6254f057fbd15a7e4a1b83de227138e7462c593218d648ca0b63ec",
+      "recovery": {
+        "failure_reason": "FALL",
+        "max_com_displacement_m": 0.4563046464795143,
+        "max_joint_torque_Nm": 139.0,
+        "max_torso_error_rad": 1.8408671779277312,
+        "min_friction_margin": -2.220446049250313e-16,
+        "recovered_at_s": null,
+        "recovery_latency_s": null,
+        "success": false
+      },
+      "trial_id": "perturbed_pure_pd"
+    },
+    {
+      "condition_id": "perturbed",
+      "controller": "pd_nominal_ff",
+      "initial_condition_sha256": "eeae18c13e6254f057fbd15a7e4a1b83de227138e7462c593218d648ca0b63ec",
+      "recovery": {
+        "failure_reason": null,
+        "max_com_displacement_m": 0.014724430698162105,
+        "max_joint_torque_Nm": 3.1815704175389325,
+        "max_torso_error_rad": 0.028206009220026668,
+        "min_friction_margin": 0.9481780063384896,
+        "recovered_at_s": 0.25200000000000017,
+        "recovery_latency_s": 0.25200000000000017,
+        "success": true
+      },
+      "trial_id": "perturbed_pd_nominal_ff"
+    },
+    {
+      "condition_id": "perturbed",
+      "controller": "se3_wbc",
+      "initial_condition_sha256": "eeae18c13e6254f057fbd15a7e4a1b83de227138e7462c593218d648ca0b63ec",
+      "recovery": {
+        "failure_reason": null,
+        "max_com_displacement_m": 0.0037532642979224103,
+        "max_joint_torque_Nm": 1.475734763216428,
+        "max_torso_error_rad": 0.0032829623890760014,
+        "min_friction_margin": 0.9448369854318662,
+        "recovered_at_s": 0.25200000000000017,
+        "recovery_latency_s": 0.25200000000000017,
+        "success": true
+      },
+      "trial_id": "perturbed_se3_wbc"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "run_id": "full-a500081-20261003",
+  "scientific_source_git_sha": "a50008145b0b47d4b874002bd656355cb14687de",
+  "scientific_source_archive_sha256": "2ebb2451a30b7d257a028d5cdbd1d6bccf76522afda3542edfe2a825d5bcdd29",
+  "worker_publication_archive_sha256": "5304f20671d75c026d193035f05295f34b0ff7f8fbc546b9e426e96a9627aa49",
+  "video_source_git_sha": "5428497a3af6b299819a39736cffaab511fd6256",
+  "static_figure_source_git_sha": "5428497a3af6b299819a39736cffaab511fd6256",
+  "presentation_source_archive_sha256": "751c2e19aa848b4f8283672a20b12e477a153ca7deb1b4505b3218e9b0693d21",
+  "github_mp4_attachment": "https://github.com/user-attachments/assets/219f1802-cab5-401b-a59f-0e4d30c8adbe",
+  "video_sha256": "692dff2a017f1f990426b7a2527e6cc98a163d2d5ba061ed8b3f494c1f1d33dd",
+  "gif_sha256": "47b0e29531043fc188a27d6c3744edbe74840f5f3f40d8a7889117d3184b9bbf",
+  "static_matplotlib_version": "3.8.2",
+  "svg_post_export_formatting": "trailing whitespace removed; XML geometry unchanged",
+  "presentation_change": "CFF OTF fonts embedded as vector glyph programs, rounded angular tick labels, wider identical comparison cameras and compact physical contact overlays; no scientific arrays or outcomes changed",
+  "primary_workspace_reuse": false,
+  "primary_external_force_oracle": false,
+  "archive_integrity": "SHA-256 verified before worker extraction and after local publication transfer",
+  "initial_source_a45c611_status": "partial diagnostic run stopped after revealing unscaled physical constraint violations; not used as final scientific data"
+}

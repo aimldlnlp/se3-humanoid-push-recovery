@@ -78,8 +78,10 @@ def apply_style() -> None:
         "figure.dpi": 120,
         "savefig.dpi": 300,
         "savefig.pad_inches": 0.08,
-        "pdf.fonttype": 42,
-        "ps.fonttype": 42,
+        # Bundled OTF faces contain CFF, not TrueType outlines. Type 42 wraps
+        # them incorrectly; Type 3 embeds vector glyphs without rasterizing.
+        "pdf.fonttype": 3,
+        "ps.fonttype": 3,
         "svg.fonttype": "none",
     })
 

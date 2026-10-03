@@ -121,6 +121,12 @@ def _add_scene_annotations(renderer, mujoco, metadata: Mapping[str, object] | No
     if not metadata:
         return
     com = np.asarray(metadata.get("com_world", []), dtype=float).reshape(-1)
+    for key, color, radius in (("reach_goal_world", EVENT_RGBA, 0.025),
+                               ("reach_point_world", CONTACT_RGBA, 0.015)):
+        position = np.asarray(metadata.get(key, []), dtype=float)
+        if position.shape == (3,) and np.all(np.isfinite(position)):
+            _add_scene_geom(renderer, mujoco, mujoco.mjtGeom.mjGEOM_SPHERE,
+                            [radius, 0, 0], position, np.eye(3), color)
     if com.size >= 3 and np.all(np.isfinite(com[:3])):
         # The projection is deliberately visible on the ground even when the
         # physical CoM lies inside the torso.  The vertical marker remains at

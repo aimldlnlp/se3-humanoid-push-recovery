@@ -336,6 +336,27 @@ class HumanoidModel:
     def body_velocity(self, body_name: str) -> np.ndarray:
         return self.body_jacobian(body_name) @ self.data.qvel
 
+    def attached_point_kinematics(self, body_name: str, point_local: np.ndarray):
+        """World position, linear Jacobian and Jdot*qvel of a body-fixed point.
+
+        Accept either a semantic adapter alias or an exact MuJoCo body name.
+        This does not change the plant state.
+        """
+        point = np.asarray(point_local, dtype=float)
+        if point.shape != (3,) or not np.all(np.isfinite(point)):
+            raise ValueError("attached point must be a finite local 3-vector")
+        body_id = self.body_ids.get(body_name)
+        if body_id is None:
+            body_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_BODY, body_name)
+        if body_id <= 0:
+            raise ValueError(f"attached point body missing: {body_name}")
+        position = self.data.xpos[body_id] + self.data.xmat[body_id].reshape(3, 3) @ point
+        J = np.zeros((3, self.nv))
+        Jdot = np.zeros_like(J)
+        mujoco.mj_jac(self.model, self.data, J, None, position, body_id)
+        mujoco.mj_jacDot(self.model, self.data, Jdot, None, position, body_id)
+        return position, J, Jdot @ self.data.qvel
+
     def mass_matrix(self) -> np.ndarray:
         M = np.zeros((self.nv, self.nv), dtype=float)
         # Recent MuJoCo Python bindings do not expose data.qM directly. The

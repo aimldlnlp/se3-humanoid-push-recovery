@@ -2,9 +2,49 @@
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 import numpy as np
 
 from se3_whole_body_control.geometry.se3 import adjoint_se3, inverse_se3, log_se3
+
+
+def quintic_reference(start, goal, time_s: float, duration_s: float):
+    """Rest-to-rest Cartesian trajectory, holding each endpoint outside [0, D]."""
+    start, goal = np.asarray(start, dtype=float), np.asarray(goal, dtype=float)
+    if start.shape != (3,) or goal.shape != (3,) or not np.all(np.isfinite([start, goal])):
+        raise ValueError("trajectory endpoints must be finite 3-vectors")
+    if not np.isfinite(time_s) or not np.isfinite(duration_s) or duration_s <= 0:
+        raise ValueError("trajectory duration must be positive and time finite")
+    u = np.clip(time_s / duration_s, 0, 1)
+    s = 10*u**3 - 15*u**4 + 6*u**5
+    ds = (30*u**2 - 60*u**3 + 30*u**4) / duration_s
+    dds = (60*u - 180*u**2 + 120*u**3) / duration_s**2
+    delta = goal - start
+    return start + s*delta, ds*delta, dds*delta
+
+
+@dataclass
+class ReachTask:
+    """Optional world-frame position task; orientation remains unconstrained."""
+    body_name: str
+    point_local: np.ndarray
+    position_world: np.ndarray
+    velocity_world: np.ndarray
+    acceleration_world: np.ndarray
+    kp: float = 150.0
+    kd: float = 25.0
+    weight: float = 100.0
+
+    def acceleration_target(self, model):
+        vectors = (self.position_world, self.velocity_world, self.acceleration_world)
+        if any(np.asarray(v).shape != (3,) or not np.all(np.isfinite(v)) for v in vectors):
+            raise ValueError("reach references must be finite world 3-vectors")
+        if any(not np.isfinite(v) or v < 0 for v in (self.kp, self.kd, self.weight)):
+            raise ValueError("reach gains and weight must be finite and nonnegative")
+        position, J, bias = model.attached_point_kinematics(self.body_name, self.point_local)
+        target = (np.asarray(self.acceleration_world) + self.kp*(self.position_world-position)
+                  + self.kd*(self.velocity_world-J @ model.data.qvel) - bias)
+        return J, target, position
 
 
 def pose_task_acceleration(

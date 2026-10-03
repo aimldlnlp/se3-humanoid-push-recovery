@@ -1,0 +1,12 @@
+# First milestone: one nearby right-arm position target, no grasping or stepping.
+body_name: right_wrist_yaw_link
+point_local_m: [0.08, 0.0, 0.0]
+target_offset_world_m: [0.08, -0.03, 0.02]
+start_time_s: 0.5
+movement_duration_s: 2.0
+experiment_duration_s: 5.0
+kp: 150.0
+kd: 25.0
+weight: 100.0
+position_tolerance_m: 0.015
+hold_duration_s: 0.5

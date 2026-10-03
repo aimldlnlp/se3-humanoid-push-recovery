@@ -65,6 +65,7 @@ class WholeBodyQPController:
         self.T_des_torso = model.body_pose("torso")
         self.T_des_pelvis = model.body_pose("pelvis")
         self.com_des = model.center_of_mass()
+        self.reach_task = None
         self.swing_foot: str | None = None
         self.swing_target: np.ndarray | None = None
         self.com_task_weight_override: float | None = None
@@ -212,6 +213,11 @@ class WholeBodyQPController:
         )
         A = np.zeros((Apost.shape[0], self.nx)); A[:, :nv] = Apost
         self._add_objective(P, q, A, bpost, float(self.cfg.get("qp_posture_weight", 2.0)))
+
+        if self.reach_task is not None:
+            reach_J, reach_b, _ = self.reach_task.acceleration_target(model)
+            A = np.zeros((3, self.nx)); A[:, :nv] = reach_J
+            self._add_objective(P, q, A, reach_b, self.reach_task.weight)
 
         if self.swing_foot is not None and self.swing_target is not None:
             swing_J, swing_b, _ = pose_task_acceleration(

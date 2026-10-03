@@ -52,6 +52,7 @@ def main():
     parser.add_argument('--push-N', type=float, default=0)
     parser.add_argument('--target-offset-m', type=float, nargs=3)
     parser.add_argument('--push-start-s', type=float, default=1.5)
+    parser.add_argument('--controller', choices=('se3_wbc', 'pd_nominal_ff'), default='se3_wbc')
     parser.add_argument('--render', action='store_true')
     args = parser.parse_args()
     if not np.isfinite(args.push_N) or args.push_N < 0:
@@ -71,7 +72,11 @@ def main():
     initial = prepare_paired_initial_condition(cfg)
     model = make_model(cfg)
     model.reset(initial.qpos, initial.qvel)
-    controller = ReachingController(model, cfg['controller'], settings)
+    if args.controller == 'pd_nominal_ff':
+        from reaching_pd import ReachingPDController
+        controller = ReachingPDController(model, cfg['controller'], settings)
+    else:
+        controller = ReachingController(model, cfg['controller'], settings)
     runner = SimulationRunner(model, controller, duration_s=settings['experiment_duration_s'],
                               control_timestep_s=cfg['robot']['control_timestep'], warmup_duration_s=0)
     push = make_push(cfg, magnitude=args.push_N, start=args.push_start_s) if args.push_N else None
@@ -89,10 +94,12 @@ def main():
     balance_ok = bool(run.recovery.success)
     metadata = execution_manifest({'config': {'robot': cfg['robot'], 'controller': cfg['controller'],
                                   'reaching': settings, 'push_N': args.push_N,
-                                  'push_start_s': args.push_start_s}})
+                                  'push_start_s': args.push_start_s, 'controller_name': args.controller}})
     metadata.update(initial_condition=initial.metadata(), reaching=settings,
                     push_N=args.push_N, push_start_s=args.push_start_s,
                     com_reference_world=initial.com_reference.tolist(),
+                    controller=args.controller,
+                    ik_max_reference_error_m=getattr(controller, 'ik_max_error_m', None),
                     goal_world_m=controller.goal.tolist(), actual_impulse_Ns=run.metadata['realized_impulse_Ns'])
     summary = {**summarize_trial(run.log), 'reach_success': reach_ok, 'balance_success': balance_ok,
                'combined_success': reach_ok and balance_ok, 'recovery': asdict(run.recovery),
@@ -103,6 +110,8 @@ def main():
                'max_foot_displacement_m': float(np.max(run.log.arrays()['foot_xy_displacement_post_step'])),
                'max_foot_tangent_velocity_m_s': float(np.max(run.log.arrays()['foot_tangent_velocity_post_step'])),
                'final_goal_error_m': float(goal_error[-1]), 'provenance': metadata}
+    if args.controller == 'pd_nominal_ff':
+        summary['ik_max_reference_error_m'] = controller.ik_max_error_m
     save_trial_npz(run.log, output/'trajectory.npz', metadata, {
         'qpos_history': np.asarray(run.qpos_history), 'qvel_history': np.asarray(run.qvel_history),
         'reach_point_world': points, 'reach_reference_world': references,
@@ -138,8 +147,8 @@ def main():
         from se3_whole_body_control.visualization.video import encode_video, make_gif
         fps = 30
         indices = np.argmin(np.abs(times[:, None]-np.arange(round(settings['experiment_duration_s']*fps))[None, :]/fps), axis=0)
-        overlay = [{'time_s': times[i], 'controller': 'SE(3) WBC | reaching', 'status': arrays['qp_status'][i],
-                    'task_label': 'SE(3) WBC | right-arm reach',
+        overlay = [{'time_s': times[i], 'controller': args.controller, 'status': arrays['qp_status'][i],
+                    'task_label': args.controller + ' | right-arm reach',
                     'active_support_vertices_world': arrays['foot_support_vertices_world'][i].reshape(2, 4, 2)[
                         np.array([arrays['contact_left'][i], arrays['contact_right'][i]], dtype=bool)],
                     'compact_overlay': True, 'com_world': arrays['com_world'][i],

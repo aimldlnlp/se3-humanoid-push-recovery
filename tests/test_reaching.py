@@ -101,3 +101,23 @@ def test_workspace_audit_catches_joint_failure_during_push(tmp_path, monkeypatch
     arrays['joint_limit_violation'][int(1.55/.004)] = True
     np.savez(tmp_path/'trajectory.npz', **arrays)
     assert assess_trial(tmp_path)[1:] == (False, 'JOINT_LIMIT')
+
+
+def test_pd_reach_reference_is_feasible_and_does_not_change_plant(monkeypatch):
+    pytest.importorskip('mujoco')
+    monkeypatch.syspath_prepend(str(Path(__file__).resolve().parents[1]/'experiments'))
+    from common import ROOT, make_model, prepare_paired_initial_condition
+    from reaching_pd import ReachingPDController
+    from se3_whole_body_control.config import load_yaml
+    cfg = load_configs(ROOT, robot_name='unitree_g1')
+    initial = prepare_paired_initial_condition(cfg)
+    model = make_model(cfg)
+    model.reset(initial.qpos, initial.qvel)
+    settings = load_yaml(ROOT/'configs/reaching.yaml')
+    settings['target_offset_world_m'] = [.05, 0, 0]
+    qpos, qvel = model.data.qpos.copy(), model.data.qvel.copy()
+    controller = ReachingPDController(model,cfg['controller'],settings)
+    assert controller.ik_max_error_m < .001
+    np.testing.assert_array_equal(model.data.qpos,qpos)
+    np.testing.assert_array_equal(model.data.qvel,qvel)
+    np.testing.assert_allclose(controller.joint_references[0], initial.joint_reference, atol=1e-8)

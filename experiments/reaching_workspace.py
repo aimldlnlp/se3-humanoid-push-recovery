@@ -4,7 +4,6 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import os
 from pathlib import Path
 import subprocess
 import sys
@@ -72,6 +71,7 @@ def run_trial(root, name, offset, magnitude=0, push_start=1.5, stage='workspace'
 def plot_results(root, rows):
     from se3_whole_body_control.visualization.style import apply_style
     import matplotlib.pyplot as plt
+    from matplotlib.lines import Line2D
     apply_style()
     fig, axes = plt.subplots(1, 2, figsize=(11, 4), constrained_layout=True)
     colors = {'PASS': '#257a59', 'TRACKING': '#b46720'}
@@ -88,10 +88,15 @@ def plot_results(root, rows):
                      marker='o', label=direction.title())
     axes[0].set(yticks=range(3), yticklabels=['Front (+x)', 'Right (-y)', 'Up (+z)'],
                 ylim=(-.5, 2.6), xlabel='Target offset [cm]', title='(a) Tested outcomes; labels: hold error [mm]')
+    axes[0].legend(handles=[Line2D([],[],color='#257a59',marker='s',ls='',label='Combined pass'),
+                           Line2D([],[],color='#b46720',marker='X',ls='',label='Tracking fail')],
+                   loc='upper right',fontsize=9)
     axes[1].axhline(15, color='#ae3946', ls='--', label='15 mm tolerance')
     axes[1].set(xlabel='Target offset [cm]', ylabel='Maximum target error in final hold [mm]',
                 title='(b) Tracking limit')
     axes[1].legend(fontsize=9)
+    for ax in axes:
+        ax.set_xticks(sorted({r['distance_m']*100 for r in rows if r['stage']=='workspace'}))
     for suffix in ('png', 'pdf'):
         fig.savefig(root/f'workspace_results.{suffix}', dpi=250)
     plt.close(fig)
@@ -106,8 +111,9 @@ def render_saved(root, rows):
     if not passed or not failed:
         raise RuntimeError('Montage requires observed successes and failures')
     easy = min(passed, key=lambda r: r['hold_max_error_mm'])
-    boundary = max(passed, key=lambda r: r['hold_max_error_mm'])
-    failure = min(failed, key=lambda r: r['distance_m'])
+    boundary = max(passed, key=lambda r: r['distance_m'])
+    same_direction = [r for r in failed if r['direction']==boundary['direction']]
+    failure = min(same_direction or failed, key=lambda r: r['distance_m'])
     selected = [('Easy', easy), ('Near tested limit', boundary), ('Failed task', failure)]
     clips = []
     cfg = load_configs(ROOT, robot_name='unitree_g1')
@@ -147,6 +153,7 @@ def main():
     if args.render_only:
         rows = json.loads((root/'study.json').read_text())['trials']
         (root/'videos').mkdir(exist_ok=False)
+        plot_results(root, rows)
         render_saved(root, rows)
         return
     root.mkdir(parents=True, exist_ok=False)

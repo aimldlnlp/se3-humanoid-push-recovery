@@ -237,3 +237,14 @@ def test_balance_guard_uses_measured_state_without_force_oracle(monkeypatch):
     mujoco.mj_forward(model.model, model.data)
     controller.solve()
     assert controller.guard_risks[-1] and controller.weights[-1]==100
+    settings['balance_guard']['track_arm_posture_during_recovery'] = True
+    controller = ReachingController(model, cfg['controller'], settings)
+    original = controller.q_des.copy()
+    model.data.qpos[model.joint_qpos_indices[controller.guard_arm]] += .03
+    mujoco.mj_forward(model.model, model.data)
+    controller.solve()
+    other = np.setdiff1d(np.arange(model.nu), controller.guard_arm)
+    np.testing.assert_array_equal(controller.q_des[other], original[other])
+    np.testing.assert_array_equal(controller.pd_fallback.q_des[other], original[other])
+    np.testing.assert_array_equal(controller.q_des[controller.guard_arm], model.joint_positions()[controller.guard_arm])
+    np.testing.assert_array_equal(controller.pd_fallback.q_des[controller.guard_arm], controller.q_des[controller.guard_arm])

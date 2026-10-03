@@ -17,6 +17,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--previous', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--guard-arm-posture', action='store_true')
     args = parser.parse_args()
     root = args.output
     root.mkdir(parents=True, exist_ok=False)
@@ -27,7 +28,8 @@ def main():
         for policy in ('fixed_high', 'balance_guard'):
             trial_id = f'{name}_{phase}_{policy}'
             row = run_trial(root, trial_id, offset, magnitude, start, stage=stage,
-                            reach_weight=3000, balance_guard=policy=='balance_guard')
+                            reach_weight=3000, balance_guard=policy=='balance_guard',
+                            guard_arm_posture=args.guard_arm_posture and policy=='balance_guard')
             path = root/'trials'/trial_id
             summary = json.loads((path/'summary.json').read_text())
             row.update(policy=policy, target=name, phase=phase,

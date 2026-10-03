@@ -61,6 +61,11 @@ class ReachingController(WholeBodyQPController):
         guard = settings.get('balance_guard')
         self.guard = ReachBalanceGuard(settings['weight'], guard['minimum_weight'], guard['stable_duration_s']) if guard else None
         self.weights, self.guard_risks = [], []
+        self.joint_references = []
+        self.guard_arm = np.array([i for i, name in enumerate(model.joint_names)
+                                   if name.startswith('right_') and any(part in name for part in ('shoulder','elbow','wrist'))])
+        if guard and guard.get('track_arm_posture_during_recovery') and len(self.guard_arm)!=7:
+            raise ValueError('expected seven right-arm joints')
 
     def solve(self):
         task = self.reach_task
@@ -81,8 +86,14 @@ class ReachingController(WholeBodyQPController):
                           and all(self.model.contact_flags()))
             risk = not stable
             task.weight = self.guard.update(self.model.data.time, stable)
+            if cfg.get('track_arm_posture_during_recovery') and task.weight < self.settings['weight']:
+                # Remove only the arm's pull toward its old standing pose;
+                # retain damping and every other joint's standing reference.
+                self.q_des[self.guard_arm] = self.model.joint_positions()[self.guard_arm]
+                self.pd_fallback.q_des[self.guard_arm] = self.q_des[self.guard_arm]
         self.weights.append(task.weight)
         self.guard_risks.append(risk)
+        self.joint_references.append(self.q_des.copy())
         return super().solve()
 
 
@@ -96,11 +107,14 @@ def main():
     parser.add_argument('--qp-posture-weight', type=float)
     parser.add_argument('--qp-nominal-torque-weight', type=float)
     parser.add_argument('--balance-guard', action='store_true')
+    parser.add_argument('--guard-arm-posture', action='store_true')
     parser.add_argument('--controller', choices=('se3_wbc', 'pd_nominal_ff'), default='se3_wbc')
     parser.add_argument('--render', action='store_true')
     args = parser.parse_args()
     if args.balance_guard and args.controller != 'se3_wbc':
         parser.error('--balance-guard applies only to se3_wbc')
+    if args.guard_arm_posture and not args.balance_guard:
+        parser.error('--guard-arm-posture requires --balance-guard')
     if not np.isfinite(args.push_N) or args.push_N < 0:
         parser.error('--push-N must be finite and nonnegative')
     overrides = {}
@@ -135,6 +149,7 @@ def main():
             'orientation_threshold_rad', 'angular_velocity_threshold_rad_s',
             'com_displacement_threshold_m', 'stable_duration_s')}
         settings['balance_guard']['minimum_weight'] = min(default_reach_weight, settings['weight'])
+        settings['balance_guard']['track_arm_posture_during_recovery'] = bool(args.guard_arm_posture)
     initial = prepare_paired_initial_condition(cfg)
     cfg['controller'].update(overrides)
     model = make_model(cfg)
@@ -182,7 +197,8 @@ def main():
         summary['ik_max_reference_error_m'] = controller.ik_max_error_m
     extras = {}
     if args.controller == 'se3_wbc':
-        extras = {'reach_weight_history': np.asarray(controller.weights), 'balance_guard_risk': np.asarray(controller.guard_risks)}
+        extras = {'reach_weight_history': np.asarray(controller.weights), 'balance_guard_risk': np.asarray(controller.guard_risks),
+                  'joint_reference_history': np.asarray(controller.joint_references)}
         reduced = extras['reach_weight_history'] < settings['weight']-1e-9
         summary['balance_guard'] = dict(enabled=bool(args.balance_guard),
                                        reduced_duration_s=float(np.sum(reduced)*cfg['robot']['control_timestep']),

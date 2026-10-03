@@ -67,22 +67,28 @@ def main():
     (root/'manifest.json').write_text(json.dumps(dict(files=files), indent=2), encoding='utf-8')
 
 
-def plot(root, rows):
+def plot(root, rows, output=None):
     import matplotlib.pyplot as plt
     from se3_whole_body_control.visualization.style import apply_style
     apply_style()
     fig, axes = plt.subplots(2,3,figsize=(12,6),constrained_layout=True)
+    study = json.loads((root/'study.json').read_text())
+    arm = study['balance_guard_policy'].get('track_arm_posture_during_recovery', False)
+    fig.suptitle('Measured-balance guard: '+('arm posture adaptation' if arm else 'reach weight only'))
     for col, phase in enumerate(('no_push','moving','hold')):
+        max_error = 15.0
         for policy, color in (('fixed_high','#ad3946'), ('balance_guard','#257a59')):
             row = next(r for r in rows if r['stage']=='pilot' and r['phase']==phase and r['policy']==policy)
             with np.load(root/'trials'/row['trial_id']/'trajectory.npz',allow_pickle=False) as a:
                 error = 1000*np.linalg.norm(a['reach_point_world']-a['reach_goal_world'],axis=1)
+                max_error = max(max_error, float(np.max(error)))
                 label = policy.replace('_',' ')+' | '+row['failure_reason']
                 axes[0,col].plot(a['time_s'],error,color=color,label=label)
                 axes[1,col].plot(a['time_s'],a['reach_weight_history'],color=color)
         axes[0,col].axhline(15,color='#555555',ls='--',lw=1)
         axes[0,col].set(title=phase.replace('_',' ').title(),yscale='symlog',ylabel='Target error [mm]')
         axes[0,col].set_yscale('symlog',linthresh=15)
+        axes[0,col].set_ylim(0, 1.25*max_error)
         axes[0,col].legend(fontsize=8)
         axes[1,col].set(xlabel='Time [s]',ylabel='Effective reach weight',ylim=(0,3200))
         if phase!='no_push':
@@ -90,7 +96,7 @@ def plot(root, rows):
             for ax in axes[:,col]:
                 ax.axvspan(start,start+.15,color='#777777',alpha=.15)
     for suffix in ('png','pdf'):
-        fig.savefig(root/f'guard_results.{suffix}',dpi=250)
+        fig.savefig((output or root)/f'guard_results.{suffix}',dpi=250)
     plt.close(fig)
 
 

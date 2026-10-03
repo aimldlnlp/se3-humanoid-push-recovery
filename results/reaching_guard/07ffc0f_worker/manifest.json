@@ -1,0 +1,160 @@
+{
+  "files": [
+    {
+      "path": "guard_results.pdf",
+      "sha256": "f3ad883f3362da02c275ea9bee19ca82b01ab7807976efd7df638dfce614cd20"
+    },
+    {
+      "path": "guard_results.png",
+      "sha256": "994fae971448f35a247711e58c14de2d4b3f5dc635fd676414a9fb146d502ecc"
+    },
+    {
+      "path": "logs/front_12.5cm_hold_balance_guard.txt",
+      "sha256": "023eedae03c1152df2777946bfcd86f011c47560a2730c2f7849d45e59fb7b4f"
+    },
+    {
+      "path": "logs/front_12.5cm_hold_fixed_high.txt",
+      "sha256": "b91bd12a2a324f04ba0c18e54d34c118d452baa9483669def6f94e5165d51fe1"
+    },
+    {
+      "path": "logs/front_12.5cm_moving_balance_guard.txt",
+      "sha256": "6b267e5663ac89d3aadac2b1b6355516f7f158961d5264c6cc648546310d6b28"
+    },
+    {
+      "path": "logs/front_12.5cm_moving_fixed_high.txt",
+      "sha256": "26a47e4ec03b07b8e50e9a681ce3cd6273f47f3e6bb576d5b315a60bb96752e3"
+    },
+    {
+      "path": "logs/front_12.5cm_no_push_balance_guard.txt",
+      "sha256": "fdddb28bdefb22dea64025b4c3e3fe91e1a2fb76cb39baca0ef1508f33728cd2"
+    },
+    {
+      "path": "logs/front_12.5cm_no_push_fixed_high.txt",
+      "sha256": "fdddb28bdefb22dea64025b4c3e3fe91e1a2fb76cb39baca0ef1508f33728cd2"
+    },
+    {
+      "path": "presentation/guard_results.pdf",
+      "sha256": "01bfde4700b69f61d7fb93acb856102297d5000b28d2599d45f3d189a2772f1d"
+    },
+    {
+      "path": "presentation/guard_results.png",
+      "sha256": "5382166f2e650eae8805c78b1a01716671ce211fad0e8832d7d7df2bb5da7380"
+    },
+    {
+      "path": "release_verification.json",
+      "sha256": "f0b4550bb4b2246c3556a18dcd116caf6483824910e8ef8f8c3205fd17403b09"
+    },
+    {
+      "path": "REPORT.md",
+      "sha256": "cdafd3106b6e6ff0e7f08525717af931fa05ddbedee4574d087bbfcf61412e5d"
+    },
+    {
+      "path": "study.csv",
+      "sha256": "f132720e4a7b4e82b4dfb0691ec33c400f8f1d2f7373fae93393087eaa9e49fa"
+    },
+    {
+      "path": "study.json",
+      "sha256": "cabdbd71f523d80dc8296f91b80e5ef54180d58c5f6c3d1e693dd04b1ac8ec43"
+    },
+    {
+      "path": "trials/front_12.5cm_hold_balance_guard/reaching_response.pdf",
+      "sha256": "fa97dd634da2d166f601670ee1fdb70fdfad4604dac1779fbb2bfe31b8764dea"
+    },
+    {
+      "path": "trials/front_12.5cm_hold_balance_guard/reaching_response.png",
+      "sha256": "2df8fa5afb9bd770089c8f90198dae32578e9040c1344e5be68b0087637616bf"
+    },
+    {
+      "path": "trials/front_12.5cm_hold_balance_guard/summary.json",
+      "sha256": "438e62773c0bb0038e77affb1b9989ce4ffac4a0edb2ba40ebe1f83d23eab490"
+    },
+    {
+      "path": "trials/front_12.5cm_hold_balance_guard/trajectory.npz",
+      "sha256": "b597869a9f0dc34050323e76143c8be0e0029549ea9a13b438725dc3957dc7c5"
+    },
+    {
+      "path": "trials/front_12.5cm_hold_fixed_high/reaching_response.pdf",
+      "sha256": "b34fea9501f4cbd0e021e33d20e366170f96521ee622b51b5b4bd344a282df20"
+    },
+    {
+      "path": "trials/front_12.5cm_hold_fixed_high/reaching_response.png",
+      "sha256": "c0cb49d5d80b9a6f4e2ee462210d4378723c65da10a2268f816467ee344ea1af"
+    },
+    {
+      "path": "trials/front_12.5cm_hold_fixed_high/summary.json",
+      "sha256": "78825f0ca924eb1d4fdd9369b3c730835417cf7b1c25e3280da8221ee70f040f"
+    },
+    {
+      "path": "trials/front_12.5cm_hold_fixed_high/trajectory.npz",
+      "sha256": "12ba83e198729cc2634c1d159866d9fed7dc23ab1e6e6822b271bd9e77c21873"
+    },
+    {
+      "path": "trials/front_12.5cm_moving_balance_guard/reaching_response.pdf",
+      "sha256": "bbee463d0eebfa5d4e373354bcc6a0159dbb32b24ee5c570ec9a4f3c40d25bfa"
+    },
+    {
+      "path": "trials/front_12.5cm_moving_balance_guard/reaching_response.png",
+      "sha256": "794c2ab61221cc35018f816e60d2c65c8103b00d61fc275d8927908fc4b86fa8"
+    },
+    {
+      "path": "trials/front_12.5cm_moving_balance_guard/summary.json",
+      "sha256": "3a8bb938404b6b37515a6a59622a6660ee5019f2f07d408ba8f618d7bf5d8339"
+    },
+    {
+      "path": "trials/front_12.5cm_moving_balance_guard/trajectory.npz",
+      "sha256": "94d98aba6c42f91b12bd9e89d8168a776b328f814c3e6f2cceac265595e04afc"
+    },
+    {
+      "path": "trials/front_12.5cm_moving_fixed_high/reaching_response.pdf",
+      "sha256": "ed90608330ed3728edbbe0912b62e17553871ed88a4dc442a2bed9a5dd3932ac"
+    },
+    {
+      "path": "trials/front_12.5cm_moving_fixed_high/reaching_response.png",
+      "sha256": "4f7d0f801caede2102edd870352c76b6bc93c7a581c56e823c54d34553f3b2d7"
+    },
+    {
+      "path": "trials/front_12.5cm_moving_fixed_high/summary.json",
+      "sha256": "eb4e80aad2677eb69355a284572624e1f7c4255fadaedd63ec7ca414ccc82fe7"
+    },
+    {
+      "path": "trials/front_12.5cm_moving_fixed_high/trajectory.npz",
+      "sha256": "98eb042fc9060443de44b1e2a7ced2f52c7f7c2249e56f1c12ab25a2db1384e7"
+    },
+    {
+      "path": "trials/front_12.5cm_no_push_balance_guard/reaching_response.pdf",
+      "sha256": "8f65d2de09a87e9f8ab49aba35780f9e7514a39cf3cb2e31357a7db202d4e526"
+    },
+    {
+      "path": "trials/front_12.5cm_no_push_balance_guard/reaching_response.png",
+      "sha256": "2a7bfd1e97240a751dbbc6de50b9bcc8172de28bca8ca73dfac4188994cdf097"
+    },
+    {
+      "path": "trials/front_12.5cm_no_push_balance_guard/summary.json",
+      "sha256": "9f8eda956860c14f50af93019fce56e6cf5c3bed9624f72a36a6eb0c3980c56a"
+    },
+    {
+      "path": "trials/front_12.5cm_no_push_balance_guard/trajectory.npz",
+      "sha256": "63fd4d2e4a5cf326838a1410144c4071a9e3e26ae808dd20d841d59dec398614"
+    },
+    {
+      "path": "trials/front_12.5cm_no_push_fixed_high/reaching_response.pdf",
+      "sha256": "7b74d5f7be442f0a7c867131e4cef43ad7910ebaf6880340bb4485dae77c5feb"
+    },
+    {
+      "path": "trials/front_12.5cm_no_push_fixed_high/reaching_response.png",
+      "sha256": "2a7bfd1e97240a751dbbc6de50b9bcc8172de28bca8ca73dfac4188994cdf097"
+    },
+    {
+      "path": "trials/front_12.5cm_no_push_fixed_high/summary.json",
+      "sha256": "439979e7f45a66bfac38f65dfba2a36b58c2edeaf5667759bf315fc1df189b77"
+    },
+    {
+      "path": "trials/front_12.5cm_no_push_fixed_high/trajectory.npz",
+      "sha256": "abe033b1d6633f0923fe09d1a6b66aaa16992c8d103559b081dfd8ec7d13ebfe"
+    },
+    {
+      "path": "verification.json",
+      "sha256": "84409698ea6eea9ef324d27b0e41292bb774b1cbb42dc49f8cb9a21969cb24f5"
+    }
+  ]
+}

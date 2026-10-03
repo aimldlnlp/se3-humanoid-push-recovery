@@ -390,6 +390,60 @@ python scripts/verify_reaching_workspace.py --root results/staging/conflict-audi
 [Verification](results/reaching_conflict/04bf334_local/verification.json) |
 [Artifact hashes](results/reaching_conflict/04bf334_local/manifest.json)
 
+## Reach-and-Balance: measured-balance guard pilot
+
+**Neither prototype passes the pilot. Do not promote either policy to the default.**
+Twelve five-second physical trials ran on the SSH CPU worker: two independent
+six-trial pilots, each pairing fixed reach weight 3000 with an opt-in guard.
+The target is front 12.5 cm. Conditions are no push, 70 N during motion at
+1.5 s, and 70 N during holding at 3.0 s; pulse duration is 0.15 s.
+
+The guard reduces reach weight to the unchanged default 100 whenever measured
+torso orientation, angular speed, CoM XY displacement, or either contact flag
+leaves the existing recovery bands. It requires 0.25 s continuously stable,
+then restores the weight linearly over another 0.25 s. No push schedule or
+force magnitude enters this decision. The second, separately recorded prototype
+also updates only the seven right-arm posture references to measured positions
+during reduced reach authority, retaining damping, gravity and all other joint
+references. Objective weights and physical success thresholds are unchanged.
+
+Both prototypes reproduce the nominal trajectory: final-hold maximum error
+3.231 mm, no guard reduction. All four guarded pushed trials and all four fixed
+pushed controls fall. The guard first reduces at 1.520 s / 3.020 s, before
+contact loss, but early activation alone does not recover balance. Both pilot
+gates are false; the proposed right/up/mixed validation grid is not run.
+
+![Failed weight-only guard pilot](results/reaching_guard/07ffc0f_worker/presentation/guard_results.png)
+
+Source snapshots are `07ffc0fa2283bee03d59f643d48c2a167a45f7fd` (weight only)
+and `11ebc63ab6c4d23f64b99bb70f653d21d9982f49` (arm posture adaptation).
+All paired inputs match within each worker pilot. Historical local nominal
+replay matches within declared floating-point tolerances, not byte-identical
+cross-platform hashes. Saved weights and arm references replay from measured
+state. Full suites pass 83 tests locally and on the worker. CPU deadline misses
+remain recorded; there is no hard-real-time or unique-root-cause claim.
+
+Reproduce into fresh directories with the indicated source checkout:
+
+```bash
+export PYTHONPATH=src:scripts OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1
+export SE3_SOURCE_VERSION=$(git rev-parse HEAD)
+python experiments/reaching_guard_study.py --previous results/reaching_tracking/fbc0b50_local --output results/staging/guard-weight
+python experiments/reaching_guard_study.py --previous results/reaching_tracking/fbc0b50_local --output results/staging/guard-arm --guard-arm-posture
+python scripts/verify_reaching_workspace.py --root results/staging/guard-weight --record
+python scripts/verify_reaching_workspace.py --root results/staging/guard-arm --record
+```
+
+[Pilot report and event timing](results/reaching_guard/07ffc0f_worker/REPORT.md) |
+[Weight-only trial CSV](results/reaching_guard/07ffc0f_worker/study.csv) |
+[Arm-adaptation trial CSV](results/reaching_guard/11ebc63_arm_worker/study.csv) |
+[Arm-adaptation figure](results/reaching_guard/11ebc63_arm_worker/presentation/guard_results.png)
+
+Next diagnostic: compare predicted contact acceleration and slack with measured
+foot motion after the pulse and before contact loss. Contact-model drift is an
+unverified hypothesis, not an established explanation. No further gain sweep,
+payload, grasping or stepping is added by this pilot.
+
 ## Limitations
 
 - Fixed-foot double support on flat ground; no walking, hardware transfer or general locomotion claim.

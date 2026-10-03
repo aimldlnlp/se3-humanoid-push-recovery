@@ -1,0 +1,152 @@
+{
+  "files": [
+    {
+      "path": "guard_results.pdf",
+      "sha256": "ca90aef6347290232e89ed1be1209f9715099c7327a28384bf7b42581fc07f84"
+    },
+    {
+      "path": "guard_results.png",
+      "sha256": "e63757c91d39365ccbbbeba0c9688c04c7e6376175b43f5b3f8518016aca0c8d"
+    },
+    {
+      "path": "logs/front_12.5cm_hold_balance_guard.txt",
+      "sha256": "0b9dc7633dcf7ba36a98dde8c2f153bf905a7855d91e446a10d9df67e3f01333"
+    },
+    {
+      "path": "logs/front_12.5cm_hold_fixed_high.txt",
+      "sha256": "b91bd12a2a324f04ba0c18e54d34c118d452baa9483669def6f94e5165d51fe1"
+    },
+    {
+      "path": "logs/front_12.5cm_moving_balance_guard.txt",
+      "sha256": "fe0857ad2802e1ab7c59e176b0d5b8826b95a82918f8b1ac871c22f69fe3e71f"
+    },
+    {
+      "path": "logs/front_12.5cm_moving_fixed_high.txt",
+      "sha256": "26a47e4ec03b07b8e50e9a681ce3cd6273f47f3e6bb576d5b315a60bb96752e3"
+    },
+    {
+      "path": "logs/front_12.5cm_no_push_balance_guard.txt",
+      "sha256": "fdddb28bdefb22dea64025b4c3e3fe91e1a2fb76cb39baca0ef1508f33728cd2"
+    },
+    {
+      "path": "logs/front_12.5cm_no_push_fixed_high.txt",
+      "sha256": "fdddb28bdefb22dea64025b4c3e3fe91e1a2fb76cb39baca0ef1508f33728cd2"
+    },
+    {
+      "path": "presentation/guard_results.pdf",
+      "sha256": "98b2e8e6d85e1d74785d58cb4b15f9a7b1964c85069c3e981e66cba3c7cfce8c"
+    },
+    {
+      "path": "presentation/guard_results.png",
+      "sha256": "055ac71414757e5ca201efcfcb3d7c100f03300ecc69a3fe90f5a0d93072f351"
+    },
+    {
+      "path": "study.csv",
+      "sha256": "28b35cf14d012bd78b9b3cace78492094caac32960403fe453b7068ab5ec2997"
+    },
+    {
+      "path": "study.json",
+      "sha256": "3b795e5b16ee73f5c906ec68807c094d4216a93091453d7038c51566fc8e9c5e"
+    },
+    {
+      "path": "trials/front_12.5cm_hold_balance_guard/reaching_response.pdf",
+      "sha256": "ebd19d52ed7980bbdc5c6d6d98f89c6b367711f940154052b0ba76ea53a903a5"
+    },
+    {
+      "path": "trials/front_12.5cm_hold_balance_guard/reaching_response.png",
+      "sha256": "42c4c92de7ebe36872995e06bcf21474cbc59a2ffe3691cc9874b43261fe3fa5"
+    },
+    {
+      "path": "trials/front_12.5cm_hold_balance_guard/summary.json",
+      "sha256": "dd7a96f30d51648ce24199d6606f73fb0d519b926909a91117d3d5b687a8a280"
+    },
+    {
+      "path": "trials/front_12.5cm_hold_balance_guard/trajectory.npz",
+      "sha256": "22b868dbba8836bc6562a8880932865d6537ae9c8545f9b1c98819bb7ec60e19"
+    },
+    {
+      "path": "trials/front_12.5cm_hold_fixed_high/reaching_response.pdf",
+      "sha256": "cef8d5be510bf96fdb827d98693bd35bb2d4d213b6d2a91bdca4bfe926ed645b"
+    },
+    {
+      "path": "trials/front_12.5cm_hold_fixed_high/reaching_response.png",
+      "sha256": "c0cb49d5d80b9a6f4e2ee462210d4378723c65da10a2268f816467ee344ea1af"
+    },
+    {
+      "path": "trials/front_12.5cm_hold_fixed_high/summary.json",
+      "sha256": "b7ef164dfb10885890bc70c90780e921ba27bffc7b1c2a75f0076b672f8c3f2d"
+    },
+    {
+      "path": "trials/front_12.5cm_hold_fixed_high/trajectory.npz",
+      "sha256": "e1ba5c1388ac1cb3ff7f91932f6b616b43290a959328900326314f9c51111243"
+    },
+    {
+      "path": "trials/front_12.5cm_moving_balance_guard/reaching_response.pdf",
+      "sha256": "553d833fe0ad158099af819d4a3c4423c6166a008fc62a13a50ffc01f04a780a"
+    },
+    {
+      "path": "trials/front_12.5cm_moving_balance_guard/reaching_response.png",
+      "sha256": "a1e93582e4f2969f72a9f5e8d89f1a2e7252dbe93ac956bcdc456cc3b1baefb2"
+    },
+    {
+      "path": "trials/front_12.5cm_moving_balance_guard/summary.json",
+      "sha256": "ae06c479414cec25baddb09f74ade41f9eb6fdeec33700e1ab424cb1bc0e2aa7"
+    },
+    {
+      "path": "trials/front_12.5cm_moving_balance_guard/trajectory.npz",
+      "sha256": "65033a139d976962e8a739a46d0fc751e9180e75b8a29daf468635d032a8a0b2"
+    },
+    {
+      "path": "trials/front_12.5cm_moving_fixed_high/reaching_response.pdf",
+      "sha256": "07d51ec2671106fd186b722a53ab335075d8741c285582c736988fbd86ca992c"
+    },
+    {
+      "path": "trials/front_12.5cm_moving_fixed_high/reaching_response.png",
+      "sha256": "4f7d0f801caede2102edd870352c76b6bc93c7a581c56e823c54d34553f3b2d7"
+    },
+    {
+      "path": "trials/front_12.5cm_moving_fixed_high/summary.json",
+      "sha256": "b1752d68ee01bdb76766da9ed0217187e1b06689928fdae86d42c2cec076de20"
+    },
+    {
+      "path": "trials/front_12.5cm_moving_fixed_high/trajectory.npz",
+      "sha256": "9520c099a304462980948400e967a91ab36d011ad12eaaf42ce1fff2297bcc56"
+    },
+    {
+      "path": "trials/front_12.5cm_no_push_balance_guard/reaching_response.pdf",
+      "sha256": "c8626060f345b336f4721a31b89925c664df3c31dd0d8afcced177f0eff104c2"
+    },
+    {
+      "path": "trials/front_12.5cm_no_push_balance_guard/reaching_response.png",
+      "sha256": "2a7bfd1e97240a751dbbc6de50b9bcc8172de28bca8ca73dfac4188994cdf097"
+    },
+    {
+      "path": "trials/front_12.5cm_no_push_balance_guard/summary.json",
+      "sha256": "d4cbafb9634ed39f47906858436ff2ab40f9dc89cddf06a09f472b63d41d79f0"
+    },
+    {
+      "path": "trials/front_12.5cm_no_push_balance_guard/trajectory.npz",
+      "sha256": "053f7066a8fbb68c4906808530e29bc9ed47c9fa2023cc8c1188cf2a044097ef"
+    },
+    {
+      "path": "trials/front_12.5cm_no_push_fixed_high/reaching_response.pdf",
+      "sha256": "08c8082a91689710e1811decf8911c0f6816473bd7c6f68959c07f518134e0ec"
+    },
+    {
+      "path": "trials/front_12.5cm_no_push_fixed_high/reaching_response.png",
+      "sha256": "2a7bfd1e97240a751dbbc6de50b9bcc8172de28bca8ca73dfac4188994cdf097"
+    },
+    {
+      "path": "trials/front_12.5cm_no_push_fixed_high/summary.json",
+      "sha256": "35cf0c8a998d5aad00e755d1e9d2c317410bf4790d0575d7ef0e37f5edf5412f"
+    },
+    {
+      "path": "trials/front_12.5cm_no_push_fixed_high/trajectory.npz",
+      "sha256": "9fef57d2be4672318fdc1825b7549c26bb4213680ea942d6fc8240f4ad83ac9c"
+    },
+    {
+      "path": "verification.json",
+      "sha256": "84409698ea6eea9ef324d27b0e41292bb774b1cbb42dc49f8cb9a21969cb24f5"
+    }
+  ]
+}

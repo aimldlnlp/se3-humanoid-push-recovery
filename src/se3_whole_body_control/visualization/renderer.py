@@ -52,9 +52,14 @@ def _draw_overlay(image, metadata: Mapping[str, object] | None) -> None:
         f"t = {float(metadata.get('time_s', 0.0)):.2f} s    {status_label}",
         push_label,
     ])
+    task_label = metadata.get("task_label")
+    if task_label:
+        lines.insert(0, str(task_label))
     line_widths = [draw.textbbox((0, 0), line, font=title_font if index == 0 and not compact else body_font)[2] for index, line in enumerate(lines)]
     panel_width = max(int(240 * scale), max(line_widths, default=0) + int(36 * scale))
     panel_height = int((82 if compact else 124) * scale)
+    if task_label:
+        panel_height += int(26 * scale)
     draw.rounded_rectangle(
         (margin, margin, margin + panel_width, margin + panel_height),
         radius=int(10 * scale), fill=(255, 255, 255, 224), outline=(0, 0, 0, 180), width=max(1, int(scale)),
@@ -121,6 +126,16 @@ def _add_scene_annotations(renderer, mujoco, metadata: Mapping[str, object] | No
     if not metadata:
         return
     com = np.asarray(metadata.get("com_world", []), dtype=float).reshape(-1)
+    vertices = np.asarray(metadata.get("active_support_vertices_world", []), dtype=float)
+    if vertices.size and vertices.shape[-1] == 2 and np.all(np.isfinite(vertices)):
+        from scipy.spatial import ConvexHull
+        points = vertices.reshape(-1, 2)
+        hull = points[ConvexHull(points).vertices]
+        for start, end in zip(hull, np.roll(hull, -1, axis=0)):
+            delta = np.r_[end-start, 0]
+            _add_scene_geom(renderer, mujoco, mujoco.mjtGeom.mjGEOM_CAPSULE,
+                            [0.002, np.linalg.norm(delta)/2, 0], np.r_[(start+end)/2, 0.008],
+                            _rotation_from_z(delta), COM_RGBA)
     for key, color, radius in (("reach_goal_world", EVENT_RGBA, 0.025),
                                ("reach_point_world", CONTACT_RGBA, 0.015)):
         position = np.asarray(metadata.get(key, []), dtype=float)

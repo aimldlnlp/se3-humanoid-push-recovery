@@ -97,7 +97,7 @@ def main():
     apply_style()
     fig, axes = plt.subplots(2, 2, figsize=(10, 6), constrained_layout=True)
     axes[0, 0].plot(times, error*1000, color=COLORS['wbc'])
-    axes[0, 0].set(ylabel='Tracking error [mm]', title='(a) Ujung lengan')
+    axes[0, 0].set(ylabel='Tracking error [mm]', title='(a) Cartesian tracking')
     axes[0, 1].plot(times, goal_error*1000, color=COLORS['actual'])
     axes[0, 1].axhline(settings['position_tolerance_m']*1000, ls='--', color=COLORS['boundary'])
     axes[0, 1].set(ylabel='Target distance [mm]', title='(b) Final target')
@@ -123,6 +123,9 @@ def main():
         fps = 30
         indices = np.argmin(np.abs(times[:, None]-np.arange(round(settings['experiment_duration_s']*fps))[None, :]/fps), axis=0)
         overlay = [{'time_s': times[i], 'controller': 'SE(3) WBC | reaching', 'status': arrays['qp_status'][i],
+                    'task_label': 'SE(3) WBC | right-arm reach',
+                    'active_support_vertices_world': arrays['foot_support_vertices_world'][i].reshape(2, 4, 2)[
+                        np.array([arrays['contact_left'][i], arrays['contact_right'][i]], dtype=bool)],
                     'compact_overlay': True, 'com_world': arrays['com_world'][i],
                     'feet_xy': arrays['foot_xy_world'][i], 'contact_left': arrays['contact_left'][i],
                     'contact_right': arrays['contact_right'][i], 'reach_goal_world': controller.goal,

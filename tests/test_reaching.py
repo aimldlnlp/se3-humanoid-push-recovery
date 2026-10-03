@@ -26,6 +26,21 @@ def test_quintic_rest_endpoints_and_derivatives():
         quintic_reference(start, goal, 0, 0)
 
 
+def test_gif_preserves_physical_duration(tmp_path):
+    from PIL import Image
+    from se3_whole_body_control.visualization.video import make_gif
+    for i in range(6):
+        Image.new('RGB', (32, 32), (i*40, 0, 0)).save(tmp_path/f'frame_{i:06d}.png')
+    output = make_gif(tmp_path, tmp_path/'test.gif', fps=30)
+    with Image.open(output) as gif:
+        delays = []
+        for i in range(gif.n_frames):
+            gif.seek(i)
+            delays.append(gif.info.get('duration', 0))
+        assert gif.n_frames == 6 and all(d > 0 for d in delays)
+        assert abs(sum(delays)/1000 - 6/30) <= 0.02
+
+
 def test_production_reach_point_jacobian_bias_and_qp_objective():
     mujoco = pytest.importorskip("mujoco")
     cfg = load_configs(Path(__file__).resolve().parents[1], robot_name="unitree_g1")

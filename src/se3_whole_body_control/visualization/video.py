@@ -37,22 +37,20 @@ def encode_video(frame_dir: str | Path, output_path: str | Path, fps: int = 30) 
 
 
 def make_gif(frame_dir: str | Path, output_path: str | Path, fps: int = 12, max_width: int = 960) -> Path:
-    import imageio.v2 as imageio
-
     frames = sorted(Path(frame_dir).glob("frame_*.png"))
     if not frames:
         raise FileNotFoundError(f"no frames in {frame_dir}")
     output = Path(output_path)
     output.parent.mkdir(parents=True, exist_ok=True)
-    from PIL import Image
-
-    # Stream frames to keep a 1920x1080 render from allocating the complete
-    # animation in memory before encoding.
-    with imageio.get_writer(output, mode="I", duration=1.0 / fps, loop=0) as writer:
-        for frame in frames:
-            image = Image.fromarray(imageio.imread(frame)).convert("RGB")
-            if max_width and image.width > max_width:
-                height = round(image.height * max_width / image.width)
-                image = image.resize((max_width, height), Image.Resampling.LANCZOS)
-            writer.append_data(np.asarray(image))
+    if fps <= 0 or max_width < 0:
+        raise ValueError("GIF fps must be positive and width nonnegative")
+    # FFmpeg preserves timestamps at GIF's centisecond resolution. Pillow
+    # plugins disagree on duration units and can silently write zero delays.
+    scale = f"scale='min({max_width},iw)':-1:flags=lanczos," if max_width else ""
+    subprocess.run([
+        _ffmpeg_executable(), "-y", "-loglevel", "error", "-framerate", str(fps),
+        "-i", str(Path(frame_dir) / "frame_%06d.png"),
+        "-filter_complex", scale + "split[a][b];[a]palettegen[p];[b][p]paletteuse",
+        "-loop", "0", str(output),
+    ], check=True)
     return output

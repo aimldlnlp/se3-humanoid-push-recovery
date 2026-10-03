@@ -126,6 +126,64 @@ Across all 373 WBC trajectories, every accepted prediction passes the declared f
 
 [Actual GRF](results/revalidation/g1_paired_a500081/figures/actual_ground_reaction_forces.png) · [Physical slip](results/revalidation/g1_paired_a500081/figures/contact_slip_diagnostics.png) · [QP timing](results/revalidation/g1_paired_a500081/figures/qp_timing_diagnostics.png)
 
+## Reach-and-Balance: first milestone
+
+An optional **right-arm Cartesian position task** extends the existing fixed-foot
+QP without changing the published push-recovery benchmark. It tracks a point
+80 mm along the local x-axis of `right_wrist_yaw_link`; wrist orientation is free.
+This is virtual-target reaching, not grasping or object manipulation.
+
+The world-frame target offset is `[80, -30, 20]` mm from the settled endpoint.
+A rest-to-rest quintic reference starts at 0.5 s and moves for 2 s, followed by a
+hold until 5 s. The disturbed trial applies 70 N along world +x at 1.5 s for
+0.15 s. The controller receives no oracle copy of that force.
+
+The added objective uses the point Jacobian and its acceleration bias:
+
+$$
+J_r\ddot q \approx \ddot p_d + K_p(p_d-p)
++ K_d(\dot p_d-J_r\dot q)-\dot J_r\dot q.
+$$
+
+Existing dynamics/contact constraints, numerical row acceptance, posture and
+balance objectives remain unchanged. Reaching is a soft weighted objective,
+not a formal task-priority or stability guarantee.
+
+| First deterministic trial | No push | 70 N push during reach |
+|:--|--:|--:|
+| Final target error | 8.88 mm | 6.98 mm |
+| Target held within 15 mm for final 0.5 s | Yes | Yes |
+| Physical balance classifier | Passed | Passed |
+| Both feet contacted throughout | Yes | Yes |
+| QP failures | 0 | 0 |
+
+These two trials are feasibility checks, not a workspace or robustness study.
+The smaller disturbed-trial endpoint error is not evidence that disturbance
+improves control. Startup recovery time is not the time needed to finish reaching.
+The nearby target produces modest arm motion; larger reaches remain unvalidated.
+
+![Right-arm reaching with a disturbance](results/reaching/ff989e0/push/reach_and_balance.gif)
+
+[Full 1080p MP4](results/reaching/ff989e0/push/reach_and_balance.mp4) ·
+[Tracking and measured contacts](results/reaching/ff989e0/push/reaching_response.png) ·
+[Raw trial summary](results/reaching/ff989e0/push/summary.json)
+
+Both new trials are generated from source checkpoint
+`ff989e047ffd2dbf779374738bb897a2d607a511`, independently of the historical
+push-recovery results. NPZs include endpoint/reference trajectories, actual and
+predicted contact wrenches, physical slip telemetry, joint states and provenance.
+GIF/MP4 frame selection follows physical simulation timestamps.
+
+On this reaching checkpoint, with dependencies installed:
+
+```bash
+python experiments/reach_and_balance.py --output results/staging/reach-no-push --render
+python experiments/reach_and_balance.py --output results/staging/reach-push --push-N 70 --render
+```
+
+Each command refuses nonempty output directories. Heavy simulation and rendering
+are run on the SSH execution worker; the local repository remains canonical.
+
 ## Limitations
 
 - Fixed-foot double support on flat ground; no walking, hardware transfer or general locomotion claim.

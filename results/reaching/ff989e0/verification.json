@@ -1,0 +1,23 @@
+{
+  "source_version": "ff989e047ffd2dbf779374738bb897a2d607a511",
+  "local_tests_passed": 76,
+  "remote_tests_passed": 76,
+  "test_warning_count": 1126,
+  "log_sanitization": "Only the worker environment prefix in OSQP warnings was replaced.",
+  "trials": ["no_push", "push"],
+  "both_trials_combined_success": true,
+  "both_trials_qp_failures": 0,
+  "both_trials_continuous_double_support": true,
+  "png_opened": true,
+  "pdf_pages_per_trial": 1,
+  "pdf_render_inspected": true,
+  "mp4_all_frames_decoded": true,
+  "mp4_codec": "h264",
+  "mp4_resolution": [1920, 1080],
+  "mp4_fps": 30,
+  "mp4_frames_per_trial": 150,
+  "mp4_duration_s": 5.0,
+  "gif_frames_per_trial": 150,
+  "gif_duration_s": 5.0,
+  "scope": "Two deterministic nearby-target feasibility trials, not a reach workspace or robustness study."
+}

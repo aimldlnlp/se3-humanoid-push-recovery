@@ -1,0 +1,19 @@
+........................................................................ [ 94%]
+....                                                                     [100%]
+=============================== warnings summary ===============================
+tests/test_g1_integration.py: 8 warnings
+tests/test_mujoco_smoke.py: 2 warnings
+tests/test_paired_benchmark.py: 550 warnings
+tests/test_reaching.py: 1 warning
+  [worker-env]/site-packages/osqp/interface.py:290: DeprecationWarning: "polish" is deprecated. Please use "polishing" instead.
+    warnings.warn(
+
+tests/test_g1_integration.py: 12 warnings
+tests/test_mujoco_smoke.py: 2 warnings
+tests/test_paired_benchmark.py: 550 warnings
+tests/test_reaching.py: 1 warning
+  [worker-env]/site-packages/osqp/interface.py:405: PendingDeprecationWarning: The default value of raise_error will change to True in the future.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+76 passed, 1126 warnings in 12.58s

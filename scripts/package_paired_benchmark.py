@@ -141,6 +141,16 @@ def selected_conditions(stage: str, rows: list[dict]) -> set[str]:
     return selected
 
 
+def limited_conditions(selected: set[str], limit: int) -> set[str]:
+    """Evenly sample sorted IDs; never filter CSV rows or trial summaries."""
+    if limit < 1:
+        raise ValueError('trajectory limit must be positive')
+    ordered = sorted(selected)
+    if len(ordered) <= limit:
+        return set(ordered)
+    return {ordered[i] for i in np.linspace(0, len(ordered) - 1, limit, dtype=int)}
+
+
 def sanitize(value):
     if isinstance(value, dict):
         return {
@@ -297,6 +307,8 @@ def main() -> None:
     parser.add_argument('--raw-root', type=Path, required=True)
     parser.add_argument('--output-root', type=Path, required=True)
     parser.add_argument('--video', type=Path)
+    parser.add_argument('--trajectory-limit', type=int, default=8,
+                        help='max retained conditions per noncanonical stage; all CSV/JSON rows remain')
     args = parser.parse_args()
     apply_style()
     raw_root = args.raw_root.resolve()
@@ -324,7 +336,7 @@ def main() -> None:
             shutil.copy2(source, target / source.name)
     selections = {}
     for stage in ('calibration', 'sweep', 'robustness'):
-        selected = selected_conditions(stage, rows[stage])
+        selected = limited_conditions(selected_conditions(stage, rows[stage]), args.trajectory_limit)
         selections[stage] = sorted(selected)
         target = trajectory_root / stage
         target.mkdir(parents=True, exist_ok=True)
@@ -348,10 +360,11 @@ def main() -> None:
     from se3_whole_body_control.visualization.plots import (
         plot_flagship, plot_contact_diagnostics, plot_qp_diagnostics,
         plot_actual_grf, plot_contact_wrench_consistency,
+        plot_com_support_polygon,
     )
     log = load_log(next((raw_root / 'raw' / 'canonical').glob('*_se3_wbc.npz')))
     for plot in (plot_flagship, plot_contact_diagnostics, plot_qp_diagnostics,
-                 plot_actual_grf, plot_contact_wrench_consistency):
+                 plot_actual_grf, plot_contact_wrench_consistency, plot_com_support_polygon):
         plot(log, figure_root)
     audit_path = raw_root / 'contact_audit.json'
     if audit_path.exists():
@@ -402,6 +415,7 @@ def main() -> None:
         'recovery_counts': rates,
         'paired_differences': paired_differences,
         'curated_condition_ids': selections,
+        'trajectory_limit_per_stage': args.trajectory_limit,
         'canonical': rows['canonical'],
     })
     remote_files = [

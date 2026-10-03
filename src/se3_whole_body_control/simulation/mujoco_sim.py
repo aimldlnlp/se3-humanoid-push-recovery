@@ -205,6 +205,8 @@ class SimulationRunner:
                 control=np.asarray(control).tolist(),
                 qp_status=qp_status,
                 qp_solve_time_s=float(qp_time),
+                qp_refinement_count=int(diagnostics.get('constraint_refinement_count', 0)),
+                qp_constraint_budget_ratio=float(diagnostics.get('constraint_budget_ratio', np.nan)),
                 push_force=force.tolist(),
                 joint_velocity_norm=pre_joint_velocity_norm,
                 torso_angular_velocity_norm=pre_torso_angular_velocity_norm,

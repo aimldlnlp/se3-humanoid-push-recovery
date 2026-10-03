@@ -30,6 +30,8 @@ class TrialLog:
     control: list[list[float]]
     qp_status: list[str]
     qp_solve_time_s: list[float]
+    qp_refinement_count: list[int]
+    qp_constraint_budget_ratio: list[float]
     push_force: list[list[float]]
     joint_velocity_norm: list[float]
     torso_angular_velocity_norm: list[float]
@@ -76,6 +78,8 @@ class TrialLog:
         # supplies these keys explicitly, so this is only a compatibility
         # fallback and never replaces measured post-step data.
         post_defaults = {
+            "qp_refinement_count": 0,
+            "qp_constraint_budget_ratio": float('nan'),
             "contact_left_post_step": values.get("contact_left", False),
             "contact_right_post_step": values.get("contact_right", False),
             "actual_contact_wrench_post_step": values.get("actual_contact_wrench", [0.0] * 12),

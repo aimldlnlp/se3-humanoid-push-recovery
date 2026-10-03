@@ -472,7 +472,7 @@ def plot_flagship(log, output_dir: str | Path, name: str = "canonical_response")
     push = a["push_force"]
     push_magnitude, push_direction = _push_summary(push)
     fig, axes = plt.subplots(3, 2, figsize=(10.2, 6.0), sharex=True)
-    fig.subplots_adjust(left=0.085, right=0.985, bottom=0.105, top=0.93, hspace=0.58, wspace=0.27)
+    fig.subplots_adjust(left=0.085, right=0.985, bottom=0.105, top=0.90, hspace=0.58, wspace=0.27)
 
     axes[0, 0].plot(t, np.linalg.norm(push[:, :2], axis=1), color=COLORS["push"])
     axes[0, 0].set_ylabel("force [N]")
@@ -676,8 +676,8 @@ def plot_com_support_polygon(log, output_dir: str | Path, name: str = "com_suppo
     push_end_map = push_anchor_map + 0.038 * push_unit_map if push_magnitude > 0.0 else push_origin_map + 0.045 * push_unit_map
 
     fig = plt.figure(figsize=(9.15, 4.15))
-    outer = fig.add_gridspec(1, 2, width_ratios=(1.05, 1.30), wspace=0.0)
-    left = outer[0, 0].subgridspec(2, 1, height_ratios=(3.80, 0.75), hspace=0.34)
+    outer = fig.add_gridspec(1, 2, width_ratios=(1.05, 1.30), wspace=0.32)
+    left = outer[0, 0].subgridspec(2, 1, height_ratios=(3.80, 0.75), hspace=0.75)
     ax = fig.add_subplot(left[0, 0])
     margin_ax = fig.add_subplot(left[1, 0])
     response_ax = fig.add_subplot(outer[0, 1])
@@ -723,10 +723,10 @@ def plot_com_support_polygon(log, output_dir: str | Path, name: str = "com_suppo
                 markeredgewidth=0.75, alpha=0.72, zorder=4,
             )
             if foot == 0:
-                label_point = samples_map[0] + np.array([-0.030, 0.018])
+                label_point = samples_map[0] + np.array([0.025, 0.038])
                 ax.annotate(
                     "measured CoP", xy=samples_map[0], xytext=label_point,
-                    fontsize=9.0, color=COLORS["cop"], ha="right", va="bottom",
+                    fontsize=9.0, color=COLORS["cop"], ha="left", va="bottom",
                     arrowprops={"arrowstyle": "-", "color": COLORS["cop"], "lw": 0.45},
                     bbox={"facecolor": COLORS["paper"], "edgecolor": "none", "pad": 1.0}, zorder=8,
                 )

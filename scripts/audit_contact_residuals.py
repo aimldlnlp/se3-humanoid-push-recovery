@@ -62,6 +62,8 @@ def main():
                 'trial_id': path.stem, 'qp_failure_count': int(np.sum(~successful)),
                 'max_dynamics_residual': float(np.max(data['dynamics_residual_norm'][successful])),
                 'max_contact_equation_residual': float(np.max(data['contact_acceleration_residual_norm'][successful])),
+                'refinement_call_count': int(np.sum(data['qp_refinement_count'])) if 'qp_refinement_count' in data else None,
+                'max_production_constraint_budget_ratio': float(np.max(data['qp_constraint_budget_ratio'][successful])) if 'qp_constraint_budget_ratio' in data else None,
             })
         records.append(record)
     if not records:

@@ -6,6 +6,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 from audit_contact_residuals import friction_audit
+from package_paired_benchmark import limited_conditions
 
 
 def test_force_scaled_budget_keeps_raw_violation_and_rejects_outer_square():
@@ -18,3 +19,14 @@ def test_force_scaled_budget_keeps_raw_violation_and_rejects_outer_square():
     assert not friction_audit([[0, 0, -1, 0, 0, 0]], .7, .001, .001)['row_budget_pass']
     with pytest.raises(ValueError, match='finite'):
         friction_audit([[np.nan, 0, 10, 0, 0, 0]], .7, .001, .001)
+
+
+def test_trajectory_curation_is_deterministic_and_retains_grid_endpoints():
+    ids = {f'{i:03d}' for i in range(100)}
+    selected = limited_conditions(ids, 8)
+    assert len(selected) == 8
+    assert {'000', '099'} <= selected
+    assert selected == limited_conditions(set(reversed(sorted(ids))), 8)
+    assert limited_conditions({'only'}, 8) == {'only'}
+    with pytest.raises(ValueError):
+        limited_conditions(ids, 0)

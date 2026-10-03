@@ -33,6 +33,43 @@ def test_g1_model_dimensions_and_name_mapping_are_explicit():
     assert np.all(model.actuator_limits[:, 0] < model.actuator_limits[:, 1])
 
 
+@pytest.mark.parametrize('persistent_violation', [False, True])
+def test_production_solve_retries_then_rejects_invalid_solved_output(monkeypatch, persistent_violation):
+    from types import SimpleNamespace
+    import se3_whole_body_control.control.whole_body_qp as qp_module
+    original = qp_module.osqp.OSQP
+    calls = []
+    model = _g1()
+    configs = load_configs(Path(__file__).resolve().parents[1], robot_name='unitree_g1')
+
+    class Solver:
+        def __init__(self):
+            self.real = original()
+
+        def __getattr__(self, name):
+            return getattr(self.real, name)
+
+        def solve(self):
+            solution = self.real.solve()
+            calls.append(solution.info.status)
+            x = solution.x.copy()
+            if len(calls) == 1 or persistent_violation:
+                x[model.nv + model.nu + 2] = -0.12
+            return SimpleNamespace(x=x, info=solution.info)
+
+    monkeypatch.setattr(qp_module.osqp, 'OSQP', Solver)
+    result = WholeBodyQPController(model, configs['controller']).solve()
+    assert calls == ['solved', 'solved']
+    assert result.diagnostics['constraint_refinement_count'] == 1
+    assert result.success is not persistent_violation
+    if persistent_violation:
+        assert result.status == 'fallback_pd'
+        assert 'unscaled constraint validation failed' in result.message
+        assert np.all(result.contact_wrench == 0)
+    else:
+        assert result.diagnostics['constraint_budget_ratio'] <= 1
+
+
 def test_g1_nominal_standing_has_both_feet_and_finite_kinematics():
     model = _g1()
     state = model.state()

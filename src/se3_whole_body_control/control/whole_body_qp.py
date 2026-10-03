@@ -275,6 +275,25 @@ class WholeBodyQPController:
         self.last_result = result
         return result
 
+    @staticmethod
+    def _constraint_budget_ratio(A, x, lower, upper, eps_abs, eps_rel):
+        """Check every original row, rather than a globally scaled residual.
+
+        Each finite bound gets its own absolute + relative tolerance in that
+        row's physical units. A large dynamics force cannot excuse a negative
+        unloaded-foot normal force or a violated zero-bound friction row.
+        """
+        values = np.asarray(A @ x)
+        if not np.all(np.isfinite(values)):
+            return float('inf')
+        ratios = []
+        for bound, sign in ((lower, -1), (upper, 1)):
+            finite = np.isfinite(bound)
+            scale = np.maximum(np.abs(values[finite]), np.abs(bound[finite]))
+            excess = np.maximum(sign * (values[finite] - bound[finite]), 0)
+            ratios.append(excess / (eps_abs + eps_rel * scale))
+        return float(np.max(np.concatenate(ratios)))
+
     def solve(self) -> QPResult:
         start = time.perf_counter()
         if osqp is None:
@@ -321,6 +340,33 @@ class WholeBodyQPController:
                 self._solver = None
                 return self._fallback(f"OSQP status: {status}", elapsed)
             x = np.asarray(sol.x)
+            eps_abs = float(settings.get('eps_abs', 1e-4))
+            eps_rel = float(settings.get('eps_rel', 1e-4))
+            row_ratio = self._constraint_budget_ratio(A, x, l, u, eps_abs, eps_rel)
+            refinement_count = 0
+            if row_ratio > 1.0:
+                # Same objective/constraints, one tighter numerical retry.
+                # Never clip the wrench or relax the physical recovery test.
+                refinement_count = 1
+                solver.update_settings(eps_abs=min(eps_abs, 1e-6),
+                                       eps_rel=min(eps_rel, 1e-6), scaled_termination=False)
+                retry_start = time.perf_counter()
+                sol = solver.solve()
+                numerical_solve_time += time.perf_counter() - retry_start
+                info = sol.info
+                status = str(info.status)
+                ok = status.lower() in {'solved', 'solved inaccurate'} and sol.x is not None and np.all(np.isfinite(sol.x))
+                x = np.asarray(sol.x) if ok else np.zeros(self.nx)
+                row_ratio = self._constraint_budget_ratio(A, x, l, u, eps_abs, eps_rel) if ok else float('inf')
+                if not ok or row_ratio > 1.0:
+                    self._solver = None
+                    result = self._fallback(
+                        f'unscaled constraint validation failed after refinement: {status}, budget ratio={row_ratio:.6g}',
+                        time.perf_counter() - start,
+                    )
+                    result.diagnostics.update(constraint_refinement_count=1, constraint_budget_ratio=row_ratio)
+                    return result
+            elapsed = time.perf_counter() - start
             iw = self.model.nv + self.model.nu
             wrench = x[iw:iw + self.nw]
             contact_slack_norm = float(np.linalg.norm(x[iw + self.nw:iw + self.nw + self.nslack]))
@@ -343,6 +389,8 @@ class WholeBodyQPController:
                 dynamics_residual_norm=float(np.linalg.norm(dynamics_residual)),
                 contact_acceleration_residual_norm=float(np.linalg.norm(contact_residual)),
                 diagnostics={
+                    "constraint_refinement_count": refinement_count,
+                    "constraint_budget_ratio": row_ratio,
                     "workspace_reused": reused,
                     "qp_build_time_s": build_time,
                     "qp_prepare_time_s": preparation_time,

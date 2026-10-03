@@ -12,11 +12,37 @@ from common import ROOT
 from reaching_workspace import assess_trial
 
 
+def plot_comparison(output, payload):
+    from se3_whole_body_control.visualization.style import apply_style
+    import matplotlib.pyplot as plt
+    results=payload['pairs']
+    apply_style()
+    fig,ax=plt.subplots(figsize=(9,4),constrained_layout=True)
+    x=np.arange(len(results))
+    for shift,key,color,label in [(-.16,'pd_hold_max_error_mm','#b46720','PD + nominal FF'),
+                                  (.16,'wbc_hold_max_error_mm','#257a59','SE(3) WBC')]:
+        ax.bar(x+shift,[r[key] for r in results],width=.3,color=color,label=label)
+    ax.axhline(15,color='#ae3946',ls='--',label='15 mm tracking tolerance')
+    ax.set(xticks=x,xticklabels=[r['trial_id'].replace('front_5cm','No push').replace('No push_','') for r in results],
+           ylabel='Maximum final-hold target error [mm]',
+           title='Single-target PD pilot' if payload['baseline_qualified'] else 'PD qualification failed without push')
+    ax.legend(fontsize=9)
+    for suffix in ('png','pdf'):
+        fig.savefig(output/f'comparison.{suffix}',dpi=250)
+    plt.close(fig)
+
+
 def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('--wbc-study',type=Path,required=True)
     parser.add_argument('--output',type=Path,required=True)
+    parser.add_argument('--plot-only',action='store_true')
     args=parser.parse_args()
+    if args.plot_only:
+        output=args.output/'presentation'
+        output.mkdir(exist_ok=False)
+        plot_comparison(output,json.loads((args.output/'comparison.json').read_text()))
+        return
     args.output.mkdir(parents=True,exist_ok=False)
     study=json.loads((args.wbc_study/'study.json').read_text())
     names=['front_5cm','front_5cm_moving_40N','front_5cm_moving_70N',
@@ -51,22 +77,7 @@ def main():
                  method='PD + fixed nominal equilibrium feedforward, offline bounded seven-joint arm IK at 30 Hz; identical Cartesian reference and force trace',
                  scope='Single-target deterministic qualification pilot; not a general controller ranking')
     (args.output/'comparison.json').write_text(json.dumps(payload,indent=2))
-    from se3_whole_body_control.visualization.style import apply_style
-    import matplotlib.pyplot as plt
-    apply_style()
-    fig,ax=plt.subplots(figsize=(9,4),constrained_layout=True)
-    x=np.arange(len(results))
-    for shift,key,color,label in [(-.16,'pd_hold_max_error_mm','#b46720','PD + nominal FF'),
-                                  (.16,'wbc_hold_max_error_mm','#257a59','SE(3) WBC')]:
-        ax.bar(x+shift,[r[key] for r in results],width=.3,color=color,label=label)
-    ax.axhline(15,color='#ae3946',ls='--',label='15 mm tracking tolerance')
-    ax.set(xticks=x,xticklabels=[r['trial_id'].replace('front_5cm','No push').replace('No push_','') for r in results],
-           ylabel='Maximum final-hold target error [mm]',
-           title='Single-target PD pilot' if payload['baseline_qualified'] else 'PD qualification failed without push')
-    ax.legend(fontsize=9)
-    for suffix in ('png','pdf'):
-        fig.savefig(args.output/f'comparison.{suffix}',dpi=250)
-    plt.close(fig)
+    plot_comparison(args.output,payload)
     files=[dict(path=p.relative_to(args.output).as_posix(),sha256=hashlib.sha256(p.read_bytes()).hexdigest())
            for p in sorted(args.output.rglob('*')) if p.is_file()]
     (args.output/'manifest.json').write_text(json.dumps(dict(files=files),indent=2))

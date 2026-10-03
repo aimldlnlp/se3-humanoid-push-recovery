@@ -70,6 +70,13 @@ def test_production_reach_point_jacobian_bias_and_qp_objective():
     np.testing.assert_array_equal(A0.toarray(), A1.toarray())
     np.testing.assert_array_equal(l0, l1)
     np.testing.assert_array_equal(u0, u1)
+    task.weight *= 10
+    P2, q2, A2, l2, u2, *_ = controller._build_problem()
+    np.testing.assert_allclose(P2-P0, 10*(P1-P0), atol=1e-9)
+    np.testing.assert_allclose(q2-q0, 10*(q1-q0), atol=1e-9)
+    np.testing.assert_array_equal(A1.toarray(), A2.toarray())
+    np.testing.assert_array_equal(l1, l2)
+    np.testing.assert_array_equal(u1, u2)
     result = controller.solve()
     assert result.success, result.message
     assert result.diagnostics['constraint_budget_ratio'] <= 1
@@ -121,3 +128,21 @@ def test_pd_reach_reference_is_feasible_and_does_not_change_plant(monkeypatch):
     np.testing.assert_array_equal(model.data.qpos,qpos)
     np.testing.assert_array_equal(model.data.qvel,qvel)
     np.testing.assert_allclose(controller.joint_references[0], initial.joint_reference, atol=1e-8)
+
+
+def test_tracking_calibration_rejects_unpaired_reference(tmp_path, monkeypatch):
+    monkeypatch.syspath_prepend(str(Path(__file__).resolve().parents[1]/'experiments'))
+    from reaching_tracking_study import verify_pair
+    old, new = tmp_path/'old', tmp_path/'new'
+    old.mkdir()
+    new.mkdir()
+    arrays = dict(time_s=np.arange(3), reach_reference_world=np.zeros((3, 3)),
+                  reach_goal_world=np.zeros(3), push_force=np.zeros((3, 3)),
+                  qpos_history=np.zeros((3, 2)), qvel_history=np.zeros((3, 2)))
+    np.savez(old/'trajectory.npz', **arrays)
+    np.savez(new/'trajectory.npz', **arrays)
+    verify_pair(old, new)
+    arrays['reach_reference_world'][1, 0] = .001
+    np.savez(new/'trajectory.npz', **arrays)
+    with pytest.raises(AssertionError):
+        verify_pair(old, new)

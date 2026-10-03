@@ -52,6 +52,7 @@ def main():
     parser.add_argument('--push-N', type=float, default=0)
     parser.add_argument('--target-offset-m', type=float, nargs=3)
     parser.add_argument('--push-start-s', type=float, default=1.5)
+    parser.add_argument('--reach-weight', type=float)
     parser.add_argument('--controller', choices=('se3_wbc', 'pd_nominal_ff'), default='se3_wbc')
     parser.add_argument('--render', action='store_true')
     args = parser.parse_args()
@@ -62,6 +63,12 @@ def main():
     if any(output.iterdir()):
         parser.error('output must be empty: preserve existing run artifacts')
     settings = load_yaml(ROOT/'configs/reaching.yaml')
+    if args.reach_weight is not None:
+        if not np.isfinite(args.reach_weight) or args.reach_weight <= 0:
+            parser.error('--reach-weight must be finite and positive')
+        if args.controller != 'se3_wbc':
+            parser.error('--reach-weight applies only to se3_wbc')
+        settings['weight'] = args.reach_weight
     if args.target_offset_m is not None:
         if not np.all(np.isfinite(args.target_offset_m)):
             parser.error('target offset must be finite')

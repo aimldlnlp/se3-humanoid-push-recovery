@@ -21,9 +21,15 @@ TARGETS = {'front_12.5cm': [.125, 0, 0], 'up_5cm': [0, 0, .05]}
 def verify_pair(old, new, same_dynamics=False):
     with np.load(old/'trajectory.npz', allow_pickle=False) as a, np.load(new/'trajectory.npz', allow_pickle=False) as b:
         for key in ('time_s', 'reach_reference_world', 'reach_goal_world', 'push_force'):
-            np.testing.assert_array_equal(a[key], b[key], err_msg=key)
+            if same_dynamics:
+                np.testing.assert_allclose(a[key], b[key], rtol=0, atol=1e-12, err_msg=key)
+            else:
+                np.testing.assert_array_equal(a[key], b[key], err_msg=key)
         for key in ('qpos_history', 'qvel_history'):
-            np.testing.assert_array_equal(a[key][0], b[key][0], err_msg=key)
+            if same_dynamics:
+                np.testing.assert_allclose(a[key][0], b[key][0], rtol=0, atol=1e-12, err_msg=key)
+            else:
+                np.testing.assert_array_equal(a[key][0], b[key][0], err_msg=key)
         if same_dynamics:
             for key in ('qpos_history', 'qvel_history', 'reach_point_world', 'control', 'actual_contact_wrench_post_step'):
                 np.testing.assert_allclose(a[key], b[key], rtol=1e-8, atol=1e-9, err_msg=key)
@@ -82,6 +88,7 @@ def main():
                    paired_calibration_inputs_verified=True, diagnostics=diagnostics,
                    scope='Single-factor calibration on two known failures; separate frozen validation, not a general workspace claim',
                    selection_rule='First of 300, 1000, 3000 with both combined calibration successes',
+                   regression_tolerance='Cross-platform inputs: absolute 1e-12; trajectories: rtol 1e-8, atol 1e-9; within-study pairs: exact',
                    unchanged='Plant, initial state, reference timing, all other gains/weights, constraints and physical evaluation',
                    source_version=rows[0]['source_version'])
     (root/'study.json').write_text(json.dumps(payload, indent=2), encoding='utf-8')

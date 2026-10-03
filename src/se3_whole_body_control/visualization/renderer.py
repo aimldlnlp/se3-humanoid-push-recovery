@@ -29,13 +29,14 @@ def _draw_overlay(image, metadata: Mapping[str, object] | None) -> None:
     from PIL import ImageDraw
 
     draw = ImageDraw.Draw(image, "RGBA")
-    scale = float(np.clip(image.width / 1920.0, 0.72, 1.0))
-    margin = int(28 * scale)
     compact = bool(metadata.get("compact_overlay", False))
+    scale = 1.0 if compact else float(np.clip(image.width / 1920.0, 0.72, 1.0))
+    margin = int(28 * scale)
     title_font = pil_font(max(18, int((25 if compact else 30) * scale)), weight="bold")
-    body_font = _font(max(15, int((18 if compact else 20) * scale)))
+    body_font = _font(max(15, int((22 if compact else 20) * scale)))
     controller = str(metadata.get("controller", "unknown"))
     qp_status = str(metadata.get("status", "unknown"))
+    status_label = "Control: PD" if qp_status == "pd" else f"QP: {qp_status}"
     force = np.asarray(metadata.get("push_force", [0.0, 0.0]), dtype=float).reshape(-1)
     push_active = force.size >= 2 and float(np.linalg.norm(force[:2])) > 1e-9
     push_label = (
@@ -44,11 +45,11 @@ def _draw_overlay(image, metadata: Mapping[str, object] | None) -> None:
         if push_active else "Push  inactive"
     )
     lines = ([
-        f"t = {float(metadata.get('time_s', 0.0)):.2f} s    QP: {qp_status}",
+        f"t = {float(metadata.get('time_s', 0.0)):.2f} s    {status_label}",
         push_label,
     ] if compact else [
         controller,
-        f"t = {float(metadata.get('time_s', 0.0)):.2f} s    QP: {qp_status}",
+        f"t = {float(metadata.get('time_s', 0.0)):.2f} s    {status_label}",
         push_label,
     ])
     line_widths = [draw.textbbox((0, 0), line, font=title_font if index == 0 and not compact else body_font)[2] for index, line in enumerate(lines)]
@@ -73,7 +74,7 @@ def _draw_overlay(image, metadata: Mapping[str, object] | None) -> None:
     margin_text = f"Support margin  {float(support_margin):+.3f} m" if support_margin is not None and np.isfinite(float(support_margin)) else "Support margin  n/a"
     event = str(metadata.get("event_label") or "")
     event_text = f"Event  {event.replace('_', ' ')}" if event else ""
-    status_lines = [contacts, f"Mode  {mode}   |   {phase}", margin_text]
+    status_lines = [contacts] if compact else [contacts, f"Mode  {mode}   |   {phase}", margin_text]
     if event_text:
         status_lines.append(event_text)
     status_width = max(

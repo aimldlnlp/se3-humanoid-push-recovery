@@ -231,7 +231,7 @@ def plot_basin(rows: list[dict], output: Path) -> None:
         axis.imshow(matrix, origin='lower', aspect='auto',
                     cmap=ListedColormap([STYLE_COLORS['failure'], STYLE_COLORS['success']]), vmin=0, vmax=1)
         axis.set_title(LABELS[controller])
-        axis.set_xticks(range(0, len(directions), 4), [int(directions[index]) for index in range(0, len(directions), 4)])
+        axis.set_xticks(range(0, len(directions), 4), [int(round(directions[index])) for index in range(0, len(directions), 4)])
         axis.set_yticks(range(len(magnitudes)), [int(value) for value in magnitudes])
         axis.set_xlabel('Direction [deg]')
     axes[0].set_ylabel('Magnitude [N]')

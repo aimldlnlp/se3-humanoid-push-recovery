@@ -88,8 +88,12 @@ def main() -> None:
                       for key, value in arrays.items()}
             arrays_by_controller[controller] = arrays
             panel_dir = temp / controller
+            display_model = make_model(configs)
+            # Identical wider lens keeps fallen bodies inside each portrait
+            # panel; this changes only rendering, never saved physics states.
+            display_model.model.cam_fovy[display_model.model.camera('track').id] = 50.0
             panels.append(render_trial_frames(
-                make_model(configs), arrays['qpos_history'], panel_dir,
+                display_model, arrays['qpos_history'], panel_dir,
                 width=640, height=1000, stride=1,
                 overlay_data=overlay(arrays, label),
             ))

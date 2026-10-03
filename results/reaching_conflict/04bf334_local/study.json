@@ -1,0 +1,1545 @@
+{
+  "trials": [
+    {
+      "trial_id": "front_12.5cm_w3000_original_no_push",
+      "stage": "reused_baseline",
+      "push_N": 0,
+      "push_start_s": 1.5,
+      "combined_success": true,
+      "balance_success": true,
+      "failure_reason": "PASS",
+      "hold_max_error_mm": 3.231129062709014,
+      "qp_failures": 0,
+      "source_version": "fbc0b509402bc8d60a365c0b612d331a120fdc88",
+      "initial_condition_sha256": "03e0aae37f8d362875d2ee58632fcb897270cda3a2937dd86e40ded566595271",
+      "mode": "original",
+      "phase": "no_push",
+      "objective_overrides": {}
+    },
+    {
+      "trial_id": "front_12.5cm_w3000_no_posture_no_push",
+      "stage": "ablation",
+      "direction": "",
+      "distance_m": 0,
+      "push_N": 0,
+      "push_start_s": 1.5,
+      "combined_success": true,
+      "reach_success": true,
+      "balance_success": true,
+      "failure_reason": "PASS",
+      "final_error_mm": 2.281987950216818,
+      "hold_max_error_mm": 2.469629689160437,
+      "tracking_rmse_mm": 2.9454152132334643,
+      "torque_peak": 5.29222326224793,
+      "max_foot_displacement_m": 0.0003992058406994444,
+      "max_foot_tangent_velocity_m_s": 0.0022118547645911786,
+      "continuous_double_support": true,
+      "qp_failures": 0,
+      "deadline_miss_percent": 100.0,
+      "initial_condition_sha256": "03e0aae37f8d362875d2ee58632fcb897270cda3a2937dd86e40ded566595271",
+      "source_version": "04bf334",
+      "mode": "no_posture",
+      "phase": "no_push",
+      "objective_overrides": {
+        "qp_posture_weight": 0
+      }
+    },
+    {
+      "trial_id": "front_12.5cm_w3000_no_nominal_no_push",
+      "stage": "ablation",
+      "direction": "",
+      "distance_m": 0,
+      "push_N": 0,
+      "push_start_s": 1.5,
+      "combined_success": true,
+      "reach_success": true,
+      "balance_success": true,
+      "failure_reason": "PASS",
+      "final_error_mm": 3.0663081147079922,
+      "hold_max_error_mm": 3.2776103776369085,
+      "tracking_rmse_mm": 3.792807186943368,
+      "torque_peak": 5.071270824798491,
+      "max_foot_displacement_m": 0.0006869413666365973,
+      "max_foot_tangent_velocity_m_s": 0.0003252402779251298,
+      "continuous_double_support": true,
+      "qp_failures": 0,
+      "deadline_miss_percent": 100.0,
+      "initial_condition_sha256": "03e0aae37f8d362875d2ee58632fcb897270cda3a2937dd86e40ded566595271",
+      "source_version": "04bf334",
+      "mode": "no_nominal",
+      "phase": "no_push",
+      "objective_overrides": {
+        "qp_nominal_torque_weight": 0
+      }
+    },
+    {
+      "trial_id": "front_12.5cm_w3000_neither_no_push",
+      "stage": "ablation",
+      "direction": "",
+      "distance_m": 0,
+      "push_N": 0,
+      "push_start_s": 1.5,
+      "combined_success": true,
+      "reach_success": true,
+      "balance_success": true,
+      "failure_reason": "PASS",
+      "final_error_mm": 2.207657547288384,
+      "hold_max_error_mm": 2.5041065366162663,
+      "tracking_rmse_mm": 3.2900235970898475,
+      "torque_peak": 5.038176416912201,
+      "max_foot_displacement_m": 0.0006528662361247019,
+      "max_foot_tangent_velocity_m_s": 0.003908213210137639,
+      "continuous_double_support": true,
+      "qp_failures": 0,
+      "deadline_miss_percent": 100.0,
+      "initial_condition_sha256": "03e0aae37f8d362875d2ee58632fcb897270cda3a2937dd86e40ded566595271",
+      "source_version": "04bf334",
+      "mode": "neither",
+      "phase": "no_push",
+      "objective_overrides": {
+        "qp_posture_weight": 0,
+        "qp_nominal_torque_weight": 0
+      }
+    },
+    {
+      "trial_id": "front_12.5cm_w3000_original_moving",
+      "stage": "reused_baseline",
+      "push_N": 70,
+      "push_start_s": 1.5,
+      "combined_success": false,
+      "balance_success": false,
+      "failure_reason": "FALL",
+      "hold_max_error_mm": 965.1036263804282,
+      "qp_failures": 3,
+      "source_version": "fbc0b509402bc8d60a365c0b612d331a120fdc88",
+      "initial_condition_sha256": "03e0aae37f8d362875d2ee58632fcb897270cda3a2937dd86e40ded566595271",
+      "mode": "original",
+      "phase": "moving",
+      "objective_overrides": {}
+    },
+    {
+      "trial_id": "front_12.5cm_w3000_no_posture_moving",
+      "stage": "ablation",
+      "direction": "",
+      "distance_m": 0,
+      "push_N": 70,
+      "push_start_s": 1.5,
+      "combined_success": false,
+      "reach_success": false,
+      "balance_success": false,
+      "failure_reason": "FALL",
+      "final_error_mm": 668.51050679769,
+      "hold_max_error_mm": 855.6601161162891,
+      "tracking_rmse_mm": 361.94231471129467,
+      "torque_peak": 139.0,
+      "max_foot_displacement_m": 1.0822413335720378,
+      "max_foot_tangent_velocity_m_s": 3.797240839226692,
+      "continuous_double_support": false,
+      "qp_failures": 5,
+      "deadline_miss_percent": 100.0,
+      "initial_condition_sha256": "03e0aae37f8d362875d2ee58632fcb897270cda3a2937dd86e40ded566595271",
+      "source_version": "04bf334",
+      "mode": "no_posture",
+      "phase": "moving",
+      "objective_overrides": {
+        "qp_posture_weight": 0
+      }
+    },
+    {
+      "trial_id": "front_12.5cm_w3000_no_nominal_moving",
+      "stage": "ablation",
+      "direction": "",
+      "distance_m": 0,
+      "push_N": 70,
+      "push_start_s": 1.5,
+      "combined_success": false,
+      "reach_success": false,
+      "balance_success": false,
+      "failure_reason": "FALL",
+      "final_error_mm": 73.08118790831952,
+      "hold_max_error_mm": 73.08118790831952,
+      "tracking_rmse_mm": 114.67888639882756,
+      "torque_peak": 139.0,
+      "max_foot_displacement_m": 0.5824710029073922,
+      "max_foot_tangent_velocity_m_s": 1.6365650370579001,
+      "continuous_double_support": false,
+      "qp_failures": 0,
+      "deadline_miss_percent": 100.0,
+      "initial_condition_sha256": "03e0aae37f8d362875d2ee58632fcb897270cda3a2937dd86e40ded566595271",
+      "source_version": "04bf334",
+      "mode": "no_nominal",
+      "phase": "moving",
+      "objective_overrides": {
+        "qp_nominal_torque_weight": 0
+      }
+    },
+    {
+      "trial_id": "front_12.5cm_w3000_neither_moving",
+      "stage": "ablation",
+      "direction": "",
+      "distance_m": 0,
+      "push_N": 70,
+      "push_start_s": 1.5,
+      "combined_success": false,
+      "reach_success": false,
+      "balance_success": false,
+      "failure_reason": "FALL",
+      "final_error_mm": 401.1595626132798,
+      "hold_max_error_mm": 543.2414469160018,
+      "tracking_rmse_mm": 247.78018777943902,
+      "torque_peak": 139.0,
+      "max_foot_displacement_m": 0.8604619865500078,
+      "max_foot_tangent_velocity_m_s": 2.9668214636324524,
+      "continuous_double_support": false,
+      "qp_failures": 1,
+      "deadline_miss_percent": 100.0,
+      "initial_condition_sha256": "03e0aae37f8d362875d2ee58632fcb897270cda3a2937dd86e40ded566595271",
+      "source_version": "04bf334",
+      "mode": "neither",
+      "phase": "moving",
+      "objective_overrides": {
+        "qp_posture_weight": 0,
+        "qp_nominal_torque_weight": 0
+      }
+    },
+    {
+      "trial_id": "front_12.5cm_w3000_original_hold",
+      "stage": "reused_baseline",
+      "push_N": 70,
+      "push_start_s": 3.0,
+      "combined_success": false,
+      "balance_success": false,
+      "failure_reason": "FALL",
+      "hold_max_error_mm": 701.8352725166726,
+      "qp_failures": 0,
+      "source_version": "fbc0b509402bc8d60a365c0b612d331a120fdc88",
+      "initial_condition_sha256": "03e0aae37f8d362875d2ee58632fcb897270cda3a2937dd86e40ded566595271",
+      "mode": "original",
+      "phase": "hold",
+      "objective_overrides": {}
+    },
+    {
+      "trial_id": "front_12.5cm_w3000_no_posture_hold",
+      "stage": "ablation",
+      "direction": "",
+      "distance_m": 0,
+      "push_N": 70,
+      "push_start_s": 3.0,
+      "combined_success": false,
+      "reach_success": false,
+      "balance_success": false,
+      "failure_reason": "FALL",
+      "final_error_mm": 732.196327076799,
+      "hold_max_error_mm": 732.196327076799,
+      "tracking_rmse_mm": 143.58208472195318,
+      "torque_peak": 139.0,
+      "max_foot_displacement_m": 0.6478189102165482,
+      "max_foot_tangent_velocity_m_s": 1.7555345740156525,
+      "continuous_double_support": false,
+      "qp_failures": 1,
+      "deadline_miss_percent": 100.0,
+      "initial_condition_sha256": "03e0aae37f8d362875d2ee58632fcb897270cda3a2937dd86e40ded566595271",
+      "source_version": "04bf334",
+      "mode": "no_posture",
+      "phase": "hold",
+      "objective_overrides": {
+        "qp_posture_weight": 0
+      }
+    },
+    {
+      "trial_id": "front_12.5cm_w3000_no_nominal_hold",
+      "stage": "ablation",
+      "direction": "",
+      "distance_m": 0,
+      "push_N": 70,
+      "push_start_s": 3.0,
+      "combined_success": false,
+      "reach_success": false,
+      "balance_success": false,
+      "failure_reason": "FALL",
+      "final_error_mm": 178.21543138820493,
+      "hold_max_error_mm": 178.21543138820493,
+      "tracking_rmse_mm": 26.56225495044585,
+      "torque_peak": 88.0,
+      "max_foot_displacement_m": 0.49040902956825866,
+      "max_foot_tangent_velocity_m_s": 1.9070794705550933,
+      "continuous_double_support": false,
+      "qp_failures": 0,
+      "deadline_miss_percent": 100.0,
+      "initial_condition_sha256": "03e0aae37f8d362875d2ee58632fcb897270cda3a2937dd86e40ded566595271",
+      "source_version": "04bf334",
+      "mode": "no_nominal",
+      "phase": "hold",
+      "objective_overrides": {
+        "qp_nominal_torque_weight": 0
+      }
+    },
+    {
+      "trial_id": "front_12.5cm_w3000_neither_hold",
+      "stage": "ablation",
+      "direction": "",
+      "distance_m": 0,
+      "push_N": 70,
+      "push_start_s": 3.0,
+      "combined_success": false,
+      "reach_success": false,
+      "balance_success": false,
+      "failure_reason": "FALL",
+      "final_error_mm": 694.8673252145546,
+      "hold_max_error_mm": 709.9446812193247,
+      "tracking_rmse_mm": 176.3354699319433,
+      "torque_peak": 88.0,
+      "max_foot_displacement_m": 0.21564409043321697,
+      "max_foot_tangent_velocity_m_s": 1.1208824495107363,
+      "continuous_double_support": false,
+      "qp_failures": 0,
+      "deadline_miss_percent": 100.0,
+      "initial_condition_sha256": "03e0aae37f8d362875d2ee58632fcb897270cda3a2937dd86e40ded566595271",
+      "source_version": "04bf334",
+      "mode": "neither",
+      "phase": "hold",
+      "objective_overrides": {
+        "qp_posture_weight": 0,
+        "qp_nominal_torque_weight": 0
+      }
+    }
+  ],
+  "frozen_state_audit": {
+    "moving": [
+      {
+        "time_s": 1.496000000000001,
+        "mode": "original",
+        "objective_costs": {
+          "torso": 139.71293239791876,
+          "pelvis": 26.74819402157321,
+          "com": 0.5609364804166873,
+          "posture": 979.0490742029532,
+          "reach": 160.11014674067923,
+          "acceleration": 1.9702791597891691,
+          "torque": 0.008753719976207153,
+          "slack": 2.2420140589609496,
+          "nominal_torque": 669.460560143234
+        },
+        "objective_residual_norms": {
+          "torso": 0.8358018078405871,
+          "pelvis": 0.5171865622923048,
+          "com": 0.5295925228025257,
+          "posture": 31.28975989366095,
+          "reach": 0.23101958556269583,
+          "acceleration": 4.438782670720847,
+          "torque": 2.9586686154767574,
+          "slack": 0.004734991086539604,
+          "nominal_torque": 25.873935922917372
+        },
+        "reach_posture_gradient_cosine": -0.05784372043042182,
+        "control_delta_norm_Nm": 0.0,
+        "predicted_normal_forces_N": [
+          175.60485008204432,
+          168.53650457190022
+        ],
+        "recorded_actual_normal_forces_N": [
+          172.86794899614694,
+          171.5726326963374
+        ],
+        "recorded_contacts": true,
+        "constraint_hash": "f2d0fc08ddeeb9e0783247df80650b36e4468b655292aa5f47e165af8ea19001"
+      },
+      {
+        "time_s": 1.496000000000001,
+        "mode": "no_posture",
+        "objective_costs": {
+          "torso": 12.457951520321545,
+          "pelvis": 6.999935907103093,
+          "com": 0.3143871915308879,
+          "posture": 0.0,
+          "reach": 6.037216419937878,
+          "acceleration": 27.89570027501431,
+          "torque": 0.021689800454385094,
+          "slack": 0.08400893094972921,
+          "nominal_torque": 700.0115665440037
+        },
+        "objective_residual_norms": {
+          "torso": 0.2495791609922746,
+          "pelvis": 0.2645739198617863,
+          "com": 0.3964764756772386,
+          "posture": 42.59467506292819,
+          "reach": 0.044859842546676715,
+          "acceleration": 16.702005949889465,
+          "torque": 4.657230985723716,
+          "slack": 0.0009165638600213801,
+          "nominal_torque": 26.457731696878394
+        },
+        "reach_posture_gradient_cosine": null,
+        "control_delta_norm_Nm": 3.269129897926206,
+        "predicted_normal_forces_N": [
+          155.21491650749599,
+          188.91376826544501
+        ],
+        "recorded_actual_normal_forces_N": [
+          172.86794899614694,
+          171.5726326963374
+        ],
+        "recorded_contacts": true,
+        "constraint_hash": "f2d0fc08ddeeb9e0783247df80650b36e4468b655292aa5f47e165af8ea19001"
+      },
+      {
+        "time_s": 1.496000000000001,
+        "mode": "no_nominal",
+        "objective_costs": {
+          "torso": 140.53130702205164,
+          "pelvis": 34.861363128673204,
+          "com": 0.6499070344483168,
+          "posture": 989.1703837978595,
+          "reach": 137.73292740094743,
+          "acceleration": 1.9339789040800424,
+          "torque": 0.011269604124038275,
+          "slack": 1.937554718653385,
+          "nominal_torque": 0.0
+        },
+        "objective_residual_norms": {
+          "torso": 0.838246106528541,
+          "pelvis": 0.5904351203025884,
+          "com": 0.5700469430004501,
+          "posture": 31.451079215153484,
+          "reach": 0.2142684666494718,
+          "acceleration": 4.397702700365319,
+          "torque": 3.3570231044838335,
+          "slack": 0.004401766371189394,
+          "nominal_torque": 26.044637639837628
+        },
+        "reach_posture_gradient_cosine": -0.053410416765452225,
+        "control_delta_norm_Nm": 1.3097801477709645,
+        "predicted_normal_forces_N": [
+          176.22950432032832,
+          167.81406828642588
+        ],
+        "recorded_actual_normal_forces_N": [
+          172.86794899614694,
+          171.5726326963374
+        ],
+        "recorded_contacts": true,
+        "constraint_hash": "f2d0fc08ddeeb9e0783247df80650b36e4468b655292aa5f47e165af8ea19001"
+      },
+      {
+        "time_s": 1.496000000000001,
+        "mode": "neither",
+        "objective_costs": {
+          "torso": 5.577261339902146,
+          "pelvis": 9.325240364594253,
+          "com": 0.18171745115300028,
+          "posture": 0.0,
+          "reach": 2.3202889033443332,
+          "acceleration": 31.67874343792605,
+          "torque": 0.04435898403187259,
+          "slack": 0.03302901799277136,
+          "nominal_torque": 0.0
+        },
+        "objective_residual_norms": {
+          "torso": 0.16699193603138665,
+          "pelvis": 0.30537256531316387,
+          "com": 0.30142781155112436,
+          "posture": 43.57354404070491,
+          "reach": 0.027810602914142495,
+          "acceleration": 17.798523376372,
+          "torque": 6.660254051601379,
+          "slack": 0.000574708778363193,
+          "nominal_torque": 26.822893122317122
+        },
+        "reach_posture_gradient_cosine": null,
+        "control_delta_norm_Nm": 4.837580355253995,
+        "predicted_normal_forces_N": [
+          164.83135707514558,
+          179.3564477250347
+        ],
+        "recorded_actual_normal_forces_N": [
+          172.86794899614694,
+          171.5726326963374
+        ],
+        "recorded_contacts": true,
+        "constraint_hash": "f2d0fc08ddeeb9e0783247df80650b36e4468b655292aa5f47e165af8ea19001"
+      },
+      {
+        "time_s": 1.5760000000000012,
+        "mode": "original",
+        "objective_costs": {
+          "torso": 216.88092263437647,
+          "pelvis": 8.188008662713418,
+          "com": 7.032215260393652,
+          "posture": 544.4884038965678,
+          "reach": 0.30882642167697,
+          "acceleration": 55.649601983028916,
+          "torque": 0.6733385678840563,
+          "slack": 0.011983215058336716,
+          "nominal_torque": 774.288793500543
+        },
+        "objective_residual_norms": {
+          "torso": 1.0413474987591234,
+          "pelvis": 0.2861469668319659,
+          "com": 1.8751286969690444,
+          "posture": 23.334275302579417,
+          "reach": 0.010146040634601755,
+          "acceleration": 23.590167863546228,
+          "torque": 25.948768138084247,
+          "slack": 0.00034616780697136927,
+          "nominal_torque": 27.826045236442475
+        },
+        "reach_posture_gradient_cosine": -0.3315529810713746,
+        "control_delta_norm_Nm": 0.0,
+        "predicted_normal_forces_N": [
+          151.41936863953399,
+          190.77989104880797
+        ],
+        "recorded_actual_normal_forces_N": [
+          150.45782152236967,
+          190.576865385558
+        ],
+        "recorded_contacts": true,
+        "constraint_hash": "4d1c8f41312680933f009e1af361ea5e5cee37d12c64eae20bbb300ea394c8ec"
+      },
+      {
+        "time_s": 1.5760000000000012,
+        "mode": "no_posture",
+        "objective_costs": {
+          "torso": 144.92506958026985,
+          "pelvis": 16.0942501836255,
+          "com": 8.984805948081027,
+          "posture": 0.0,
+          "reach": 0.025832786511429173,
+          "acceleration": 91.13709793878564,
+          "torque": 0.5948875866314052,
+          "slack": 0.017123902840818155,
+          "nominal_torque": 749.8027641988726
+        },
+        "objective_residual_norms": {
+          "torso": 0.8512492865790545,
+          "pelvis": 0.40117639740674554,
+          "com": 2.11952895097956,
+          "posture": 29.54698131129771,
+          "reach": 0.0029344384193816467,
+          "acceleration": 30.188921467781128,
+          "torque": 24.390317477052346,
+          "slack": 0.0004138103773568052,
+          "nominal_torque": 27.382526621896538
+        },
+        "reach_posture_gradient_cosine": null,
+        "control_delta_norm_Nm": 3.9816604916764393,
+        "predicted_normal_forces_N": [
+          151.25753634064415,
+          190.87165069427695
+        ],
+        "recorded_actual_normal_forces_N": [
+          150.45782152236967,
+          190.576865385558
+        ],
+        "recorded_contacts": true,
+        "constraint_hash": "4d1c8f41312680933f009e1af361ea5e5cee37d12c64eae20bbb300ea394c8ec"
+      },
+      {
+        "time_s": 1.5760000000000012,
+        "mode": "no_nominal",
+        "objective_costs": {
+          "torso": 46.06530222843222,
+          "pelvis": 58.88776038100731,
+          "com": 3.5926717636229575,
+          "posture": 550.8483030168981,
+          "reach": 2.690794324608008,
+          "acceleration": 46.94853735938886,
+          "torque": 1.4005163993624978,
+          "slack": 0.022177440157729964,
+          "nominal_torque": 0.0
+        },
+        "objective_residual_norms": {
+          "torso": 0.4799234430012365,
+          "pelvis": 0.7673836092920366,
+          "com": 1.3402745546385184,
+          "posture": 23.470157711802834,
+          "reach": 0.029948813691630636,
+          "acceleration": 21.667611164913602,
+          "torque": 37.42347390826375,
+          "slack": 0.00047092929573057954,
+          "nominal_torque": 34.2629901342262
+        },
+        "reach_posture_gradient_cosine": -0.140874765169611,
+        "control_delta_norm_Nm": 12.413219107355491,
+        "predicted_normal_forces_N": [
+          168.77987568816144,
+          174.05898852272745
+        ],
+        "recorded_actual_normal_forces_N": [
+          150.45782152236967,
+          190.576865385558
+        ],
+        "recorded_contacts": true,
+        "constraint_hash": "4d1c8f41312680933f009e1af361ea5e5cee37d12c64eae20bbb300ea394c8ec"
+      },
+      {
+        "time_s": 1.5760000000000012,
+        "mode": "neither",
+        "objective_costs": {
+          "torso": 37.79634704966259,
+          "pelvis": 63.35771982479641,
+          "com": 3.475736661073909,
+          "posture": 0.0,
+          "reach": 0.0635093342286206,
+          "acceleration": 44.421345634126084,
+          "torque": 1.4902661474409324,
+          "slack": 0.014456847969931108,
+          "nominal_torque": 0.0
+        },
+        "objective_residual_norms": {
+          "torso": 0.4347202954179997,
+          "pelvis": 0.7959756266670256,
+          "com": 1.3182823409789552,
+          "posture": 24.293906577040804,
+          "reach": 0.004601062711614227,
+          "acceleration": 21.07637199190745,
+          "torque": 38.60396543673891,
+          "slack": 0.0003802216191897971,
+          "nominal_torque": 35.115087630679405
+        },
+        "reach_posture_gradient_cosine": null,
+        "control_delta_norm_Nm": 13.705110827542871,
+        "predicted_normal_forces_N": [
+          169.03491163370555,
+          174.21716912246407
+        ],
+        "recorded_actual_normal_forces_N": [
+          150.45782152236967,
+          190.576865385558
+        ],
+        "recorded_contacts": true,
+        "constraint_hash": "4d1c8f41312680933f009e1af361ea5e5cee37d12c64eae20bbb300ea394c8ec"
+      },
+      {
+        "time_s": 1.6520000000000012,
+        "mode": "original",
+        "objective_costs": {
+          "torso": 1054.8120442211862,
+          "pelvis": 5.821834240987654,
+          "com": 22.716390917735225,
+          "posture": 997.7544987582199,
+          "reach": 11.467903749162238,
+          "acceleration": 89.0918993448604,
+          "torque": 1.5882139736527041,
+          "slack": 0.47497667397611987,
+          "nominal_torque": 945.7949348134864
+        },
+        "objective_residual_norms": {
+          "torso": 2.296532216431098,
+          "pelvis": 0.24128477450903638,
+          "com": 3.370192199098979,
+          "posture": 31.587252155865347,
+          "reach": 0.06182745816426614,
+          "acceleration": 29.848266171565207,
+          "torque": 39.85240235735738,
+          "slack": 0.002179395957544475,
+          "nominal_torque": 30.753779195628727
+        },
+        "reach_posture_gradient_cosine": 0.004140212171164552,
+        "control_delta_norm_Nm": 0.0,
+        "predicted_normal_forces_N": [
+          160.59192802907933,
+          181.0766654019595
+        ],
+        "recorded_actual_normal_forces_N": [
+          163.83128374876185,
+          186.28065411718904
+        ],
+        "recorded_contacts": true,
+        "constraint_hash": "9cc81d43d44fabc05f6f30502b6fa159e5c1cac89357e931b37af3cd723ce8ac"
+      },
+      {
+        "time_s": 1.6520000000000012,
+        "mode": "no_posture",
+        "objective_costs": {
+          "torso": 606.126099108308,
+          "pelvis": 42.20016890846079,
+          "com": 25.065594057579794,
+          "posture": 0.0,
+          "reach": 2.3613956243326037,
+          "acceleration": 179.22365169410693,
+          "torque": 1.698806842183224,
+          "slack": 0.12448367224570102,
+          "nominal_torque": 1094.1738966066096
+        },
+        "objective_residual_norms": {
+          "torso": 1.7408706142449357,
+          "pelvis": 0.649616570820517,
+          "com": 3.5401690678257016,
+          "posture": 43.87350952082528,
+          "reach": 0.02805587059382643,
+          "acceleration": 42.33481447864239,
+          "torque": 41.2165845526194,
+          "slack": 0.0011157225114055062,
+          "nominal_torque": 33.07829948178427
+        },
+        "reach_posture_gradient_cosine": null,
+        "control_delta_norm_Nm": 5.342314463447996,
+        "predicted_normal_forces_N": [
+          160.56067657608932,
+          180.95823487552448
+        ],
+        "recorded_actual_normal_forces_N": [
+          163.83128374876185,
+          186.28065411718904
+        ],
+        "recorded_contacts": true,
+        "constraint_hash": "9cc81d43d44fabc05f6f30502b6fa159e5c1cac89357e931b37af3cd723ce8ac"
+      },
+      {
+        "time_s": 1.6520000000000012,
+        "mode": "no_nominal",
+        "objective_costs": {
+          "torso": 994.3418216476861,
+          "pelvis": 7.374791416120368,
+          "com": 22.904494262417835,
+          "posture": 1044.0886347219714,
+          "reach": 7.941805274774363,
+          "acceleration": 94.0678741496094,
+          "torque": 1.6139160555253638,
+          "slack": 0.5278109649682804,
+          "nominal_torque": 0.0
+        },
+        "objective_residual_norms": {
+          "torso": 2.22973296792204,
+          "pelvis": 0.2715656719123455,
+          "com": 3.3841168908902834,
+          "posture": 32.31236040158582,
+          "reach": 0.051451612461853785,
+          "acceleration": 30.6704864893939,
+          "torque": 40.17357409448858,
+          "slack": 0.0022974136871018254,
+          "nominal_torque": 31.28242370025218
+        },
+        "reach_posture_gradient_cosine": 0.0070449458743695485,
+        "control_delta_norm_Nm": 3.323837195254954,
+        "predicted_normal_forces_N": [
+          167.29938979051295,
+          174.43627410022512
+        ],
+        "recorded_actual_normal_forces_N": [
+          163.83128374876185,
+          186.28065411718904
+        ],
+        "recorded_contacts": true,
+        "constraint_hash": "9cc81d43d44fabc05f6f30502b6fa159e5c1cac89357e931b37af3cd723ce8ac"
+      },
+      {
+        "time_s": 1.6520000000000012,
+        "mode": "neither",
+        "objective_costs": {
+          "torso": 360.4425388016877,
+          "pelvis": 104.28289980614987,
+          "com": 25.197253118646223,
+          "posture": 0.0,
+          "reach": 0.295886382264819,
+          "acceleration": 277.09328668728665,
+          "torque": 1.8793674097797184,
+          "slack": 0.10112068157731485,
+          "nominal_torque": 0.0
+        },
+        "objective_residual_norms": {
+          "torso": 1.3424651556030938,
+          "pelvis": 1.0211899911679014,
+          "com": 3.5494544030488844,
+          "posture": 54.0031309580636,
+          "reach": 0.009931203053420719,
+          "acceleration": 52.639651089961326,
+          "torque": 43.35167136085665,
+          "slack": 0.001005587796153647,
+          "nominal_torque": 35.93487292058705
+        },
+        "reach_posture_gradient_cosine": null,
+        "control_delta_norm_Nm": 10.208695229818533,
+        "predicted_normal_forces_N": [
+          167.86582852397206,
+          173.42113436222036
+        ],
+        "recorded_actual_normal_forces_N": [
+          163.83128374876185,
+          186.28065411718904
+        ],
+        "recorded_contacts": true,
+        "constraint_hash": "9cc81d43d44fabc05f6f30502b6fa159e5c1cac89357e931b37af3cd723ce8ac"
+      },
+      {
+        "time_s": 2.8519999999999075,
+        "mode": "original",
+        "objective_costs": {
+          "torso": 24176.196658327277,
+          "pelvis": 20907.998314511457,
+          "com": 121.56913669201278,
+          "posture": 143366.3607065801,
+          "reach": 2064.894194775443,
+          "acceleration": 20.904624512898284,
+          "torque": 0.6683586967146444,
+          "slack": 41.47627570710667,
+          "nominal_torque": 54540.73371815463
+        },
+        "objective_residual_norms": {
+          "torso": 10.994588818670591,
+          "pelvis": 14.459598305109122,
+          "com": 7.796445879117381,
+          "posture": 378.63750567869016,
+          "reach": 0.8296373092654088,
+          "acceleration": 14.458431627565378,
+          "torque": 25.852634231633814,
+          "slack": 0.02036572505635551,
+          "nominal_torque": 233.53957634232924
+        },
+        "reach_posture_gradient_cosine": -0.0029866727734677457,
+        "control_delta_norm_Nm": 0.0,
+        "predicted_normal_forces_N": [
+          159.07867830279625,
+          163.77658176646034
+        ],
+        "recorded_actual_normal_forces_N": [
+          187.33857834768665,
+          176.33827485941538
+        ],
+        "recorded_contacts": true,
+        "constraint_hash": "1738868327cafddfc5bbc35b83c6ae69555ceb62e3cd988568d2a36aadd67f5e"
+      },
+      {
+        "time_s": 2.8519999999999075,
+        "mode": "no_posture",
+        "objective_costs": {
+          "torso": 9377.56303522896,
+          "pelvis": 9698.65359374617,
+          "com": 137.01847678986573,
+          "posture": 0.0,
+          "reach": 14.917680066089327,
+          "acceleration": 5329.4539566657995,
+          "torque": 1.6696369370221298,
+          "slack": 0.08590721401821087,
+          "nominal_torque": 53057.41601440175
+        },
+        "objective_residual_norms": {
+          "torso": 6.847467792997993,
+          "pelvis": 9.848174243861736,
+          "com": 8.27703077165555,
+          "posture": 486.1979171140653,
+          "reach": 0.07051638123180866,
+          "acceleration": 230.85610142826633,
+          "torque": 40.86119108667942,
+          "slack": 0.0009268614460544298,
+          "nominal_torque": 230.34195452500995
+        },
+        "reach_posture_gradient_cosine": null,
+        "control_delta_norm_Nm": 33.52588710284466,
+        "predicted_normal_forces_N": [
+          138.13617784251704,
+          185.22290728275166
+        ],
+        "recorded_actual_normal_forces_N": [
+          187.33857834768665,
+          176.33827485941538
+        ],
+        "recorded_contacts": true,
+        "constraint_hash": "1738868327cafddfc5bbc35b83c6ae69555ceb62e3cd988568d2a36aadd67f5e"
+      },
+      {
+        "time_s": 2.8519999999999075,
+        "mode": "no_nominal",
+        "objective_costs": {
+          "torso": 22434.176922387942,
+          "pelvis": 19816.20890740874,
+          "com": 110.79676739076098,
+          "posture": 143957.02415575777,
+          "reach": 1956.893444418019,
+          "acceleration": 24.181222128315298,
+          "torque": 1.2292875768747622,
+          "slack": 37.05948105222399,
+          "nominal_torque": 0.0
+        },
+        "objective_residual_norms": {
+          "torso": 10.591075706081027,
+          "pelvis": 14.077005685659412,
+          "com": 7.443009048454831,
+          "posture": 379.41668934794865,
+          "reach": 0.8076495618806503,
+          "acceleration": 15.550312578310217,
+          "torque": 35.06119759612843,
+          "slack": 0.019250839216050815,
+          "nominal_torque": 241.49652887140041
+        },
+        "reach_posture_gradient_cosine": -0.0027954179983340943,
+        "control_delta_norm_Nm": 36.326817287216066,
+        "predicted_normal_forces_N": [
+          163.84345439601447,
+          158.38632522819142
+        ],
+        "recorded_actual_normal_forces_N": [
+          187.33857834768665,
+          176.33827485941538
+        ],
+        "recorded_contacts": true,
+        "constraint_hash": "1738868327cafddfc5bbc35b83c6ae69555ceb62e3cd988568d2a36aadd67f5e"
+      },
+      {
+        "time_s": 2.8519999999999075,
+        "mode": "neither",
+        "objective_costs": {
+          "torso": 7072.0254960978455,
+          "pelvis": 7975.835095154995,
+          "com": 112.73333955110061,
+          "posture": 0.0,
+          "reach": 19.900181014547496,
+          "acceleration": 4531.66199501085,
+          "torque": 2.1858591679560124,
+          "slack": 0.37878960986980803,
+          "nominal_torque": 0.0
+        },
+        "objective_residual_norms": {
+          "torso": 5.94643821799985,
+          "pelvis": 8.930753101029607,
+          "com": 7.5077739560771475,
+          "posture": 479.54925126332176,
+          "reach": 0.08144564857324074,
+          "acceleration": 212.87700662614668,
+          "torque": 46.75317281165004,
+          "slack": 0.0019462518076287252,
+          "nominal_torque": 242.28540144024342
+        },
+        "reach_posture_gradient_cosine": null,
+        "control_delta_norm_Nm": 38.01253788428936,
+        "predicted_normal_forces_N": [
+          93.63041272403841,
+          229.36771235884908
+        ],
+        "recorded_actual_normal_forces_N": [
+          187.33857834768665,
+          176.33827485941538
+        ],
+        "recorded_contacts": true,
+        "constraint_hash": "1738868327cafddfc5bbc35b83c6ae69555ceb62e3cd988568d2a36aadd67f5e"
+      }
+    ],
+    "hold": [
+      {
+        "time_s": 2.9959999999998916,
+        "mode": "original",
+        "objective_costs": {
+          "torso": 834.6669301144441,
+          "pelvis": 92.40561897411456,
+          "com": 1.8417303360759938,
+          "posture": 2038.5805595171541,
+          "reach": 416.2495138354209,
+          "acceleration": 4.31569741753578,
+          "torque": 0.07847998015454406,
+          "slack": 5.651555154752897,
+          "nominal_torque": 809.2568590501552
+        },
+        "objective_residual_norms": {
+          "torso": 2.0428741152044148,
+          "pelvis": 0.9612784142698438,
+          "com": 0.9596171986985211,
+          "posture": 45.15064295795968,
+          "reach": 0.3724913931155192,
+          "acceleration": 6.569396789307052,
+          "torque": 8.858892716053404,
+          "slack": 0.007517682591565633,
+          "nominal_torque": 28.447440289947973
+        },
+        "reach_posture_gradient_cosine": -0.045652981438856204,
+        "control_delta_norm_Nm": 0.0,
+        "predicted_normal_forces_N": [
+          163.4519174562486,
+          180.49974487650505
+        ],
+        "recorded_actual_normal_forces_N": [
+          162.44724102751127,
+          182.00984617003274
+        ],
+        "recorded_contacts": true,
+        "constraint_hash": "4a8b215364ce75571735ed8c6882eadd09e92c9ec907dfa16eac80624d1be20a"
+      },
+      {
+        "time_s": 2.9959999999998916,
+        "mode": "no_posture",
+        "objective_costs": {
+          "torso": 256.1951314340106,
+          "pelvis": 121.91993906994647,
+          "com": 1.1282954683223319,
+          "posture": 0.0,
+          "reach": 13.68338161783022,
+          "acceleration": 133.04246766614185,
+          "torque": 0.18138078669719315,
+          "slack": 0.2010123149288678,
+          "nominal_torque": 890.8837768522038
+        },
+        "objective_residual_norms": {
+          "torso": 1.1318019513899298,
+          "pelvis": 1.1041736234394774,
+          "com": 0.7510976861641673,
+          "posture": 68.84974555953201,
+          "reach": 0.06753611778850933,
+          "acceleration": 36.47498700015421,
+          "torque": 13.467768437911054,
+          "slack": 0.0014177881186159935,
+          "nominal_torque": 29.84767623873262
+        },
+        "reach_posture_gradient_cosine": null,
+        "control_delta_norm_Nm": 5.942511411272202,
+        "predicted_normal_forces_N": [
+          133.23027092478372,
+          212.12201528311428
+        ],
+        "recorded_actual_normal_forces_N": [
+          162.44724102751127,
+          182.00984617003274
+        ],
+        "recorded_contacts": true,
+        "constraint_hash": "4a8b215364ce75571735ed8c6882eadd09e92c9ec907dfa16eac80624d1be20a"
+      },
+      {
+        "time_s": 2.9959999999998916,
+        "mode": "no_nominal",
+        "objective_costs": {
+          "torso": 774.5908034210518,
+          "pelvis": 132.1093215493726,
+          "com": 1.9056142230546949,
+          "posture": 2073.7012956542503,
+          "reach": 387.3036570715848,
+          "acceleration": 4.3901961155962494,
+          "torque": 0.11153960931329311,
+          "slack": 5.265565446599165,
+          "nominal_torque": 0.0
+        },
+        "objective_residual_norms": {
+          "torso": 1.967982219712683,
+          "pelvis": 1.1493881918193374,
+          "com": 0.9761183901184054,
+          "posture": 45.53791053237127,
+          "reach": 0.35930658082459555,
+          "acceleration": 6.625855503703842,
+          "torque": 10.561231429776223,
+          "slack": 0.007256421602001337,
+          "nominal_torque": 29.06391232540534
+        },
+        "reach_posture_gradient_cosine": -0.04276561481134068,
+        "control_delta_norm_Nm": 2.5749623182844728,
+        "predicted_normal_forces_N": [
+          173.239045672191,
+          170.60609509426763
+        ],
+        "recorded_actual_normal_forces_N": [
+          162.44724102751127,
+          182.00984617003274
+        ],
+        "recorded_contacts": true,
+        "constraint_hash": "4a8b215364ce75571735ed8c6882eadd09e92c9ec907dfa16eac80624d1be20a"
+      },
+      {
+        "time_s": 2.9959999999998916,
+        "mode": "neither",
+        "objective_costs": {
+          "torso": 144.97014910146802,
+          "pelvis": 187.52191997389568,
+          "com": 0.3181192535034165,
+          "posture": 0.0,
+          "reach": 10.443225578317117,
+          "acceleration": 145.03246676741617,
+          "torque": 0.4486130013918059,
+          "slack": 0.15413652258956495,
+          "nominal_torque": 0.0
+        },
+        "objective_residual_norms": {
+          "torso": 0.8513816685290682,
+          "pelvis": 1.3693864318514903,
+          "com": 0.39882280119334734,
+          "posture": 70.65859162367633,
+          "reach": 0.059000637223443377,
+          "acceleration": 38.08312838612608,
+          "torque": 21.180486335110576,
+          "slack": 0.0012415173079323742,
+          "nominal_torque": 32.52356940467636
+        },
+        "reach_posture_gradient_cosine": null,
+        "control_delta_norm_Nm": 12.631555755433139,
+        "predicted_normal_forces_N": [
+          148.65098430890413,
+          197.2334141802251
+        ],
+        "recorded_actual_normal_forces_N": [
+          162.44724102751127,
+          182.00984617003274
+        ],
+        "recorded_contacts": true,
+        "constraint_hash": "4a8b215364ce75571735ed8c6882eadd09e92c9ec907dfa16eac80624d1be20a"
+      },
+      {
+        "time_s": 3.075999999999883,
+        "mode": "original",
+        "objective_costs": {
+          "torso": 625.3169106145352,
+          "pelvis": 51.55298301647967,
+          "com": 8.351888082028488,
+          "posture": 947.7094540669817,
+          "reach": 3.979531686740319,
+          "acceleration": 54.3474498432833,
+          "torque": 1.160040334088523,
+          "slack": 0.26708762512261675,
+          "nominal_torque": 1042.8570343756971
+        },
+        "objective_residual_norms": {
+          "torso": 1.768215075456794,
+          "pelvis": 0.7180040599918616,
+          "com": 2.043512672095342,
+          "posture": 30.78489002850232,
+          "reach": 0.03642129270422417,
+          "acceleration": 23.312539510590284,
+          "torque": 34.05936485151364,
+          "slack": 0.0016342815703623925,
+          "nominal_torque": 32.29329705025018
+        },
+        "reach_posture_gradient_cosine": -0.14579660323262938,
+        "control_delta_norm_Nm": 0.0,
+        "predicted_normal_forces_N": [
+          138.42450302921358,
+          205.24672196742222
+        ],
+        "recorded_actual_normal_forces_N": [
+          141.96494650537394,
+          202.38618861128757
+        ],
+        "recorded_contacts": true,
+        "constraint_hash": "6707af7e56a984e0df0a0f97804ba069511eae5ba7875e277ce2b805039b2b27"
+      },
+      {
+        "time_s": 3.075999999999883,
+        "mode": "no_posture",
+        "objective_costs": {
+          "torso": 416.3040407995256,
+          "pelvis": 94.21901714364897,
+          "com": 11.306944421138013,
+          "posture": 0.0,
+          "reach": 0.003639120994094126,
+          "acceleration": 125.81919435669082,
+          "torque": 0.9969011825502265,
+          "slack": 0.2897947078332238,
+          "nominal_torque": 1014.1815331197552
+        },
+        "objective_residual_norms": {
+          "torso": 1.4427474498323078,
+          "pelvis": 0.9706648090028245,
+          "com": 2.3777031376033904,
+          "posture": 41.17604406392869,
+          "reach": 0.001101381101782988,
+          "acceleration": 35.471001445785376,
+          "torque": 31.57374197890118,
+          "slack": 0.0017023357713248693,
+          "nominal_torque": 31.84621693576421
+        },
+        "reach_posture_gradient_cosine": null,
+        "control_delta_norm_Nm": 6.063968358484667,
+        "predicted_normal_forces_N": [
+          136.50040937351997,
+          206.92625053359768
+        ],
+        "recorded_actual_normal_forces_N": [
+          141.96494650537394,
+          202.38618861128757
+        ],
+        "recorded_contacts": true,
+        "constraint_hash": "6707af7e56a984e0df0a0f97804ba069511eae5ba7875e277ce2b805039b2b27"
+      },
+      {
+        "time_s": 3.075999999999883,
+        "mode": "no_nominal",
+        "objective_costs": {
+          "torso": 453.79835035388385,
+          "pelvis": 86.6963418055921,
+          "com": 6.653891656886779,
+          "posture": 953.5561224447111,
+          "reach": 8.745523297569854,
+          "acceleration": 50.99491366815907,
+          "torque": 1.543389854829148,
+          "slack": 0.2730282201274787,
+          "nominal_torque": 0.0
+        },
+        "objective_residual_norms": {
+          "torso": 1.5063172812423746,
+          "pelvis": 0.9311087036731646,
+          "com": 1.8239917292694585,
+          "posture": 30.879704053709958,
+          "reach": 0.05399235531557486,
+          "acceleration": 22.58205342039538,
+          "torque": 39.28600074872916,
+          "slack": 0.0016523565599696655,
+          "nominal_torque": 35.56798212055068
+        },
+        "reach_posture_gradient_cosine": -0.08177735398213146,
+        "control_delta_norm_Nm": 8.025096207016661,
+        "predicted_normal_forces_N": [
+          165.02839596416084,
+          179.17065251541075
+        ],
+        "recorded_actual_normal_forces_N": [
+          141.96494650537394,
+          202.38618861128757
+        ],
+        "recorded_contacts": true,
+        "constraint_hash": "6707af7e56a984e0df0a0f97804ba069511eae5ba7875e277ce2b805039b2b27"
+      },
+      {
+        "time_s": 3.075999999999883,
+        "mode": "neither",
+        "objective_costs": {
+          "torso": 216.86118332169153,
+          "pelvis": 177.21162041381248,
+          "com": 7.292165472259124,
+          "posture": 0.0,
+          "reach": 0.09383859756166424,
+          "acceleration": 97.02886422140901,
+          "torque": 1.646558509473037,
+          "slack": 0.29044752537315,
+          "nominal_torque": 0.0
+        },
+        "objective_residual_norms": {
+          "torso": 1.0413001088103553,
+          "pelvis": 1.3312085502047095,
+          "com": 1.909471847430478,
+          "posture": 38.59192149074759,
+          "reach": 0.005592810788910595,
+          "acceleration": 31.149456531600837,
+          "torque": 40.57780809103711,
+          "slack": 0.0017042521097922984,
+          "nominal_torque": 36.758955720901795
+        },
+        "reach_posture_gradient_cosine": null,
+        "control_delta_norm_Nm": 8.964492796712868,
+        "predicted_normal_forces_N": [
+          157.77862056683102,
+          186.75142758151944
+        ],
+        "recorded_actual_normal_forces_N": [
+          141.96494650537394,
+          202.38618861128757
+        ],
+        "recorded_contacts": true,
+        "constraint_hash": "6707af7e56a984e0df0a0f97804ba069511eae5ba7875e277ce2b805039b2b27"
+      },
+      {
+        "time_s": 3.1519999999998745,
+        "mode": "original",
+        "objective_costs": {
+          "torso": 2153.1671057566505,
+          "pelvis": 67.22003501714889,
+          "com": 29.387395301399515,
+          "posture": 1228.5997759601905,
+          "reach": 11.83777983541193,
+          "acceleration": 100.40207981148703,
+          "torque": 1.6119159001709733,
+          "slack": 3.195653823792271,
+          "nominal_torque": 1114.0931514333179
+        },
+        "objective_residual_norms": {
+          "torso": 3.281133268976323,
+          "pelvis": 0.8198782532617198,
+          "com": 3.8332359242159564,
+          "posture": 35.05138764671366,
+          "reach": 0.06281661095445994,
+          "acceleration": 31.686287225152622,
+          "torque": 40.148672458388624,
+          "slack": 0.0056530114309032405,
+          "nominal_torque": 33.378033965968065
+        },
+        "reach_posture_gradient_cosine": 0.006708627082295879,
+        "control_delta_norm_Nm": 0.0,
+        "predicted_normal_forces_N": [
+          151.812887255655,
+          190.79164411828293
+        ],
+        "recorded_actual_normal_forces_N": [
+          153.61380441553834,
+          195.9367466373259
+        ],
+        "recorded_contacts": true,
+        "constraint_hash": "e13e7b8a22c2411f8673d2311968b9d6dde8ab01612a0e994c47a4f7e6fb361e"
+      },
+      {
+        "time_s": 3.1519999999998745,
+        "mode": "no_posture",
+        "objective_costs": {
+          "torso": 1158.2248152235848,
+          "pelvis": 128.50197297604817,
+          "com": 32.72282848869745,
+          "posture": 0.0,
+          "reach": 3.355861849145232,
+          "acceleration": 294.70328449070666,
+          "torque": 1.8499751023794642,
+          "slack": 1.6064655618213317,
+          "nominal_torque": 1434.4807805871042
+        },
+        "objective_residual_norms": {
+          "torso": 2.4064754468138507,
+          "pelvis": 1.1335871072663457,
+          "com": 4.044924504159345,
+          "posture": 57.88616898604782,
+          "reach": 0.03344578622759142,
+          "acceleration": 54.28658070745538,
+          "torque": 43.01133690527956,
+          "slack": 0.00400807380398781,
+          "nominal_torque": 37.87454000495721
+        },
+        "reach_posture_gradient_cosine": null,
+        "control_delta_norm_Nm": 7.844984473732709,
+        "predicted_normal_forces_N": [
+          153.64167583381015,
+          188.9254140514348
+        ],
+        "recorded_actual_normal_forces_N": [
+          153.61380441553834,
+          195.9367466373259
+        ],
+        "recorded_contacts": true,
+        "constraint_hash": "e13e7b8a22c2411f8673d2311968b9d6dde8ab01612a0e994c47a4f7e6fb361e"
+      },
+      {
+        "time_s": 3.1519999999998745,
+        "mode": "no_nominal",
+        "objective_costs": {
+          "torso": 2044.041934426777,
+          "pelvis": 64.66769883516841,
+          "com": 29.636045613935057,
+          "posture": 1315.989602622435,
+          "reach": 5.84305994829946,
+          "acceleration": 108.50494150302691,
+          "torque": 1.6755458803312788,
+          "slack": 3.1600181811289443,
+          "nominal_torque": 0.0
+        },
+        "objective_residual_norms": {
+          "torso": 3.196906265772252,
+          "pelvis": 0.8041622898095161,
+          "com": 3.8494185024452108,
+          "posture": 36.276570987655866,
+          "reach": 0.04413260302127162,
+          "acceleration": 32.94008826688643,
+          "torque": 40.93343230577273,
+          "slack": 0.00562140390038729,
+          "nominal_torque": 34.486928507054884
+        },
+        "reach_posture_gradient_cosine": 0.015119635391886186,
+        "control_delta_norm_Nm": 5.5943455400105835,
+        "predicted_normal_forces_N": [
+          161.0802669678546,
+          181.7327412584266
+        ],
+        "recorded_actual_normal_forces_N": [
+          153.61380441553834,
+          195.9367466373259
+        ],
+        "recorded_contacts": true,
+        "constraint_hash": "e13e7b8a22c2411f8673d2311968b9d6dde8ab01612a0e994c47a4f7e6fb361e"
+      },
+      {
+        "time_s": 3.1519999999998745,
+        "mode": "neither",
+        "objective_costs": {
+          "torso": 712.3543931624052,
+          "pelvis": 238.35296696177514,
+          "com": 32.96790767754557,
+          "posture": 0.0,
+          "reach": 0.18133098171275386,
+          "acceleration": 488.97980787768967,
+          "torque": 2.132215009794706,
+          "slack": 1.4970542327763605,
+          "nominal_torque": 0.0
+        },
+        "objective_residual_norms": {
+          "torso": 1.8872657379955866,
+          "pelvis": 1.5438684107195637,
+          "com": 4.0600435759696945,
+          "posture": 73.62530115246446,
+          "reach": 0.007774552113846684,
+          "acceleration": 69.92709116484752,
+          "torque": 46.175913740766475,
+          "slack": 0.0038691785081285154,
+          "nominal_torque": 42.64768072669589
+        },
+        "reach_posture_gradient_cosine": null,
+        "control_delta_norm_Nm": 15.550183255121912,
+        "predicted_normal_forces_N": [
+          165.38304377975527,
+          177.20136719982204
+        ],
+        "recorded_actual_normal_forces_N": [
+          153.61380441553834,
+          195.9367466373259
+        ],
+        "recorded_contacts": true,
+        "constraint_hash": "e13e7b8a22c2411f8673d2311968b9d6dde8ab01612a0e994c47a4f7e6fb361e"
+      },
+      {
+        "time_s": 3.771999999999806,
+        "mode": "original",
+        "objective_costs": {
+          "torso": 32261.96745104654,
+          "pelvis": 19734.966986202628,
+          "com": 126.44079219254229,
+          "posture": 103425.88668984959,
+          "reach": 4023.719891840558,
+          "acceleration": 32.19708091551899,
+          "torque": 0.8075419361809395,
+          "slack": 80.68600446122646,
+          "nominal_torque": 53513.62277220077
+        },
+        "objective_residual_norms": {
+          "torso": 12.700780970288115,
+          "pelvis": 14.04811979810915,
+          "com": 7.951125460981681,
+          "posture": 321.5989531852515,
+          "reach": 1.1581191492876943,
+          "acceleration": 17.94354505540056,
+          "torque": 28.41728235037509,
+          "slack": 0.02840528198438214,
+          "nominal_torque": 231.3301164401228
+        },
+        "reach_posture_gradient_cosine": -0.004565191379118155,
+        "control_delta_norm_Nm": 0.0,
+        "predicted_normal_forces_N": [
+          93.58799803615203,
+          219.15571015441213
+        ],
+        "recorded_actual_normal_forces_N": [
+          147.32369311757725,
+          216.21858829948923
+        ],
+        "recorded_contacts": true,
+        "constraint_hash": "96b627d7570470d5704f447e81ec08a80441436888a3f6b0d1f896e46f749cf7"
+      },
+      {
+        "time_s": 3.771999999999806,
+        "mode": "no_posture",
+        "objective_costs": {
+          "torso": 12911.97079088887,
+          "pelvis": 8393.850908653125,
+          "com": 157.124152124022,
+          "posture": 0.0,
+          "reach": 12.647114469055017,
+          "acceleration": 7043.390717739144,
+          "torque": 1.603883050175699,
+          "slack": 0.0971331684446449,
+          "nominal_torque": 51286.645041682496
+        },
+        "objective_residual_norms": {
+          "torso": 8.034914682462057,
+          "pelvis": 9.161796171413728,
+          "com": 8.863525035899148,
+          "posture": 472.9486958605677,
+          "reach": 0.06492845926878552,
+          "acceleration": 265.39387177813927,
+          "torque": 40.048508713505164,
+          "slack": 0.000985561608650849,
+          "nominal_torque": 226.46554934842186
+        },
+        "reach_posture_gradient_cosine": null,
+        "control_delta_norm_Nm": 37.22879650554147,
+        "predicted_normal_forces_N": [
+          41.238949079265616,
+          245.4039822925053
+        ],
+        "recorded_actual_normal_forces_N": [
+          147.32369311757725,
+          216.21858829948923
+        ],
+        "recorded_contacts": true,
+        "constraint_hash": "96b627d7570470d5704f447e81ec08a80441436888a3f6b0d1f896e46f749cf7"
+      },
+      {
+        "time_s": 3.771999999999806,
+        "mode": "no_nominal",
+        "objective_costs": {
+          "torso": 31834.279355100905,
+          "pelvis": 19708.27767729619,
+          "com": 129.46135500366938,
+          "posture": 104013.28624836529,
+          "reach": 3766.860968450158,
+          "acceleration": 34.44133607551923,
+          "torque": 0.63853198692747,
+          "slack": 68.70572142471968,
+          "nominal_torque": 0.0
+        },
+        "objective_residual_norms": {
+          "torso": 12.616314706581495,
+          "pelvis": 14.038617338362133,
+          "com": 8.045537738512865,
+          "posture": 322.5109087276976,
+          "reach": 1.1205446545393536,
+          "acceleration": 18.55837710456365,
+          "torque": 25.269190468384025,
+          "slack": 0.026211776251280586,
+          "nominal_torque": 232.4432641264583
+        },
+        "reach_posture_gradient_cosine": -0.004580849669449869,
+        "control_delta_norm_Nm": 13.210493273260727,
+        "predicted_normal_forces_N": [
+          152.8638711966463,
+          160.5038444710988
+        ],
+        "recorded_actual_normal_forces_N": [
+          147.32369311757725,
+          216.21858829948923
+        ],
+        "recorded_contacts": true,
+        "constraint_hash": "96b627d7570470d5704f447e81ec08a80441436888a3f6b0d1f896e46f749cf7"
+      },
+      {
+        "time_s": 3.771999999999806,
+        "mode": "neither",
+        "objective_costs": {
+          "torso": 10609.941739149499,
+          "pelvis": 7048.316981148838,
+          "com": 134.21130989089673,
+          "posture": 0.0,
+          "reach": 16.561203486632788,
+          "acceleration": 5906.554763661615,
+          "torque": 2.832259457481281,
+          "slack": 0.6923233637876391,
+          "nominal_torque": 0.0
+        },
+        "objective_residual_norms": {
+          "torso": 7.283523096396928,
+          "pelvis": 8.395425528910872,
+          "com": 8.19180413251247,
+          "posture": 461.60446524562224,
+          "reach": 0.07429940216590528,
+          "acceleration": 243.03404624993624,
+          "torque": 53.21897647908386,
+          "slack": 0.0026312038381464085,
+          "nominal_torque": 239.05466087149438
+        },
+        "reach_posture_gradient_cosine": null,
+        "control_delta_norm_Nm": 43.159352665246104,
+        "predicted_normal_forces_N": [
+          8.431811814242149,
+          278.319530684652
+        ],
+        "recorded_actual_normal_forces_N": [
+          147.32369311757725,
+          216.21858829948923
+        ],
+        "recorded_contacts": true,
+        "constraint_hash": "96b627d7570470d5704f447e81ec08a80441436888a3f6b0d1f896e46f749cf7"
+      }
+    ]
+  },
+  "paired_inputs_verified": true,
+  "baseline_regression_passed": false,
+  "baseline_policy": "Reused immutable baseline; original controls reproduced at all eight sampled states",
+  "scope": "Exploratory objective ablations on a known front-reaching failure; no default change",
+  "objective_order": [
+    "torso",
+    "pelvis",
+    "com",
+    "posture",
+    "reach",
+    "acceleration",
+    "torque",
+    "slack",
+    "nominal_torque"
+  ],
+  "source_version": "04bf334"
+}

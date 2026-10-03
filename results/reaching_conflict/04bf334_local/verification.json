@@ -1,0 +1,9 @@
+{
+  "trials_verified": 12,
+  "shared_initial_state_verified": true,
+  "outcomes_recomputed": true,
+  "manifest_files_verified": 62,
+  "deterministic_baseline_regression": false,
+  "target_reference_groups_verified": 1,
+  "videos": []
+}

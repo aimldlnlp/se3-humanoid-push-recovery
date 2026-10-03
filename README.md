@@ -348,6 +348,48 @@ so falls and small successful tracking errors both remain visible.
 [Primary hashes](results/reaching_tracking/fbc0b50_local/manifest.json) |
 [Control hashes](results/reaching_tracking/d240d2d_controls/manifest.json)
 
+## Reach-and-Balance: objective conflict audit
+
+A controlled audit tests whether removing posture regulation, nominal-torque
+regularization, or both fixes front 12.5 cm with reach weight 3000. There are
+nine new local trials and three reused immutable baselines. **All four modes
+pass without push; all eight pushed cases fall.** No objective is removed
+from the default controller and the default reach weight remains 100.
+
+Eight pre-contact-loss baseline states are replayed in four modes. Original
+controls match the recorded controls, and constraint matrices/bounds are
+identical across modes. This separates soft-objective effects from accidental
+constraint changes. Recorded measured forces belong to the original states,
+not hypothetical new physical outcomes of frozen QP solves.
+
+Every ablation loses physical contact earlier than the original. In the
+original moving trial, first contact loss occurs at 2.904 s, before torque
+saturation at 3.596 s and QP failure at 4.228 s. The original hold trial falls
+without any QP failure. These findings do not establish a unique root cause,
+but rule out these deletions as fixes for the tested cases. The next narrow
+experiment should bound reach influence from measured balance/contact state
+before contact loss, retaining the stabilizing objectives and tracking gate.
+
+![Paired objective ablations](results/reaching_conflict/04bf334_local/conflict_results.png)
+
+Audit/ablation source: `04bf33403299ba8cb6313cf081dfb3b984d4cea5`.
+Reused baseline provenance stays at `fbc0b50`. 81 tests pass locally and on
+the SSH worker; physical trials were not replicated on the worker. Worker
+transfer succeeds with legacy `scp -O`. No hard-real-time claim is made.
+
+```bash
+export PYTHONPATH=src:scripts OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1
+export SE3_SOURCE_VERSION=$(git rev-parse HEAD)
+python experiments/reaching_conflict_audit.py --previous results/reaching_tracking/fbc0b50_local --output results/staging/conflict-audit
+python scripts/verify_reaching_workspace.py --root results/staging/conflict-audit --record
+```
+
+[Audit findings and event timing](results/reaching_conflict/04bf334_local/AUDIT.md) |
+[Paired trial CSV](results/reaching_conflict/04bf334_local/study.csv) |
+[Frozen-state objective measurements](results/reaching_conflict/04bf334_local/study.json) |
+[Verification](results/reaching_conflict/04bf334_local/verification.json) |
+[Artifact hashes](results/reaching_conflict/04bf334_local/manifest.json)
+
 ## Limitations
 
 - Fixed-foot double support on flat ground; no walking, hardware transfer or general locomotion claim.

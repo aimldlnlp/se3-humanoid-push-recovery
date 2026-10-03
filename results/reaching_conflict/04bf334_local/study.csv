@@ -1,0 +1,13 @@
+trial_id,mode,phase,push_N,push_start_s,combined_success,balance_success,failure_reason,hold_max_error_mm,qp_failures,source_version
+front_12.5cm_w3000_original_no_push,original,no_push,0,1.5,True,True,PASS,3.231129062709014,0,fbc0b509402bc8d60a365c0b612d331a120fdc88
+front_12.5cm_w3000_no_posture_no_push,no_posture,no_push,0,1.5,True,True,PASS,2.469629689160437,0,04bf334
+front_12.5cm_w3000_no_nominal_no_push,no_nominal,no_push,0,1.5,True,True,PASS,3.2776103776369085,0,04bf334
+front_12.5cm_w3000_neither_no_push,neither,no_push,0,1.5,True,True,PASS,2.5041065366162663,0,04bf334
+front_12.5cm_w3000_original_moving,original,moving,70,1.5,False,False,FALL,965.1036263804282,3,fbc0b509402bc8d60a365c0b612d331a120fdc88
+front_12.5cm_w3000_no_posture_moving,no_posture,moving,70,1.5,False,False,FALL,855.6601161162891,5,04bf334
+front_12.5cm_w3000_no_nominal_moving,no_nominal,moving,70,1.5,False,False,FALL,73.08118790831952,0,04bf334
+front_12.5cm_w3000_neither_moving,neither,moving,70,1.5,False,False,FALL,543.2414469160018,1,04bf334
+front_12.5cm_w3000_original_hold,original,hold,70,3.0,False,False,FALL,701.8352725166726,0,fbc0b509402bc8d60a365c0b612d331a120fdc88
+front_12.5cm_w3000_no_posture_hold,no_posture,hold,70,3.0,False,False,FALL,732.196327076799,1,04bf334
+front_12.5cm_w3000_no_nominal_hold,no_nominal,hold,70,3.0,False,False,FALL,178.21543138820493,0,04bf334
+front_12.5cm_w3000_neither_hold,neither,hold,70,3.0,False,False,FALL,709.9446812193247,0,04bf334

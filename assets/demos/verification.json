@@ -1,0 +1,31 @@
+{
+  "tests_passed": 84,
+  "readme_lines": 68,
+  "readme_internal_workflow_keywords_removed": true,
+  "documentation_relative_links_verified": true,
+  "reaching_video": {
+    "codec": "h264",
+    "resolution": [1920, 1080],
+    "fps": 30,
+    "duration_s": 15,
+    "decoded_frames": 450,
+    "bytes": 842744,
+    "sha256": "10b4c53249eb47b1905c1b6c8b7d8c68d8ef586b0d7839930db52f6952039a9f",
+    "fast_start_verified": true,
+    "source_trajectory_hashes_verified": true,
+    "maximum_sample_time_error_s": 0.0021,
+    "source_states_and_telemetry_share_samples": true,
+    "nonblank_scene_and_motion_verified": true,
+    "pass_and_failed_tracking_frames_visually_inspected": true,
+    "dynamics_rerun": false,
+    "github_inline_attachment_uploaded": false,
+    "readme_linked_preview_available": true
+  },
+  "standing_video": {
+    "bytes": 1642396,
+    "sha256": "692dff2a017f1f990426b7a2527e6cc98a163d2d5ba061ed8b3f494c1f1d33dd",
+    "byte_identical_to_original_verified_video": true,
+    "existing_github_inline_attachment_retained": true
+  },
+  "simulation_controller_and_physical_thresholds_changed": false
+}

@@ -1,0 +1,3070 @@
+{
+  "records": [
+    {
+      "policy": "fixed_100",
+      "phase": "no_push",
+      "outcome": false,
+      "events": {
+        "angular_band": null,
+        "orientation_band": null,
+        "com_band": null,
+        "slip_velocity": null,
+        "slip_displacement": null,
+        "contact_loss": null,
+        "torque_bound": null,
+        "qp_failure": null,
+        "fall_height": null,
+        "sustained_slip_onset": null,
+        "sustained_contact_loss_onset": null,
+        "pre_loss_max_foot_speed_m_s": 0.00014936477449747915,
+        "pre_loss_max_foot_displacement_m": 0.00040144945654855006,
+        "pre_loss_max_torque_utilization": 0.05695993329130277
+      },
+      "frozen_replay": [
+        {
+          "time_s": 0.2440000000000002,
+          "reach_weight": 100.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              1.2313941730857645e-05,
+              9.593480333719477e-05,
+              3.222247769372765e-06
+            ],
+            [
+              1.2518326965504738e-05,
+              -9.187010131288095e-05,
+              3.190302075629235e-06
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              1.786352793102343e-05,
+              -3.445165909125502e-07,
+              1.0926806638100638e-06
+            ],
+            [
+              1.7458694666558093e-05,
+              5.560962014363767e-07,
+              1.462787741144393e-06
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              2.278206062407242e-05,
+              -2.3084071767644092e-05,
+              -3.839494128319325e-08
+            ],
+            [
+              3.492677851520841e-05,
+              8.475363081001431e-06,
+              -8.607638244908958e-06
+            ]
+          ],
+          "predicted_normal_force_N": [
+            172.43821116256484,
+            171.96875280307205
+          ],
+          "actual_pre_step_normal_force_N": [
+            172.30532124380954,
+            172.14274857090197
+          ],
+          "actual_post_step_normal_force_N": [
+            172.3058206421136,
+            172.1431976542874
+          ],
+          "contact_slack_norm": 2.6497770268850192e-05,
+          "contact_residual_norm": 9.858540531637784e-17,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 0.32400000000000023,
+          "reach_weight": 100.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              1.3727711770726965e-05,
+              9.441602998242455e-05,
+              3.0060193789493243e-06
+            ],
+            [
+              1.4934219526304906e-05,
+              -9.112937702577662e-05,
+              2.799073151875504e-06
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              2.0085204308025635e-05,
+              -3.86816071408744e-07,
+              1.1148228148672218e-06
+            ],
+            [
+              1.958001911207908e-05,
+              6.311843220242383e-07,
+              1.4571773606380947e-06
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              1.3062297813834174e-05,
+              -1.489490349886967e-05,
+              -4.172121677493034e-06
+            ],
+            [
+              2.5657322219218462e-05,
+              1.0480749458978018e-05,
+              -2.5903739136125953e-06
+            ]
+          ],
+          "predicted_normal_force_N": [
+            172.44860093529306,
+            171.95611999546182
+          ],
+          "actual_pre_step_normal_force_N": [
+            172.29994882434306,
+            172.1485984340089
+          ],
+          "actual_post_step_normal_force_N": [
+            172.30048843437018,
+            172.14893680384094
+          ],
+          "contact_slack_norm": 2.9809919256074133e-05,
+          "contact_residual_norm": 1.0872497180403931e-16,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 0.4000000000000003,
+          "reach_weight": 100.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              1.4506701930949928e-05,
+              9.344474244707797e-05,
+              2.6955350109853115e-06
+            ],
+            [
+              1.6654392535544657e-05,
+              -9.028931443705818e-05,
+              2.620699295040157e-06
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              2.201160381760781e-05,
+              -4.350047328324918e-07,
+              1.238689530677548e-06
+            ],
+            [
+              2.1412064273051407e-05,
+              6.978013136028167e-07,
+              1.3274317858618694e-06
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              7.508473141983956e-06,
+              -1.1106577632309472e-05,
+              -3.790975204921671e-06
+            ],
+            [
+              1.9622655161345686e-05,
+              1.1338301505282379e-05,
+              -2.411076725721752e-06
+            ]
+          ],
+          "predicted_normal_force_N": [
+            172.45687972373426,
+            171.9460268584766
+          ],
+          "actual_pre_step_normal_force_N": [
+            172.29838319022937,
+            172.1505627595992
+          ],
+          "actual_post_step_normal_force_N": [
+            172.29896972629479,
+            172.15079524439778
+          ],
+          "contact_slack_norm": 3.267408712545647e-05,
+          "contact_residual_norm": 1.231403913921271e-16,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 0.6480000000000005,
+          "reach_weight": 100.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              1.9689984061203774e-06,
+              9.525804617429722e-05,
+              -8.282849511152049e-07
+            ],
+            [
+              5.524498421842993e-06,
+              -8.3458036393355e-05,
+              1.5736558289998607e-06
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              2.6479202931287973e-05,
+              -6.430713360553263e-07,
+              3.2062951728547723e-06
+            ],
+            [
+              2.5718083331719492e-05,
+              8.715072151414647e-07,
+              7.666383439953953e-07
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              -9.90210755718231e-05,
+              4.437134496743882e-06,
+              -3.888786601829194e-06
+            ],
+            [
+              -9.089845852323458e-05,
+              2.3332402998195978e-05,
+              -8.219931138851739e-07
+            ]
+          ],
+          "predicted_normal_force_N": [
+            172.39930332272908,
+            171.97259982632286
+          ],
+          "actual_pre_step_normal_force_N": [
+            172.40683210295603,
+            172.04098748348835
+          ],
+          "actual_post_step_normal_force_N": [
+            172.40936625387093,
+            172.03833656191472
+          ],
+          "contact_slack_norm": 3.9522278725198675e-05,
+          "contact_residual_norm": 2.1502081908592181e-16,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 4.847999999999688,
+          "reach_weight": 100.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              2.1152657818450079e-07,
+              5.3107508676226485e-05,
+              1.4947900059114809e-06
+            ],
+            [
+              -1.3919556349676547e-05,
+              -6.31904652096128e-05,
+              1.5330296059869322e-06
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              3.553533465756319e-05,
+              -1.8682491346914356e-05,
+              -0.0007665895573911467
+            ],
+            [
+              3.542035041204916e-05,
+              -1.8010093504344382e-05,
+              -0.0011135112224818203
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              1.5463888348626466e-05,
+              -1.7229296799956743e-06,
+              2.346065195779944e-06
+            ],
+            [
+              2.3425691654546208e-05,
+              1.0166957178834991e-05,
+              2.6263159596117413e-06
+            ]
+          ],
+          "predicted_normal_force_N": [
+            171.01266260034572,
+            173.47153521219195
+          ],
+          "actual_pre_step_normal_force_N": [
+            170.61973487687277,
+            173.82779373784945
+          ],
+          "actual_post_step_normal_force_N": [
+            170.61974275159844,
+            173.82809388430783
+          ],
+          "contact_slack_norm": 0.0013532763055570025,
+          "contact_residual_norm": 1.2421385771683535e-16,
+          "measured_double_support": true
+        }
+      ],
+      "path": "results/reaching_tracking/fbc0b50_local/trials/front_12.5cm_w100",
+      "source_version": "fbc0b509402bc8d60a365c0b612d331a120fdc88",
+      "trajectory_sha256": "475a7381187ec819de5c616cbc553f375b51005e1a4f891e5c91a18a11e1c5e3"
+    },
+    {
+      "policy": "fixed_100",
+      "phase": "moving",
+      "outcome": true,
+      "events": {
+        "angular_band": 1.5200000000000011,
+        "orientation_band": null,
+        "com_band": null,
+        "slip_velocity": null,
+        "slip_displacement": null,
+        "contact_loss": null,
+        "torque_bound": null,
+        "qp_failure": null,
+        "fall_height": null,
+        "sustained_slip_onset": null,
+        "sustained_contact_loss_onset": null,
+        "pre_loss_max_foot_speed_m_s": 0.012071335245040591,
+        "pre_loss_max_foot_displacement_m": 0.020660488017319456,
+        "pre_loss_max_torque_utilization": 0.4099910901325841
+      },
+      "frozen_replay": [
+        {
+          "time_s": 1.496000000000001,
+          "reach_weight": 100.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              -6.457663143896698e-06,
+              9.64752561787721e-05,
+              5.992478923402939e-06
+            ],
+            [
+              -1.5588243643168683e-05,
+              -6.776301466052392e-05,
+              1.3371662309044099e-06
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              3.654478270036185e-05,
+              -3.906670137552905e-06,
+              -0.00032910732146156264
+            ],
+            [
+              3.669942924022802e-05,
+              -3.7717038523329117e-06,
+              -0.0004045632395864413
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              -1.3200683677956029e-05,
+              -4.868614455554408e-05,
+              1.4243365326338785e-05
+            ],
+            [
+              8.975136684213569e-06,
+              -3.267560028386287e-05,
+              -5.732341003231539e-07
+            ]
+          ],
+          "predicted_normal_force_N": [
+            173.44047522797757,
+            171.10989409397416
+          ],
+          "actual_pre_step_normal_force_N": [
+            172.03335717440874,
+            172.4409780732351
+          ],
+          "actual_post_step_normal_force_N": [
+            172.03020893110184,
+            172.44496695788413
+          ],
+          "contact_slack_norm": 0.0005245316727111672,
+          "contact_residual_norm": 3.495347402770591e-16,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 1.5760000000000012,
+          "reach_weight": 100.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              0.0012427671892414477,
+              -0.00021615896664675275,
+              0.001228119102329157
+            ],
+            [
+              0.0013385143886740572,
+              -0.0003821539394674151,
+              0.0011996284065114902
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              0.00013595821154470823,
+              -2.671367150011445e-06,
+              -2.1123120157513775e-05
+            ],
+            [
+              0.00014005062975363755,
+              1.8439907223909147e-07,
+              3.0385636942437122e-05
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              0.028220897962675354,
+              -0.0017410839157494112,
+              0.017926961314100712
+            ],
+            [
+              0.02837660955560398,
+              -0.001655523419305059,
+              0.018409531817729478
+            ]
+          ],
+          "predicted_normal_force_N": [
+            169.19218979960706,
+            172.91406037037572
+          ],
+          "actual_pre_step_normal_force_N": [
+            169.39635171363287,
+            171.7150854502565
+          ],
+          "actual_post_step_normal_force_N": [
+            169.4411513558464,
+            171.8312455214674
+          ],
+          "contact_slack_norm": 0.0002340028868073721,
+          "contact_residual_norm": 6.6499185090264006e-15,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 1.6520000000000012,
+          "reach_weight": 100.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              0.00576840409016785,
+              -0.004389151510333076,
+              0.00981070576029348
+            ],
+            [
+              0.006522408292913076,
+              -0.004764338942051559,
+              0.010961647271203563
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              0.0004937761395767334,
+              -2.5382040343873216e-06,
+              0.00053061487287695
+            ],
+            [
+              0.00047920699413736903,
+              2.978162598534298e-06,
+              2.590535584681697e-05
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              0.041930611403472005,
+              -0.07564709608455894,
+              0.2201441461230486
+            ],
+            [
+              0.05466239338639852,
+              -0.0771598532601912,
+              0.23932784675760013
+            ]
+          ],
+          "predicted_normal_force_N": [
+            168.51714883227618,
+            173.1275283852547
+          ],
+          "actual_pre_step_normal_force_N": [
+            172.66493857220988,
+            177.65483964023343
+          ],
+          "actual_post_step_normal_force_N": [
+            172.7266249184521,
+            177.76768957005655
+          ],
+          "contact_slack_norm": 0.0009112142826275192,
+          "contact_residual_norm": 4.5351002365479106e-15,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 1.9000000000000015,
+          "reach_weight": 100.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              0.034816776621862014,
+              0.0020985946689588233,
+              0.08127529727313107
+            ],
+            [
+              0.034076063468827494,
+              0.0019000120326054684,
+              0.07978585662856791
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              -0.00013181548582254753,
+              8.425271574285902e-06,
+              -0.0043405022158363865
+            ],
+            [
+              -5.0646902421435866e-05,
+              -1.716999353665056e-05,
+              -0.0037229381576168244
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              0.19351953140094355,
+              0.017027851399665027,
+              0.3492365340696104
+            ],
+            [
+              0.1828696232573297,
+              0.01689529917447219,
+              0.3299167215714442
+            ]
+          ],
+          "predicted_normal_force_N": [
+            175.92054562031305,
+            169.17365567187116
+          ],
+          "actual_pre_step_normal_force_N": [
+            182.5582951502532,
+            175.5061031608189
+          ],
+          "actual_post_step_normal_force_N": [
+            182.69842145632603,
+            175.50742051130973
+          ],
+          "contact_slack_norm": 0.005721385204351431,
+          "contact_residual_norm": 4.0126049966248527e-16,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 4.847999999999688,
+          "reach_weight": 100.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              -8.369749489082546e-05,
+              0.00011922556251140791,
+              -3.028113177243563e-06
+            ],
+            [
+              0.0001390647107404933,
+              9.093915198301545e-07,
+              -3.737875764790021e-06
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              9.738961851464147e-05,
+              -4.9631212953382426e-05,
+              -0.00042694247518197204
+            ],
+            [
+              8.900593629901475e-05,
+              -4.2766374791315784e-05,
+              -0.001210002667467791
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              -3.665173252191507e-05,
+              -2.1159199952517792e-05,
+              -8.597803039092347e-06
+            ],
+            [
+              -8.216738604992544e-05,
+              -1.5969544433818143e-05,
+              -9.76776400075139e-06
+            ]
+          ],
+          "predicted_normal_force_N": [
+            167.88951534008865,
+            176.5210478705964
+          ],
+          "actual_pre_step_normal_force_N": [
+            168.89775389854302,
+            175.56170063738296
+          ],
+          "actual_post_step_normal_force_N": [
+            168.89895467433598,
+            175.55992254387868
+          ],
+          "contact_slack_norm": 0.0012928789099651617,
+          "contact_residual_norm": 2.2525831443130736e-16,
+          "measured_double_support": true
+        }
+      ],
+      "path": "results/reaching_tracking/d240d2d_controls/trials/front_12.5cm_w100_moving_70N",
+      "source_version": "d240d2d",
+      "trajectory_sha256": "3c73ca942e1503339cd4a533b451c50fd75d24ef398796263f988e2fca6fe87c"
+    },
+    {
+      "policy": "fixed_100",
+      "phase": "hold",
+      "outcome": false,
+      "events": {
+        "angular_band": 3.019999999999889,
+        "orientation_band": null,
+        "com_band": 3.6439999999998203,
+        "slip_velocity": null,
+        "slip_displacement": 4.007999999999781,
+        "contact_loss": null,
+        "torque_bound": null,
+        "qp_failure": null,
+        "fall_height": null,
+        "sustained_slip_onset": null,
+        "sustained_contact_loss_onset": null,
+        "pre_loss_max_foot_speed_m_s": 0.01259462144220797,
+        "pre_loss_max_foot_displacement_m": 0.02502930995266758,
+        "pre_loss_max_torque_utilization": 0.4150992126056385
+      },
+      "frozen_replay": [
+        {
+          "time_s": 2.9959999999998916,
+          "reach_weight": 100.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              2.1977767977330855e-05,
+              6.0582076693331594e-05,
+              -2.8689005774648886e-06
+            ],
+            [
+              4.899877836575024e-07,
+              -8.00479202860859e-05,
+              -3.0984167595888245e-06
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              5.113499022055373e-05,
+              -1.4422108230000801e-05,
+              -0.0007599100484342678
+            ],
+            [
+              4.9531446775253075e-05,
+              -1.564532015134048e-05,
+              -0.0010447518148516846
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              -5.188471014803922e-05,
+              -5.361893686772073e-07,
+              -3.2648852656995896e-06
+            ],
+            [
+              -4.5679093861702333e-05,
+              1.3420527095316589e-05,
+              -4.0872609719511085e-06
+            ]
+          ],
+          "predicted_normal_force_N": [
+            172.01600755127822,
+            172.4926178495003
+          ],
+          "actual_pre_step_normal_force_N": [
+            170.78346527774625,
+            173.670914479553
+          ],
+          "actual_post_step_normal_force_N": [
+            170.78232827891702,
+            173.67139571526593
+          ],
+          "contact_slack_norm": 0.001294460076739823,
+          "contact_residual_norm": 3.27975861341695e-16,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 3.075999999999883,
+          "reach_weight": 100.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              0.0013170695132236482,
+              -0.0003797122353297413,
+              0.0013070285559241108
+            ],
+            [
+              0.0013985222581063828,
+              -0.0005178019633544506,
+              0.0012099749673660674
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              0.00014943454802111475,
+              -1.0286784704421317e-05,
+              -0.00032420535822327845
+            ],
+            [
+              0.0001582224800752098,
+              -7.86370864883177e-06,
+              -0.00019559209003407185
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              0.026829565784525403,
+              -0.002072157617453324,
+              0.01788823110140103
+            ],
+            [
+              0.026505464737948545,
+              -0.001994342088745471,
+              0.01893078654507433
+            ]
+          ],
+          "predicted_normal_force_N": [
+            165.62211014329722,
+            177.36977836301526
+          ],
+          "actual_pre_step_normal_force_N": [
+            166.6098038487693,
+            174.18894211676806
+          ],
+          "actual_post_step_normal_force_N": [
+            166.6449344785232,
+            174.3466226986103
+          ],
+          "contact_slack_norm": 0.0004564404470797879,
+          "contact_residual_norm": 9.126175427100602e-15,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 3.1519999999998745,
+          "reach_weight": 100.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              0.005550699884385515,
+              -0.005202074780361804,
+              0.01080223598500303
+            ],
+            [
+              0.006946429001743436,
+              -0.005528167676255262,
+              0.013238170757180636
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              0.000528476013312509,
+              -1.3785521595033323e-05,
+              0.0007851692244826014
+            ],
+            [
+              0.0004774899081665101,
+              -4.0029219217172646e-06,
+              -0.0003894628033193348
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              0.03822304982720863,
+              -0.06546535356424978,
+              0.20023697269438667
+            ],
+            [
+              0.05200842011524962,
+              -0.06726415064179166,
+              0.22719804252489023
+            ]
+          ],
+          "predicted_normal_force_N": [
+            166.5097374551414,
+            176.04642577719096
+          ],
+          "actual_pre_step_normal_force_N": [
+            170.2646828542223,
+            180.548579443167
+          ],
+          "actual_post_step_normal_force_N": [
+            170.36559352294753,
+            180.5822928596724
+          ],
+          "contact_slack_norm": 0.0011626308135715567,
+          "contact_residual_norm": 1.0507883438566616e-14,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 3.399999999999847,
+          "reach_weight": 100.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              0.0339612487288732,
+              0.0026499158488990995,
+              0.07961111421268997
+            ],
+            [
+              0.03404233225658769,
+              0.002480204899468056,
+              0.07967905455085351
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              4.5043165026080294e-05,
+              3.1104059471792622e-06,
+              -0.0033311483878697354
+            ],
+            [
+              -0.00012150867598976437,
+              -2.073034890083536e-05,
+              -0.004523799648746482
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              0.18681709042755293,
+              0.018930375153111845,
+              0.33936478877884524
+            ],
+            [
+              0.17931307007713787,
+              0.018821034117578486,
+              0.31899616726685553
+            ]
+          ],
+          "predicted_normal_force_N": [
+            176.33169284857487,
+            168.6529528949948
+          ],
+          "actual_pre_step_normal_force_N": [
+            182.72429197775517,
+            174.89294668888837
+          ],
+          "actual_post_step_normal_force_N": [
+            182.88617497499766,
+            174.86908381085073
+          ],
+          "contact_slack_norm": 0.005620305970651905,
+          "contact_residual_norm": 1.7122267839293274e-15,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 4.847999999999688,
+          "reach_weight": 100.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              -0.009294579787414214,
+              0.0031845135625098086,
+              0.007910142118690639
+            ],
+            [
+              -0.011319103041851512,
+              0.0030122800459884925,
+              0.01007653958661065
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              5.593180690871124e-05,
+              -5.1505942819312506e-05,
+              -0.0012422092115331566
+            ],
+            [
+              0.000160452405581947,
+              -3.825368796105989e-05,
+              -0.003581340805581012
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              -0.5660389514315052,
+              -0.1644507450818724,
+              0.6296182345738873
+            ],
+            [
+              1.0021656692438898,
+              -0.1626420372137865,
+              -1.1076542236354863
+            ]
+          ],
+          "predicted_normal_force_N": [
+            168.18688644818198,
+            176.55545055717087
+          ],
+          "actual_pre_step_normal_force_N": [
+            160.15856788540748,
+            178.92967789565955
+          ],
+          "actual_post_step_normal_force_N": [
+            177.461750445088,
+            159.0753123457531
+          ],
+          "contact_slack_norm": 0.003799408197766529,
+          "contact_residual_norm": 5.818661671830018e-16,
+          "measured_double_support": true
+        }
+      ],
+      "path": "results/reaching_tracking/d240d2d_controls/trials/front_12.5cm_w100_hold_70N",
+      "source_version": "d240d2d",
+      "trajectory_sha256": "825d6e9492f760f2af40829fd1bd08d5465fd8829cc4db4f86063d3f7ac5ad54"
+    },
+    {
+      "policy": "fixed_3000",
+      "phase": "no_push",
+      "outcome": true,
+      "events": {
+        "angular_band": null,
+        "orientation_band": null,
+        "com_band": null,
+        "slip_velocity": null,
+        "slip_displacement": null,
+        "contact_loss": null,
+        "torque_bound": null,
+        "qp_failure": null,
+        "fall_height": null,
+        "sustained_slip_onset": null,
+        "sustained_contact_loss_onset": null,
+        "pre_loss_max_foot_speed_m_s": 0.0003234608313541088,
+        "pre_loss_max_foot_displacement_m": 0.00042427702124172006,
+        "pre_loss_max_torque_utilization": 0.10632781068411783
+      },
+      "frozen_replay": [
+        {
+          "time_s": 0.2440000000000002,
+          "reach_weight": 3000.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              1.2181373629698927e-05,
+              9.68363282665217e-05,
+              3.280138273171148e-06
+            ],
+            [
+              1.2317074503841245e-05,
+              -9.09702167614879e-05,
+              3.0405754686564015e-06
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              1.7873347179369417e-05,
+              -2.7173361114694024e-07,
+              6.429129933014217e-06
+            ],
+            [
+              1.7441335096012466e-05,
+              6.709449735694545e-07,
+              8.488835511631175e-06
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              2.081995178107694e-05,
+              -2.702618026487693e-05,
+              1.2934649667983222e-06
+            ],
+            [
+              3.4704392244585504e-05,
+              4.52489621236663e-06,
+              -9.476004477932364e-06
+            ]
+          ],
+          "predicted_normal_force_N": [
+            172.4342423950751,
+            171.97515860009386
+          ],
+          "actual_pre_step_normal_force_N": [
+            172.32682428906887,
+            172.12127931667183
+          ],
+          "actual_post_step_normal_force_N": [
+            172.32723678077252,
+            172.12180227013948
+          ],
+          "contact_slack_norm": 2.8492365850066826e-05,
+          "contact_residual_norm": 6.72553773581959e-17,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 0.32400000000000023,
+          "reach_weight": 3000.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              1.3463908119579334e-05,
+              9.510375733141047e-05,
+              3.0707195523885568e-06
+            ],
+            [
+              1.473430890833489e-05,
+              -9.044382933701826e-05,
+              2.6719263988500527e-06
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              2.0085329896079155e-05,
+              -3.144852509097462e-07,
+              5.114479748428706e-06
+            ],
+            [
+              1.9549214971460794e-05,
+              7.359824774760309e-07,
+              6.953678144042138e-06
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              1.1778532295519712e-05,
+              -1.6552535728211427e-05,
+              -4.565655825910332e-06
+            ],
+            [
+              2.5837581864516198e-05,
+              8.818696529204025e-06,
+              -1.8999695948177985e-06
+            ]
+          ],
+          "predicted_normal_force_N": [
+            172.45303092060752,
+            171.95396479659877
+          ],
+          "actual_pre_step_normal_force_N": [
+            172.31596479967544,
+            172.13259619292904
+          ],
+          "actual_post_step_normal_force_N": [
+            172.3164769224644,
+            172.1329524389474
+          ],
+          "contact_slack_norm": 3.095711242047486e-05,
+          "contact_residual_norm": 1.0953890370869674e-16,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 0.4000000000000003,
+          "reach_weight": 3000.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              1.4164721701491153e-05,
+              9.402472736517428e-05,
+              2.7423016905499137e-06
+            ],
+            [
+              1.647330770304542e-05,
+              -8.971171073716352e-05,
+              2.5313791939258793e-06
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              2.2006032670393994e-05,
+              -3.6561654189111436e-07,
+              4.085302494546958e-06
+            ],
+            [
+              2.1372278840832963e-05,
+              7.910923148716467e-07,
+              5.438636813538172e-06
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              6.72514954472004e-06,
+              -1.24355542166889e-05,
+              -3.847658007947759e-06
+            ],
+            [
+              1.9930426870132846e-05,
+              1.000831916318016e-05,
+              -2.125848837509443e-06
+            ]
+          ],
+          "predicted_normal_force_N": [
+            172.4682379379155,
+            171.93677779202991
+          ],
+          "actual_pre_step_normal_force_N": [
+            172.31087096283233,
+            172.1380746621099
+          ],
+          "actual_post_step_normal_force_N": [
+            172.31143611499934,
+            172.138321249464
+          ],
+          "contact_slack_norm": 3.3291394161476526e-05,
+          "contact_residual_norm": 7.322568843857218e-17,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 0.6480000000000005,
+          "reach_weight": 3000.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              1.1291760805072836e-06,
+              9.446826971864277e-05,
+              -7.674158726005811e-07
+            ],
+            [
+              4.930844586316603e-06,
+              -8.425022431291107e-05,
+              1.4253062061211054e-06
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              2.6491523979413648e-05,
+              -5.593544375355973e-07,
+              8.231839135790714e-06
+            ],
+            [
+              2.569597353426909e-05,
+              9.967108332205643e-07,
+              7.69913503295733e-06
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              -0.00010148585172103102,
+              -7.410604548593645e-06,
+              -4.3933588420650485e-06
+            ],
+            [
+              -9.357253222239364e-05,
+              1.1490230463686306e-05,
+              9.278269592923381e-08
+            ]
+          ],
+          "predicted_normal_force_N": [
+            172.38466554953763,
+            171.98850098009794
+          ],
+          "actual_pre_step_normal_force_N": [
+            172.40587050787536,
+            172.0418413004138
+          ],
+          "actual_post_step_normal_force_N": [
+            172.4080054944865,
+            172.03956508276448
+          ],
+          "contact_slack_norm": 4.095923948081448e-05,
+          "contact_residual_norm": 2.2669560957858046e-16,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 4.847999999999688,
+          "reach_weight": 3000.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              2.4128197742227754e-05,
+              7.095363069264349e-06,
+              1.370125594828444e-07
+            ],
+            [
+              -3.13115819739281e-05,
+              -4.592752088761293e-05,
+              1.2547875048655243e-06
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              -1.4214886888299827e-05,
+              2.8972490572933067e-06,
+              -0.004837703923646563
+            ],
+            [
+              -8.018349904067084e-05,
+              1.1661552305006751e-05,
+              -0.006666953028737401
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              -2.0986291651423824e-06,
+              1.0951331012406149e-05,
+              2.3378200491300608e-07
+            ],
+            [
+              1.8795517068764496e-05,
+              1.4448096324306156e-05,
+              8.873591281136774e-07
+            ]
+          ],
+          "predicted_normal_force_N": [
+            161.80277651248966,
+            182.2767186899083
+          ],
+          "actual_pre_step_normal_force_N": [
+            161.77075276852287,
+            182.67813725266
+          ],
+          "actual_post_step_normal_force_N": [
+            161.77075900764828,
+            182.67821239116006
+          ],
+          "contact_slack_norm": 0.008238256436331628,
+          "contact_residual_norm": 1.1787364465898582e-15,
+          "measured_double_support": true
+        }
+      ],
+      "path": "results/reaching_tracking/fbc0b50_local/trials/front_12.5cm_w3000",
+      "source_version": "fbc0b509402bc8d60a365c0b612d331a120fdc88",
+      "trajectory_sha256": "dc0c746f3cbeb27d8b77069fab5fff835aee660b377b710f57e9a7f22e152e4d"
+    },
+    {
+      "policy": "fixed_3000",
+      "phase": "moving",
+      "outcome": false,
+      "events": {
+        "angular_band": 1.5200000000000011,
+        "orientation_band": 3.2159999999998674,
+        "com_band": 2.0639999999999943,
+        "slip_velocity": 2.8959999999999027,
+        "slip_displacement": 2.3439999999999634,
+        "contact_loss": 2.9039999999999018,
+        "torque_bound": 3.5959999999998256,
+        "qp_failure": 4.227999999999756,
+        "fall_height": 3.799999999999803,
+        "sustained_slip_onset": 2.3439999999999634,
+        "sustained_contact_loss_onset": 3.611999999999824,
+        "pre_loss_max_foot_speed_m_s": 0.1751586033232237,
+        "pre_loss_max_foot_displacement_m": 0.09665047581074268,
+        "pre_loss_max_torque_utilization": 0.5198974891658148
+      },
+      "frozen_replay": [
+        {
+          "time_s": 1.496000000000001,
+          "reach_weight": 3000.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              -0.000101001864203135,
+              0.00012099016539208476,
+              2.6995999369843602e-05
+            ],
+            [
+              -0.00012799156567637872,
+              -5.1007979784407844e-05,
+              -1.624617621820054e-05
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              2.719737327384047e-05,
+              -3.203460317457128e-05,
+              -0.002798679000988819
+            ],
+            [
+              1.6920104773601003e-05,
+              -4.815755377097948e-05,
+              -0.0038185559802686544
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              -7.959944617173412e-05,
+              -0.00013433707873013103,
+              0.00016126978565658045
+            ],
+            [
+              -0.00011076146668489681,
+              -0.0005360498974769474,
+              -1.7470350749855867e-05
+            ]
+          ],
+          "predicted_normal_force_N": [
+            175.60485008204432,
+            168.53650457190022
+          ],
+          "actual_pre_step_normal_force_N": [
+            172.86794899614694,
+            171.5726326963374
+          ],
+          "actual_post_step_normal_force_N": [
+            172.79894033078756,
+            171.64200659114903
+          ],
+          "contact_slack_norm": 0.004734991086539575,
+          "contact_residual_norm": 5.593575916015775e-16,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 1.5760000000000012,
+          "reach_weight": 3000.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              0.0016444311656130528,
+              -0.0014378114105924682,
+              0.0018182317305980818
+            ],
+            [
+              0.001608253230298111,
+              -0.0015274793891275396,
+              0.0010309850289800281
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              0.00015833906670243694,
+              -2.6367298723837564e-05,
+              -9.924257483780174e-05
+            ],
+            [
+              0.00017276075521152623,
+              -2.5577300293882794e-05,
+              0.00018825593386563588
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              0.0316777963692248,
+              -0.002359195034233833,
+              0.017593973442075025
+            ],
+            [
+              0.02868182093208012,
+              -0.0013214071667443127,
+              0.022828004219738653
+            ]
+          ],
+          "predicted_normal_force_N": [
+            151.41936863953399,
+            190.77989104880797
+          ],
+          "actual_pre_step_normal_force_N": [
+            150.45782152236967,
+            190.576865385558
+          ],
+          "actual_post_step_normal_force_N": [
+            150.15830838121764,
+            191.07497888110257
+          ],
+          "contact_slack_norm": 0.00034616780697641406,
+          "contact_residual_norm": 3.2353214704820604e-14,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 1.6520000000000012,
+          "reach_weight": 3000.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              0.005547626747620257,
+              -0.007217198233253746,
+              0.012076670432346507
+            ],
+            [
+              0.007895065675331013,
+              -0.00753858449350443,
+              0.015565201394917603
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              0.0005940449406456232,
+              -3.95852919872243e-05,
+              0.0020097119587176027
+            ],
+            [
+              0.0005113292729989095,
+              -1.87245728241886e-05,
+              0.0001291188707298052
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              0.04327207984899241,
+              -0.06296562518845054,
+              0.19528187492675356
+            ],
+            [
+              0.054435269567720775,
+              -0.06707241865777792,
+              0.25236065450203404
+            ]
+          ],
+          "predicted_normal_force_N": [
+            160.59192802907933,
+            181.0766654019595
+          ],
+          "actual_pre_step_normal_force_N": [
+            163.83128374876185,
+            186.28065411718904
+          ],
+          "actual_post_step_normal_force_N": [
+            164.24249215786838,
+            186.03962956983844
+          ],
+          "contact_slack_norm": 0.0021793959575378856,
+          "contact_residual_norm": 1.653305785977474e-14,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 1.9000000000000015,
+          "reach_weight": 3000.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              0.03917411751003205,
+              0.00628735863267871,
+              0.09014956692159712
+            ],
+            [
+              0.03156678997020371,
+              0.00608911748696397,
+              0.07525645274955312
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              -0.0022474606516372734,
+              0.00011469583313935411,
+              -0.020312564466855587
+            ],
+            [
+              -0.001228145850836528,
+              -6.29311565330179e-05,
+              -0.013095199076096846
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              0.005326634243331403,
+              -0.0006650249237104012,
+              -0.10227717533533427
+            ],
+            [
+              0.09646415422812768,
+              0.0012723774944014838,
+              0.13006487859305502
+            ]
+          ],
+          "predicted_normal_force_N": [
+            205.9979135061648,
+            137.74062323430002
+          ],
+          "actual_pre_step_normal_force_N": [
+            205.66935138184914,
+            143.49238260392372
+          ],
+          "actual_post_step_normal_force_N": [
+            202.91080839491548,
+            142.58100394783648
+          ],
+          "contact_slack_norm": 0.024304049808578636,
+          "contact_residual_norm": 5.704624254329564e-14,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 2.8519999999999075,
+          "reach_weight": 3000.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              0.37359165172894143,
+              0.0011689599846268217,
+              0.218751623671725
+            ],
+            [
+              0.2081629879845232,
+              -0.00037778763015069994,
+              0.14202235175073835
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              -0.005700705622560587,
+              0.00036328221018067097,
+              -0.012787617099135229
+            ],
+            [
+              -0.004252004946651913,
+              0.0005200836843606005,
+              -0.014003648666881474
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              6.266772543092016,
+              -3.8063948995032364,
+              2.1881780678821623
+            ],
+            [
+              3.3443758331162745,
+              4.090601212589212,
+              1.191821842298386
+            ]
+          ],
+          "predicted_normal_force_N": [
+            159.07867830279625,
+            163.77658176646034
+          ],
+          "actual_pre_step_normal_force_N": [
+            187.33857834768665,
+            176.33827485941538
+          ],
+          "actual_post_step_normal_force_N": [
+            186.90238705108442,
+            177.39936289637913
+          ],
+          "contact_slack_norm": 0.02036572505635539,
+          "contact_residual_norm": 2.3372075990944547e-15,
+          "measured_double_support": true
+        }
+      ],
+      "path": "results/reaching_tracking/fbc0b50_local/trials/front_12.5cm_w3000_moving_70N",
+      "source_version": "fbc0b509402bc8d60a365c0b612d331a120fdc88",
+      "trajectory_sha256": "26f6478ada260c4e8efeeeb3036d3d0ba3b628e6ca74414bdae108d74c284b90"
+    },
+    {
+      "policy": "fixed_3000",
+      "phase": "hold",
+      "outcome": false,
+      "events": {
+        "angular_band": 3.019999999999889,
+        "orientation_band": 4.131999999999767,
+        "com_band": 3.4319999999998436,
+        "slip_velocity": 3.8439999999997982,
+        "slip_displacement": 3.6679999999998176,
+        "contact_loss": 3.8239999999998004,
+        "torque_bound": 4.447999999999732,
+        "qp_failure": null,
+        "fall_height": 4.639999999999711,
+        "sustained_slip_onset": 3.6679999999998176,
+        "sustained_contact_loss_onset": 4.347999999999743,
+        "pre_loss_max_foot_speed_m_s": 0.04725127201656029,
+        "pre_loss_max_foot_displacement_m": 0.0586823812507301,
+        "pre_loss_max_torque_utilization": 0.5542783651970248
+      },
+      "frozen_replay": [
+        {
+          "time_s": 2.9959999999998916,
+          "reach_weight": 3000.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              5.0907559679186126e-05,
+              2.0125663621395644e-05,
+              -3.03178560452533e-06
+            ],
+            [
+              -3.189159057903713e-05,
+              -5.7051016591070226e-05,
+              -5.164849990799884e-06
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              -1.4938318872385958e-06,
+              -1.1984826044113785e-05,
+              -0.004364439057698991
+            ],
+            [
+              -6.961973481574876e-05,
+              -5.552423398962649e-06,
+              -0.006119676619646645
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              -7.395141243576508e-05,
+              -1.0897476547956052e-05,
+              2.1017324070278145e-06
+            ],
+            [
+              -4.903251579495194e-05,
+              7.338716325918082e-06,
+              -3.034458276699389e-06
+            ]
+          ],
+          "predicted_normal_force_N": [
+            163.4519174562486,
+            180.49974487650505
+          ],
+          "actual_pre_step_normal_force_N": [
+            162.44724102751127,
+            182.00984617003274
+          ],
+          "actual_post_step_normal_force_N": [
+            162.44534037774662,
+            182.01098386680374
+          ],
+          "contact_slack_norm": 0.00751768259156562,
+          "contact_residual_norm": 1.922927745062025e-15,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 3.075999999999883,
+          "reach_weight": 3000.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              0.0035188186702022686,
+              -0.005559299121859595,
+              0.005115009562569892
+            ],
+            [
+              0.0021272933784199435,
+              -0.002312155258550337,
+              0.001471156248259324
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              0.00018538693408267238,
+              -1.9178300694842627e-05,
+              -0.0014555423696057876
+            ],
+            [
+              0.00031083339736272383,
+              -7.882363070474017e-05,
+              0.0006190816514795583
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              0.07766228449642547,
+              -0.2006666236020766,
+              0.20219269346761629
+            ],
+            [
+              0.05265168711229899,
+              -0.06553520654492903,
+              0.062080028687036534
+            ]
+          ],
+          "predicted_normal_force_N": [
+            138.42450302921358,
+            205.24672196742222
+          ],
+          "actual_pre_step_normal_force_N": [
+            141.96494650537394,
+            202.38618861128757
+          ],
+          "actual_post_step_normal_force_N": [
+            143.0277515399705,
+            201.46245126072375
+          ],
+          "contact_slack_norm": 0.001634281570358463,
+          "contact_residual_norm": 2.364000738662759e-14,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 3.1519999999998745,
+          "reach_weight": 3000.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              0.005303030333750262,
+              -0.011786899691213522,
+              0.017770415810896237
+            ],
+            [
+              0.011033871160237366,
+              -0.011879839451757909,
+              0.029424674994041056
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              0.0009336371302498172,
+              -0.00018871209948381762,
+              0.0047523684634347
+            ],
+            [
+              0.0004003202293140773,
+              -2.6921419700584245e-05,
+              -0.0028666453674032477
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              0.05798443169344288,
+              -0.025920998209824103,
+              0.1562552172214587
+            ],
+            [
+              0.06286105929924518,
+              -0.022029713995614857,
+              0.21505559589465378
+            ]
+          ],
+          "predicted_normal_force_N": [
+            151.812887255655,
+            190.79164411828293
+          ],
+          "actual_pre_step_normal_force_N": [
+            153.61380441553834,
+            195.9367466373259
+          ],
+          "actual_post_step_normal_force_N": [
+            154.27033163853264,
+            195.4981450753512
+          ],
+          "contact_slack_norm": 0.0056530114308994545,
+          "contact_residual_norm": 2.104330124222661e-14,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 3.399999999999847,
+          "reach_weight": 3000.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              0.039961009371402706,
+              0.004737137850027139,
+              0.09177366816988496
+            ],
+            [
+              0.03780430677111582,
+              0.004602522835072383,
+              0.08604638920209795
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              -0.0019300053737049822,
+              0.00011150974905350334,
+              -0.01668360079610348
+            ],
+            [
+              -0.0024104452051630955,
+              8.617009641120085e-06,
+              -0.019684959959729298
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              0.2520045210577318,
+              0.008202575877325802,
+              0.4452967447044457
+            ],
+            [
+              0.16412359092720238,
+              0.008671089603372796,
+              0.23555524945678863
+            ]
+          ],
+          "predicted_normal_force_N": [
+            209.16819314924294,
+            133.49276494643186
+          ],
+          "actual_pre_step_normal_force_N": [
+            216.88102528936432,
+            139.2228174858955
+          ],
+          "actual_post_step_normal_force_N": [
+            217.60668215277246,
+            138.51795842631634
+          ],
+          "contact_slack_norm": 0.02598859138657444,
+          "contact_residual_norm": 6.454966710177598e-14,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 3.771999999999806,
+          "reach_weight": 3000.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              0.2428458196276797,
+              0.010287538387597446,
+              0.2142766512026551
+            ],
+            [
+              0.2122405424098619,
+              -0.014745127568978833,
+              0.2007219255263393
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              -0.005451589808567081,
+              0.0004937864329565278,
+              -0.019490479591158794
+            ],
+            [
+              -0.0050226426090091425,
+              0.0007016439051566875,
+              -0.019233990042872406
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              2.394383322893254,
+              0.8215635519773937,
+              1.3215668405678198
+            ],
+            [
+              5.864759951286332,
+              1.3783948442314666,
+              3.768788855184646
+            ]
+          ],
+          "predicted_normal_force_N": [
+            93.58799803615203,
+            219.15571015441213
+          ],
+          "actual_pre_step_normal_force_N": [
+            147.32369311757725,
+            216.21858829948923
+          ],
+          "actual_post_step_normal_force_N": [
+            113.68886153474222,
+            264.24472082411756
+          ],
+          "contact_slack_norm": 0.02840528198438096,
+          "contact_residual_norm": 1.5955315535559114e-14,
+          "measured_double_support": true
+        }
+      ],
+      "path": "results/reaching_tracking/fbc0b50_local/trials/front_12.5cm_w3000_hold_70N",
+      "source_version": "fbc0b509402bc8d60a365c0b612d331a120fdc88",
+      "trajectory_sha256": "8dd0ef2015062ed1baa206be5ab69acae1f66ad999bc27c6b861bfa82339a5ac"
+    },
+    {
+      "policy": "guard",
+      "phase": "moving",
+      "outcome": false,
+      "events": {
+        "angular_band": 1.5200000000000011,
+        "orientation_band": 3.9759999999997837,
+        "com_band": 2.091999999999991,
+        "slip_velocity": 3.3399999999998538,
+        "slip_displacement": 2.2999999999999683,
+        "contact_loss": 3.2439999999998643,
+        "torque_bound": 4.095999999999771,
+        "qp_failure": 4.447999999999732,
+        "fall_height": 4.0639999999997745,
+        "sustained_slip_onset": 2.2999999999999683,
+        "sustained_contact_loss_onset": 4.087999999999772,
+        "pre_loss_max_foot_speed_m_s": 0.061980640159918624,
+        "pre_loss_max_foot_displacement_m": 0.08689920460827563,
+        "pre_loss_max_torque_utilization": 0.5397094272872967
+      },
+      "frozen_replay": [
+        {
+          "time_s": 1.496000000000001,
+          "reach_weight": 3000.0,
+          "control_replay_max_error_Nm": 5.995204332975845e-15,
+          "foot_velocity_world_m_s": [
+            [
+              -0.00010100186420332956,
+              0.00012099016539430347,
+              2.699599936748324e-05
+            ],
+            [
+              -0.00012799156567707933,
+              -5.100797978461265e-05,
+              -1.6246176221927763e-05
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              2.719737327414692e-05,
+              -3.203460317490061e-05,
+              -0.002798679000984072
+            ],
+            [
+              1.6920104774021253e-05,
+              -4.8157553771141485e-05,
+              -0.003818555980270065
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              -7.959944606771847e-05,
+              -0.0001343370786773846,
+              0.0001612697857978757
+            ],
+            [
+              -0.00011076146659127596,
+              -0.0005360498996792602,
+              -1.7470350670241546e-05
+            ]
+          ],
+          "predicted_normal_force_N": [
+            175.60485008203017,
+            168.53650457190545
+          ],
+          "actual_pre_step_normal_force_N": [
+            172.86794899614162,
+            171.57263269634117
+          ],
+          "actual_post_step_normal_force_N": [
+            172.79894033078295,
+            171.6420065911624
+          ],
+          "contact_slack_norm": 0.004734991086537907,
+          "contact_residual_norm": 6.792077949101915e-16,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 1.5760000000000012,
+          "reach_weight": 100.0,
+          "control_replay_max_error_Nm": 1.199040866595169e-14,
+          "foot_velocity_world_m_s": [
+            [
+              0.0015624306007674046,
+              -0.0011334520299200192,
+              0.0015049768544464573
+            ],
+            [
+              0.00155352653329284,
+              -0.0012213155698935357,
+              0.0012290457785076737
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              0.00015843458945140397,
+              -2.6745863562029938e-05,
+              6.169394945597373e-05
+            ],
+            [
+              0.00016788816302863805,
+              -2.4287151878996365e-05,
+              0.00011134942341825549
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              0.025108159263938203,
+              0.015981114463781573,
+              0.0063488527281647
+            ],
+            [
+              0.02420088969164525,
+              0.01559700261265081,
+              0.027391934741759973
+            ]
+          ],
+          "predicted_normal_force_N": [
+            155.05239570302803,
+            187.1511728313527
+          ],
+          "actual_pre_step_normal_force_N": [
+            152.9878866589982,
+            187.96612094503058
+          ],
+          "actual_post_step_normal_force_N": [
+            153.6155716441271,
+            187.50951642132887
+          ],
+          "contact_slack_norm": 0.0002982043638771339,
+          "contact_residual_norm": 1.8665248312498518e-14,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 1.6520000000000012,
+          "reach_weight": 100.0,
+          "control_replay_max_error_Nm": 7.105427357601002e-15,
+          "foot_velocity_world_m_s": [
+            [
+              0.005623421818593044,
+              -0.005460916045169703,
+              0.011112308728824708
+            ],
+            [
+              0.007238791741728479,
+              -0.005811333449911375,
+              0.013739623411437231
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              0.0005505160735298706,
+              -3.596920747814085e-05,
+              0.0010936129063619238
+            ],
+            [
+              0.00048395997241507463,
+              -2.201515223998387e-05,
+              -0.0004784734914023425
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              0.03954936853569915,
+              -0.0725074423577609,
+              0.20362077028759856
+            ],
+            [
+              0.055101436308158065,
+              -0.07512733464813674,
+              0.23996237562679967
+            ]
+          ],
+          "predicted_normal_force_N": [
+            164.38082403806305,
+            177.22082211106218
+          ],
+          "actual_pre_step_normal_force_N": [
+            168.0900082520505,
+            181.98154671515826
+          ],
+          "actual_post_step_normal_force_N": [
+            168.26057079283166,
+            181.96668324510233
+          ],
+          "contact_slack_norm": 0.0014291313119165006,
+          "contact_residual_norm": 9.737036127246767e-15,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 1.9000000000000015,
+          "reach_weight": 100.0,
+          "control_replay_max_error_Nm": 9.769962616701378e-15,
+          "foot_velocity_world_m_s": [
+            [
+              0.035030652852550845,
+              0.0019823878883867075,
+              0.08179954969005078
+            ],
+            [
+              0.03557162989880372,
+              0.0017563457979539122,
+              0.0826178724347112
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              0.00010644238904065732,
+              -5.922426444959425e-06,
+              -0.00296334781304549
+            ],
+            [
+              -0.00017651252453040021,
+              -2.5045825808999757e-05,
+              -0.005011902198636856
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              0.19414868046859265,
+              0.014153245345984658,
+              0.347711755497682
+            ],
+            [
+              0.1899942463411337,
+              0.014086494044980491,
+              0.33151532492047314
+            ]
+          ],
+          "predicted_normal_force_N": [
+            175.33402737945707,
+            169.55700250175727
+          ],
+          "actual_pre_step_normal_force_N": [
+            181.78993096488838,
+            176.06966509136106
+          ],
+          "actual_post_step_normal_force_N": [
+            181.94718686406185,
+            176.05306504126918
+          ],
+          "contact_slack_norm": 0.005827011312141329,
+          "contact_residual_norm": 1.214435608244151e-15,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 3.19199999999987,
+          "reach_weight": 100.0,
+          "control_replay_max_error_Nm": 1.4210854715202004e-14,
+          "foot_velocity_world_m_s": [
+            [
+              0.08732999470231328,
+              -0.01755764401564438,
+              0.027749963857295668
+            ],
+            [
+              0.12524957031815798,
+              -0.026364577204574073,
+              0.04744509189924068
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              -0.0028913371629512297,
+              0.00042279736687392266,
+              -0.007852427257136446
+            ],
+            [
+              -0.003206064939999115,
+              0.00011975288316393162,
+              -0.008913176123758193
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              3.8601917729467146,
+              7.322828769428566,
+              2.2266103424130765
+            ],
+            [
+              -0.7951179264878887,
+              0.8904541235144554,
+              -1.0296884499068095
+            ]
+          ],
+          "predicted_normal_force_N": [
+            201.3987761531304,
+            199.7311049072506
+          ],
+          "actual_pre_step_normal_force_N": [
+            175.3069110131075,
+            133.74115472090594
+          ],
+          "actual_post_step_normal_force_N": [
+            185.37214343638945,
+            134.81713200584693
+          ],
+          "contact_slack_norm": 0.012761073636530014,
+          "contact_residual_norm": 5.235143287666384e-15,
+          "measured_double_support": true
+        }
+      ],
+      "path": "results/reaching_guard/07ffc0f_worker/trials/front_12.5cm_moving_balance_guard",
+      "source_version": "07ffc0fa2283bee03d59f643d48c2a167a45f7fd",
+      "trajectory_sha256": "94d98aba6c42f91b12bd9e89d8168a776b328f814c3e6f2cceac265595e04afc"
+    },
+    {
+      "policy": "guard",
+      "phase": "hold",
+      "outcome": false,
+      "events": {
+        "angular_band": 3.019999999999889,
+        "orientation_band": 4.603999999999715,
+        "com_band": 3.4519999999998414,
+        "slip_velocity": 3.871999999999795,
+        "slip_displacement": 3.627999999999822,
+        "contact_loss": 3.855999999999797,
+        "torque_bound": 4.723999999999702,
+        "qp_failure": 4.991999999999672,
+        "fall_height": 4.691999999999705,
+        "sustained_slip_onset": 3.627999999999822,
+        "sustained_contact_loss_onset": 4.691999999999705,
+        "pre_loss_max_foot_speed_m_s": 0.07454071701406927,
+        "pre_loss_max_foot_displacement_m": 0.0746648326012207,
+        "pre_loss_max_torque_utilization": 0.4436293330493031
+      },
+      "frozen_replay": [
+        {
+          "time_s": 2.9959999999998916,
+          "reach_weight": 3000.0,
+          "control_replay_max_error_Nm": 1.554312234475219e-14,
+          "foot_velocity_world_m_s": [
+            [
+              5.090755967918027e-05,
+              2.012566362143096e-05,
+              -3.031785604376242e-06
+            ],
+            [
+              -3.189159057921854e-05,
+              -5.705101659089651e-05,
+              -5.16484998908293e-06
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              -1.4938318863140259e-06,
+              -1.1984826044137446e-05,
+              -0.004364439057697846
+            ],
+            [
+              -6.961973481558562e-05,
+              -5.552423398970444e-06,
+              -0.0061196766196478835
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              -7.395141240246652e-05,
+              -1.0897476649186654e-05,
+              2.101732201757003e-06
+            ],
+            [
+              -4.9032515802954704e-05,
+              7.338716266341172e-06,
+              -3.034458154149815e-06
+            ]
+          ],
+          "predicted_normal_force_N": [
+            163.45191745624822,
+            180.4997448765055
+          ],
+          "actual_pre_step_normal_force_N": [
+            162.44724102748165,
+            182.00984617006284
+          ],
+          "actual_post_step_normal_force_N": [
+            162.44534037771973,
+            182.01098386682708
+          ],
+          "contact_slack_norm": 0.007517682591565947,
+          "contact_residual_norm": 1.6253166557379647e-15,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 3.075999999999883,
+          "reach_weight": 100.0,
+          "control_replay_max_error_Nm": 4.440892098500626e-15,
+          "foot_velocity_world_m_s": [
+            [
+              0.0032440166724960473,
+              -0.004460282497447092,
+              0.0039358407072601275
+            ],
+            [
+              0.0020297323917125645,
+              -0.0018419786449936789,
+              0.0017194638254053405
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              0.00020924635824065823,
+              -3.683961065951589e-05,
+              -0.0007267072658814905
+            ],
+            [
+              0.000303921269791682,
+              -7.696816513541637e-05,
+              0.0007057204630179156
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              0.05850172137967325,
+              -0.12579273264950572,
+              0.12437053189865684
+            ],
+            [
+              0.029153879275779174,
+              -0.0136422749394435,
+              0.0408939874142771
+            ]
+          ],
+          "predicted_normal_force_N": [
+            140.96606374025157,
+            202.87594626317986
+          ],
+          "actual_pre_step_normal_force_N": [
+            142.06728791548454,
+            199.74831397146195
+          ],
+          "actual_post_step_normal_force_N": [
+            144.16746592284224,
+            198.7128817415051
+          ],
+          "contact_slack_norm": 0.0010956529386594632,
+          "contact_residual_norm": 3.619187644208168e-14,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 3.1519999999998745,
+          "reach_weight": 100.0,
+          "control_replay_max_error_Nm": 3.774758283725532e-15,
+          "foot_velocity_world_m_s": [
+            [
+              0.00547021563449605,
+              -0.008468899770230891,
+              0.016327851346317993
+            ],
+            [
+              0.010358893602472961,
+              -0.00889531968207296,
+              0.027465428543315455
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              0.0008310853395572543,
+              -0.00016302620714052016,
+              0.003660847094233158
+            ],
+            [
+              0.00033884606620171454,
+              -2.0261850768605455e-05,
+              -0.0034452143239741967
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              0.04762148014142218,
+              -0.04957584381374445,
+              0.15732008893615948
+            ],
+            [
+              0.06201968110556243,
+              -0.03618693723475615,
+              0.21085026532912768
+            ]
+          ],
+          "predicted_normal_force_N": [
+            157.6581396018104,
+            185.076394104942
+          ],
+          "actual_pre_step_normal_force_N": [
+            159.99418556912795,
+            189.76573348208626
+          ],
+          "actual_post_step_normal_force_N": [
+            160.44865590271215,
+            189.47209195983768
+          ],
+          "contact_slack_norm": 0.005117171561686437,
+          "contact_residual_norm": 5.331673333479673e-15,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 3.399999999999847,
+          "reach_weight": 100.0,
+          "control_replay_max_error_Nm": 9.325873406851315e-15,
+          "foot_velocity_world_m_s": [
+            [
+              0.03560116280652395,
+              0.002731246848463582,
+              0.08289278392711374
+            ],
+            [
+              0.04179502245979222,
+              0.002418153064033134,
+              0.09304129783930004
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              0.000994749964004723,
+              -7.821788044453867e-05,
+              0.00202873235409199
+            ],
+            [
+              -0.0009807819471141423,
+              -1.6634066998966017e-05,
+              -0.01040524158209509
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              0.20378560951140973,
+              0.01574668839482787,
+              0.35979467359702344
+            ],
+            [
+              0.22673959430011686,
+              0.01663507554723456,
+              0.34839618119820676
+            ]
+          ],
+          "predicted_normal_force_N": [
+            178.0903414725908,
+            166.32162122005371
+          ],
+          "actual_pre_step_normal_force_N": [
+            184.22184395035646,
+            173.45034596237468
+          ],
+          "actual_post_step_normal_force_N": [
+            184.44962361902623,
+            173.35188630421095
+          ],
+          "contact_slack_norm": 0.010693489093157767,
+          "contact_residual_norm": 8.527446258404571e-16,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 3.8039999999998027,
+          "reach_weight": 100.0,
+          "control_replay_max_error_Nm": 1.48894230278529e-11,
+          "foot_velocity_world_m_s": [
+            [
+              0.2602218739689151,
+              0.00025376224262086355,
+              0.17771274692969463
+            ],
+            [
+              0.28290135995420945,
+              0.0006030307479417004,
+              0.1766063217497082
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              -0.0040967211274157145,
+              -1.1221289135896276e-05,
+              -0.010762429706801913
+            ],
+            [
+              -0.004230416846109419,
+              -0.00010436991592485678,
+              -0.009853349971379988
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              1.4557515289219052,
+              0.03200087338894414,
+              0.0577412624306253
+            ],
+            [
+              1.780599660103759,
+              0.0015243862347668114,
+              0.08861601657666617
+            ]
+          ],
+          "predicted_normal_force_N": [
+            147.53332202938947,
+            171.4879132531052
+          ],
+          "actual_pre_step_normal_force_N": [
+            154.70655476703968,
+            178.34044385144955
+          ],
+          "actual_post_step_normal_force_N": [
+            153.60341388669846,
+            178.10905648452666
+          ],
+          "contact_slack_norm": 0.01588264622603439,
+          "contact_residual_norm": 4.466649022024132e-15,
+          "measured_double_support": true
+        }
+      ],
+      "path": "results/reaching_guard/07ffc0f_worker/trials/front_12.5cm_hold_balance_guard",
+      "source_version": "07ffc0fa2283bee03d59f643d48c2a167a45f7fd",
+      "trajectory_sha256": "b597869a9f0dc34050323e76143c8be0e0029549ea9a13b438725dc3957dc7c5"
+    },
+    {
+      "policy": "guard_arm",
+      "phase": "moving",
+      "outcome": false,
+      "events": {
+        "angular_band": 1.5200000000000011,
+        "orientation_band": 4.311999999999747,
+        "com_band": 2.0999999999999903,
+        "slip_velocity": 4.223999999999757,
+        "slip_displacement": 2.311999999999967,
+        "contact_loss": 4.10399999999977,
+        "torque_bound": 4.359999999999742,
+        "qp_failure": 4.503999999999726,
+        "fall_height": 4.327999999999745,
+        "sustained_slip_onset": 2.311999999999967,
+        "sustained_contact_loss_onset": 4.359999999999742,
+        "pre_loss_max_foot_speed_m_s": 0.07143246920736987,
+        "pre_loss_max_foot_displacement_m": 0.17337479099209,
+        "pre_loss_max_torque_utilization": 0.6269471968994533
+      },
+      "frozen_replay": [
+        {
+          "time_s": 1.496000000000001,
+          "reach_weight": 3000.0,
+          "control_replay_max_error_Nm": 1.176836406102666e-14,
+          "foot_velocity_world_m_s": [
+            [
+              -0.00010100186420332956,
+              0.00012099016539430347,
+              2.699599936748324e-05
+            ],
+            [
+              -0.00012799156567707933,
+              -5.100797978461265e-05,
+              -1.6246176221927763e-05
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              2.7197373274313454e-05,
+              -3.20346031748503e-05,
+              -0.002798679000984065
+            ],
+            [
+              1.692010477404901e-05,
+              -4.815755377110679e-05,
+              -0.0038185559802700582
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              -7.959944606771847e-05,
+              -0.0001343370786773846,
+              0.0001612697857978757
+            ],
+            [
+              -0.00011076146659127596,
+              -0.0005360498996792602,
+              -1.7470350670241546e-05
+            ]
+          ],
+          "predicted_normal_force_N": [
+            175.6048500820302,
+            168.53650457190545
+          ],
+          "actual_pre_step_normal_force_N": [
+            172.86794899614162,
+            171.57263269634117
+          ],
+          "actual_post_step_normal_force_N": [
+            172.79894033078295,
+            171.6420065911624
+          ],
+          "contact_slack_norm": 0.004734991086537907,
+          "contact_residual_norm": 6.792077949101915e-16,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 1.5760000000000012,
+          "reach_weight": 100.0,
+          "control_replay_max_error_Nm": 8.43769498715119e-15,
+          "foot_velocity_world_m_s": [
+            [
+              0.001608383643347512,
+              -0.001121447676811678,
+              0.0015134828454182
+            ],
+            [
+              0.0015825977158110544,
+              -0.0012082119319015423,
+              0.0012392815191535594
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              0.00015417599902573073,
+              -2.666060585241421e-05,
+              0.00011188145299975
+            ],
+            [
+              0.00016364354026826653,
+              -2.387237756164935e-05,
+              0.000171127222413886
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              0.02382113156726947,
+              0.01523718438949013,
+              0.005104255018416831
+            ],
+            [
+              0.023948142595358442,
+              0.014961452682301537,
+              0.02768301365076482
+            ]
+          ],
+          "predicted_normal_force_N": [
+            154.9301363655065,
+            187.26647947146768
+          ],
+          "actual_pre_step_normal_force_N": [
+            152.98549144780733,
+            187.96362806031945
+          ],
+          "actual_post_step_normal_force_N": [
+            153.65638666426113,
+            187.46480612478825
+          ],
+          "contact_slack_norm": 0.000333036416174262,
+          "contact_residual_norm": 1.8276989869541937e-14,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 1.6520000000000012,
+          "reach_weight": 100.0,
+          "control_replay_max_error_Nm": 7.827072323607354e-15,
+          "foot_velocity_world_m_s": [
+            [
+              0.005568177555589894,
+              -0.005978825691058988,
+              0.011011349298887183
+            ],
+            [
+              0.007276816052426319,
+              -0.0063295757442185345,
+              0.013848158799807537
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              0.0005488007544614051,
+              -3.628141378676959e-05,
+              0.0012028070591717233
+            ],
+            [
+              0.0004784266233302612,
+              -2.1414017526678875e-05,
+              -0.0004819385957884337
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              0.03841075766528465,
+              -0.08520108227286816,
+              0.20107860151631654
+            ],
+            [
+              0.05578477957774402,
+              -0.08795991394250784,
+              0.2409681283529338
+            ]
+          ],
+          "predicted_normal_force_N": [
+            164.30051851908368,
+            177.36658073860548
+          ],
+          "actual_pre_step_normal_force_N": [
+            167.98723693790652,
+            182.14097765565623
+          ],
+          "actual_post_step_normal_force_N": [
+            168.1664782951642,
+            182.130098310915
+          ],
+          "contact_slack_norm": 0.0015125289296394682,
+          "contact_residual_norm": 4.422332841355863e-15,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 1.9000000000000015,
+          "reach_weight": 100.0,
+          "control_replay_max_error_Nm": 5.440092820663267e-15,
+          "foot_velocity_world_m_s": [
+            [
+              0.03500457383865928,
+              0.002108064709236293,
+              0.08176896357420163
+            ],
+            [
+              0.03564126962526268,
+              0.001881524947106868,
+              0.08272290657131083
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              0.00011164043715506354,
+              -6.322635682441159e-06,
+              -0.0028670028485696525
+            ],
+            [
+              -0.00019614923962463487,
+              -2.5670178880819218e-05,
+              -0.005104721664942025
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              0.19467974611416303,
+              0.01640743996378595,
+              0.3491411651129619
+            ],
+            [
+              0.19070503174353753,
+              0.016345849068644554,
+              0.3328506948319755
+            ]
+          ],
+          "predicted_normal_force_N": [
+            175.46713449994036,
+            169.4458489119642
+          ],
+          "actual_pre_step_normal_force_N": [
+            181.92092917786846,
+            175.9866672655027
+          ],
+          "actual_post_step_normal_force_N": [
+            182.0855407293099,
+            175.96455438535855
+          ],
+          "contact_slack_norm": 0.0058600871982964105,
+          "contact_residual_norm": 1.6900359668959843e-15,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 4.051999999999776,
+          "reach_weight": 100.0,
+          "control_replay_max_error_Nm": 8.15250089658548e-11,
+          "foot_velocity_world_m_s": [
+            [
+              0.21432994502405764,
+              0.05934379128038794,
+              -0.07265426066636028
+            ],
+            [
+              0.2190837897041101,
+              0.04894926613750969,
+              -0.078621775079417
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              0.0006163794408811096,
+              -0.003150932842421572,
+              -0.002720195201073805
+            ],
+            [
+              0.00025284406348546895,
+              -0.002073516197419134,
+              -0.003091650639589938
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              1.8047128205291005,
+              -3.0219366688950546,
+              -1.347224274903045
+            ],
+            [
+              -0.8591275319810482,
+              2.293861302550546,
+              -0.5255800803145537
+            ]
+          ],
+          "predicted_normal_force_N": [
+            185.38833603092974,
+            171.09185879566505
+          ],
+          "actual_pre_step_normal_force_N": [
+            91.88084134835401,
+            115.04936183962462
+          ],
+          "actual_post_step_normal_force_N": [
+            118.22492514748373,
+            97.40518173761106
+          ],
+          "contact_slack_norm": 0.006273041543419545,
+          "contact_residual_norm": 1.7033524240265544e-14,
+          "measured_double_support": true
+        }
+      ],
+      "path": "results/reaching_guard/11ebc63_arm_worker/trials/front_12.5cm_moving_balance_guard",
+      "source_version": "11ebc63ab6c4d23f64b99bb70f653d21d9982f49",
+      "trajectory_sha256": "65033a139d976962e8a739a46d0fc751e9180e75b8a29daf468635d032a8a0b2"
+    },
+    {
+      "policy": "guard_arm",
+      "phase": "hold",
+      "outcome": false,
+      "events": {
+        "angular_band": 3.019999999999889,
+        "orientation_band": 4.675999999999707,
+        "com_band": 3.455999999999841,
+        "slip_velocity": 3.8799999999997943,
+        "slip_displacement": 3.6319999999998216,
+        "contact_loss": 3.863999999999796,
+        "torque_bound": 4.731999999999701,
+        "qp_failure": 4.875999999999685,
+        "fall_height": 4.699999999999704,
+        "sustained_slip_onset": 3.6319999999998216,
+        "sustained_contact_loss_onset": 4.727999999999701,
+        "pre_loss_max_foot_speed_m_s": 0.06350920403733835,
+        "pre_loss_max_foot_displacement_m": 0.0745000449860192,
+        "pre_loss_max_torque_utilization": 0.44349151345792054
+      },
+      "frozen_replay": [
+        {
+          "time_s": 2.9959999999998916,
+          "reach_weight": 3000.0,
+          "control_replay_max_error_Nm": 1.3322676295501878e-14,
+          "foot_velocity_world_m_s": [
+            [
+              5.090755967918027e-05,
+              2.012566362143096e-05,
+              -3.031785604376242e-06
+            ],
+            [
+              -3.189159057921854e-05,
+              -5.705101659089651e-05,
+              -5.16484998908293e-06
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              -1.4938318863140259e-06,
+              -1.1984826044144384e-05,
+              -0.0043644390576978494
+            ],
+            [
+              -6.961973481541908e-05,
+              -5.552423398991261e-06,
+              -0.0061196766196478765
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              -7.395141240246652e-05,
+              -1.0897476649186654e-05,
+              2.101732201757003e-06
+            ],
+            [
+              -4.9032515802954704e-05,
+              7.338716266341172e-06,
+              -3.034458154149815e-06
+            ]
+          ],
+          "predicted_normal_force_N": [
+            163.4519174562483,
+            180.49974487650542
+          ],
+          "actual_pre_step_normal_force_N": [
+            162.44724102748165,
+            182.00984617006284
+          ],
+          "actual_post_step_normal_force_N": [
+            162.44534037771973,
+            182.01098386682708
+          ],
+          "contact_slack_norm": 0.007517682591565947,
+          "contact_residual_norm": 1.6253166557379647e-15,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 3.075999999999883,
+          "reach_weight": 100.0,
+          "control_replay_max_error_Nm": 3.552713678800501e-15,
+          "foot_velocity_world_m_s": [
+            [
+              0.003418183499888844,
+              -0.00447571658310055,
+              0.0041185330932094364
+            ],
+            [
+              0.0020770506319330168,
+              -0.0017934252176236328,
+              0.0017528233157390952
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              0.0002021248904735683,
+              -3.8763694864227174e-05,
+              -0.0006590581962308967
+            ],
+            [
+              0.0003007103977648077,
+              -7.987086444244179e-05,
+              0.0008516693462014002
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              0.051411351211809564,
+              -0.13209534476256818,
+              0.12369918406723787
+            ],
+            [
+              0.032092310548383136,
+              -0.021206745396766303,
+              0.043447994565017224
+            ]
+          ],
+          "predicted_normal_force_N": [
+            141.20227648199156,
+            202.51035384696337
+          ],
+          "actual_pre_step_normal_force_N": [
+            142.49243584711255,
+            199.515987093053
+          ],
+          "actual_post_step_normal_force_N": [
+            144.45912038527825,
+            198.37185215241834
+          ],
+          "contact_slack_norm": 0.0011522574071710719,
+          "contact_residual_norm": 3.6439520297988103e-14,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 3.1519999999998745,
+          "reach_weight": 100.0,
+          "control_replay_max_error_Nm": 3.552713678800501e-15,
+          "foot_velocity_world_m_s": [
+            [
+              0.005404083462061355,
+              -0.009675699283470377,
+              0.01634958993311849
+            ],
+            [
+              0.010448052250989,
+              -0.010025676782141606,
+              0.027778433780339118
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              0.0008283589649208476,
+              -0.0001680841717244582,
+              0.003874443726942109
+            ],
+            [
+              0.0003317272073338536,
+              -2.0885727122782125e-05,
+              -0.003424288770759898
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              0.047091526960396715,
+              -0.06445713451898333,
+              0.15902695153671206
+            ],
+            [
+              0.060507437432774196,
+              -0.0808006503766601,
+              0.20717481059687728
+            ]
+          ],
+          "predicted_normal_force_N": [
+            157.50104713989072,
+            185.2106582775248
+          ],
+          "actual_pre_step_normal_force_N": [
+            159.78912670759908,
+            189.93843132941458
+          ],
+          "actual_post_step_normal_force_N": [
+            160.25819033263676,
+            189.65402352376663
+          ],
+          "contact_slack_norm": 0.005257410318467756,
+          "contact_residual_norm": 1.0163193220477369e-14,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 3.399999999999847,
+          "reach_weight": 100.0,
+          "control_replay_max_error_Nm": 4.973799150320701e-14,
+          "foot_velocity_world_m_s": [
+            [
+              0.03565187192367947,
+              0.0030003702843202766,
+              0.08304255341347297
+            ],
+            [
+              0.04191937829830883,
+              0.0026926695095660343,
+              0.09315029788678751
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              0.0009828056064625189,
+              -7.732269282170919e-05,
+              0.002092083381903774
+            ],
+            [
+              -0.0009967687003927667,
+              -1.9846270718010088e-05,
+              -0.010472111004636589
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              0.20514660084015005,
+              0.019141654371658334,
+              0.3622131469138718
+            ],
+            [
+              0.22798585171466837,
+              0.019978254885333713,
+              0.35058691732114305
+            ]
+          ],
+          "predicted_normal_force_N": [
+            178.22162968408315,
+            166.22338540692144
+          ],
+          "actual_pre_step_normal_force_N": [
+            184.35246560567805,
+            173.42329888509056
+          ],
+          "actual_post_step_normal_force_N": [
+            184.59254690956828,
+            173.3143015002284
+          ],
+          "contact_slack_norm": 0.010771117714109933,
+          "contact_residual_norm": 7.618465411185958e-16,
+          "measured_double_support": true
+        },
+        {
+          "time_s": 3.8119999999998018,
+          "reach_weight": 100.0,
+          "control_replay_max_error_Nm": 1.9539925233402755e-14,
+          "foot_velocity_world_m_s": [
+            [
+              0.25963228518867076,
+              0.0008691908041261825,
+              0.17630067354965062
+            ],
+            [
+              0.2817884975605608,
+              0.001162143352987558,
+              0.17491650277867749
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              -0.004118227219782819,
+              -1.959618001852459e-05,
+              -0.010791513189914115
+            ],
+            [
+              -0.004257742432093925,
+              -0.00011195650073406171,
+              -0.009892753625968864
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              1.4558468555890485,
+              0.014677964788307444,
+              0.06052366261754372
+            ],
+            [
+              1.770588387793371,
+              0.02491233180441165,
+              0.08903935689494612
+            ]
+          ],
+          "predicted_normal_force_N": [
+            148.31078160154965,
+            170.559985346503
+          ],
+          "actual_pre_step_normal_force_N": [
+            155.56735834146332,
+            177.5067155981702
+          ],
+          "actual_post_step_normal_force_N": [
+            154.4515014679322,
+            177.25745259374162
+          ],
+          "contact_slack_norm": 0.015940651843352954,
+          "contact_residual_norm": 5.9937088980370414e-15,
+          "measured_double_support": true
+        }
+      ],
+      "path": "results/reaching_guard/11ebc63_arm_worker/trials/front_12.5cm_hold_balance_guard",
+      "source_version": "11ebc63ab6c4d23f64b99bb70f653d21d9982f49",
+      "trajectory_sha256": "22b868dbba8836bc6562a8880932865d6537ae9c8545f9b1c98819bb7ec60e19"
+    }
+  ],
+  "physical_trials_run": 0,
+  "input_pairs_verified_atol": 1e-12,
+  "analysis_source_version": "c0b37546116549c0e2bc0c0d8e589900c28dc59a",
+  "observed_acceleration_definition": "World foot-body linear velocity finite difference over next 4 ms; not an instantaneous contact-point measurement",
+  "event_definition": "First post-push threshold crossing; sustained onset reported separately; fall classification has precedence",
+  "limitation": "Association and frozen replay do not establish a unique cause or validate a controller change"
+}

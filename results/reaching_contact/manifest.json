@@ -1,0 +1,112 @@
+{
+  "files": [
+    {
+      "path": "audit/audit.json",
+      "sha256": "aeed41de9bb0c9d70ba4cd602cb7e569b842d6ed06923f9ee3668eee60eecd2c"
+    },
+    {
+      "path": "audit/contact_timeline.pdf",
+      "sha256": "d4c7018df9b82039bb2d84b7a6a886042c24e68fb49b2028318be1a1f4f628cf"
+    },
+    {
+      "path": "audit/contact_timeline.png",
+      "sha256": "ea4d1231efe4966f590c38aab81bd35eab9ac8b9b3dcbd55474af5818cc27524"
+    },
+    {
+      "path": "audit/manifest.json",
+      "sha256": "d9e6d7bc987c18b2951955ad38bdb296f5db8ffaeea6a931d58983ff8cfa6a0f"
+    },
+    {
+      "path": "audit/prediction_vs_actual.pdf",
+      "sha256": "4941fbcf443d818a65ba11191b5c1124bab9e6c49b34ea8448150815a44f7624"
+    },
+    {
+      "path": "audit/prediction_vs_actual.png",
+      "sha256": "80001d6cf8053d1bbb9bdf590f7738cc2ed258a45ed9be0ca0b1d936c1850ea9"
+    },
+    {
+      "path": "audit/timeline.csv",
+      "sha256": "4b425b336759ee3b4a8e3907a18eb3828901076f7dc19ecd4d08419f79c17ddb"
+    },
+    {
+      "path": "damping_pilot/logs/front_12.5cm_contact_damping_hold.txt",
+      "sha256": "c89541311c10f847f79d3aa0d00d95926044176fc000d34566d251f9a8434dd7"
+    },
+    {
+      "path": "damping_pilot/logs/front_12.5cm_contact_damping_moving.txt",
+      "sha256": "5a5498b8e4afb9bb2cec13990331a89c4a2855c73466449ee5863e4c32ec0830"
+    },
+    {
+      "path": "damping_pilot/logs/front_12.5cm_contact_damping_no_push.txt",
+      "sha256": "b213087bc98285dcc4224e6b4d2459506507a624ae48f1a4ef55878fc14b235b"
+    },
+    {
+      "path": "damping_pilot/manifest.json",
+      "sha256": "7c71f9a3cd73d1aa2182635f7ab2ecc950ae84c49a3d651c81320a87500c867e"
+    },
+    {
+      "path": "damping_pilot/study.csv",
+      "sha256": "36b9c866869adf76c01114592dc5a829769199ed5e6b4f554b571bce1a38f94a"
+    },
+    {
+      "path": "damping_pilot/study.json",
+      "sha256": "866141e19d0fd033c2e2886f60348e0557598d13d494ccadb2d6c63ff440dfc4"
+    },
+    {
+      "path": "damping_pilot/trials/front_12.5cm_contact_damping_hold/reaching_response.pdf",
+      "sha256": "c110d532c2129b8129e058fc15326b526dc8195f7600d45073771a69fdcfb107"
+    },
+    {
+      "path": "damping_pilot/trials/front_12.5cm_contact_damping_hold/reaching_response.png",
+      "sha256": "14fe31b01c13841dcf016bee00a93e3fac5e1ef29e7c02bc0923429d28477ef1"
+    },
+    {
+      "path": "damping_pilot/trials/front_12.5cm_contact_damping_hold/summary.json",
+      "sha256": "75067643792770d6e0f9fa73d6698db6130cd063645f24dda1af333f559a9a63"
+    },
+    {
+      "path": "damping_pilot/trials/front_12.5cm_contact_damping_hold/trajectory.npz",
+      "sha256": "ca7b700d5ae4814d53a6d8df6768b87f4187bdb7ce1090c98c54efd06892ffa9"
+    },
+    {
+      "path": "damping_pilot/trials/front_12.5cm_contact_damping_moving/reaching_response.pdf",
+      "sha256": "d19aef6588bdf0d4a3ef34a1afb481dcdbe6ca16dd3bf2c578496005730812e0"
+    },
+    {
+      "path": "damping_pilot/trials/front_12.5cm_contact_damping_moving/reaching_response.png",
+      "sha256": "18456c127707d0fc7d5f2dc9e99006f996d3b1011ff14a386afefcd9640f16b7"
+    },
+    {
+      "path": "damping_pilot/trials/front_12.5cm_contact_damping_moving/summary.json",
+      "sha256": "42ec46e3448158a75d17fef48fad323575382da7bf112dda30b80dfd5ccee66d"
+    },
+    {
+      "path": "damping_pilot/trials/front_12.5cm_contact_damping_moving/trajectory.npz",
+      "sha256": "92f20dc9f27c7df4e64ceb35579819b3fc939d173ed64bdc888e81f5f43d6807"
+    },
+    {
+      "path": "damping_pilot/trials/front_12.5cm_contact_damping_no_push/reaching_response.pdf",
+      "sha256": "d2d52ad230ccc02fd5453f4e7d2afb30240ec121a712e13d20bdf1b7c79a4562"
+    },
+    {
+      "path": "damping_pilot/trials/front_12.5cm_contact_damping_no_push/reaching_response.png",
+      "sha256": "06111b18f8a56731befac530fc5cd231c8fbc3422527d704b478df77efbefeb0"
+    },
+    {
+      "path": "damping_pilot/trials/front_12.5cm_contact_damping_no_push/summary.json",
+      "sha256": "bbc03b44fd9bc8d39affe620b7b96e494206090374868fb1245e65fc5cd8add8"
+    },
+    {
+      "path": "damping_pilot/trials/front_12.5cm_contact_damping_no_push/trajectory.npz",
+      "sha256": "df5261fcaf89b77d8e914771ba514cef832dc56f90093e8da00381839154b891"
+    },
+    {
+      "path": "REPORT.md",
+      "sha256": "eccb8a1e0396d2f6c24ef5fbf5396a5dc4af4d9eb227988ddb1d1dcbfc695255"
+    },
+    {
+      "path": "verification.json",
+      "sha256": "a74e5da3c576041bf671305cd8e596929ee3d9b05e880f48c6b49ab8f64934c9"
+    }
+  ]
+}

@@ -138,12 +138,12 @@ def main():
                   event_definition='First post-push threshold crossing; sustained onset reported separately; fall classification has precedence',
                   limitation='Association and frozen replay do not establish a unique cause or validate a controller change')
     (args.output/'audit.json').write_text(json.dumps(report,indent=2),encoding='utf-8')
-    plot(args.output,arrays)
+    plot(args.output,arrays,records)
     files=[dict(path=p.name,sha256=hashlib.sha256(p.read_bytes()).hexdigest()) for p in sorted(args.output.iterdir()) if p.is_file()]
     (args.output/'manifest.json').write_text(json.dumps(dict(files=files),indent=2),encoding='utf-8')
 
 
-def plot(root,arrays):
+def plot(root,arrays,records):
     import matplotlib.pyplot as plt
     from se3_whole_body_control.visualization.style import apply_style
     apply_style()
@@ -166,6 +166,24 @@ def plot(root,arrays):
         axes[-1,col].set_xlabel('Time [s]')
     for suffix in ('png','pdf'):
         fig.savefig(root/f'contact_timeline.{suffix}',dpi=200)
+    plt.close(fig)
+    fig,axes=plt.subplots(2,2,figsize=(12,7),constrained_layout=True)
+    for col,phase in enumerate(('moving','hold')):
+        frozen=next(r['frozen_replay'] for r in records if r['policy']=='fixed_3000' and r['phase']==phase)
+        times=[f['time_s'] for f in frozen]
+        for key,label,color in (('predicted_foot_acceleration_world_m_s2','QP instantaneous','#167c9c'),
+                                ('observed_interval_foot_acceleration_world_m_s2','Observed interval average','#ad3946')):
+            axes[0,col].plot(times,[max(np.linalg.norm(f[key],axis=1)) for f in frozen],'.-',color=color,label=label)
+        for foot,color in ((0,'#167c9c'),(1,'#78569d')):
+            name='Left' if foot==0 else 'Right'
+            axes[1,col].plot(times,[f['predicted_normal_force_N'][foot] for f in frozen],'.-',color=color,label=name+' QP')
+            axes[1,col].plot(times,[f['actual_post_step_normal_force_N'][foot] for f in frozen],'.--',color=color,label=name+' measured post-step')
+        axes[0,col].set(title=phase.title()+' | Frozen pre-loss states',ylabel='Max foot-body linear acceleration [m/s^2]')
+        axes[1,col].set(xlabel='Time [s]',ylabel='Normal force [N]')
+        for ax in axes[:,col]:
+            ax.legend(fontsize=8)
+    for suffix in ('png','pdf'):
+        fig.savefig(root/f'prediction_vs_actual.{suffix}',dpi=200)
     plt.close(fig)
 
 

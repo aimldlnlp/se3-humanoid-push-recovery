@@ -446,6 +446,18 @@ payload, grasping or stepping is added by this pilot.
 
 ## Limitations
 
+### Contact drift audit and one damping pilot
+
+The [contact audit](../results/reaching_contact/REPORT.md) inspects ten existing
+trajectories and reproduces actuator commands in fifty frozen-state QP solves.
+Drift and CoM excursions precede contact loss and torque saturation in the
+original high-weight failures. One opt-in contact-velocity damping candidate
+passes nominal and moving-push trials, but still falls under the hold push.
+The pilot gate fails; defaults and physical criteria remain unchanged.
+
+The next diagnostic targets the hold candidate before slip onset. Multi-target
+reaching is deferred until all three pilot conditions pass.
+
 - Fixed-foot double support on flat ground; no walking, hardware transfer or general locomotion claim.
 - Conservative L1/rectangular-patch contact approximation; predicted and measured forces differ.
 - Contact acceleration uses explicit, heavily penalized slack.

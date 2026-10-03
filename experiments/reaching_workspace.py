@@ -4,12 +4,16 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
 import tempfile
 
 import numpy as np
+
+if os.name != 'nt' and not os.environ.get('DISPLAY'):
+    os.environ.setdefault('MUJOCO_GL', 'egl')
 
 from common import ROOT, load_configs, make_model, recovery_config, write_csv
 from se3_whole_body_control.evaluation.recovery import classify_recovery

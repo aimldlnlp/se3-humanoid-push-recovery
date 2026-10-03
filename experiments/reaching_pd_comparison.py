@@ -61,7 +61,8 @@ def main():
         ax.bar(x+shift,[r[key] for r in results],width=.3,color=color,label=label)
     ax.axhline(15,color='#ae3946',ls='--',label='15 mm tracking tolerance')
     ax.set(xticks=x,xticklabels=[r['trial_id'].replace('front_5cm','No push').replace('No push_','') for r in results],
-           ylabel='Maximum final-hold target error [mm]',title='Qualified single-target PD pilot; balance also required')
+           ylabel='Maximum final-hold target error [mm]',
+           title='Single-target PD pilot' if payload['baseline_qualified'] else 'PD qualification failed without push')
     ax.legend(fontsize=9)
     for suffix in ('png','pdf'):
         fig.savefig(args.output/f'comparison.{suffix}',dpi=250)

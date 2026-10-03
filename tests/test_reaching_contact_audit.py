@@ -45,3 +45,35 @@ def test_contact_damping_changes_only_contact_rhs_and_consistent_bias():
     controller.settings={**settings,'contact_velocity_damping_s_inv':0}
     restored=controller._build_problem()
     np.testing.assert_array_equal(restored[3],original[3])
+
+
+def test_contact_pose_stabilization_fixed_reference_and_world_rotation():
+    from common import load_configs, make_model, ROOT
+    from se3_whole_body_control.config import load_yaml
+    from se3_whole_body_control.geometry.so3 import exp_so3
+    from reach_and_balance import ReachingController
+    cfg=load_configs(ROOT,robot_name='unitree_g1')
+    model=make_model(cfg)
+    settings=load_yaml(ROOT/'configs/reaching.yaml')
+    controller=ReachingController(model,cfg['controller'],settings)
+    controller._sync_internal_model()
+    original=controller._build_problem()
+    axis=np.array([.01,-.02,.03])
+    for reference in controller.foot_reference:
+        reference[:3,3]-=np.array([.001,-.002,.003])
+        reference[:3,:3]=exp_so3(-axis)@reference[:3,:3]
+    reference_copy=[r.copy() for r in controller.foot_reference]
+    controller.settings={**settings,'contact_pose_stiffness_s_inv2':100}
+    changed=controller._build_problem()
+    correction=np.tile(np.r_[.1,-.2,.3,100*axis],2)
+    np.testing.assert_allclose(changed[11],original[11]+correction,atol=1e-10)
+    for i in (3,4):
+        expected=original[i].copy()
+        expected[model.nv:model.nv+controller.nw]-=correction
+        np.testing.assert_allclose(changed[i],expected,atol=1e-10)
+    for before,after in zip(reference_copy,controller.foot_reference):
+        np.testing.assert_array_equal(before,after)
+    for i in (0,1,2):
+        a,b=original[i],changed[i]
+        np.testing.assert_array_equal(a.toarray() if hasattr(a,'toarray') else a,
+                                      b.toarray() if hasattr(b,'toarray') else b)

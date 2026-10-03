@@ -24,6 +24,7 @@ from se3_whole_body_control.control.whole_body_qp import WholeBodyQPController
 from se3_whole_body_control.evaluation.metrics import save_trial_npz, summarize_trial
 from se3_whole_body_control.simulation.mujoco_sim import SimulationRunner
 from se3_whole_body_control.geometry.se3 import inverse_se3, log_se3
+from se3_whole_body_control.geometry.so3 import log_so3
 
 
 class ReachBalanceGuard:
@@ -55,6 +56,10 @@ class ReachingController(WholeBodyQPController):
         damping = settings.get('contact_velocity_damping_s_inv', 0)
         if not np.isfinite(damping) or damping < 0:
             raise ValueError('contact velocity damping must be finite and nonnegative')
+        stiffness = settings.get('contact_pose_stiffness_s_inv2', 0)
+        if not np.isfinite(stiffness) or stiffness < 0:
+            raise ValueError('contact pose stiffness must be finite and nonnegative')
+        self.foot_reference = [model.body_pose(name).copy() for name in self.contact_names]
         self.start = model.attached_point_kinematics(settings['body_name'], settings['point_local_m'])[0]
         self.goal = self.start + np.asarray(settings['target_offset_world_m'])
         self.reach_task = ReachTask(settings['body_name'], np.asarray(settings['point_local_m']),
@@ -73,9 +78,18 @@ class ReachingController(WholeBodyQPController):
     def _build_problem(self):
         problem = list(super()._build_problem())
         damping = self.settings.get('contact_velocity_damping_s_inv', 0)
-        if damping:
+        stiffness = self.settings.get('contact_pose_stiffness_s_inv2', 0)
+        if damping or stiffness:
             # Only the experiment changes the contact acceleration target.
             correction = damping*(problem[10]@self.internal_model.data.qvel)
+            if stiffness:
+                errors = []
+                for name, reference in zip(self.contact_names, self.foot_reference):
+                    pose = self.internal_model.body_pose(name)
+                    # mj_jacBody uses world linear/angular velocity, not body twists.
+                    errors.extend(pose[:3, 3]-reference[:3, 3])
+                    errors.extend(log_so3(pose[:3, :3]@reference[:3, :3].T))
+                correction += stiffness*np.asarray(errors)
             rows = slice(self.internal_model.nv, self.internal_model.nv+self.nw)
             problem[3][rows] -= correction
             problem[4][rows] -= correction
@@ -124,11 +138,14 @@ def main():
     parser.add_argument('--balance-guard', action='store_true')
     parser.add_argument('--guard-arm-posture', action='store_true')
     parser.add_argument('--contact-velocity-damping', type=float, default=0)
+    parser.add_argument('--contact-pose-stiffness', type=float, default=0)
     parser.add_argument('--controller', choices=('se3_wbc', 'pd_nominal_ff'), default='se3_wbc')
     parser.add_argument('--render', action='store_true')
     args = parser.parse_args()
     if not np.isfinite(args.contact_velocity_damping) or args.contact_velocity_damping < 0 or (args.contact_velocity_damping and args.controller != 'se3_wbc'):
         parser.error('--contact-velocity-damping requires a finite nonnegative WBC value')
+    if not np.isfinite(args.contact_pose_stiffness) or args.contact_pose_stiffness < 0 or (args.contact_pose_stiffness and args.controller != 'se3_wbc'):
+        parser.error('--contact-pose-stiffness requires a finite nonnegative WBC value')
     if args.balance_guard and args.controller != 'se3_wbc':
         parser.error('--balance-guard applies only to se3_wbc')
     if args.guard_arm_posture and not args.balance_guard:
@@ -149,6 +166,8 @@ def main():
     settings = load_yaml(ROOT/'configs/reaching.yaml')
     if args.contact_velocity_damping:
         settings['contact_velocity_damping_s_inv'] = args.contact_velocity_damping
+    if args.contact_pose_stiffness:
+        settings['contact_pose_stiffness_s_inv2'] = args.contact_pose_stiffness
     default_reach_weight = settings['weight']
     if args.reach_weight is not None:
         if not np.isfinite(args.reach_weight) or args.reach_weight <= 0:

@@ -51,6 +51,8 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--previous', type=Path, required=True)
+    parser.add_argument('--validation-controls-for', type=Path,
+                        help='Separate follow-up: default-weight controls and front-only weight 300 probe')
     args = parser.parse_args()
     root, previous = args.output, args.previous
     root.mkdir(parents=True, exist_ok=False)
@@ -62,6 +64,27 @@ def main():
         rows.append(row)
         write_csv(rows, root/'study.csv')
         return row
+    if args.validation_controls_for is not None:
+        candidate = args.validation_controls_for
+        selected = json.loads((candidate/'study.json').read_text())['selected_reach_weight']
+        for name, offset in TARGETS.items():
+            for phase, start in (('moving', 1.5), ('hold', 3.0)):
+                reference = candidate/'trials'/f'{name}_w{selected}_{phase}_70N'
+                for weight in ((100, 300) if name.startswith('front') else (100,)):
+                    trial_name = f'{name}_w{weight}_{phase}_70N'
+                    trial(trial_name, offset, weight, 'validation_control', 70, start)
+                    verify_pair(reference, root/'trials'/trial_name)
+        payload = dict(trials=rows, paired_validation_inputs_verified=True,
+                       baseline_dynamics_reproduced=False, selected_reach_weight=None,
+                       candidate_source_version=json.loads((candidate/'study.json').read_text())['source_version'],
+                       scope='Post-validation diagnostic controls; weight 300 front probe is exploratory, not held-out validation',
+                       source_version=rows[0]['source_version'])
+        (root/'study.json').write_text(json.dumps(payload, indent=2), encoding='utf-8')
+        plot(root, rows)
+        files = [dict(path=p.relative_to(root).as_posix(), sha256=hashlib.sha256(p.read_bytes()).hexdigest())
+                 for p in sorted(root.rglob('*')) if p.is_file()]
+        (root/'manifest.json').write_text(json.dumps(dict(files=files), indent=2), encoding='utf-8')
+        return
     # Repeat default trajectories before changing the single calibration factor.
     for name, offset in TARGETS.items():
         trial(name+'_w100', offset, 100, 'regression')
@@ -108,7 +131,7 @@ def plot(root, rows):
         axes[0].plot([r['reach_weight'] for r in selected], [r['hold_max_error_mm'] for r in selected], marker='o', label=name)
     axes[0].set(xscale='log', xlabel='Reach objective weight', title='(a) Calibration on known tracking failures')
     axes[0].legend(fontsize=8)
-    validation = [r for r in rows if r['stage']=='validation']
+    validation = [r for r in rows if r['stage'] in ('validation', 'validation_control')]
     axes[1].bar(range(len(validation)), [r['hold_max_error_mm'] for r in validation],
                 color=['#257a59' if r['combined_success'] else '#ae3946' for r in validation])
     axes[1].set(xticks=range(len(validation)), xticklabels=[r['trial_id'].split('_w')[0]+'\n'+r['trial_id'].split('_w')[1] for r in validation],

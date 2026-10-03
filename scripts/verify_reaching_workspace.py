@@ -34,12 +34,11 @@ def main():
             assert np.all(np.diff(a['time_s']) > 0)
             for key in ('qpos_history','qvel_history','control','reach_point_world','reach_reference_world'):
                 assert np.all(np.isfinite(a[key])), (row['trial_id'],key)
-            if row['stage'] in ('workspace', 'disturbance'):
-                key = (row['direction'],row['distance_m'])
-                digest = hashlib.sha256(a['reach_reference_world'].tobytes()).hexdigest()
-                if key in references:
-                    assert references[key] == digest
-                references[key] = digest
+            key = tuple(a['reach_goal_world'])
+            digest = hashlib.sha256(a['reach_reference_world'].tobytes()).hexdigest()
+            if key in references:
+                assert references[key] == digest
+            references[key] = digest
             assert abs(s['provenance']['actual_impulse_Ns']-row['push_N']*.15) < 1e-8
     assert len(states)==1 and len(actual_states)==1
     manifest = json.loads((root/'manifest.json').read_text())
@@ -47,7 +46,8 @@ def main():
         p=root/file['path']
         assert hashlib.sha256(p.read_bytes()).hexdigest() == file['sha256'], p
     from PIL import Image
-    with Image.open(root/'workspace_results.png') as image:
+    plot = 'tracking_results.png' if 'selected_reach_weight' in study else 'workspace_results.png'
+    with Image.open(root/plot) as image:
         image.verify()
     videos = []
     for path in sorted((root/'videos').glob('*.mp4')):
@@ -62,7 +62,7 @@ def main():
         videos.append(dict(path=path.relative_to(root).as_posix(),frames=int(stream['nb_frames']),duration_s=expected))
     report=dict(trials_verified=len(rows), shared_initial_state_verified=True,
                 outcomes_recomputed=True, manifest_files_verified=len(manifest['files']),
-                deterministic_baseline_regression=study['baseline_regression_passed'],
+                deterministic_baseline_regression=study.get('baseline_regression_passed', study.get('baseline_dynamics_reproduced', False)),
                 target_reference_groups_verified=len(references), videos=videos)
     print(json.dumps(report,indent=2))
     if args.record:

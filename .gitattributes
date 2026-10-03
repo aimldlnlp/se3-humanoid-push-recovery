@@ -12,3 +12,5 @@ results/reaching_workspace/**/*.npz filter=lfs diff=lfs merge=lfs -text
 results/reaching_workspace/**/*.mp4 filter=lfs diff=lfs merge=lfs -text
 results/reaching_pd/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
 results/reaching_pd/**/*.npz filter=lfs diff=lfs merge=lfs -text
+results/reaching_tracking/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
+results/reaching_tracking/**/*.npz filter=lfs diff=lfs merge=lfs -text

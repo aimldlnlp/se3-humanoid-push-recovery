@@ -88,6 +88,10 @@ there is no hard-real-time or cross-host physical-replication claim.
 
 ## Next Gate
 
+Follow-up completed: [hold geometry audit and pose-stabilization pilot](HOLD_REPORT.md).
+The pose-restoration candidate passes only 1/3 conditions and is not promoted.
+The following describes the original audit's next gate, retained for chronology.
+
 Replay the hold candidate before its slip onset and compare foot roll/contact
 geometry, position drift and CoM response with the original held-target state.
 Use that evidence to decide whether position stabilization or a contact-model

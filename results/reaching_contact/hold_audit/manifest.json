@@ -1,0 +1,20 @@
+{
+  "files": [
+    {
+      "path": "audit.json",
+      "sha256": "3dc7255b353c71dc7e9eae1a3950d6d229f6c25b234f258105e39ab2b2b58819"
+    },
+    {
+      "path": "geometry.csv",
+      "sha256": "fa2c67e95bd27ad113b425b4929da6a77af34ede9d3493664dad9b7203584acd"
+    },
+    {
+      "path": "hold_geometry.pdf",
+      "sha256": "bf8a93cd97bc238a3d79ade05aca0ff73d85eff827a9c877aacb4db9e02673ad"
+    },
+    {
+      "path": "hold_geometry.png",
+      "sha256": "288a530b195abfef16bb265eb98dd99db17aef4d071f3759dddd5b4501a6456e"
+    }
+  ]
+}

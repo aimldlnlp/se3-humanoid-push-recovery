@@ -101,8 +101,108 @@
       "sha256": "df5261fcaf89b77d8e914771ba514cef832dc56f90093e8da00381839154b891"
     },
     {
+      "path": "hold_audit/audit.json",
+      "sha256": "3dc7255b353c71dc7e9eae1a3950d6d229f6c25b234f258105e39ab2b2b58819"
+    },
+    {
+      "path": "hold_audit/geometry.csv",
+      "sha256": "fa2c67e95bd27ad113b425b4929da6a77af34ede9d3493664dad9b7203584acd"
+    },
+    {
+      "path": "hold_audit/hold_geometry.pdf",
+      "sha256": "bf8a93cd97bc238a3d79ade05aca0ff73d85eff827a9c877aacb4db9e02673ad"
+    },
+    {
+      "path": "hold_audit/hold_geometry.png",
+      "sha256": "288a530b195abfef16bb265eb98dd99db17aef4d071f3759dddd5b4501a6456e"
+    },
+    {
+      "path": "hold_audit/manifest.json",
+      "sha256": "5399f1f88d54b167373f82b035bfa618cd2e980cc4b219e49d910960152467ea"
+    },
+    {
+      "path": "HOLD_REPORT.md",
+      "sha256": "7138f7280917873de0e36d90a6b12f97d195fa4ddea305efbba1ce3385d795b2"
+    },
+    {
+      "path": "hold_verification.json",
+      "sha256": "2599d3162c2f2ddbd79234efd28efdfd5ca2b051d42f1c90f69cea8997d56fdb"
+    },
+    {
+      "path": "pose_pilot/logs/front_12.5cm_contact_pose_hold.txt",
+      "sha256": "aea147d4e13bc80448a2fa87bb3ad7896dd31b2762bbbe5d246e419e2cecdba2"
+    },
+    {
+      "path": "pose_pilot/logs/front_12.5cm_contact_pose_moving.txt",
+      "sha256": "6bdad8dc2c92918b42357e95278929ebe9246a24c550b24555b10f3ebfb74c25"
+    },
+    {
+      "path": "pose_pilot/logs/front_12.5cm_contact_pose_no_push.txt",
+      "sha256": "f4069e3f0bcd4b04f1f8a913df5d02eee0cefc17de7eb70eb7394fbf6f505320"
+    },
+    {
+      "path": "pose_pilot/manifest.json",
+      "sha256": "4ccdd99cb2128438e419668e06cad1e42435530adf952910a2025c8f2c14f62b"
+    },
+    {
+      "path": "pose_pilot/study.csv",
+      "sha256": "a77863ee28bb1ed9442e3847f2b01f7d101191ce916bc8a3eb5f61b026b1eb62"
+    },
+    {
+      "path": "pose_pilot/study.json",
+      "sha256": "70c6b873ac3b86f7e909cec7beb35105f9614de537f779667dd47acc42384beb"
+    },
+    {
+      "path": "pose_pilot/trials/front_12.5cm_contact_pose_hold/reaching_response.pdf",
+      "sha256": "d0297a8c5e9347a2b808d628507e99ca274993adb37d87ec3f6dc2d6180ad3b5"
+    },
+    {
+      "path": "pose_pilot/trials/front_12.5cm_contact_pose_hold/reaching_response.png",
+      "sha256": "92cf338c9d23eb4020cbddc405e06e2488eb0886d122d66176a30dde137dba5a"
+    },
+    {
+      "path": "pose_pilot/trials/front_12.5cm_contact_pose_hold/summary.json",
+      "sha256": "dc31171a23e0fde0ab7960e785a4858ea139f9923e235969a15b215529c959ff"
+    },
+    {
+      "path": "pose_pilot/trials/front_12.5cm_contact_pose_hold/trajectory.npz",
+      "sha256": "26f165c4f82cd99f95ecbf3f09f79f6de1343eed058cd205a482b43853377cfe"
+    },
+    {
+      "path": "pose_pilot/trials/front_12.5cm_contact_pose_moving/reaching_response.pdf",
+      "sha256": "ef29a157f5bdad58bca1f7087ab6c83076975ffeac9a23a3884671f5056d6d2f"
+    },
+    {
+      "path": "pose_pilot/trials/front_12.5cm_contact_pose_moving/reaching_response.png",
+      "sha256": "8dfc5ee4a1d13d0a3487ef545d254217b75029d12a2e52c7a0fd484f447dc406"
+    },
+    {
+      "path": "pose_pilot/trials/front_12.5cm_contact_pose_moving/summary.json",
+      "sha256": "3a7fa9773d313c03a0c81eea5d6c0917025fda1a34a4e943644b0db578bb5ae4"
+    },
+    {
+      "path": "pose_pilot/trials/front_12.5cm_contact_pose_moving/trajectory.npz",
+      "sha256": "b5f8b651551c9cffe76086e1977d9866efc0a8dd428d80fa9cbfd71717423ed4"
+    },
+    {
+      "path": "pose_pilot/trials/front_12.5cm_contact_pose_no_push/reaching_response.pdf",
+      "sha256": "612a1e253a4cfdd840c8c573a802970832fc73bafee43d28f73e59c5fc796890"
+    },
+    {
+      "path": "pose_pilot/trials/front_12.5cm_contact_pose_no_push/reaching_response.png",
+      "sha256": "c755a538e25058afebd669079c5541284bbb95efcd25c805dadc2ff9983def6d"
+    },
+    {
+      "path": "pose_pilot/trials/front_12.5cm_contact_pose_no_push/summary.json",
+      "sha256": "a121c1ab897029d1889fec5edd0b6e034dcff9caeb1abfb1b8d8fa263567f177"
+    },
+    {
+      "path": "pose_pilot/trials/front_12.5cm_contact_pose_no_push/trajectory.npz",
+      "sha256": "3a35fa92ca4576230adf4840810e4854c723cd247afe338afc2136e9041c2410"
+    },
+    {
       "path": "REPORT.md",
-      "sha256": "eccb8a1e0396d2f6c24ef5fbf5396a5dc4af4d9eb227988ddb1d1dcbfc695255"
+      "sha256": "403e6eced31867b8493e34b9789d98c3886a6a5fbfb3e7ef13d53d94fcb6e04e"
     },
     {
       "path": "verification.json",

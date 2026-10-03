@@ -1,0 +1,72 @@
+{
+  "files": [
+    {
+      "path": "logs/front_12.5cm_contact_pose_hold.txt",
+      "sha256": "aea147d4e13bc80448a2fa87bb3ad7896dd31b2762bbbe5d246e419e2cecdba2"
+    },
+    {
+      "path": "logs/front_12.5cm_contact_pose_moving.txt",
+      "sha256": "6bdad8dc2c92918b42357e95278929ebe9246a24c550b24555b10f3ebfb74c25"
+    },
+    {
+      "path": "logs/front_12.5cm_contact_pose_no_push.txt",
+      "sha256": "f4069e3f0bcd4b04f1f8a913df5d02eee0cefc17de7eb70eb7394fbf6f505320"
+    },
+    {
+      "path": "study.csv",
+      "sha256": "a77863ee28bb1ed9442e3847f2b01f7d101191ce916bc8a3eb5f61b026b1eb62"
+    },
+    {
+      "path": "study.json",
+      "sha256": "70c6b873ac3b86f7e909cec7beb35105f9614de537f779667dd47acc42384beb"
+    },
+    {
+      "path": "trials/front_12.5cm_contact_pose_hold/reaching_response.pdf",
+      "sha256": "d0297a8c5e9347a2b808d628507e99ca274993adb37d87ec3f6dc2d6180ad3b5"
+    },
+    {
+      "path": "trials/front_12.5cm_contact_pose_hold/reaching_response.png",
+      "sha256": "92cf338c9d23eb4020cbddc405e06e2488eb0886d122d66176a30dde137dba5a"
+    },
+    {
+      "path": "trials/front_12.5cm_contact_pose_hold/summary.json",
+      "sha256": "dc31171a23e0fde0ab7960e785a4858ea139f9923e235969a15b215529c959ff"
+    },
+    {
+      "path": "trials/front_12.5cm_contact_pose_hold/trajectory.npz",
+      "sha256": "26f165c4f82cd99f95ecbf3f09f79f6de1343eed058cd205a482b43853377cfe"
+    },
+    {
+      "path": "trials/front_12.5cm_contact_pose_moving/reaching_response.pdf",
+      "sha256": "ef29a157f5bdad58bca1f7087ab6c83076975ffeac9a23a3884671f5056d6d2f"
+    },
+    {
+      "path": "trials/front_12.5cm_contact_pose_moving/reaching_response.png",
+      "sha256": "8dfc5ee4a1d13d0a3487ef545d254217b75029d12a2e52c7a0fd484f447dc406"
+    },
+    {
+      "path": "trials/front_12.5cm_contact_pose_moving/summary.json",
+      "sha256": "3a7fa9773d313c03a0c81eea5d6c0917025fda1a34a4e943644b0db578bb5ae4"
+    },
+    {
+      "path": "trials/front_12.5cm_contact_pose_moving/trajectory.npz",
+      "sha256": "b5f8b651551c9cffe76086e1977d9866efc0a8dd428d80fa9cbfd71717423ed4"
+    },
+    {
+      "path": "trials/front_12.5cm_contact_pose_no_push/reaching_response.pdf",
+      "sha256": "612a1e253a4cfdd840c8c573a802970832fc73bafee43d28f73e59c5fc796890"
+    },
+    {
+      "path": "trials/front_12.5cm_contact_pose_no_push/reaching_response.png",
+      "sha256": "c755a538e25058afebd669079c5541284bbb95efcd25c805dadc2ff9983def6d"
+    },
+    {
+      "path": "trials/front_12.5cm_contact_pose_no_push/summary.json",
+      "sha256": "a121c1ab897029d1889fec5edd0b6e034dcff9caeb1abfb1b8d8fa263567f177"
+    },
+    {
+      "path": "trials/front_12.5cm_contact_pose_no_push/trajectory.npz",
+      "sha256": "3a35fa92ca4576230adf4840810e4854c723cd247afe338afc2136e9041c2410"
+    }
+  ]
+}

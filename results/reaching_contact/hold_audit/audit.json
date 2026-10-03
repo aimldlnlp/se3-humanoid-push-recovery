@@ -1,0 +1,839 @@
+{
+  "records": [
+    {
+      "path": "results/reaching_tracking/fbc0b50_local/trials/front_12.5cm_w3000_hold_70N",
+      "events": {
+        "angular_band": 3.019999999999889,
+        "orientation_band": 4.131999999999767,
+        "com_band": 3.4319999999998436,
+        "slip_velocity": 3.8439999999997982,
+        "slip_displacement": 3.6679999999998176,
+        "contact_loss": 3.8239999999998004,
+        "torque_bound": 4.447999999999732,
+        "qp_failure": null,
+        "fall_height": 4.639999999999711,
+        "sustained_slip_onset": 3.6679999999998176,
+        "sustained_contact_loss_onset": 4.347999999999743,
+        "pre_loss_max_foot_speed_m_s": 0.04725127201656029,
+        "pre_loss_max_foot_displacement_m": 0.0586823812507301,
+        "pre_loss_max_torque_utilization": 0.5542783651970248
+      },
+      "frozen_replay": [
+        {
+          "time_s": 2.9959999999998916,
+          "reach_weight": 3000.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              5.0907559679186126e-05,
+              2.0125663621395644e-05,
+              -3.03178560452533e-06
+            ],
+            [
+              -3.189159057903713e-05,
+              -5.7051016591070226e-05,
+              -5.164849990799884e-06
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              -1.4938318872385958e-06,
+              -1.1984826044113785e-05,
+              -0.004364439057698991
+            ],
+            [
+              -6.961973481574876e-05,
+              -5.552423398962649e-06,
+              -0.006119676619646645
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              -7.395141243576508e-05,
+              -1.0897476547956052e-05,
+              2.1017324070278145e-06
+            ],
+            [
+              -4.903251579495194e-05,
+              7.338716325918082e-06,
+              -3.034458276699389e-06
+            ]
+          ],
+          "predicted_normal_force_N": [
+            163.4519174562486,
+            180.49974487650505
+          ],
+          "actual_pre_step_normal_force_N": [
+            162.44724102751127,
+            182.00984617003274
+          ],
+          "actual_post_step_normal_force_N": [
+            162.44534037774662,
+            182.01098386680374
+          ],
+          "contact_slack_norm": 0.00751768259156562,
+          "contact_residual_norm": 1.922927745062025e-15,
+          "measured_double_support": true,
+          "geometry": [
+            {
+              "foot": "left_foot",
+              "body_xy_drift_m": 0.00015539160605676595,
+              "sole_tilt_rad": 0.002107214401747306,
+              "sole_corner_min_z_m": 0.004617979405151591,
+              "sole_corner_max_z_m": 0.004769073177458682,
+              "contact_count": 4,
+              "contact_distance_min_m": -0.0003715101546257543,
+              "body_linear_speed_m_s": 5.482530157366462e-05
+            },
+            {
+              "foot": "right_foot",
+              "body_xy_drift_m": 0.0003062559754224673,
+              "sole_tilt_rad": 0.001853555771230438,
+              "sole_corner_min_z_m": 0.004589198333324041,
+              "sole_corner_max_z_m": 0.004739938907453695,
+              "contact_count": 4,
+              "contact_distance_min_m": -0.00040161056148715815,
+              "body_linear_speed_m_s": 6.556346329445209e-05
+            }
+          ]
+        },
+        {
+          "time_s": 3.1519999999998745,
+          "reach_weight": 3000.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              0.005303030333750262,
+              -0.011786899691213522,
+              0.017770415810896237
+            ],
+            [
+              0.011033871160237366,
+              -0.011879839451757909,
+              0.029424674994041056
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              0.0009336371302498172,
+              -0.00018871209948381762,
+              0.0047523684634347
+            ],
+            [
+              0.0004003202293140773,
+              -2.6921419700584245e-05,
+              -0.0028666453674032477
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              0.05798443169344288,
+              -0.025920998209824103,
+              0.1562552172214587
+            ],
+            [
+              0.06286105929924518,
+              -0.022029713995614857,
+              0.21505559589465378
+            ]
+          ],
+          "predicted_normal_force_N": [
+            151.812887255655,
+            190.79164411828293
+          ],
+          "actual_pre_step_normal_force_N": [
+            153.61380441553834,
+            195.9367466373259
+          ],
+          "actual_post_step_normal_force_N": [
+            154.27033163853264,
+            195.4981450753512
+          ],
+          "contact_slack_norm": 0.0056530114308994545,
+          "contact_residual_norm": 2.104330124222661e-14,
+          "measured_double_support": true,
+          "geometry": [
+            {
+              "foot": "left_foot",
+              "body_xy_drift_m": 0.00085171785858107,
+              "sole_tilt_rad": 0.010321195433974835,
+              "sole_corner_min_z_m": 0.00440247609482617,
+              "sole_corner_max_z_m": 0.006198438759416152,
+              "contact_count": 2,
+              "contact_distance_min_m": -0.00059752390517383,
+              "body_linear_speed_m_s": 0.02197363905099826
+            },
+            {
+              "foot": "right_foot",
+              "body_xy_drift_m": 0.0011264252568909108,
+              "sole_tilt_rad": 0.011769838762960292,
+              "sole_corner_min_z_m": 0.004333128380609293,
+              "sole_corner_max_z_m": 0.006441878083728311,
+              "contact_count": 2,
+              "contact_distance_min_m": -0.0006668716193907074,
+              "body_linear_speed_m_s": 0.03359595804088948
+            }
+          ]
+        },
+        {
+          "time_s": 3.4239999999998445,
+          "reach_weight": 3000.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              0.04661326346726427,
+              0.004940962388251125,
+              0.10315369705914232
+            ],
+            [
+              0.04199818156186286,
+              0.005119577322301112,
+              0.09188226195615254
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              -0.002942382365614414,
+              0.0001966930386999515,
+              -0.0218304943615497
+            ],
+            [
+              -0.0028902072440335352,
+              2.3027162497519897e-05,
+              -0.0215257356717167
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              0.31485595098774966,
+              -0.0014228071732501092,
+              0.5139671887263244
+            ],
+            [
+              0.2065313418487763,
+              0.020271905896515292,
+              0.2534781930184084
+            ]
+          ],
+          "predicted_normal_force_N": [
+            212.40211328086764,
+            129.2022284768441
+          ],
+          "actual_pre_step_normal_force_N": [
+            221.53455368711158,
+            135.3718562636581
+          ],
+          "actual_post_step_normal_force_N": [
+            222.12567750123696,
+            134.74297361725814
+          ],
+          "contact_slack_norm": 0.030935612488428806,
+          "contact_residual_norm": 6.726512143981314e-14,
+          "measured_double_support": true,
+          "geometry": [
+            {
+              "foot": "left_foot",
+              "body_xy_drift_m": 0.006808433754951941,
+              "sole_tilt_rad": 0.1405419083920243,
+              "sole_corner_min_z_m": 0.004262121766821378,
+              "sole_corner_max_z_m": 0.028461921308111524,
+              "contact_count": 2,
+              "contact_distance_min_m": -0.0007378782331786222,
+              "body_linear_speed_m_s": 0.11330443352914313
+            },
+            {
+              "foot": "right_foot",
+              "body_xy_drift_m": 0.007443277232072745,
+              "sole_tilt_rad": 0.15394203602869758,
+              "sole_corner_min_z_m": 0.004385753623465251,
+              "sole_corner_max_z_m": 0.03090156182147182,
+              "contact_count": 2,
+              "contact_distance_min_m": -0.0006142463765347562,
+              "body_linear_speed_m_s": 0.10115536262918172
+            }
+          ]
+        },
+        {
+          "time_s": 3.4399999999998427,
+          "reach_weight": 3000.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              0.05194656683168952,
+              0.004776550826600558,
+              0.11167304293963976
+            ],
+            [
+              0.0455589104278854,
+              0.005351818684922157,
+              0.09601669740661894
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              -0.0036799174976050383,
+              0.0002698410455841036,
+              -0.02547278342421347
+            ],
+            [
+              -0.0032132205156121495,
+              3.913497831535377e-05,
+              -0.022739560513567778
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              0.28673276604624204,
+              0.002773595166022859,
+              0.41430680570521805
+            ],
+            [
+              0.18796709074722628,
+              -0.015367408260870453,
+              0.1978361747375447
+            ]
+          ],
+          "predicted_normal_force_N": [
+            214.67526954466592,
+            125.83084486396433
+          ],
+          "actual_pre_step_normal_force_N": [
+            224.0268817219847,
+            133.181941340934
+          ],
+          "actual_post_step_normal_force_N": [
+            221.07371560166155,
+            131.81512373297625
+          ],
+          "contact_slack_norm": 0.03449549799400901,
+          "contact_residual_norm": 7.589715108320112e-14,
+          "measured_double_support": true,
+          "geometry": [
+            {
+              "foot": "left_foot",
+              "body_xy_drift_m": 0.007598658743667437,
+              "sole_tilt_rad": 0.15559530295114465,
+              "sole_corner_min_z_m": 0.004244238672960178,
+              "sole_corner_max_z_m": 0.031021753196321427,
+              "contact_count": 2,
+              "contact_distance_min_m": -0.0007557613270398221,
+              "body_linear_speed_m_s": 0.12325635790009742
+            },
+            {
+              "foot": "right_foot",
+              "body_xy_drift_m": 0.008138055165837215,
+              "sole_tilt_rad": 0.16699289067435222,
+              "sole_corner_min_z_m": 0.004379268231308492,
+              "sole_corner_max_z_m": 0.03314533301645339,
+              "contact_count": 2,
+              "contact_distance_min_m": -0.0006207317686915013,
+              "body_linear_speed_m_s": 0.10641175904704607
+            }
+          ]
+        },
+        {
+          "time_s": 3.791999999999804,
+          "reach_weight": 3000.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              0.2882707763387189,
+              -0.027514481747168643,
+              0.24295214827690273
+            ],
+            [
+              0.33182128580027237,
+              0.03678625308638908,
+              0.2666963950670873
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              -0.005747189917066686,
+              0.0007665813456788628,
+              -0.018866180333223737
+            ],
+            [
+              -0.00600960399020084,
+              0.00016092714493809446,
+              -0.01867159746707525
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              3.6090479437922798,
+              0.09133232202446442,
+              1.339461342748748
+            ],
+            [
+              4.825169927571542,
+              -4.99237051286114,
+              3.7773056790110364
+            ]
+          ],
+          "predicted_normal_force_N": [
+            71.89590321610568,
+            232.84507460542562
+          ],
+          "actual_pre_step_normal_force_N": [
+            71.15995060104409,
+            305.3375508236678
+          ],
+          "actual_post_step_normal_force_N": [
+            93.32177711755598,
+            274.38130127771973
+          ],
+          "contact_slack_norm": 0.027877266859139195,
+          "contact_residual_norm": 2.013655678602003e-14,
+          "measured_double_support": true,
+          "geometry": [
+            {
+              "foot": "left_foot",
+              "body_xy_drift_m": 0.04604781148654081,
+              "sole_tilt_rad": 0.6581229525937523,
+              "sole_corner_min_z_m": 0.004657176429873011,
+              "sole_corner_max_z_m": 0.10916943309650091,
+              "contact_count": 1,
+              "contact_distance_min_m": -0.00034282357012698893,
+              "body_linear_speed_m_s": 0.37799845707238683
+            },
+            {
+              "foot": "right_foot",
+              "body_xy_drift_m": 0.045111384405151084,
+              "sole_tilt_rad": 0.6432120059021167,
+              "sole_corner_min_z_m": 0.004335484394533018,
+              "sole_corner_max_z_m": 0.10691757570214999,
+              "contact_count": 2,
+              "contact_distance_min_m": -0.0006645156054669822,
+              "body_linear_speed_m_s": 0.4273003174209701
+            }
+          ]
+        }
+      ],
+      "combined_success": false,
+      "source_version": "fbc0b509402bc8d60a365c0b612d331a120fdc88",
+      "trajectory_sha256": "8dd0ef2015062ed1baa206be5ab69acae1f66ad999bc27c6b861bfa82339a5ac",
+      "policy": "original"
+    },
+    {
+      "path": "results/reaching_contact/damping_pilot/trials/front_12.5cm_contact_damping_hold",
+      "events": {
+        "angular_band": 3.019999999999889,
+        "orientation_band": 4.483999999999728,
+        "com_band": 3.4399999999998427,
+        "slip_velocity": 4.3359999999997445,
+        "slip_displacement": 4.359999999999742,
+        "contact_loss": 4.411999999999736,
+        "torque_bound": 4.423999999999735,
+        "qp_failure": 4.731999999999701,
+        "fall_height": 4.551999999999721,
+        "sustained_slip_onset": 4.3359999999997445,
+        "sustained_contact_loss_onset": 4.563999999999719,
+        "pre_loss_max_foot_speed_m_s": 0.2072508007755732,
+        "pre_loss_max_foot_displacement_m": 0.034817943002888034,
+        "pre_loss_max_torque_utilization": 0.8058086366086371
+      },
+      "frozen_replay": [
+        {
+          "time_s": 2.9959999999998916,
+          "reach_weight": 3000.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              5.1166803574543554e-05,
+              2.0067462620295122e-05,
+              -3.030175388931456e-06
+            ],
+            [
+              -3.179330434740767e-05,
+              -5.714082455485258e-05,
+              -5.152456487533897e-06
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              -0.0010246496728617775,
+              -0.0004133925508333629,
+              -0.004300498433045458
+            ],
+            [
+              0.0005662200254259349,
+              0.00113717818397341,
+              -0.006015163599067043
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              -7.424551573555729e-05,
+              -1.0676798448260824e-05,
+              2.0478084057136926e-06
+            ],
+            [
+              -4.9241642997930045e-05,
+              7.5406913101070485e-06,
+              -3.1179042174647875e-06
+            ]
+          ],
+          "predicted_normal_force_N": [
+            163.45938137763181,
+            180.49362730006948
+          ],
+          "actual_pre_step_normal_force_N": [
+            162.449616329528,
+            182.00755050852973
+          ],
+          "actual_post_step_normal_force_N": [
+            162.44772163736374,
+            182.00868486763653
+          ],
+          "contact_slack_norm": 0.00751455431936309,
+          "contact_residual_norm": 6.08009794921787e-16,
+          "measured_double_support": true,
+          "geometry": [
+            {
+              "foot": "left_foot",
+              "body_xy_drift_m": 0.00015550065958499544,
+              "sole_tilt_rad": 0.0021057324861506205,
+              "sole_corner_min_z_m": 0.004618062485950789,
+              "sole_corner_max_z_m": 0.004768970652564319,
+              "contact_count": 4,
+              "contact_distance_min_m": -0.0003714342984652381,
+              "body_linear_speed_m_s": 5.504477093185647e-05
+            },
+            {
+              "foot": "right_foot",
+              "body_xy_drift_m": 0.00030629223904821146,
+              "sole_tilt_rad": 0.0018520714882526283,
+              "sole_corner_min_z_m": 0.004589287199153146,
+              "sole_corner_max_z_m": 0.00473984196450947,
+              "contact_count": 4,
+              "contact_distance_min_m": -0.00040152879621358894,
+              "body_linear_speed_m_s": 6.559295571927876e-05
+            }
+          ]
+        },
+        {
+          "time_s": 3.1519999999998745,
+          "reach_weight": 3000.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              -4.582484522702018e-05,
+              -0.021119822650761042,
+              0.005890521751281659
+            ],
+            [
+              0.008190753644878299,
+              -0.015538794431810658,
+              0.01937826127673636
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              0.001971444488317771,
+              0.42226331341349654,
+              -0.11376918643320827
+            ],
+            [
+              -0.1626912436780923,
+              0.31064663974969126,
+              -0.3823083887450457
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              0.08949070217655312,
+              1.2838324635390808,
+              -0.0746577396277528
+            ],
+            [
+              -0.08793072582062765,
+              -1.4347963965359192,
+              -0.07217592828252635
+            ]
+          ],
+          "predicted_normal_force_N": [
+            137.65725150484337,
+            195.7773781129885
+          ],
+          "actual_pre_step_normal_force_N": [
+            139.1334054959268,
+            201.01613442320075
+          ],
+          "actual_post_step_normal_force_N": [
+            139.2246857031497,
+            200.87677950602614
+          ],
+          "contact_slack_norm": 0.006821690329426969,
+          "contact_residual_norm": 1.3189743806036104e-14,
+          "measured_double_support": true,
+          "geometry": [
+            {
+              "foot": "left_foot",
+              "body_xy_drift_m": 0.0009587719662029465,
+              "sole_tilt_rad": 0.008990671435048924,
+              "sole_corner_min_z_m": 0.004395439610621294,
+              "sole_corner_max_z_m": 0.005725372321854411,
+              "contact_count": 2,
+              "contact_distance_min_m": -0.000604560389378706,
+              "body_linear_speed_m_s": 0.02192594935728808
+            },
+            {
+              "foot": "right_foot",
+              "body_xy_drift_m": 0.001273190351219339,
+              "sole_tilt_rad": 0.010944623755943376,
+              "sole_corner_min_z_m": 0.004300471996153771,
+              "sole_corner_max_z_m": 0.006194700898992548,
+              "contact_count": 2,
+              "contact_distance_min_m": -0.0006995280038462294,
+              "body_linear_speed_m_s": 0.026154532834187977
+            }
+          ]
+        },
+        {
+          "time_s": 3.4399999999998427,
+          "reach_weight": 3000.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              0.0045023077151614965,
+              -0.002479375365041503,
+              0.009270067683547416
+            ],
+            [
+              0.006767511799160193,
+              0.015262402255182795,
+              0.016882990855991164
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              -0.0862017943904792,
+              0.049703897336570206,
+              -0.1746816222921278
+            ],
+            [
+              -0.13309209544716866,
+              -0.3051295410165473,
+              -0.33505757219704074
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              -0.15261246374139012,
+              4.793905084606647,
+              0.0034611451332080922
+            ],
+            [
+              0.205315072439212,
+              -4.97372523317415,
+              0.0006800798580962039
+            ]
+          ],
+          "predicted_normal_force_N": [
+            178.5067240612905,
+            156.75313218217812
+          ],
+          "actual_pre_step_normal_force_N": [
+            182.55195723249346,
+            162.10188496028297
+          ],
+          "actual_post_step_normal_force_N": [
+            182.76210351898118,
+            161.9318115528119
+          ],
+          "contact_slack_norm": 0.011916887019057177,
+          "contact_residual_norm": 1.0870260382808838e-14,
+          "measured_double_support": true,
+          "geometry": [
+            {
+              "foot": "left_foot",
+              "body_xy_drift_m": 0.0017981462328945336,
+              "sole_tilt_rad": 0.024243697332558507,
+              "sole_corner_min_z_m": 0.004426385578931026,
+              "sole_corner_max_z_m": 0.00865324821838575,
+              "contact_count": 2,
+              "contact_distance_min_m": -0.000573614421068981,
+              "body_linear_speed_m_s": 0.010599633570097014
+            },
+            {
+              "foot": "right_foot",
+              "body_xy_drift_m": 0.0033326545051024603,
+              "sole_tilt_rad": 0.05391048398193926,
+              "sole_corner_min_z_m": 0.004445159459243682,
+              "sole_corner_max_z_m": 0.013737600771120625,
+              "contact_count": 2,
+              "contact_distance_min_m": -0.0005548405407563182,
+              "body_linear_speed_m_s": 0.02374395752174145
+            }
+          ]
+        },
+        {
+          "time_s": 3.6679999999998176,
+          "reach_weight": 3000.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              0.0017942202531457917,
+              0.007974858283859805,
+              0.006385285371313632
+            ],
+            [
+              0.007569291676094263,
+              -0.012853426281571993,
+              0.013472909456929165
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              -0.030206446746406716,
+              -0.15906782070880496,
+              -0.11400406611331632
+            ],
+            [
+              -0.14852576759050778,
+              0.25723940969471004,
+              -0.2670692977782926
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              0.42369864300140986,
+              -4.975027437419935,
+              -0.031049455183379662
+            ],
+            [
+              -0.4658802100984987,
+              4.91031879820268,
+              -0.03256991327352992
+            ]
+          ],
+          "predicted_normal_force_N": [
+            176.54606452976842,
+            157.79243012798565
+          ],
+          "actual_pre_step_normal_force_N": [
+            178.76686440004045,
+            163.16061131646862
+          ],
+          "actual_post_step_normal_force_N": [
+            179.00346496633497,
+            162.89970834691303
+          ],
+          "contact_slack_norm": 0.015319890453263433,
+          "contact_residual_norm": 2.6749493684538982e-14,
+          "measured_double_support": true,
+          "geometry": [
+            {
+              "foot": "left_foot",
+              "body_xy_drift_m": 0.0023761120235145177,
+              "sole_tilt_rad": 0.03947807176222723,
+              "sole_corner_min_z_m": 0.0043532911649741685,
+              "sole_corner_max_z_m": 0.011330886720829058,
+              "contact_count": 2,
+              "contact_distance_min_m": -0.0006467088350258316,
+              "body_linear_speed_m_s": 0.010372533935232884
+            },
+            {
+              "foot": "right_foot",
+              "body_xy_drift_m": 0.004554664223568066,
+              "sole_tilt_rad": 0.08294327556775914,
+              "sole_corner_min_z_m": 0.0043807923355870665,
+              "sole_corner_max_z_m": 0.018798426863813538,
+              "contact_count": 2,
+              "contact_distance_min_m": -0.0006192076644129336,
+              "body_linear_speed_m_s": 0.020100349073789908
+            }
+          ]
+        },
+        {
+          "time_s": 4.28399999999975,
+          "reach_weight": 3000.0,
+          "control_replay_max_error_Nm": 0.0,
+          "foot_velocity_world_m_s": [
+            [
+              -0.0568700056475417,
+              0.1471736888557149,
+              -0.019808197386252807
+            ],
+            [
+              -0.022762399275233297,
+              0.17542130465695033,
+              0.007260581685975209
+            ]
+          ],
+          "predicted_foot_acceleration_world_m_s2": [
+            [
+              1.1542412856734372,
+              -2.942943093425808,
+              0.4039782305868709
+            ],
+            [
+              0.45632560186375626,
+              -3.5090764286379685,
+              -0.15909644176358428
+            ]
+          ],
+          "observed_interval_foot_acceleration_world_m_s2": [
+            [
+              -0.43996350919498967,
+              4.79568732959139,
+              0.44588626557854794
+            ],
+            [
+              0.30964664818550836,
+              -1.2585133107215067,
+              -0.19846470008395256
+            ]
+          ],
+          "predicted_normal_force_N": [
+            164.47636278671388,
+            74.574662254373
+          ],
+          "actual_pre_step_normal_force_N": [
+            166.49955311128832,
+            68.75779933558248
+          ],
+          "actual_post_step_normal_force_N": [
+            154.02984628423303,
+            77.64296622620401
+          ],
+          "contact_slack_norm": 0.02346228573972144,
+          "contact_residual_norm": 1.4190160709751613e-13,
+          "measured_double_support": true,
+          "geometry": [
+            {
+              "foot": "left_foot",
+              "body_xy_drift_m": 0.009141863710566212,
+              "sole_tilt_rad": 0.061170219030848266,
+              "sole_corner_min_z_m": 0.004468901579611606,
+              "sole_corner_max_z_m": 0.011741728967895878,
+              "contact_count": 1,
+              "contact_distance_min_m": -0.000531098420388394,
+              "body_linear_speed_m_s": 0.15901778805354752
+            },
+            {
+              "foot": "right_foot",
+              "body_xy_drift_m": 0.009361812108705141,
+              "sole_tilt_rad": 0.12130035198761117,
+              "sole_corner_min_z_m": 0.004722735304815234,
+              "sole_corner_max_z_m": 0.026323856380342337,
+              "contact_count": 1,
+              "contact_distance_min_m": -0.0002772646951847658,
+              "body_linear_speed_m_s": 0.17704089074202728
+            }
+          ]
+        }
+      ],
+      "combined_success": false,
+      "source_version": "c0b37546116549c0e2bc0c0d8e589900c28dc59a",
+      "trajectory_sha256": "ca7b700d5ae4814d53a6d8df6768b87f4187bdb7ce1090c98c54efd06892ffa9",
+      "policy": "damping_20"
+    }
+  ],
+  "physical_trials_run": 0,
+  "paired_inputs_verified": true,
+  "analysis_source_version": "91a0443d4769c0643eac2255bc72cee3c0ab8c8c",
+  "geometry_definition": "Saved pre-step qpos/qvel; reconstructed ground-contact manifold and body-local sole corners",
+  "limitation": "Body drift and tilt do not uniquely identify sliding; reconstructed manifold is not force-bearing contact history. Post-step slip is labeled separately. No controller or thresholds changed."
+}

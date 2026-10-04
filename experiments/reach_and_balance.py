@@ -165,6 +165,7 @@ def main():
     parser.add_argument('--push-N', type=float, default=0)
     parser.add_argument('--target-offset-m', type=float, nargs=3)
     parser.add_argument('--push-start-s', type=float, default=1.5)
+    parser.add_argument('--push-direction-deg', type=float)
     parser.add_argument('--reach-weight', type=float)
     parser.add_argument('--qp-posture-weight', type=float)
     parser.add_argument('--qp-nominal-torque-weight', type=float)
@@ -178,6 +179,8 @@ def main():
     parser.add_argument('--controller', choices=('se3_wbc', 'pd_nominal_ff'), default='se3_wbc')
     parser.add_argument('--render', action='store_true')
     args = parser.parse_args()
+    if args.push_direction_deg is not None and not np.isfinite(args.push_direction_deg):
+        parser.error('--push-direction-deg must be finite')
     if args.pose_origin and not args.contact_mode:
         parser.error('--pose-origin requires --contact-mode')
     if not np.isfinite(args.contact_velocity_damping) or args.contact_velocity_damping < 0 or (args.contact_velocity_damping and args.controller != 'se3_wbc'):
@@ -256,7 +259,8 @@ def main():
             controller = ReachingController(model, cfg['controller'], settings)
     runner = SimulationRunner(model, controller, duration_s=settings['experiment_duration_s'],
                               control_timestep_s=cfg['robot']['control_timestep'], warmup_duration_s=0)
-    push = make_push(cfg, magnitude=args.push_N, start=args.push_start_s) if args.push_N else None
+    push = make_push(cfg, magnitude=args.push_N, start=args.push_start_s,
+                     direction_deg=args.push_direction_deg) if args.push_N else None
     run = runner.run(initial_qpos=initial.qpos, initial_qvel=initial.qvel,
                      desired_torso=initial.desired_torso, desired_pelvis=initial.desired_pelvis,
                      com_reference=initial.com_reference, joint_reference=initial.joint_reference,
@@ -272,8 +276,10 @@ def main():
     metadata = execution_manifest({'config': {'robot': cfg['robot'], 'controller': cfg['controller'],
                                   'reaching': settings, 'push_N': args.push_N,
                                   'push_start_s': args.push_start_s, 'controller_name': args.controller}})
+    push_direction_deg = float(np.rad2deg(push.direction_rad)) if push else None
     metadata.update(initial_condition=initial.metadata(), reaching=settings,
                     push_N=args.push_N, push_start_s=args.push_start_s,
+                    push_direction_deg=push_direction_deg,
                     com_reference_world=initial.com_reference.tolist(),
                     controller=args.controller,
                     objective_weight_overrides=overrides,
@@ -347,7 +353,7 @@ def main():
                     'contact_right': arrays['contact_right'][i], 'reach_goal_world': controller.goal,
                     'reach_point_world': points[i], 'push_force': arrays['push_force'][i],
                     'push_point_world': arrays['torso_position'][i], 'push_magnitude_N': args.push_N,
-                    'push_direction_deg': 0} for i in indices]
+                    'push_direction_deg': push_direction_deg or 0} for i in indices]
         with tempfile.TemporaryDirectory(prefix='reach-render-') as frames:
             render_trial_frames(make_model(cfg), np.asarray(run.qpos_history)[indices], frames,
                                 width=1920, height=1080, overlay_data=overlay)

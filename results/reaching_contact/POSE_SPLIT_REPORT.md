@@ -76,6 +76,10 @@ nominal/moving/hold physical gate remains 2/3, with held-target FALL.
 
 ## Next Gate
 
+Completed by the [pose convention audit](FRAME_REPORT.md). It confirms an origin
+mismatch in the production pose inputs but does not change the controller or
+establish that correcting it will recover the held-target trial.
+
 Verify SE(3) target and Jacobian frame/origin consistency before choosing one
 reference or priority correction. Output-component conflicts alone do not prove
 a gain or coordinate-convention defect. Any later controller change must rerun

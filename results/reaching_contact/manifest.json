@@ -101,6 +101,26 @@
       "sha256": "df5261fcaf89b77d8e914771ba514cef832dc56f90093e8da00381839154b891"
     },
     {
+      "path": "frame_audit/audit.json",
+      "sha256": "af5a0d79485d6125253683e26d6bcd9618638d77157ba29bac8939c29ae80746"
+    },
+    {
+      "path": "frame_audit/frames.csv",
+      "sha256": "c43d9930fc6f3ccd331264d01feef72db27061a3d4566387659e449cb2b87adb"
+    },
+    {
+      "path": "frame_audit/manifest.json",
+      "sha256": "e56a41da61ffef495ff93f74b59edcb8e4f61c30a67306c3a7d6fa3d6abdc7fc"
+    },
+    {
+      "path": "FRAME_REPORT.md",
+      "sha256": "871793f0ced04363c262144faa03e677964da4fe26f2ac7255de0988bc491612"
+    },
+    {
+      "path": "frame_verification.json",
+      "sha256": "b0d87b1c2a7e52865a7d7e28b7d2d73d2543609feb5d145e26c0c7d9a419b4e1"
+    },
+    {
       "path": "hold_audit/audit.json",
       "sha256": "3dc7255b353c71dc7e9eae1a3950d6d229f6c25b234f258105e39ab2b2b58819"
     },
@@ -382,7 +402,7 @@
     },
     {
       "path": "POSE_SPLIT_REPORT.md",
-      "sha256": "43ed53b92de2a9cd516179aa3e8bcc3ef0709dc3c5a6063cd07cedb1bb888339"
+      "sha256": "1ac725a60f526f98f7cbbfcb0328dc7ee7e931b9630ddd89851b77e30a708851"
     },
     {
       "path": "pose_split_verification.json",

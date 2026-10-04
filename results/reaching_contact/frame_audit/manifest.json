@@ -1,0 +1,12 @@
+{
+  "files": [
+    {
+      "path": "audit.json",
+      "sha256": "af5a0d79485d6125253683e26d6bcd9618638d77157ba29bac8939c29ae80746"
+    },
+    {
+      "path": "frames.csv",
+      "sha256": "c43d9930fc6f3ccd331264d01feef72db27061a3d4566387659e449cb2b87adb"
+    }
+  ]
+}

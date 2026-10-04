@@ -1,0 +1,28 @@
+{
+  "source_version": "ff413e42a432f78e2b3d3aab9fc9ebf1a6f5fb24",
+  "snapshot_count": 8,
+  "measurement_count": 32,
+  "body_names": [
+    "torso",
+    "pelvis"
+  ],
+  "finite_difference_steps_s": [
+    1e-06,
+    5e-07
+  ],
+  "maximum_errors": {
+    "velocity_geometric_fd_error": 3.449284174256162e-10,
+    "velocity_spatial_fd_error": 2.8852143738392066e-09,
+    "geometric_bias_fd_error": 1.689414862345029e-10,
+    "spatial_bias_fd_error": 2.624628938664719e-10,
+    "spatial_target_adjoint_error": 1.3677947663381929e-13
+  },
+  "trajectory_hash_verified": true,
+  "audit_manifest_hashes_verified": true,
+  "control_replay_max_error_Nm": 0,
+  "controller_changed": false,
+  "physical_trials_run": 0,
+  "tests_passed": 98,
+  "test_warnings": 1144,
+  "test_seconds": 17.26
+}

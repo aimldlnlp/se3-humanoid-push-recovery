@@ -1,0 +1,72 @@
+{
+  "files": [
+    {
+      "path": "logs/front_12.5cm_contact_pose_origin_hold.txt",
+      "sha256": "e385a1d066f7168c8ea9feec12cc5d933d8357515418572d9fb6da9a61032736"
+    },
+    {
+      "path": "logs/front_12.5cm_contact_pose_origin_moving.txt",
+      "sha256": "ad805a847c92aee1a3f19e60b2bf31eebf21b531da9cd6590b28aef4162f86bc"
+    },
+    {
+      "path": "logs/front_12.5cm_contact_pose_origin_no_push.txt",
+      "sha256": "28ecd1f412cecbb908ec9a6500bf762b708d372b276f5a9526b6a79ad77c82c9"
+    },
+    {
+      "path": "study.csv",
+      "sha256": "72d99d958f31942d7787e594ed92b89ca9798eab4473b9800cadf7795a511429"
+    },
+    {
+      "path": "study.json",
+      "sha256": "9552226c9f4d0c26525ead6cd6b8317f154c53e3e657746186709cbacb2bb466"
+    },
+    {
+      "path": "trials/front_12.5cm_contact_pose_origin_hold/reaching_response.pdf",
+      "sha256": "8252a9a0a6e711e3ba4102e9eac3aebe74834bc1518afe29943a562817fb947b"
+    },
+    {
+      "path": "trials/front_12.5cm_contact_pose_origin_hold/reaching_response.png",
+      "sha256": "871427a64e1ba556dc6acd7c66b0a1644edaf076fa17de917038aee9e14083c5"
+    },
+    {
+      "path": "trials/front_12.5cm_contact_pose_origin_hold/summary.json",
+      "sha256": "05a589be210a4db641f6403ad2494446dc15219f798d9cbd178e4bc89e1abf7b"
+    },
+    {
+      "path": "trials/front_12.5cm_contact_pose_origin_hold/trajectory.npz",
+      "sha256": "8a4d137873847edc268b5ac14e7c5d1c2ad59d6f98c9670e3c09be9dace69e8c"
+    },
+    {
+      "path": "trials/front_12.5cm_contact_pose_origin_moving/reaching_response.pdf",
+      "sha256": "fd95aeb5cb7ed8b867f85d37c63cd19e8cb079851037b2cd177666e706818581"
+    },
+    {
+      "path": "trials/front_12.5cm_contact_pose_origin_moving/reaching_response.png",
+      "sha256": "ceeed927bc5334bf2a6a7ac093194b0a91b397e8869721dd92fa67954cfa461a"
+    },
+    {
+      "path": "trials/front_12.5cm_contact_pose_origin_moving/summary.json",
+      "sha256": "52be3af61cde14820fe54485080eceefe9cc0976ad0e1a73742eb57c524a50fb"
+    },
+    {
+      "path": "trials/front_12.5cm_contact_pose_origin_moving/trajectory.npz",
+      "sha256": "2e9696aad14d61c16a84076bb53c490be199547fb49eee2f10b23600c40078f1"
+    },
+    {
+      "path": "trials/front_12.5cm_contact_pose_origin_no_push/reaching_response.pdf",
+      "sha256": "a3f64a6fa7ee1648f1ab686cc47c7caaac9c56044713fc1f4db3a80e8d0565a8"
+    },
+    {
+      "path": "trials/front_12.5cm_contact_pose_origin_no_push/reaching_response.png",
+      "sha256": "118c1a24be8364ace21ac85c4cc44c6ed297627adb3f225003800a695ce6882d"
+    },
+    {
+      "path": "trials/front_12.5cm_contact_pose_origin_no_push/summary.json",
+      "sha256": "16fcf6b000c517409ee12da2a17013b1b583994f4271f2e4d92b2a52846a532e"
+    },
+    {
+      "path": "trials/front_12.5cm_contact_pose_origin_no_push/trajectory.npz",
+      "sha256": "a5de91df821f4a81958aa0468aa72c1c7fc6cefec2c91156e4703191caacc18d"
+    }
+  ]
+}

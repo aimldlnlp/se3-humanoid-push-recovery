@@ -1,0 +1,42 @@
+{
+  "source_version": "a607d70b2c5acbf452154c814213115580ae2e9f",
+  "frozen_snapshots": 8,
+  "frozen_gate_passed": true,
+  "simulation_trials": 3,
+  "simulation_gate_passed": true,
+  "paired_trials": [
+    {
+      "phase": "no_push",
+      "inputs_verified": true,
+      "settings_identical_except_opt_in_flag": true,
+      "dependency_versions_identical": true,
+      "whole_trial_assessment": "PASS",
+      "maximum_com_xy_m": 0.023895064615699988,
+      "hold_max_hand_error_mm": 4.010113966351956
+    },
+    {
+      "phase": "moving",
+      "inputs_verified": true,
+      "settings_identical_except_opt_in_flag": true,
+      "dependency_versions_identical": true,
+      "whole_trial_assessment": "PASS",
+      "maximum_com_xy_m": 0.06503077854710594,
+      "hold_max_hand_error_mm": 3.7681752675303306
+    },
+    {
+      "phase": "hold",
+      "inputs_verified": true,
+      "settings_identical_except_opt_in_flag": true,
+      "dependency_versions_identical": true,
+      "whole_trial_assessment": "PASS",
+      "maximum_com_xy_m": 0.09603253763504041,
+      "hold_max_hand_error_mm": 4.803939792945568
+    }
+  ],
+  "trajectory_and_manifests_verified": true,
+  "production_source_config_model_unchanged_since_contact_baseline": true,
+  "tests_passed": 100,
+  "test_warnings": 1144,
+  "test_seconds": 20.52,
+  "real_time_deadline_demonstrated": false
+}

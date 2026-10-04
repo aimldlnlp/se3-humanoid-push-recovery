@@ -83,6 +83,10 @@ The MuJoCo API defines the body-frame Jacobian and point-Jacobian derivative:
 
 ## Next Gate
 
+Completed by the [body-origin correction pilot](POSE_ORIGIN_REPORT.md). The opt-in
+candidate passes the frozen QP gate and all three paired simulation conditions;
+the production controller remains unchanged and broader validation is pending.
+
 Implement one audit-only corrected pose-target variant using a consistent
 body-origin acceleration and metric, retaining the existing SE(3) pose law,
 contact model and gains. First test origin invariance of its full pose objective

@@ -122,11 +122,83 @@
     },
     {
       "path": "HOLD_REPORT.md",
-      "sha256": "7138f7280917873de0e36d90a6b12f97d195fa4ddea305efbba1ce3385d795b2"
+      "sha256": "8fdab5fc35c76f6c711dd35075144aaac786e88ce1393f9e72841b6367eb6344"
     },
     {
       "path": "hold_verification.json",
       "sha256": "2599d3162c2f2ddbd79234efd28efdfd5ca2b051d42f1c90f69cea8997d56fdb"
+    },
+    {
+      "path": "patch_pilot/logs/front_12.5cm_contact_patch_hold.txt",
+      "sha256": "6039cca742415c8ba3bf93735b2fa349118278ac09517a4f946cf4ce77e33280"
+    },
+    {
+      "path": "patch_pilot/logs/front_12.5cm_contact_patch_moving.txt",
+      "sha256": "a7200b1ef924cfc8a3e1217005c8cf0a7e58446d26196336c5375f1a6f411df5"
+    },
+    {
+      "path": "patch_pilot/logs/front_12.5cm_contact_patch_no_push.txt",
+      "sha256": "b213087bc98285dcc4224e6b4d2459506507a624ae48f1a4ef55878fc14b235b"
+    },
+    {
+      "path": "patch_pilot/manifest.json",
+      "sha256": "7b5ad413c9ddf62c7b64d6645b2960de8880877b9d49b39b2a7fc7511dfd266e"
+    },
+    {
+      "path": "patch_pilot/study.csv",
+      "sha256": "e0daa733c9decee1d4357e0e672736d0f52976097e4d5c6557d3892be8b66a25"
+    },
+    {
+      "path": "patch_pilot/study.json",
+      "sha256": "cfd47b4761f2004a389c79eb61f0e4a3679df2883cacad3008846b2614841e27"
+    },
+    {
+      "path": "patch_pilot/trials/front_12.5cm_contact_patch_hold/reaching_response.pdf",
+      "sha256": "42cfe82d9e8574746cd6de57dc4d5554e02899e0010ec9aaa280d25b081a2ceb"
+    },
+    {
+      "path": "patch_pilot/trials/front_12.5cm_contact_patch_hold/reaching_response.png",
+      "sha256": "f84324aaf8f9c5f1e2c3f29482f18a0365b36b4a199ffa838a2c4433ab0dfe4a"
+    },
+    {
+      "path": "patch_pilot/trials/front_12.5cm_contact_patch_hold/summary.json",
+      "sha256": "494cc5e6514cf88e3b289cabece2794d9ac80715dd376f5b2e6bbaa3c8aaa176"
+    },
+    {
+      "path": "patch_pilot/trials/front_12.5cm_contact_patch_hold/trajectory.npz",
+      "sha256": "538eb09c0e4ae438811cf42be2c772b64e9b802791057af4d722bc4035ab2924"
+    },
+    {
+      "path": "patch_pilot/trials/front_12.5cm_contact_patch_moving/reaching_response.pdf",
+      "sha256": "bf00a2f26b773b24dd8786494910131f260b1d4568dd9009c0de8a5c6b1e05f5"
+    },
+    {
+      "path": "patch_pilot/trials/front_12.5cm_contact_patch_moving/reaching_response.png",
+      "sha256": "976f6e70fa7172cdb6beba1346540c43b8285ab7fd4dd3d658b0206f91a7a499"
+    },
+    {
+      "path": "patch_pilot/trials/front_12.5cm_contact_patch_moving/summary.json",
+      "sha256": "505b400527f16f8f153ee4b58016867d665ee817267548bec116bc93e61fd310"
+    },
+    {
+      "path": "patch_pilot/trials/front_12.5cm_contact_patch_moving/trajectory.npz",
+      "sha256": "39353f737dc4397987848f26e8cb8969c1fb15977af6786e0269e6954b616b20"
+    },
+    {
+      "path": "patch_pilot/trials/front_12.5cm_contact_patch_no_push/reaching_response.pdf",
+      "sha256": "df75887c2e93e25cd47e589871e851e3e84ea50695734ef9c629595a1cb06d5e"
+    },
+    {
+      "path": "patch_pilot/trials/front_12.5cm_contact_patch_no_push/reaching_response.png",
+      "sha256": "06111b18f8a56731befac530fc5cd231c8fbc3422527d704b478df77efbefeb0"
+    },
+    {
+      "path": "patch_pilot/trials/front_12.5cm_contact_patch_no_push/summary.json",
+      "sha256": "f97e4d625b33434e8084251e270d0a05a8d77ade0c40f35848f1b69d5c031459"
+    },
+    {
+      "path": "patch_pilot/trials/front_12.5cm_contact_patch_no_push/trajectory.npz",
+      "sha256": "9ec9786092d9c9f9d1aa54ca839a99e30db08240100e96d372525366b89266fd"
     },
     {
       "path": "pose_pilot/logs/front_12.5cm_contact_pose_hold.txt",
@@ -207,6 +279,26 @@
     {
       "path": "verification.json",
       "sha256": "a74e5da3c576041bf671305cd8e596929ee3d9b05e880f48c6b49ab8f64934c9"
+    },
+    {
+      "path": "wrench_audit_lp/audit.json",
+      "sha256": "97f2eb528700ebb40f6af4433122eed56ae38272277f28b231990aa7f8d53f13"
+    },
+    {
+      "path": "wrench_audit_lp/manifest.json",
+      "sha256": "7078f7326fc14ee41dd3d9e0bde667283807e87f50d4cba10c27a3aca007c70b"
+    },
+    {
+      "path": "wrench_audit_lp/wrench.csv",
+      "sha256": "aca3c7a46406a9c55a9a3a9e78b3573580b21bc3c344b1a4cb25e315e10985ad"
+    },
+    {
+      "path": "WRENCH_REPORT.md",
+      "sha256": "467476c2b8756697dcf0edaa1b62d9fb9edadaafc83c023192b71f3cb4407183"
+    },
+    {
+      "path": "wrench_verification.json",
+      "sha256": "56b418ca06937de7e4a82a231aaea2b1bcc0462bcd8c4ba581bb31c69319ee3d"
     }
   ]
 }

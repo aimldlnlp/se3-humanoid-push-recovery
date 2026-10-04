@@ -1,0 +1,119 @@
+{
+  "duration_s": 4.995999999999672,
+  "max_torso_error_rad": 0.01764907945228625,
+  "max_com_displacement_m": 0.028092680919624226,
+  "max_com_3d_displacement_m": 0.028102022742093873,
+  "max_joint_velocity": 0.2404874099236937,
+  "max_qp_solve_time_ms": 33.172499999636784,
+  "mean_qp_solve_time_ms": 8.329244319698773,
+  "p95_qp_solve_time_ms": 13.444690004689617,
+  "p99_qp_solve_time_ms": 16.048979009210598,
+  "qp_deadline_ms": 4.0,
+  "qp_deadline_miss_percent": 100.0,
+  "qp_failures": 0,
+  "max_contact_slack_norm": 0.008255170512487791,
+  "max_actual_contact_force_N": 184.03416959012068,
+  "max_actual_contact_component_N": 184.03166416695728,
+  "max_actual_friction_utilization": 0.012822537477436934,
+  "max_dynamics_residual": 3.4123900429297897e-13,
+  "max_contact_acceleration_residual": 2.452231303708191e-15,
+  "left_contact_fraction": 1.0,
+  "right_contact_fraction": 1.0,
+  "qp_measured_vertical_grf_rmse_N_post_step": 1.687464945038746,
+  "qp_measured_vertical_grf_bias_N_post_step": -0.17249589015748157,
+  "qp_measured_force_rmse_N_post_step": 1.013495869278777,
+  "reach_success": true,
+  "balance_success": true,
+  "combined_success": true,
+  "recovery": {
+    "success": true,
+    "failure_reason": null,
+    "recovered_at_s": 0.25200000000000017,
+    "recovery_latency_s": 0.25200000000000017,
+    "max_torso_error_rad": 0.01764907945228625,
+    "max_com_displacement_m": 0.028092680919624226,
+    "max_joint_torque_Nm": 5.313391491971218,
+    "min_friction_margin": 0.9871774625225631
+  },
+  "tracking_rmse_m": 0.0037802495926052525,
+  "hold_max_goal_error_m": 0.003233517877134305,
+  "continuous_double_support": true,
+  "max_foot_displacement_m": 0.00042462356236074055,
+  "max_foot_tangent_velocity_m_s": 0.0003226546686030162,
+  "final_goal_error_m": 0.0030561598054091197,
+  "provenance": {
+    "run_id": "run-20261004T022436Z-e4b34c3c",
+    "source_version": "c559131f9c8cf46653bc270880b1b39b63667dee",
+    "git_dirty": true,
+    "seed": 0,
+    "hostname": "LAPTOP-5FHHA9LI",
+    "timestamp_utc": "2026-10-04T02:24:36.569693+00:00",
+    "config_sha256": "00b339f8c054618b484b2f324c00da693d1ca69a7c62231bdbc04680919797d9",
+    "model_sha256": "43912c5f880adff88355c6cd1a887caec143543c7bc578234e1a369226fb0422",
+    "python_version": "3.12.0",
+    "dependency_versions": {
+      "numpy": "1.26.3",
+      "mujoco": "3.14.0",
+      "osqp": "1.1.3"
+    },
+    "command": "D:\\Kuliah\\Semester 8\\se3-whole-body-control\\experiments\\reach_and_balance.py --output results\\reaching_contact\\patch_pilot\\trials\\front_12.5cm_contact_patch_no_push --target-offset-m 0.125 0 0 --push-N 0 --push-start-s 1.5 --reach-weight 3000 --contact-velocity-damping 20 --contact-patch-bounds",
+    "initial_condition": {
+      "sha256": "03e0aae37f8d362875d2ee58632fcb897270cda3a2937dd86e40ded566595271",
+      "qpos_sha256": "a10e6ab17f4ec412f799282331302354174c48cc1363908d55e063f322ba1640",
+      "qvel_sha256": "57b1a73ee765d8ee75befa0e80bf10f06441503f5ecd8804853019bb8ee9404c",
+      "torso_reference_sha256": "03b81b93efc00c998c3f30823461e08c3847ef7a05f262d0b057c32440e065b4",
+      "pelvis_reference_sha256": "ac2970d3e358d0a6493a2c82f4c372fccf7b77670d3168b322f30a816ceea913",
+      "com_reference_sha256": "029c6f0bd539e149c28ee45dafd6d1c2bc48957a93455133f95be3a249b0fe0e",
+      "joint_reference_sha256": "67f54680793fa0440af3f9b4099c59b8a6e8313b445b5c90777b1e98f6817f5e",
+      "seed": 0,
+      "setup_policy": "pd_nominal_ff",
+      "setup_duration_s": 0.6
+    },
+    "reaching": {
+      "body_name": "right_wrist_yaw_link",
+      "point_local_m": [
+        0.08,
+        0.0,
+        0.0
+      ],
+      "target_offset_world_m": [
+        0.125,
+        0.0,
+        0.0
+      ],
+      "start_time_s": 0.5,
+      "movement_duration_s": 2.0,
+      "experiment_duration_s": 5.0,
+      "kp": 150.0,
+      "kd": 25.0,
+      "weight": 3000.0,
+      "position_tolerance_m": 0.015,
+      "hold_duration_s": 0.5,
+      "contact_velocity_damping_s_inv": 20.0,
+      "contact_patch_bounds": true
+    },
+    "push_N": 0.0,
+    "push_start_s": 1.5,
+    "com_reference_world": [
+      0.004448813506768497,
+      7.296950797411584e-05,
+      0.7113150950181902
+    ],
+    "controller": "se3_wbc",
+    "objective_weight_overrides": {},
+    "ik_max_reference_error_m": null,
+    "goal_world_m": [
+      0.11624978839426933,
+      -0.2378566028173461,
+      0.6444074611600399
+    ],
+    "actual_impulse_Ns": 0.0
+  },
+  "balance_guard": {
+    "enabled": false,
+    "reduced_duration_s": 0.0,
+    "first_reduction_s": null,
+    "minimum_weight": 3000.0,
+    "maximum_weight": 3000.0
+  }
+}

@@ -93,6 +93,9 @@ failure signals and is not an improvement overall.
 
 ## Next Gate
 
+Follow-up completed: [wrench audit and current-patch pilot](WRENCH_REPORT.md).
+The new candidate fails its gate; the original next-gate rationale follows.
+
 Audit predicted versus measured contact wrenches against the *current* contact
 geometry, especially when a foot changes from a flat patch to an edge or point.
 The QP currently retains horizontal rectangular-patch CoP limits while these

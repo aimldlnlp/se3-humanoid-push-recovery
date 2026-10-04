@@ -120,6 +120,9 @@ references were checked against current source; the graph was not rebuilt.
 
 ## Next Gate
 
+Follow-up completed: [pre-excursion task and constraint audit](TASK_REPORT.md).
+Contact model and task weights remain frozen. Original next-gate rationale follows.
+
 Inspect the new hold trajectory before the 3.440 s CoM excursion. Quantify
 weighted torso, pelvis, posture, reach and CoM objective residuals and active
 constraints at the same states. Use a frozen counterfactual to isolate whether

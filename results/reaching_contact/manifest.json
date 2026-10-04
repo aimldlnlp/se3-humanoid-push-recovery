@@ -214,7 +214,7 @@
     },
     {
       "path": "MODE_REPORT.md",
-      "sha256": "dd7962027e784622651a71ad678ec53adccb15a675b20a81fac9b1dae33db735"
+      "sha256": "00e5709f1881e072ac9909e9fc592306fc5f4fd839fbae9b4d3947926e08de4c"
     },
     {
       "path": "mode_verification.json",
@@ -367,6 +367,26 @@
     {
       "path": "REPORT.md",
       "sha256": "403e6eced31867b8493e34b9789d98c3886a6a5fbfb3e7ef13d53d94fcb6e04e"
+    },
+    {
+      "path": "task_audit/audit.json",
+      "sha256": "60048c5c53025b40c3b5f68e16ed07d4aa2a1f372bc71968e0eb9f150aca2468"
+    },
+    {
+      "path": "task_audit/manifest.json",
+      "sha256": "34d8a8faa7a0858a735d571eb028f8aa47daac7b63437291fc7a52434abf57e8"
+    },
+    {
+      "path": "task_audit/objectives.csv",
+      "sha256": "889da429cd3fcc3d05eb815fcd165a0a52dcd8ad0480c8e68115a4e0bb713297"
+    },
+    {
+      "path": "TASK_REPORT.md",
+      "sha256": "8e48813d63cc1ed7474cb8bd161f0632dc362d7e216d75560e7b33f643a18b4d"
+    },
+    {
+      "path": "task_verification.json",
+      "sha256": "1c6088b975beab8443c5ce0b53ff953dd40df43f2bb49ad117eac28730090c09"
     },
     {
       "path": "verification.json",

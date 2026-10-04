@@ -4,7 +4,7 @@ import numpy as np
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'experiments'))
 from common import ROOT,load_configs,make_model,prepare_paired_initial_condition
-from reaching_task_audit import TaskAuditController,objective_records,active_constraints,com_feasibility
+from reaching_task_audit import LABELS,TaskAuditController,objective_records,active_constraints,com_feasibility,task_component
 from se3_whole_body_control.config import load_yaml
 
 
@@ -27,3 +27,11 @@ def test_task_audit_reconstructs_exact_objective_and_feasible_com_controls():
     diagnostic=com_feasibility(controller,())
     assert diagnostic['success'],diagnostic['status']
     assert diagnostic['constraint_budget_ratio']<=1
+    components=dict(zip(LABELS,controller.objectives))
+    np.testing.assert_array_equal(task_component(components,'torso_linear'),components['torso'][0][:3])
+    np.testing.assert_array_equal(task_component(components,'pelvis_angular'),components['pelvis'][0][3:])
+    refined=com_feasibility(controller,('reach','torso_angular'),minimize_acceleration=True)
+    assert refined['success'] and refined['acceleration_minimization_success']
+    assert refined['constraint_budget_ratio']<=1
+    assert refined['achieved_com_L1_residual']<=refined['minimum_com_L1_residual']+1e-8
+    assert refined['max_qdd']<=cfg['controller']['max_joint_acceleration']+1e-7

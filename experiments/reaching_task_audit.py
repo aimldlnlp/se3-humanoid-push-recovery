@@ -90,7 +90,16 @@ def active_constraints(controller):
     return records
 
 
-def com_feasibility(controller,preserve):
+def task_component(objectives,name):
+    components={'torso_linear':('torso',slice(0,3)), 'torso_angular':('torso',slice(3,6)),
+                'pelvis_linear':('pelvis',slice(0,3)), 'pelvis_angular':('pelvis',slice(3,6))}
+    if name in components:
+        task,rows=components[name]
+        return objectives[task][0][rows]
+    return objectives[name][0]
+
+
+def com_feasibility(controller,preserve,minimize_acceleration=False):
     """LP diagnostic, not a new policy: keep the original point slack fixed."""
     x=controller.solution
     A,low,high=controller.problem[2:5]
@@ -105,7 +114,7 @@ def com_feasibility(controller,preserve):
         eq.append(row); rhs.append(float(x[i]))
     objectives=dict(zip(LABELS,controller.objectives))
     for name in preserve:
-        task,_,_=objectives[name]
+        task=task_component(objectives,name)
         padded=np.pad(task,((0,0),(0,len(x)-task.shape[1])))
         eq.extend(padded); rhs.extend(padded@x)
     com,target,_=objectives['com']
@@ -120,11 +129,31 @@ def com_feasibility(controller,preserve):
                    bounds=[(None,None)]*len(x)+[(0,None)]*3,method='highs')
     record=dict(preserved_attained_tasks=list(preserve),success=bool(result.success),status=result.message)
     if result.success:
+        record['minimum_com_L1_residual']=float(result.fun)
+        if minimize_acceleration:
+            original_size=len(x)+3
+            additional=[]
+            for i in range(controller.model.nv):
+                for sign in (-1,1):
+                    row=np.zeros(original_size+1); row[i]=sign; row[-1]=-1
+                    additional.append(row)
+            cost_row=np.zeros(original_size+1); cost_row[len(x):len(x)+3]=1
+            second_A=np.vstack([np.pad(inequalities,((0,0),(0,1))),cost_row,additional])
+            second_b=np.r_[bounds,result.fun+1e-9,np.zeros(len(additional))]
+            second=linprog(np.r_[np.zeros(original_size),1],A_ub=second_A,b_ub=second_b,
+                           A_eq=np.pad(np.array(eq),((0,0),(0,4))),b_eq=np.array(rhs),
+                           bounds=[(None,None)]*len(x)+[(0,None)]*4,method='highs')
+            record.update(acceleration_minimization_success=bool(second.success),
+                          acceleration_minimization_status=second.message,
+                          lexicographic_com_L1_allowance=1e-9)
+            if not second.success:
+                return record
+            result=second
         candidate=result.x[:len(x)]
         residual=com@candidate-target
         ratio=WholeBodyQPController._constraint_budget_ratio(controller.problem[2],candidate,low,high,
                                                             controller.cfg['solver']['eps_abs'],controller.cfg['solver']['eps_rel'])
-        record.update(minimum_com_L1_residual=float(np.linalg.norm(residual,ord=1)),
+        record.update(achieved_com_L1_residual=float(np.linalg.norm(residual,ord=1)),
                       com_residual_norm=float(np.linalg.norm(residual)),constraint_budget_ratio=ratio,
                       torque_peak_Nm=float(np.max(abs(candidate[controller.model.nv:controller.model.nv+controller.model.nu]))),
                       max_qdd=float(np.max(abs(candidate[:controller.model.nv]))))

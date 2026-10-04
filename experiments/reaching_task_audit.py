@@ -143,6 +143,13 @@ def com_feasibility(controller,preserve,minimize_acceleration=False):
             second=linprog(np.r_[np.zeros(original_size),1],A_ub=second_A,b_ub=second_b,
                            A_eq=np.pad(np.array(eq),((0,0),(0,4))),b_eq=np.array(rhs),
                            bounds=[(None,None)]*len(x)+[(0,None)]*4,method='highs')
+            record['acceleration_minimization_first_status']=second.message
+            record['acceleration_minimization_retry_count']=0
+            if not second.success:
+                record['acceleration_minimization_retry_count']=1
+                second=linprog(np.r_[np.zeros(original_size),1],A_ub=second_A,b_ub=second_b,
+                               A_eq=np.pad(np.array(eq),((0,0),(0,4))),b_eq=np.array(rhs),
+                               bounds=[(None,None)]*len(x)+[(0,None)]*4,method='highs-ipm')
             record.update(acceleration_minimization_success=bool(second.success),
                           acceleration_minimization_status=second.message,
                           lexicographic_com_L1_allowance=1e-9)

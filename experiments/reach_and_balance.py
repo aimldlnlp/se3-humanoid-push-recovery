@@ -174,9 +174,12 @@ def main():
     parser.add_argument('--contact-pose-stiffness', type=float, default=0)
     parser.add_argument('--contact-patch-bounds', action='store_true')
     parser.add_argument('--contact-mode', action='store_true')
+    parser.add_argument('--pose-origin', action='store_true')
     parser.add_argument('--controller', choices=('se3_wbc', 'pd_nominal_ff'), default='se3_wbc')
     parser.add_argument('--render', action='store_true')
     args = parser.parse_args()
+    if args.pose_origin and not args.contact_mode:
+        parser.error('--pose-origin requires --contact-mode')
     if not np.isfinite(args.contact_velocity_damping) or args.contact_velocity_damping < 0 or (args.contact_velocity_damping and args.controller != 'se3_wbc'):
         parser.error('--contact-velocity-damping requires a finite nonnegative WBC value')
     if not np.isfinite(args.contact_pose_stiffness) or args.contact_pose_stiffness < 0 or (args.contact_pose_stiffness and args.controller != 'se3_wbc'):
@@ -211,6 +214,8 @@ def main():
         settings['contact_patch_bounds'] = True
     if args.contact_mode:
         settings['contact_mode'] = True
+    if args.pose_origin:
+        settings['pose_origin'] = True
     default_reach_weight = settings['weight']
     if args.reach_weight is not None:
         if not np.isfinite(args.reach_weight) or args.reach_weight <= 0:
@@ -242,7 +247,11 @@ def main():
     else:
         if args.contact_mode:
             from reaching_contact_mode import ContactModeController
-            controller = ContactModeController(model, cfg['controller'], settings)
+            if args.pose_origin:
+                from reaching_pose_origin import PoseOriginController
+                controller = PoseOriginController(model, cfg['controller'], settings)
+            else:
+                controller = ContactModeController(model, cfg['controller'], settings)
         else:
             controller = ReachingController(model, cfg['controller'], settings)
     runner = SimulationRunner(model, controller, duration_s=settings['experiment_duration_s'],

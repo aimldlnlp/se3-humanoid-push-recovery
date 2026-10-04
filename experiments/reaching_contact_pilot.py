@@ -16,22 +16,29 @@ def main():
     candidates.add_argument('--pose-stabilization',action='store_true')
     candidates.add_argument('--patch-bounds',action='store_true')
     candidates.add_argument('--contact-mode',action='store_true')
+    parser.add_argument('--pose-origin',action='store_true')
     args=parser.parse_args()
+    if args.pose_origin and not args.contact_mode:
+        parser.error('--pose-origin requires --contact-mode')
     root=args.output
     root.mkdir(parents=True,exist_ok=False)
     (root/'logs').mkdir()
     rows=[]
     for phase,force,start in (('no_push',0,1.5),('moving',70,1.5),('hold',70,3.0)):
         candidate='mode' if args.contact_mode else ('patch' if args.patch_bounds else ('pose' if args.pose_stabilization else 'damping'))
+        if args.pose_origin:
+            candidate='pose_origin'
         name=f'front_12.5cm_contact_{candidate}_{phase}'
         row=run_trial(root,name,[.125,0,0],force,start,stage='exploratory_pilot',
                       reach_weight=3000,contact_velocity_damping=20,
                       contact_pose_stiffness=100 if args.pose_stabilization else 0,
-                      contact_patch_bounds=args.patch_bounds,contact_mode=args.contact_mode)
+                      contact_patch_bounds=args.patch_bounds,contact_mode=args.contact_mode,pose_origin=args.pose_origin)
         suffix='' if phase=='no_push' else f'_{phase}_70N'
         baseline=ROOT/'results/reaching_tracking/fbc0b50_local/trials'/f'front_12.5cm_w3000{suffix}'
         if args.pose_stabilization or args.patch_bounds or args.contact_mode:
             baseline=ROOT/'results/reaching_contact/damping_pilot/trials'/f'front_12.5cm_contact_damping_{phase}'
+        if args.pose_origin:
+            baseline=ROOT/'results/reaching_contact/mode_pilot/trials'/f'front_12.5cm_contact_mode_{phase}'
         verify_pair(baseline,root/'trials'/name)
         row.update(phase=phase,contact_velocity_damping_s_inv=20,baseline=baseline.relative_to(ROOT).as_posix())
         row['contact_pose_stiffness_s_inv2']=100 if args.pose_stabilization else 0
@@ -45,10 +52,11 @@ def main():
                 contact_pose_stiffness_s_inv2=100 if args.pose_stabilization else 0,
                 contact_patch_bounds=args.patch_bounds,
                 contact_mode=args.contact_mode,
+                pose_origin=args.pose_origin,
                 scope='One exploratory candidate; no gain search, validation expansion, or default promotion',
                 physical_thresholds_changed=False,objective_weights_changed=False,
-                contact_rhs_changed=True,contact_wrench_bounds_changed=args.patch_bounds or args.contact_mode,
-                contact_slack_metric_changed=args.contact_mode,
+                contact_rhs_changed=not args.pose_origin,contact_wrench_bounds_changed=(args.patch_bounds or args.contact_mode) and not args.pose_origin,
+                contact_slack_metric_changed=args.contact_mode and not args.pose_origin,
                 source_version=rows[0]['source_version'])
     (root/'study.json').write_text(json.dumps(report,indent=2),encoding='utf-8')
     files=[dict(path=p.relative_to(root).as_posix(),sha256=hashlib.sha256(p.read_bytes()).hexdigest())

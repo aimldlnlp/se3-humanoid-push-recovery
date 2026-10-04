@@ -176,9 +176,12 @@ def main():
     parser.add_argument('--contact-patch-bounds', action='store_true')
     parser.add_argument('--contact-mode', action='store_true')
     parser.add_argument('--pose-origin', action='store_true')
+    parser.add_argument('--hierarchical', action='store_true')
     parser.add_argument('--controller', choices=('se3_wbc', 'pd_nominal_ff'), default='se3_wbc')
     parser.add_argument('--render', action='store_true')
     args = parser.parse_args()
+    if args.hierarchical and not (args.pose_origin and args.contact_mode):
+        parser.error('--hierarchical requires --pose-origin and --contact-mode')
     if args.push_direction_deg is not None and not np.isfinite(args.push_direction_deg):
         parser.error('--push-direction-deg must be finite')
     if args.pose_origin and not args.contact_mode:
@@ -252,7 +255,11 @@ def main():
             from reaching_contact_mode import ContactModeController
             if args.pose_origin:
                 from reaching_pose_origin import PoseOriginController
-                controller = PoseOriginController(model, cfg['controller'], settings)
+                if args.hierarchical:
+                    from reaching_hierarchy import HierarchicalController
+                    controller = HierarchicalController(model, cfg['controller'], settings)
+                else:
+                    controller = PoseOriginController(model, cfg['controller'], settings)
             else:
                 controller = ContactModeController(model, cfg['controller'], settings)
         else:
@@ -282,6 +289,7 @@ def main():
                     push_direction_deg=push_direction_deg,
                     com_reference_world=initial.com_reference.tolist(),
                     controller=args.controller,
+                    hierarchical=args.hierarchical,
                     objective_weight_overrides=overrides,
                     ik_max_reference_error_m=getattr(controller, 'ik_max_error_m', None),
                     goal_world_m=controller.goal.tolist(), actual_impulse_Ns=run.metadata['realized_impulse_Ns'])

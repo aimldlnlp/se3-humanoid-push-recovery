@@ -96,6 +96,39 @@ class ReachingController(WholeBodyQPController):
             problem[11] = problem[11]+correction
         return tuple(problem)
 
+    def _friction_rows(self, rows, lower, upper, start):
+        first = len(rows)
+        super()._friction_rows(rows, lower, upper, start)
+        if not self.settings.get('contact_patch_bounds', False):
+            return
+        model = self.internal_model
+        for foot, name in enumerate(self.contact_names):
+            physical_foot = ('left_foot', 'right_foot').index(name)
+            contacts = [model.data.contact[i] for i in range(model.data.ncon)
+                        if model.geom_ids['ground'] in (model.data.contact[i].geom1, model.data.contact[i].geom2)
+                        and any(g in (model.data.contact[i].geom1, model.data.contact[i].geom2)
+                                for g in model.foot_contact_geom_ids[physical_foot])]
+            if not contacts:
+                upper[first+11*foot] = 0.0
+                continue
+            relative = np.array([c.pos for c in contacts])-model.body_pose(name)[:3, 3]
+            low, high = relative.min(axis=0), relative.max(axis=0)
+            z = (low[2]+high[2])/2
+            # Conservative allowance for contact-height spread and available
+            # spin/rolling moments. No measured forces enter the controller.
+            allowance = (high[2]-low[2])/2*self.mu
+            allowance += max(sum(c.friction[2:]) if c.dim>=6 else (c.friction[2] if c.dim>=4 else 0)
+                             for c in contacts)
+            off = start+6*foot
+            coefficients = ((3, 1, z, low[1]-allowance),
+                            (3, 1, z, high[1]+allowance),
+                            (4, 0, -z, -high[0]-allowance),
+                            (4, 0, -z, -low[0]+allowance))
+            for index, (moment, tangent, lever, bound) in enumerate(coefficients):
+                row = rows[first+11*foot+5+index]
+                row[:] = 0
+                row[off+moment], row[off+tangent], row[off+2] = 1, lever, -bound
+
     def solve(self):
         task = self.reach_task
         task.position_world, task.velocity_world, task.acceleration_world = quintic_reference(
@@ -139,6 +172,7 @@ def main():
     parser.add_argument('--guard-arm-posture', action='store_true')
     parser.add_argument('--contact-velocity-damping', type=float, default=0)
     parser.add_argument('--contact-pose-stiffness', type=float, default=0)
+    parser.add_argument('--contact-patch-bounds', action='store_true')
     parser.add_argument('--controller', choices=('se3_wbc', 'pd_nominal_ff'), default='se3_wbc')
     parser.add_argument('--render', action='store_true')
     args = parser.parse_args()
@@ -146,6 +180,8 @@ def main():
         parser.error('--contact-velocity-damping requires a finite nonnegative WBC value')
     if not np.isfinite(args.contact_pose_stiffness) or args.contact_pose_stiffness < 0 or (args.contact_pose_stiffness and args.controller != 'se3_wbc'):
         parser.error('--contact-pose-stiffness requires a finite nonnegative WBC value')
+    if args.contact_patch_bounds and args.controller != 'se3_wbc':
+        parser.error('--contact-patch-bounds applies only to se3_wbc')
     if args.balance_guard and args.controller != 'se3_wbc':
         parser.error('--balance-guard applies only to se3_wbc')
     if args.guard_arm_posture and not args.balance_guard:
@@ -168,6 +204,8 @@ def main():
         settings['contact_velocity_damping_s_inv'] = args.contact_velocity_damping
     if args.contact_pose_stiffness:
         settings['contact_pose_stiffness_s_inv2'] = args.contact_pose_stiffness
+    if args.contact_patch_bounds:
+        settings['contact_patch_bounds'] = True
     default_reach_weight = settings['weight']
     if args.reach_weight is not None:
         if not np.isfinite(args.reach_weight) or args.reach_weight <= 0:

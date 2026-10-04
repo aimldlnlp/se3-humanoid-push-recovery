@@ -7,7 +7,7 @@ from pathlib import Path
 import subprocess
 
 import numpy as np
-from scipy.optimize import nnls
+from scipy.optimize import linprog
 
 from common import ROOT, load_configs, make_model, prepare_paired_initial_condition, write_csv
 from reach_and_balance import ReachingController
@@ -40,8 +40,14 @@ def cone_residual(generators, wrench):
     target = scale*np.asarray(wrench)
     if not generators.shape[1]:
         return float(np.linalg.norm(target)/max(1, np.linalg.norm(target)))
-    _, residual = nnls(scale[:, None]*generators, target, maxiter=10000)
-    return float(residual/max(1, np.linalg.norm(target)))
+    matrix = scale[:, None]*generators
+    # LP avoids singular normal equations for redundant contact generators.
+    result = linprog(np.r_[np.zeros(matrix.shape[1]), np.ones(12)],
+                     A_eq=np.c_[matrix, np.eye(6), -np.eye(6)], b_eq=target,
+                     bounds=(0, None), method='highs')
+    if not result.success:
+        raise RuntimeError(result.message)
+    return float(result.fun/max(1, np.linalg.norm(target, ord=1)))
 
 
 def contact_cone(model, foot):
@@ -132,7 +138,7 @@ def main():
     write_csv(rows, args.output/'wrench.csv')
     report = dict(records=records, physical_trials_run=0,
                   source_version=subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
-                  method='Nonnegative least squares over outer box friction cone at all reconstructed geometric contacts, including available spin and rolling moments; normalized force/moment residual with fixed 0.1 m scale',
+                  method='LP minimum L1 residual over outer box friction cone at all reconstructed geometric contacts, including available spin and rolling moments; normalized force/moment residual with fixed 0.1 m scale',
                   limitation='Instantaneous reconstructed manifold is not force-bearing solver history. Acceptance in outer cone does not prove feasibility. Rejecting a prediction alone does not establish failure causality. CoM force acceleration excludes other non-foot contacts; next-interval acceleration is a distinct quantity.')
     (args.output/'audit.json').write_text(json.dumps(report, indent=2), encoding='utf-8')
     files = [dict(path=p.name, sha256=hashlib.sha256(p.read_bytes()).hexdigest())

@@ -1,0 +1,21 @@
+{
+  "audit_source_version": "37ff86fa810e9ae66b14c568678d653c591d7c52",
+  "test_source_version": "c8b949efa7711eb8e1f812a6d99ba87f3c81a855",
+  "case_count": 6,
+  "snapshot_count": 40,
+  "foot_wrench_comparisons": 80,
+  "all_event_records_recomputed": true,
+  "all_trajectory_hashes_verified": true,
+  "audit_manifest_verified": true,
+  "maximum_control_replay_error_Nm": 0,
+  "maximum_wrench_replay_error": 0,
+  "maximum_constraint_budget_ratio": 0.20374541705459018,
+  "maximum_predicted_inner_cone_residual": 0.00000445719567783576,
+  "maximum_measured_inner_cone_residual": 0,
+  "maximum_measured_outer_cone_residual": 0,
+  "controller_gain_model_thresholds_unchanged": true,
+  "physical_trials_run": 0,
+  "tests_passed": 103,
+  "test_warnings": 1144,
+  "test_seconds": 18.17
+}

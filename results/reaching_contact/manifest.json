@@ -102,11 +102,31 @@
     },
     {
       "path": "DISTURBANCE_REPORT.md",
-      "sha256": "aecc7681febe25dd65fdc4fbb156f2d04105fe6bb4f302d1fca2de2d8099fcc5"
+      "sha256": "0413d1b141ea33bc06581802ad1f621dd8ae6d9d2d98a5f22592a20c6ae7ffa9"
     },
     {
       "path": "disturbance_verification.json",
       "sha256": "ea5175259c7b676a938023536691081bf019ba5d8a5cf50b4a55b8b724fd887e"
+    },
+    {
+      "path": "failure_onset_audit/audit.json",
+      "sha256": "fbadfc17fe53cafd1eefbc9ce9bfcd838339c715b0eb723a90980ae11ca8d3ed"
+    },
+    {
+      "path": "failure_onset_audit/contacts.csv",
+      "sha256": "ba46ceac91b773b5188d0f49e8f8c746764e2d9562a6544f78b4c7a8d869a77c"
+    },
+    {
+      "path": "failure_onset_audit/manifest.json",
+      "sha256": "c1f62dc83c8cfb3b6961c5948d834e80cc99641927184ef4b758497c6fde0466"
+    },
+    {
+      "path": "FAILURE_ONSET_REPORT.md",
+      "sha256": "fa88fa80be581b79546ddfce50205d863843f10a1f42d66c2214a2f343b673a8"
+    },
+    {
+      "path": "failure_onset_verification.json",
+      "sha256": "449e89444cb77ac62d12b959c42c51dd07f86aadcbdf23d8abd34a2f3c2c1a34"
     },
     {
       "path": "frame_audit/audit.json",

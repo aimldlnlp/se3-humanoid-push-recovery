@@ -74,6 +74,10 @@ still not demonstrated. No hardware trial or default promotion occurs.
 
 ## Next Gate
 
+Completed by the [failure onset audit](FAILURE_ONSET_REPORT.md). Lateral cases
+lose support before slip; reverse/80 N cases cross the CoM band before support
+loss. This separates investigation paths without changing the rejected gate.
+
 Use the retained lateral-slip and reverse-push trajectories to locate the first
 support/slip transition before large body motion. Compare measured contact forces
 and accelerations with the accepted QP predictions at those states. Diagnose

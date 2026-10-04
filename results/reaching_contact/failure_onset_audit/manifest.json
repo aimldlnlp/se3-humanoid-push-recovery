@@ -1,0 +1,12 @@
+{
+  "files": [
+    {
+      "path": "audit.json",
+      "sha256": "fbadfc17fe53cafd1eefbc9ce9bfcd838339c715b0eb723a90980ae11ca8d3ed"
+    },
+    {
+      "path": "contacts.csv",
+      "sha256": "ba46ceac91b773b5188d0f49e8f8c746764e2d9562a6544f78b4c7a8d869a77c"
+    }
+  ]
+}

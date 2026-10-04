@@ -111,6 +111,10 @@ equation, threshold, production controller or physical outcome is changed.
 
 ## Next Gate
 
+Completed by the [frozen constraint split](CONSTRAINT_SPLIT_REPORT.md). Simple
+normal/tangential release is not selected for controller correction. The tested
+controls do not justify a rollout policy or a load threshold.
+
 First isolate the low-load lateral transition with frozen counterfactuals:
 separate normal versus tangential point constraints and the sticking assumption
 while preserving the pose/reaching targets and existing force cones. Evaluate

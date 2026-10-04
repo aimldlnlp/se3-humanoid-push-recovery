@@ -29,6 +29,26 @@
       "sha256": "4b425b336759ee3b4a8e3907a18eb3828901076f7dc19ecd4d08419f79c17ddb"
     },
     {
+      "path": "constraint_split_audit/audit.json",
+      "sha256": "1f6df3b64ea64a7105707b67e42a3e8c3c88bc1a94d61fc54637dc20e441fb62"
+    },
+    {
+      "path": "constraint_split_audit/controls.csv",
+      "sha256": "d3864e1fc46aec14efd2c3540b0296d557bcee079818402d88ea66d598eda544"
+    },
+    {
+      "path": "constraint_split_audit/manifest.json",
+      "sha256": "90f85e2a71e91bac3336c369c815893ab4be6192dd14d45847145881126a539a"
+    },
+    {
+      "path": "CONSTRAINT_SPLIT_REPORT.md",
+      "sha256": "0f16bafc38073dacc9ac5c0848dfd4c597f83157fd6f958157a3dd9928494cd6"
+    },
+    {
+      "path": "constraint_split_verification.json",
+      "sha256": "bd4d0a99293850ca0819d8e7041746bfa2c0ca58e2aeff56addbdd692ae7f64f"
+    },
+    {
       "path": "damping_pilot/logs/front_12.5cm_contact_damping_hold.txt",
       "sha256": "c89541311c10f847f79d3aa0d00d95926044176fc000d34566d251f9a8434dd7"
     },
@@ -122,7 +142,7 @@
     },
     {
       "path": "FAILURE_ONSET_REPORT.md",
-      "sha256": "fa88fa80be581b79546ddfce50205d863843f10a1f42d66c2214a2f343b673a8"
+      "sha256": "5af5114cfccd7f3fb97bf6599887cf6aa166177d75504f9e8d289c724ed17860"
     },
     {
       "path": "failure_onset_verification.json",

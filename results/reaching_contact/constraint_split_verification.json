@@ -1,0 +1,34 @@
+{
+  "source_version": "b17f36a884915cccf5f77549e3e67db17f008cd3",
+  "state_count": 26,
+  "control_count": 104,
+  "numerically_accepted": 104,
+  "retain_all_replay_count": 26,
+  "retain_all_control_wrench_error": 0,
+  "empty_contact_controls_reproduced": 16,
+  "cone_qualified_controls": 102,
+  "cone_unqualified_controls": [
+    {
+      "case": "direction_90",
+      "time_s": 3.0879999999998815,
+      "mode": "all",
+      "maximum_cone_residual": 0.00002734633720750772
+    },
+    {
+      "case": "direction_270",
+      "time_s": 3.055999999999885,
+      "mode": "tangent",
+      "maximum_cone_residual": 0.000013669466008740742
+    }
+  ],
+  "maximum_constraint_budget_ratio": 0.24343306440518372,
+  "maximum_qdd": 35.18694273993404,
+  "trajectory_manifest_hashes_verified": true,
+  "targets_observed_data_and_point_counts_identical_within_each_state": true,
+  "controller_gains_force_cones_thresholds_unchanged": true,
+  "physical_trials_run": 0,
+  "tests_passed": 105,
+  "test_warnings": 1148,
+  "test_seconds": 18.04,
+  "decision": "Do not promote blanket constraint release; no rollout candidate selected"
+}

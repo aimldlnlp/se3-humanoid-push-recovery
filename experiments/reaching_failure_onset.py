@@ -10,6 +10,7 @@ import numpy as np
 
 from common import ROOT, load_configs, make_model, prepare_paired_initial_condition, recovery_config, write_csv
 from reaching_pose_origin import PoseOriginController
+from reaching_task_audit import objective_records
 from reaching_wrench_audit import contact_cone, cone_residual
 from se3_whole_body_control.control.tasks import com_jacobian
 
@@ -45,11 +46,11 @@ def events(a, summary, recovery):
     return result
 
 
-def snapshot(path, a, summary, index, cfg, initial):
+def snapshot(path, a, summary, index, cfg, initial, controller_type=PoseOriginController, verify_control=True):
     i=index
     model=make_model(cfg)
     model.reset(a['qpos_history'][0],a['qvel_history'][0])
-    controller=PoseOriginController(model,cfg['controller'],summary['provenance']['reaching'])
+    controller=controller_type(model,cfg['controller'],summary['provenance']['reaching'])
     controller.q_des=a['joint_reference_history'][i].copy()
     controller.pd_fallback.q_des=controller.q_des.copy()
     controller.T_des_torso,controller.T_des_pelvis=initial.desired_torso.copy(),initial.desired_pelvis.copy()
@@ -62,9 +63,13 @@ def snapshot(path, a, summary, index, cfg, initial):
     model.data.ctrl[:]=a['control'][i]
     mujoco.mj_forward(model.model,model.data)
     result=controller.solve()
+    if not result.success and not verify_control:
+        return dict(success=False,time_s=float(a['time_s'][i]),message=result.message)
     assert result.success,result.message
-    np.testing.assert_allclose(result.control,a['control'][i],rtol=1e-6,atol=1e-6)
-    np.testing.assert_allclose(result.contact_wrench,a['predicted_contact_wrench'][i],rtol=1e-6,atol=1e-6)
+    if verify_control:
+        np.testing.assert_allclose(result.control,a['control'][i],rtol=1e-6,atol=1e-6)
+        np.testing.assert_allclose(result.contact_wrench,a['predicted_contact_wrench'][i],rtol=1e-6,atol=1e-6)
+    objectives,cost,_=objective_records(controller)
     Jcom=com_jacobian(model)
     velocity=Jcom@model.data.qvel
     mass=float(np.sum(model.model.body_mass))
@@ -103,7 +108,10 @@ def snapshot(path, a, summary, index, cfg, initial):
         feet[foot]['observed_interval_material_point_acceleration_m_s2']=observed.tolist()
         predicted_acc=np.array(feet[foot]['predicted_point_acceleration_m_s2']).reshape(-1,3)
         feet[foot]['point_acceleration_prediction_interval_difference_norm']=float(np.linalg.norm(observed-predicted_acc))
-    return dict(index=i,time_s=float(a['time_s'][i]),interval_end_s=float(a['time_s'][i+1]),feet=feet,
+    return dict(success=True,index=i,time_s=float(a['time_s'][i]),interval_end_s=float(a['time_s'][i+1]),feet=feet,
+                objectives=objectives,objective_sum=cost,max_qdd=float(np.max(abs(result.qdd))),
+                torque_peak_Nm=float(np.max(abs(result.control))),
+                relaxed_point_rows=getattr(controller,'relaxed_point_rows',[]),
                 replay_control_max_error_Nm=float(np.max(abs(result.control-a['control'][i]))),
                 replay_wrench_max_error=float(np.max(abs(result.contact_wrench-a['predicted_contact_wrench'][i]))),
                 constraint_budget_ratio=result.diagnostics['constraint_budget_ratio'],

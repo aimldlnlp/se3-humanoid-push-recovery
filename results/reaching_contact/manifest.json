@@ -129,6 +129,98 @@
       "sha256": "2599d3162c2f2ddbd79234efd28efdfd5ca2b051d42f1c90f69cea8997d56fdb"
     },
     {
+      "path": "mode_audit/audit.json",
+      "sha256": "188404041fc608f3ad5acd42edc0f8f915b0b0fc4d16ecafa18d6f1f82019b64"
+    },
+    {
+      "path": "mode_audit/manifest.json",
+      "sha256": "9eb1549c14b93065ce7084efd20d7944d724a22e1826d3a3a1f7e22adbed7f22"
+    },
+    {
+      "path": "mode_audit/timeout_task_residuals.json",
+      "sha256": "0aba883807ed06261dd65f01f791f7248baab7061f607435935574eabb8c9486"
+    },
+    {
+      "path": "mode_pilot/logs/front_12.5cm_contact_mode_hold.txt",
+      "sha256": "90c60e2bdf751b017f090282641e370fc80f4016cc6d4067cd20f13786df200b"
+    },
+    {
+      "path": "mode_pilot/logs/front_12.5cm_contact_mode_moving.txt",
+      "sha256": "a7e45876773921926d1b74376db438518806882ed478cc05731dd7d8021e5c78"
+    },
+    {
+      "path": "mode_pilot/logs/front_12.5cm_contact_mode_no_push.txt",
+      "sha256": "b610daf0cf3d7011979f33e691c10640d1b3930be74ff894cd74ab63ca75526a"
+    },
+    {
+      "path": "mode_pilot/manifest.json",
+      "sha256": "a9298dc9dc98fed4f37a90f4f846dde46403f210386df14de475f20707c89b18"
+    },
+    {
+      "path": "mode_pilot/study.csv",
+      "sha256": "3170640ab9ed78b62a1c302da6bf002565cd586c0389cf01b0b92d1fce05705f"
+    },
+    {
+      "path": "mode_pilot/study.json",
+      "sha256": "9bcfa213538af7c4a83f0f3811bdab95e7745aeca8629abbd8cc892ca83d1a72"
+    },
+    {
+      "path": "mode_pilot/trials/front_12.5cm_contact_mode_hold/reaching_response.pdf",
+      "sha256": "6769087b54d7225b42988c8b8185d0ad5935f7f44314cbe2452bbe8cf43f3a80"
+    },
+    {
+      "path": "mode_pilot/trials/front_12.5cm_contact_mode_hold/reaching_response.png",
+      "sha256": "4d1232c8169cd3fa4c59bf77ed68db95316648fff9d8e4295326ac7ecef5b58c"
+    },
+    {
+      "path": "mode_pilot/trials/front_12.5cm_contact_mode_hold/summary.json",
+      "sha256": "48b08cc59d38c922162f174acb3bac28d1af543468693d6d0fc739d6a48cfbf5"
+    },
+    {
+      "path": "mode_pilot/trials/front_12.5cm_contact_mode_hold/trajectory.npz",
+      "sha256": "7e963524c6384044e719e80a891c55c8462ef1d947c9e249d17677fbd7f722be"
+    },
+    {
+      "path": "mode_pilot/trials/front_12.5cm_contact_mode_moving/reaching_response.pdf",
+      "sha256": "108f9168e8ab3997b6809c1b7d8ded7b67db73f01830d3aec57fb53b61cd7e06"
+    },
+    {
+      "path": "mode_pilot/trials/front_12.5cm_contact_mode_moving/reaching_response.png",
+      "sha256": "2ada1e721581dca06a0bb87dc82832cae01989b9c68cbfe9e7a00edd9b802501"
+    },
+    {
+      "path": "mode_pilot/trials/front_12.5cm_contact_mode_moving/summary.json",
+      "sha256": "f0dc8e8b9d2cf86bdeb9d6502354c7ca5268d28f27559bd017b7910f54263a59"
+    },
+    {
+      "path": "mode_pilot/trials/front_12.5cm_contact_mode_moving/trajectory.npz",
+      "sha256": "e3fcdc5a4c88088957bd70373fb5636f6a75e0ec87fdd79529d109947cbe5268"
+    },
+    {
+      "path": "mode_pilot/trials/front_12.5cm_contact_mode_no_push/reaching_response.pdf",
+      "sha256": "81b8f39c668b0817bffd81322ab2c2a06fc7b9083324710cccfd9b9d9c82a1d8"
+    },
+    {
+      "path": "mode_pilot/trials/front_12.5cm_contact_mode_no_push/reaching_response.png",
+      "sha256": "80d26893b7a70eee3a757e8f24b39d3ced39c2befb9c8a0bd18e33d24558a2c9"
+    },
+    {
+      "path": "mode_pilot/trials/front_12.5cm_contact_mode_no_push/summary.json",
+      "sha256": "7d20d6bd662a0b724577496b387f03163d82ca4d7827c1f47d77c9f5c215f0f8"
+    },
+    {
+      "path": "mode_pilot/trials/front_12.5cm_contact_mode_no_push/trajectory.npz",
+      "sha256": "d812d444df5304f192f4b20d6fc9ebffd3f7f58da7fadb9ec03f98ac916e0c36"
+    },
+    {
+      "path": "MODE_REPORT.md",
+      "sha256": "dd7962027e784622651a71ad678ec53adccb15a675b20a81fac9b1dae33db735"
+    },
+    {
+      "path": "mode_verification.json",
+      "sha256": "23fcdb602d78839c1188b18a7aa6a142d9804f5491b44c9e3b74789b17d35797"
+    },
+    {
       "path": "patch_pilot/logs/front_12.5cm_contact_patch_hold.txt",
       "sha256": "6039cca742415c8ba3bf93735b2fa349118278ac09517a4f946cf4ce77e33280"
     },
@@ -294,7 +386,7 @@
     },
     {
       "path": "WRENCH_REPORT.md",
-      "sha256": "467476c2b8756697dcf0edaa1b62d9fb9edadaafc83c023192b71f3cb4407183"
+      "sha256": "2d6352fffecc76285b9301e1d3c8f8951d44ff5632a7369bb2fd3d5ea213a6dd"
     },
     {
       "path": "wrench_verification.json",

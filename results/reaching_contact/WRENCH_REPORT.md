@@ -98,6 +98,10 @@ thresholds are unchanged. README stays portfolio-focused and is not expanded.
 
 ## Next Gate
 
+Follow-up completed: [matching contact-mode prototype and pilot](MODE_REPORT.md).
+Frozen geometry gate passes; physical pilot still fails at 2/3. Original next
+gate rationale follows for chronology.
+
 Stop adding scalar contact corrections. First prototype a coherent contact-mode
 formulation in frozen states: flat patch versus edge/point must have matching
 wrench capability and kinematic constraints, rather than a smaller wrench box

@@ -1,0 +1,260 @@
+{
+  "path": "results/reaching_contact/pose_pilot/trials/front_12.5cm_contact_pose_moving",
+  "trajectory_sha256": "b5f8b651551c9cffe76086e1977d9866efc0a8dd428d80fa9cbfd71717423ed4",
+  "source_version": "b0d2b93580a4e8e66e0b0577a6a3113252788658",
+  "snapshots": [
+    {
+      "time_s": 4.499999999999726,
+      "feet": [
+        {
+          "foot": "left",
+          "contact_points_world_m": [
+            [
+              -0.04850141627755132,
+              0.14487449005807032,
+              -0.00001527026412211606
+            ],
+            [
+              0.12152888866601985,
+              0.14866182664137018,
+              -0.00031170002010582135
+            ],
+            [
+              0.12110170938535786,
+              0.08866377147444464,
+              -0.00019890147321073755
+            ]
+          ],
+          "contact_dimensions": [
+            3,
+            3,
+            3
+          ],
+          "predicted_wrench_world": [
+            -1.3320925631614478,
+            -0.28036319458764053,
+            178.10515836010205,
+            1.8787760499504766,
+            -21.372619003212247,
+            0.18489315211339283
+          ],
+          "measured_pre_step_wrench_world": [
+            -0.1481886632428286,
+            -0.3134345649994533,
+            181.90517538858373,
+            1.8527845238711758,
+            -21.19455083874965,
+            0.0780229005636805
+          ],
+          "predicted_outer_cone_relative_residual": 0.0010355247184330042,
+          "measured_outer_cone_relative_residual": 0
+        },
+        {
+          "foot": "right",
+          "contact_points_world_m": [
+            [
+              0.12213217867232466,
+              -0.08882089704681019,
+              -0.00030287529307709664
+            ],
+            [
+              0.12166937365206386,
+              -0.14881856353505313,
+              -0.00017459096162673708
+            ]
+          ],
+          "contact_dimensions": [
+            3,
+            3
+          ],
+          "predicted_wrench_world": [
+            -1.078915260164699,
+            0.2991433978759513,
+            162.62671983843356,
+            1.8984291759201806,
+            -19.515206380612028,
+            0.140517744465334
+          ],
+          "measured_pre_step_wrench_world": [
+            -0.8146327267770451,
+            0.10698127333679465,
+            162.6877594440083,
+            1.869807326026228,
+            -19.432091641010032,
+            0.027036469449758013
+          ],
+          "predicted_outer_cone_relative_residual": 0.0022063117462810837,
+          "measured_outer_cone_relative_residual": 0
+        }
+      ],
+      "success": true,
+      "task_residuals": {
+        "com_acceleration_target_residual_m_s2": 3.8829705418623512,
+        "reach_acceleration_target_residual_m_s2": 0.44776791293180546
+      },
+      "constraint_budget_ratio": 4.465868364016016e-12,
+      "contact_slack_norm": 0.012756841526584916,
+      "contact_motion_ranks": null,
+      "contact_point_counts": null,
+      "torque_peak_Nm": 21.15772629498346,
+      "replay_control_max_error_Nm": 0,
+      "com_error_world_m": [
+        0.1131709300639588,
+        0.01779291818120261,
+        -0.010384654180393693
+      ],
+      "com_velocity_world_m_s": [
+        -0.008432277244410346,
+        -0.0017687113186697382,
+        0.0011240017764295584
+      ],
+      "com_task_acceleration_world_m_s2": [
+        -3.8766597797944544,
+        -0.605065023155394,
+        0.3522228785494837
+      ],
+      "predicted_force_com_acceleration_world_m_s2": [
+        -0.06866592825143354,
+        0.0005348635035797803,
+        -0.10589598382988186
+      ],
+      "measured_force_com_acceleration_world_m_s2": [
+        -0.027421323085896426,
+        -0.005879826177014739,
+        0.0040675904247589045
+      ],
+      "observed_interval_com_acceleration_world_m_s2": [
+        -0.027502548850922598,
+        -0.00587853655761996,
+        0.004131459152571662
+      ]
+    },
+    {
+      "time_s": 4.899999999999682,
+      "feet": [
+        {
+          "foot": "left",
+          "contact_points_world_m": [
+            [
+              -0.04840888753067834,
+              0.14510240335807423,
+              -0.000014520841291715617
+            ],
+            [
+              0.12162700830388405,
+              0.14862979347156413,
+              -0.0003110198822471877
+            ],
+            [
+              0.12110807491418725,
+              0.0886324294696923,
+              -0.00020259829311897182
+            ]
+          ],
+          "contact_dimensions": [
+            3,
+            3,
+            3
+          ],
+          "predicted_wrench_world": [
+            -3.534856859659487,
+            -0.9392933215248236,
+            179.88368451863514,
+            1.8689346797600912,
+            -21.586042142236213,
+            0.14980930439532766
+          ],
+          "measured_pre_step_wrench_world": [
+            -2.015300810744663,
+            -0.629953494358204,
+            182.96337690318683,
+            1.7498634065629182,
+            -21.346401801400873,
+            0.07201040869325313
+          ],
+          "predicted_outer_cone_relative_residual": 0.0024965269223659117,
+          "measured_outer_cone_relative_residual": 0
+        },
+        {
+          "foot": "right",
+          "contact_points_world_m": [
+            [
+              0.1223056152777514,
+              -0.08882373660868514,
+              -0.00030021755374024656
+            ],
+            [
+              0.12173797053252931,
+              -0.14882054889447122,
+              -0.00017744236551874362
+            ]
+          ],
+          "contact_dimensions": [
+            3,
+            3
+          ],
+          "predicted_wrench_world": [
+            -2.7035477880091934,
+            -0.3239924098258152,
+            162.974912718606,
+            1.8687861222978146,
+            -19.55698952623272,
+            0.1011076554470785
+          ],
+          "measured_pre_step_wrench_world": [
+            -2.071579566745472,
+            -0.1837194399492244,
+            162.0250717044393,
+            1.751317977783805,
+            -19.339967777062707,
+            -0.003533034762797007
+          ],
+          "predicted_outer_cone_relative_residual": 0.002740039062048884,
+          "measured_outer_cone_relative_residual": 0
+        }
+      ],
+      "success": true,
+      "task_residuals": {
+        "com_acceleration_target_residual_m_s2": 3.26368238406874,
+        "reach_acceleration_target_residual_m_s2": 0.35660848900484876
+      },
+      "constraint_budget_ratio": 5.348160561716124e-12,
+      "contact_slack_norm": 0.010247959053264595,
+      "contact_motion_ranks": null,
+      "contact_point_counts": null,
+      "torque_peak_Nm": 21.335397912161056,
+      "replay_control_max_error_Nm": 0,
+      "com_error_world_m": [
+        0.10611208309410251,
+        0.016355044046485325,
+        -0.009430919110388847
+      ],
+      "com_velocity_world_m_s": [
+        -0.03238622611880041,
+        -0.006474254706866305,
+        0.004434132059743527
+      ],
+      "com_task_acceleration_world_m_s2": [
+        -3.390060647105584,
+        -0.5076839945583234,
+        0.28574084826617435
+      ],
+      "predicted_force_com_acceleration_world_m_s2": [
+        -0.17767086518585734,
+        -0.035978600546518594,
+        -0.04532665032964722
+      ],
+      "measured_force_com_acceleration_world_m_s2": [
+        -0.11639507431617628,
+        -0.02317354874867584,
+        0.015331892529543367
+      ],
+      "observed_interval_com_acceleration_world_m_s2": [
+        -0.11662201732620567,
+        -0.023491205823636382,
+        0.01539657516356169
+      ]
+    }
+  ],
+  "physical_trials_run": 0
+}

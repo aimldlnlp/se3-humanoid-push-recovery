@@ -101,6 +101,14 @@
       "sha256": "df5261fcaf89b77d8e914771ba514cef832dc56f90093e8da00381839154b891"
     },
     {
+      "path": "DISTURBANCE_REPORT.md",
+      "sha256": "aecc7681febe25dd65fdc4fbb156f2d04105fe6bb4f302d1fca2de2d8099fcc5"
+    },
+    {
+      "path": "disturbance_verification.json",
+      "sha256": "ea5175259c7b676a938023536691081bf019ba5d8a5cf50b4a55b8b724fd887e"
+    },
+    {
       "path": "frame_audit/audit.json",
       "sha256": "af5a0d79485d6125253683e26d6bcd9618638d77157ba29bac8939c29ae80746"
     },
@@ -313,6 +321,202 @@
       "sha256": "9ec9786092d9c9f9d1aa54ca839a99e30db08240100e96d372525366b89266fd"
     },
     {
+      "path": "pose_disturbance_validation/logs/front_12.5cm_pose_validation_control.txt",
+      "sha256": "e385a1d066f7168c8ea9feec12cc5d933d8357515418572d9fb6da9a61032736"
+    },
+    {
+      "path": "pose_disturbance_validation/logs/front_12.5cm_pose_validation_direction_180.txt",
+      "sha256": "6ba1c159cd59f91926b27a48656776145174862dc0e476e5d74ffb6fafb3b4df"
+    },
+    {
+      "path": "pose_disturbance_validation/logs/front_12.5cm_pose_validation_direction_270.txt",
+      "sha256": "b3e94cf44edd19b8e08c61a29fb12a6bda8400abd115c851560e2e25ced4e4df"
+    },
+    {
+      "path": "pose_disturbance_validation/logs/front_12.5cm_pose_validation_direction_45.txt",
+      "sha256": "2632891e0463f80258d68967ee964bc7929860a434a0892699d45e434a4e07ea"
+    },
+    {
+      "path": "pose_disturbance_validation/logs/front_12.5cm_pose_validation_direction_90.txt",
+      "sha256": "60b9a8c67adebeffa1cc0aa4fe43d1f6b48b9ddc20d176fb211070033b4df942"
+    },
+    {
+      "path": "pose_disturbance_validation/logs/front_12.5cm_pose_validation_magnitude_60.txt",
+      "sha256": "0fc9ec62dbda7baa87ac240165e74a6b8f615a54cc780bd1f4c838dd2b8ec0ed"
+    },
+    {
+      "path": "pose_disturbance_validation/logs/front_12.5cm_pose_validation_magnitude_80.txt",
+      "sha256": "43eb39a1bf23c20ab84c885e2b58609cd1e788f0abc451bfd6772290f93a75da"
+    },
+    {
+      "path": "pose_disturbance_validation/logs/front_12.5cm_pose_validation_timing_early.txt",
+      "sha256": "4a7f31e3d05c483de7887eb9ebf8d1820e6639c583db0942300bf8ebb4bd49ad"
+    },
+    {
+      "path": "pose_disturbance_validation/logs/front_12.5cm_pose_validation_timing_late.txt",
+      "sha256": "ecd04d176e170b4b9a39eaca9c1cfb605003e76768f25bb9efcd3c0445400da5"
+    },
+    {
+      "path": "pose_disturbance_validation/manifest.json",
+      "sha256": "898fd87317f479e8f4e9d9f3ec1f92161ce66344f6203925264d07ee66471946"
+    },
+    {
+      "path": "pose_disturbance_validation/plan.json",
+      "sha256": "54fb2046cd0ff929fdb61911e7ffaa6104ec33be5e6721fe6715c9b75a72ffa4"
+    },
+    {
+      "path": "pose_disturbance_validation/study.csv",
+      "sha256": "10235cf719bca4b9b63f8eb4de5df26f1b31835fa94644454b43b94d61232cbd"
+    },
+    {
+      "path": "pose_disturbance_validation/study.json",
+      "sha256": "f8a27f93a42f022f08051b3150a3902166c01eb898771989bb771424f01fb04d"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_control/reaching_response.pdf",
+      "sha256": "95b6c10e7920eb2086d326ec45d20911fa50d44e36eb847bf28cd3ebe506300d"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_control/reaching_response.png",
+      "sha256": "871427a64e1ba556dc6acd7c66b0a1644edaf076fa17de917038aee9e14083c5"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_control/summary.json",
+      "sha256": "ad38516586df81d44e7c7e82755dfc69e520f5ff2ec4d376d4b40e61c023b514"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_control/trajectory.npz",
+      "sha256": "6eb461cb9aff4d22094eb0dee39ea81185f4b86ad2cec9cdfd16abd7450109e9"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_direction_180/reaching_response.pdf",
+      "sha256": "89edb13047fc9e87dceaf3ce1abc55426f00382725092a02ae758b02e08d751e"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_direction_180/reaching_response.png",
+      "sha256": "a4b44a02a437c4ade451c75d03b4d5597b7fc3c018a7bc9f091a43c492caafdf"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_direction_180/summary.json",
+      "sha256": "d9d73a428c3b2c327813d63386113abdba9864fb53b66b7d39898c6736d7854f"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_direction_180/trajectory.npz",
+      "sha256": "ff1f515d6241e261bf54b848d17f2c6c937c0e5915a83de297a776969ec48920"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_direction_270/reaching_response.pdf",
+      "sha256": "2f3577b0799a195abc70c51cc2cf68e432ab4655adca7007ab685823e46045bc"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_direction_270/reaching_response.png",
+      "sha256": "a976cb49d2aa6104f0a26a557ecf17f7abd59eaed973617abce4e9a3fd2d9cd7"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_direction_270/summary.json",
+      "sha256": "2b220096a3291d91c51ee12ea7810365695c98c3f26461dd18872cce1eaa84cc"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_direction_270/trajectory.npz",
+      "sha256": "e83a8067bf0a0ceb30fde164cd27b4cffc3b6e879874c65ca47e32f12ce6be3c"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_direction_45/reaching_response.pdf",
+      "sha256": "0ca9ee93b25fdd5cb7f6648e36ecb1cb390b371115fc0cae311670a94a33f1fd"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_direction_45/reaching_response.png",
+      "sha256": "88e5e6d87a04d4fcbc474b93a0f802732940a6cea19567efaa330984fcddf929"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_direction_45/summary.json",
+      "sha256": "8ecf7d61b1ba7961da41285ff9461d4ad589439d37076af67c0ae6538e38cbb6"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_direction_45/trajectory.npz",
+      "sha256": "441546ce9dab7679f408ecc5bc20f7607ebdb26e2c3086060a9852518da56a91"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_direction_90/reaching_response.pdf",
+      "sha256": "506b70f54c308da8c882868f8e994f25d27816e114a3d5f31e2d7cb172fb5821"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_direction_90/reaching_response.png",
+      "sha256": "5ac75a31ffa36d49839574c855b38598cfde5ffb8d651b0d14f4432ef3d227fa"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_direction_90/summary.json",
+      "sha256": "9b63cb62461fcf1bc911a640d9dbc61be2b45780dbaac4654041210f50a69f74"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_direction_90/trajectory.npz",
+      "sha256": "2c0ac5a329b6d807aa7f870271c37299cb40e4f3cb2eec41220fa082a0550c1b"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_magnitude_60/reaching_response.pdf",
+      "sha256": "00b3b2d3be11ad638838cbfb2d5ea945305f505ea429bdec17896d2dd349bd70"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_magnitude_60/reaching_response.png",
+      "sha256": "843a4cee188a51ed58cd7ff1a496aa64da4b490039e5136a8de8bea76d471121"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_magnitude_60/summary.json",
+      "sha256": "4c130400455e4f4c357e62077d0b8c584e1cfd4b8baa61898d2ef56420f047ff"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_magnitude_60/trajectory.npz",
+      "sha256": "3116b2a9aba60659085f86f43f37c30c956f2b9eeabcc2a4b74db75f3359a3f1"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_magnitude_80/reaching_response.pdf",
+      "sha256": "5fb06b76eb4ad4e0bc4a568207c3b9c003b7059cb5dbc5742e5ca93dcd0732df"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_magnitude_80/reaching_response.png",
+      "sha256": "864a5fb22ee380fb9109168495898f2ef8215b554802da2909232bb43c0b04b1"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_magnitude_80/summary.json",
+      "sha256": "fd542232724503b1bb5d4b2d4f51ace2a49c814925fbd63f5309d4eed63ca7a4"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_magnitude_80/trajectory.npz",
+      "sha256": "ef3ec7b0e61ebe3d584f4eb9df852d9c39e545d5cb87944e25c5511f880410f0"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_timing_early/reaching_response.pdf",
+      "sha256": "30f2f0dbeee7d0218f882a06007e135facf67f81527af63f432aa785272e8198"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_timing_early/reaching_response.png",
+      "sha256": "92967ec51b2751934ac8a24d604fd2d3d4c6714c0feb5389f466c46b1f2002f0"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_timing_early/summary.json",
+      "sha256": "c506b0bb336f40c7ae798bb0dbd3c3f2043761536dc1af922f8dc27ce88fea4e"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_timing_early/trajectory.npz",
+      "sha256": "a9715f7d0902ecd15bb4c4e49ae2a13de7c4c116cca27a4c3d4a87d2017bddcf"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_timing_late/reaching_response.pdf",
+      "sha256": "5c5304696b6362562370e1c784715367296f97aded157f8d3923db0832069b4a"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_timing_late/reaching_response.png",
+      "sha256": "26fc2726277e145c0ac2da847fa1ec08bbc2f2135eebfb66d73b90b678cf096d"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_timing_late/summary.json",
+      "sha256": "cab753c497f453876fa59ee5b8976ffec85cb91233fa1f097104f13667b10402"
+    },
+    {
+      "path": "pose_disturbance_validation/trials/front_12.5cm_pose_validation_timing_late/trajectory.npz",
+      "sha256": "afb36d901762478f3e8917513690b6b75a0add15cc61e067c8ee57f0318b3f14"
+    },
+    {
       "path": "pose_origin_audit/audit.json",
       "sha256": "c8bc3b5f71fc5356c3961dc9ec7de3bf7d631f5f6d1eb6ae3f9e305fc5257d0f"
     },
@@ -398,7 +602,7 @@
     },
     {
       "path": "POSE_ORIGIN_REPORT.md",
-      "sha256": "af0f5d8a91cb871c01e14ade6f8713294bd30a1fd764e4d68b056e50f5eec04b"
+      "sha256": "3a2ef53a67dadc01d5579daf18e00eaf2db641783cd76b9c8c34c9cd3dad516b"
     },
     {
       "path": "pose_origin_verification.json",

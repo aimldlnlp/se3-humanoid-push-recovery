@@ -83,6 +83,10 @@ No alternate gains or unsuccessful trials were discarded. No hardware runs occur
 
 ## Next Gate
 
+Completed by the [frozen disturbance validation](DISTURBANCE_REPORT.md). The
+positive control reproduces, but only four of eight new conditions pass. The
+broader gate fails; the 3/3 pilot is not general disturbance robustness.
+
 Freeze this candidate. Validate at previously untested push directions and nearby
 push magnitudes/timings, keeping all gains and criteria fixed. Report failures
 and the small held-target CoM margin, not only successes. Separately measure and

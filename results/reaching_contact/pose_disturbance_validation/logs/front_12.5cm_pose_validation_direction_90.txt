@@ -1,0 +1,7 @@
+{
+  "reach_success": true,
+  "balance_success": false,
+  "combined_success": false,
+  "final_goal_error_m": 0.0037876680579180047,
+  "qp_failures": 0
+}

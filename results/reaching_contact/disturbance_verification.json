@@ -1,0 +1,81 @@
+{
+  "source_version": "61b20c04d5dbd939826c62968ea903b3d6dc4af6",
+  "candidate_source_version": "a607d70b2c5acbf452154c814213115580ae2e9f",
+  "plan_predeclared_and_verified": true,
+  "positive_control_maximum_dynamics_difference": 0,
+  "new_conditions_count": 8,
+  "new_conditions_passed": 4,
+  "validation_gate_passed": false,
+  "trials": [
+    {
+      "case": "control",
+      "result": "PASS",
+      "inputs_verified": true,
+      "whole_trial_reassessed": true,
+      "realized_impulse_Ns": 10.500000000000004
+    },
+    {
+      "case": "direction_45",
+      "result": "PASS",
+      "inputs_verified": true,
+      "whole_trial_reassessed": true,
+      "realized_impulse_Ns": 10.5
+    },
+    {
+      "case": "direction_90",
+      "result": "SLIP",
+      "inputs_verified": true,
+      "whole_trial_reassessed": true,
+      "realized_impulse_Ns": 10.500000000000004
+    },
+    {
+      "case": "direction_180",
+      "result": "FALL",
+      "inputs_verified": true,
+      "whole_trial_reassessed": true,
+      "realized_impulse_Ns": 10.500000000000004
+    },
+    {
+      "case": "direction_270",
+      "result": "CONTACT_LOSS",
+      "inputs_verified": true,
+      "whole_trial_reassessed": true,
+      "realized_impulse_Ns": 10.500000000000004
+    },
+    {
+      "case": "magnitude_60",
+      "result": "PASS",
+      "inputs_verified": true,
+      "whole_trial_reassessed": true,
+      "realized_impulse_Ns": 9
+    },
+    {
+      "case": "magnitude_80",
+      "result": "FALL",
+      "inputs_verified": true,
+      "whole_trial_reassessed": true,
+      "realized_impulse_Ns": 12.000000000000007
+    },
+    {
+      "case": "timing_early",
+      "result": "PASS",
+      "inputs_verified": true,
+      "whole_trial_reassessed": true,
+      "realized_impulse_Ns": 10.500000000000004
+    },
+    {
+      "case": "timing_late",
+      "result": "PASS",
+      "inputs_verified": true,
+      "whole_trial_reassessed": true,
+      "realized_impulse_Ns": 10.500000000000004
+    }
+  ],
+  "output_manifest_verified": true,
+  "candidate_model_gains_thresholds_unchanged": true,
+  "tests_passed": 101,
+  "test_warnings": 1144,
+  "test_seconds": 20.89,
+  "real_time_deadline_demonstrated": false,
+  "panel_task_added": false
+}

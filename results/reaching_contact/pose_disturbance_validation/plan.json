@@ -1,0 +1,71 @@
+{
+  "cases": [
+    {
+      "name": "control",
+      "push_N": 70,
+      "direction_deg": 0,
+      "start_s": 3.0
+    },
+    {
+      "name": "direction_45",
+      "push_N": 70,
+      "direction_deg": 45,
+      "start_s": 3.0
+    },
+    {
+      "name": "direction_90",
+      "push_N": 70,
+      "direction_deg": 90,
+      "start_s": 3.0
+    },
+    {
+      "name": "direction_180",
+      "push_N": 70,
+      "direction_deg": 180,
+      "start_s": 3.0
+    },
+    {
+      "name": "direction_270",
+      "push_N": 70,
+      "direction_deg": 270,
+      "start_s": 3.0
+    },
+    {
+      "name": "magnitude_60",
+      "push_N": 60,
+      "direction_deg": 0,
+      "start_s": 3.0
+    },
+    {
+      "name": "magnitude_80",
+      "push_N": 80,
+      "direction_deg": 0,
+      "start_s": 3.0
+    },
+    {
+      "name": "timing_early",
+      "push_N": 70,
+      "direction_deg": 0,
+      "start_s": 2.75
+    },
+    {
+      "name": "timing_late",
+      "push_N": 70,
+      "direction_deg": 0,
+      "start_s": 3.25
+    }
+  ],
+  "source_version": "61b20c04d5dbd939826c62968ea903b3d6dc4af6",
+  "candidate_source_version": "a607d70b2c5acbf452154c814213115580ae2e9f",
+  "target_offset_m": [
+    0.125,
+    0,
+    0
+  ],
+  "reach_weight": 3000,
+  "contact_velocity_damping_s_inv": 20,
+  "push_duration_s": 0.15,
+  "reference": "results/reaching_contact/pose_origin_pilot/trials/front_12.5cm_contact_pose_origin_hold",
+  "gate": "Positive control reproduces dynamics; all eight new conditions pass unchanged whole-trial, final-balance and reaching criteria. No gain search.",
+  "scope": "Deterministic disturbance validation, not random-seed or payload validation. Panel task deferred until disturbance gate passes."
+}

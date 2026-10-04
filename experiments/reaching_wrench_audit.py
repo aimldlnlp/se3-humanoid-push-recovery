@@ -63,14 +63,14 @@ def contact_cone(model, foot):
     return wrench_generators(points, frames, friction, dimensions, origin), points, dimensions
 
 
-def snapshot(path, time, cfg, initial):
+def snapshot(path, time, cfg, initial, controller_type=ReachingController, verify_control=True):
     with np.load(path/'trajectory.npz', allow_pickle=False) as payload:
         a = {key: payload[key] for key in payload.files}
     summary = json.loads((path/'summary.json').read_text())
     i = int(np.argmin(abs(a['time_s']-time)))
     model = make_model(cfg)
     model.reset(a['qpos_history'][0], a['qvel_history'][0])
-    controller = ReachingController(model, cfg['controller'], summary['provenance']['reaching'])
+    controller = controller_type(model, cfg['controller'], summary['provenance']['reaching'])
     controller.q_des = a['joint_reference_history'][i].copy()
     controller.pd_fallback.q_des = controller.q_des.copy()
     controller.T_des_torso, controller.T_des_pelvis = initial.desired_torso.copy(), initial.desired_pelvis.copy()
@@ -78,8 +78,11 @@ def snapshot(path, time, cfg, initial):
     model.reset(a['qpos_history'][i], a['qvel_history'][i])
     model.data.time = float(a['time_s'][i])
     result = controller.solve()
+    if not result.success and not verify_control:
+        return dict(time_s=float(a['time_s'][i]),success=False,message=result.message)
     assert result.success
-    np.testing.assert_allclose(result.control, a['control'][i], rtol=1e-6, atol=1e-6)
+    if verify_control:
+        np.testing.assert_allclose(result.control, a['control'][i], rtol=1e-6, atol=1e-6)
     feet = []
     for foot in range(2):
         generators, points, dimensions = contact_cone(model, foot)
@@ -93,6 +96,9 @@ def snapshot(path, time, cfg, initial):
     com = model.center_of_mass()
     velocity = com_jacobian(model)@model.data.qvel
     desired_acceleration = -cfg['controller']['com_kp']*(com-controller.com_des)-cfg['controller']['com_kd']*velocity
+    reach_J,reach_target,_ = controller.reach_task.acceleration_target(model)
+    task_residuals = dict(com_acceleration_target_residual_m_s2=float(np.linalg.norm(com_jacobian(model)@result.qdd-desired_acceleration)),
+                          reach_acceleration_target_residual_m_s2=float(np.linalg.norm(reach_J@result.qdd-reach_target)))
     mass = float(np.sum(model.model.body_mass))
     gravity = np.array(model.model.opt.gravity)
     predicted_acceleration = result.contact_wrench.reshape(2, 6)[:, :3].sum(axis=0)/mass+gravity
@@ -100,7 +106,12 @@ def snapshot(path, time, cfg, initial):
     model.reset(a['qpos_history'][i+1], a['qvel_history'][i+1])
     next_velocity = com_jacobian(model)@model.data.qvel
     observed_acceleration = (next_velocity-velocity)/(a['time_s'][i+1]-a['time_s'][i])
-    return dict(time_s=float(a['time_s'][i]), feet=feet,
+    return dict(time_s=float(a['time_s'][i]), feet=feet,success=True,task_residuals=task_residuals,
+                constraint_budget_ratio=result.diagnostics['constraint_budget_ratio'],
+                contact_slack_norm=result.contact_slack_norm,
+                contact_motion_ranks=result.diagnostics.get('contact_motion_ranks'),
+                contact_point_counts=result.diagnostics.get('contact_point_counts'),
+                torque_peak_Nm=float(np.max(abs(result.control))),
                 replay_control_max_error_Nm=float(np.max(abs(result.control-a['control'][i]))),
                 com_error_world_m=(com-controller.com_des).tolist(), com_velocity_world_m_s=velocity.tolist(),
                 com_task_acceleration_world_m_s2=desired_acceleration.tolist(),

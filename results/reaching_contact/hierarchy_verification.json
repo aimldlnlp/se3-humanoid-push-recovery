@@ -1,0 +1,21 @@
+{
+  "normalized_source_version": "83f486f",
+  "original_source_version": "fb7a864",
+  "unique_frozen_states": 40,
+  "baseline_accepted_per_study": 40,
+  "original_candidate_accepted": 0,
+  "normalized_candidate_accepted": 6,
+  "normalized_candidate_rejected": 34,
+  "baseline_replay_tolerance": "rtol=1e-6, atol=1e-6",
+  "original_trajectory_hash_checks_passed": true,
+  "both_study_manifest_checks_passed": true,
+  "physical_constraint_prefix_checks_passed": true,
+  "production_library_configs_models_unchanged": true,
+  "physical_trials_run": 0,
+  "tests_passed": 107,
+  "test_warnings": 1165,
+  "test_seconds": 23.78,
+  "decision": "Do not promote sequential QP prototype; numerical gate fails before rollout",
+  "physical_improvement_demonstrated": false,
+  "production_promoted": false
+}

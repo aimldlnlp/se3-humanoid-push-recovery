@@ -169,6 +169,46 @@
       "sha256": "b0d87b1c2a7e52865a7d7e28b7d2d73d2543609feb5d145e26c0c7d9a419b4e1"
     },
     {
+      "path": "HIERARCHY_REPORT.md",
+      "sha256": "8e74084631ad07cf7587b7cce4decbf047e8ab51c45e912d3f6bbdac16f5f181"
+    },
+    {
+      "path": "hierarchy_study_normalized/frozen.json",
+      "sha256": "69f4b750782366c7ba2a54260d69133f2bba096f91fbadb946310b6f3317f7de"
+    },
+    {
+      "path": "hierarchy_study_normalized/manifest.json",
+      "sha256": "7eb17446614f688df3c9fa6c66f1c0e82952917415ae2fcc708c8d6cc14e8590"
+    },
+    {
+      "path": "hierarchy_study_normalized/plan.json",
+      "sha256": "e7c1bbfc40f566719f17edf2835e15e237ab46a11dac6e2422a5989931999be9"
+    },
+    {
+      "path": "hierarchy_study_normalized/study.json",
+      "sha256": "f988c16c1f2771528764acd766ea3e6966ba109c4f67238ab96a7c585a7fe41f"
+    },
+    {
+      "path": "hierarchy_study/frozen.json",
+      "sha256": "9c66735ad7c23fd424398ca72b3206ebc0a13c0791c53e5fa96ca269a98273fe"
+    },
+    {
+      "path": "hierarchy_study/manifest.json",
+      "sha256": "05a852b333fced5d276f01a1aa957fad79f153869443308e779fb03d0a08eb72"
+    },
+    {
+      "path": "hierarchy_study/plan.json",
+      "sha256": "b1ab84ae3dbf3aae36799ccfabb89e92ef31fb2f4f9954b3558554c3f375c30d"
+    },
+    {
+      "path": "hierarchy_study/study.json",
+      "sha256": "c4caae923de908b614ce0994c898b5422db28d52f385b7bfc890f13a642d45b6"
+    },
+    {
+      "path": "hierarchy_verification.json",
+      "sha256": "41f5a4bd28d8ff07fa7834e82229564255b1fdb87a97a929ed484ca10479da77"
+    },
+    {
       "path": "hold_audit/audit.json",
       "sha256": "3dc7255b353c71dc7e9eae1a3950d6d229f6c25b234f258105e39ab2b2b58819"
     },

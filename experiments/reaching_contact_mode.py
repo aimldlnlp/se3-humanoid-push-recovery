@@ -52,6 +52,7 @@ class ContactModeController(ReachingController):
         self.nx = base_size
         problem = list(super()._build_problem())
         P,q,A,low,high = problem[:5]
+        self.specs = []
         self.specs = [contact_spec(self.internal_model,('left_foot','right_foot').index(name),name)
                       for name in self.contact_names]
         force_count = sum(s['G'].shape[1] for s in self.specs)
@@ -96,8 +97,9 @@ class ContactModeController(ReachingController):
         result = super().solve()
         if not hasattr(self,'mode_ranks'):
             self.mode_ranks,self.mode_counts = [],[]
-        self.mode_ranks.append([s['rank'] for s in self.specs])
-        self.mode_counts.append([len(s['points']) for s in self.specs])
+        specs = getattr(self,'specs',[])
+        self.mode_ranks.append([s['rank'] for s in specs] if specs else [-1]*len(self.contact_names))
+        self.mode_counts.append([len(s['points']) for s in specs] if specs else [-1]*len(self.contact_names))
         if result.success:
             damping = self.settings.get('contact_velocity_damping_s_inv',0)
             residual = np.concatenate([s['J']@result.qdd+s['bias']+damping*(s['J']@self.internal_model.data.qvel)

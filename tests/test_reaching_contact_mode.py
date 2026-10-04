@@ -41,3 +41,17 @@ def test_material_point_constraints_allow_rotation_about_point_and_edge():
     edge=np.vstack([mapping(point),mapping(point+np.array([0,.1,0]))])
     assert np.linalg.matrix_rank(edge)==5
     np.testing.assert_allclose(edge@twist,0,atol=1e-12)
+
+
+def test_unsupported_mode_records_fallback_without_crashing(monkeypatch):
+    cfg=load_configs(ROOT,robot_name='unitree_g1')
+    model=make_model(cfg)
+    settings=load_yaml(ROOT/'configs/reaching.yaml')
+    controller=ContactModeController(model,cfg['controller'],settings)
+    def unsupported(*args):
+        raise ValueError('contact-mode prototype supports only condim=3')
+    monkeypatch.setattr('reaching_contact_mode.contact_spec',unsupported)
+    result=controller.solve()
+    assert not result.success
+    assert 'condim=3' in result.message
+    assert controller.mode_ranks==[[-1,-1]]

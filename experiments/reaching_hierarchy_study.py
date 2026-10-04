@@ -27,7 +27,7 @@ def main():
     cases = [('nominal', 0, 0, 1.5), ('moving', 70, 0, 1.5), *CASES]
     plan = dict(source_version=source, cases=cases,
                 hierarchy=['contact_slack', 'weighted_torso_pelvis_com', 'reach', 'posture_and_regularization'],
-                lock_tolerance='1e-5*(1+abs(attained output)), row-normalized',
+                lock_tolerance='1e-5*(1+abs(attained output)), independent orthonormal row space',
                 gains_changed=False, contact_model_changed=False, physical_thresholds_changed=False,
                 gate='All frozen states accepted before rollout. Improve at least one failed case, retain every prior PASS and <=15 mm hand tolerance.',
                 scope='One candidate, no gain or lock-tolerance search. No production promotion.')

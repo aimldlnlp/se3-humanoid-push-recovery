@@ -7,14 +7,18 @@ from reaching_pose_origin import PoseOriginController
 from reaching_task_audit import LABELS
 
 
-def solve_level(P, q, A, low, high, settings):
+def solve_level(P, q, A, low, high, settings, initial=None):
+    # Positive scalar cost normalization preserves the mathematical minimizer.
+    scale = max(float(np.max(np.abs(P))), float(np.max(np.abs(q))), 1)
     solver = osqp.OSQP()
-    solver.setup(P=sparse.triu(sparse.csc_matrix(P), format='csc'), q=q,
+    solver.setup(P=sparse.triu(sparse.csc_matrix(P/scale), format='csc'), q=q/scale,
                  A=sparse.csc_matrix(A), l=low, u=high, verbose=False,
                  eps_abs=settings.get('eps_abs', 1e-4), eps_rel=settings.get('eps_rel', 1e-4),
                  max_iter=settings.get('max_iter', 4000), polish=settings.get('polish', True),
                  adaptive_rho=settings.get('adaptive_rho', True),
                  scaled_termination=settings.get('scaled_termination', True))
+    if initial is not None:
+        solver.warm_start(x=initial)
     result = solver.solve()
     from se3_whole_body_control.control.whole_body_qp import WholeBodyQPController
     def accepted(result):
@@ -56,6 +60,7 @@ class HierarchicalController(PoseOriginController):
                    np.sqrt(tasks['reach'][2])*tasks['reach'][1]]
         remaining_P, remaining_q = P.copy(), q.copy()
         self.hierarchy_levels = []
+        x = None
         for name, matrix, target in zip(('contact_slack', 'balance', 'reach'), matrices, targets):
             level_P = 2*matrix.T@matrix
             level_q = -2*matrix.T@target
@@ -63,9 +68,11 @@ class HierarchicalController(PoseOriginController):
             remaining_q -= level_q
             if not len(matrix):
                 continue
-            x = solve_level(level_P, level_q, A, low, high, self.cfg.get('solver', {}))
-            # Row normalization changes only lock conditioning, not the task cost.
-            matrix = matrix/np.maximum(np.linalg.norm(matrix, axis=1), 1e-12)[:, None]
+            x = solve_level(level_P, level_q, A, low, high, self.cfg.get('solver', {}), x)
+            # Independent orthonormal row space locks the same attained task vector.
+            _, singular, vectors = np.linalg.svd(matrix, full_matrices=False)
+            rank = int(np.sum(singular > max(matrix.shape)*np.finfo(float).eps*singular[0]))
+            matrix = vectors[:rank]
             output = matrix@x
             # Lock attained outputs, not desired targets: infeasible tasks remain feasible.
             tolerance = 1e-5*(1+np.abs(output))
@@ -73,7 +80,8 @@ class HierarchicalController(PoseOriginController):
             low, high = np.r_[low, output-tolerance], np.r_[high, output+tolerance]
             self.hierarchy_levels.append(dict(name=name, matrix=matrix, output=output,
                                               tolerance=tolerance))
-        problem[:5] = [(remaining_P+remaining_P.T)*.5, remaining_q, A, low, high]
+        scale = max(float(np.max(np.abs(remaining_P))), float(np.max(np.abs(remaining_q))), 1)
+        problem[:5] = [(remaining_P+remaining_P.T)*.5/scale, remaining_q/scale, A, low, high]
         self.problem = tuple(problem)
         return self.problem
 

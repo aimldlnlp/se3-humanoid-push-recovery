@@ -1,0 +1,23 @@
+{
+  "source_version": "2f8279a37dd0d65624740111ad0653cce92f82aa",
+  "snapshot_count": 8,
+  "control_count": 128,
+  "first_stage_solved": 112,
+  "first_stage_infeasible": 16,
+  "validated_secondary_witnesses": 111,
+  "secondary_unresolved": 1,
+  "retry_count": 3,
+  "retry_resolved": 2,
+  "control_replay_max_error_Nm": 0,
+  "maximum_constraint_budget_ratio": 5.3822176515649465e-08,
+  "maximum_generalized_acceleration": 150.0,
+  "trajectory_hash_verified": true,
+  "audit_manifest_hashes_verified": true,
+  "component_cost_reconstruction_checked_by_runner": true,
+  "physical_trials_run": 0,
+  "controller_changed": false,
+  "task_weights_changed": false,
+  "tests_passed": 96,
+  "test_warnings": 1144,
+  "test_seconds": 17.87
+}

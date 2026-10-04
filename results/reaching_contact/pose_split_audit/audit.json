@@ -1,0 +1,2775 @@
+{
+  "records": [
+    {
+      "time_s": 2.9959999999998916,
+      "pose_component_costs": [
+        {
+          "time_s": 2.9959999999998916,
+          "component": "torso_linear",
+          "residual": [
+            1.7574271023916868,
+            -0.14079885328790154,
+            -0.04352653336498913
+          ],
+          "weighted_squared_residual": 622.0537792829602
+        },
+        {
+          "time_s": 2.9959999999998916,
+          "component": "torso_angular",
+          "residual": [
+            0.9706679393623032,
+            0.23236776037651358,
+            0.24214335599903336
+          ],
+          "weighted_squared_residual": 210.96488588454628
+        },
+        {
+          "time_s": 2.9959999999998916,
+          "component": "pelvis_linear",
+          "residual": [
+            -0.27049435726420573,
+            -0.920677658652693,
+            -0.019050496135135833
+          ],
+          "weighted_squared_residual": 92.11774698569754
+        },
+        {
+          "time_s": 2.9959999999998916,
+          "component": "pelvis_angular",
+          "residual": [
+            -0.008997191703383985,
+            0.047277582881364744,
+            0.010066662208607247
+          ],
+          "weighted_squared_residual": 0.24174569896739553
+        }
+      ],
+      "controls": [
+        {
+          "preserved_attained_tasks": [
+            "reach"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000003394794454e-09,
+          "com_residual_norm": 1.0000000064125689e-09,
+          "constraint_budget_ratio": 1.1931486069935062e-09,
+          "torque_peak_Nm": 18.685461191617186,
+          "max_qdd": 2.1580302683094756
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000006517296711e-09,
+          "com_residual_norm": 9.999999855959796e-10,
+          "constraint_budget_ratio": 9.404971452741815e-09,
+          "torque_peak_Nm": 37.33160341331568,
+          "max_qdd": 9.525753427090262
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.000000950102109e-09,
+          "com_residual_norm": 9.999998398794417e-10,
+          "constraint_budget_ratio": 2.009841875424276e-09,
+          "torque_peak_Nm": 54.891884957534415,
+          "max_qdd": 6.727219731846638
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "pelvis_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000001035570527e-09,
+          "com_residual_norm": 9.999999925347565e-10,
+          "constraint_budget_ratio": 6.755342332639314e-10,
+          "torque_peak_Nm": 45.34581543667367,
+          "max_qdd": 9.68597969915224
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000005996879668e-09,
+          "com_residual_norm": 1.0000001555988186e-09,
+          "constraint_budget_ratio": 2.333385387018277e-09,
+          "torque_peak_Nm": 39.6094411264919,
+          "max_qdd": 4.55386360859067
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "torso_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.00000023192659e-09,
+          "com_residual_norm": 1.0000000098819974e-09,
+          "constraint_budget_ratio": 1.7686936013616732e-09,
+          "torque_peak_Nm": 39.88176507946147,
+          "max_qdd": 19.44882258908188
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "pelvis_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000006968324815e-09,
+          "com_residual_norm": 9.99999975187708e-10,
+          "constraint_budget_ratio": 3.2505564916786442e-09,
+          "torque_peak_Nm": 23.546142946245766,
+          "max_qdd": 33.149849690043254
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000002804988473e-09,
+          "com_residual_norm": 1.0000000584542547e-09,
+          "constraint_budget_ratio": 8.051581478872012e-11,
+          "torque_peak_Nm": 34.0759416255678,
+          "max_qdd": 15.824528250956883
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_angular",
+            "pelvis_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000174612001533e-09,
+          "com_residual_norm": 1.0000000308467569e-09,
+          "constraint_budget_ratio": 5.3822176515649465e-08,
+          "torque_peak_Nm": 43.36634266245521,
+          "max_qdd": 24.632524009628888
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_angular",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000008494881474e-09,
+          "com_residual_norm": 1.0000000723321842e-09,
+          "constraint_budget_ratio": 2.7182992262446394e-09,
+          "torque_peak_Nm": 15.113765446636549,
+          "max_qdd": 9.167064092169547
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "pelvis_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.000000304784976e-09,
+          "com_residual_norm": 9.999999717180993e-10,
+          "constraint_budget_ratio": 1.3133824174749736e-09,
+          "torque_peak_Nm": 24.792582325391486,
+          "max_qdd": 17.360981465985
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "torso_angular",
+            "pelvis_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.000000009881985e-09,
+          "com_residual_norm": 1.000000009881985e-09,
+          "constraint_budget_ratio": 1.048673941216267e-09,
+          "torque_peak_Nm": 25.89369647139784,
+          "max_qdd": 50.244891744488065
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "torso_angular",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.000000228457143e-09,
+          "com_residual_norm": 1.000000061923697e-09,
+          "constraint_budget_ratio": 2.4300561562936374e-09,
+          "torque_peak_Nm": 39.04991422717254,
+          "max_qdd": 53.097168582139275
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "pelvis_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000003498877863e-09,
+          "com_residual_norm": 9.999999613097723e-10,
+          "constraint_budget_ratio": 2.409371088836851e-09,
+          "torque_peak_Nm": 65.71177877990797,
+          "max_qdd": 35.797837237501355
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_angular",
+            "pelvis_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000000272292198e-09,
+          "com_residual_norm": 9.9999997171807e-10,
+          "constraint_budget_ratio": 2.3248338908887507e-10,
+          "torque_peak_Nm": 39.04991422717182,
+          "max_qdd": 53.09716858213764
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "torso_angular",
+            "pelvis_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.000000592749073e-09,
+          "com_residual_norm": 9.999999821265095e-10,
+          "constraint_budget_ratio": 3.59534624293318e-09,
+          "torque_peak_Nm": 39.04991422717265,
+          "max_qdd": 53.097168582130884
+        }
+      ],
+      "control_replay_max_error_Nm": 0.0
+    },
+    {
+      "time_s": 3.019999999999889,
+      "pose_component_costs": [
+        {
+          "time_s": 3.019999999999889,
+          "component": "torso_linear",
+          "residual": [
+            1.728699617324454,
+            -0.004021215226910263,
+            -0.07191713114447781
+          ],
+          "weighted_squared_residual": 598.7181221723333
+        },
+        {
+          "time_s": 3.019999999999889,
+          "component": "torso_angular",
+          "residual": [
+            0.6837644051693386,
+            0.21344799949123994,
+            0.17891657537873829
+          ],
+          "weighted_squared_residual": 109.02099024172949
+        },
+        {
+          "time_s": 3.019999999999889,
+          "component": "pelvis_linear",
+          "residual": [
+            -0.3170277819411354,
+            -0.7481696161235551,
+            -0.040444066048554425
+          ],
+          "weighted_squared_residual": 66.19001114915237
+        },
+        {
+          "time_s": 3.019999999999889,
+          "component": "pelvis_angular",
+          "residual": [
+            -0.0028171544977054677,
+            -0.04013093321449368,
+            0.008876028033348748
+          ],
+          "weighted_squared_residual": 0.1697212033778887
+        }
+      ],
+      "controls": [
+        {
+          "preserved_attained_tasks": [
+            "reach"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000005476462626e-09,
+          "com_residual_norm": 9.999999370236991e-10,
+          "constraint_budget_ratio": 3.1401530270889316e-09,
+          "torque_peak_Nm": 24.18028125178427,
+          "max_qdd": 4.311750354276756
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000003186627637e-09,
+          "com_residual_norm": 1.0000000827403888e-09,
+          "constraint_budget_ratio": 1.6075937443917208e-09,
+          "torque_peak_Nm": 28.036930571985593,
+          "max_qdd": 14.850264510093757
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000024350254044e-09,
+          "com_residual_norm": 1.0000007488753542e-09,
+          "constraint_budget_ratio": 3.720357739514518e-10,
+          "torque_peak_Nm": 55.687013919768106,
+          "max_qdd": 8.840096695662782
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "pelvis_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 9.999997080401002e-10,
+          "com_residual_norm": 9.999996386511628e-10,
+          "constraint_budget_ratio": 4.4535689712178054e-10,
+          "torque_peak_Nm": 24.95469854070035,
+          "max_qdd": 13.525013882121716
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "The HiGHS status code was not recognized. (HiGHS Status 15: model_status is Unknown; primal_status is Basic)",
+          "acceleration_minimization_retry_count": 1,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.000000811324231e-09,
+          "com_residual_norm": 1.0000003047851006e-09,
+          "constraint_budget_ratio": 5.302073086015984e-09,
+          "torque_peak_Nm": 24.654471539688007,
+          "max_qdd": 9.184586944772894
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "torso_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000009154076395e-09,
+          "com_residual_norm": 1.0000000827406746e-09,
+          "constraint_budget_ratio": 5.650146396964896e-09,
+          "torque_peak_Nm": 22.89121851100172,
+          "max_qdd": 17.046039318131445
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "pelvis_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.00000116520782e-09,
+          "com_residual_norm": 9.999999994739907e-10,
+          "constraint_budget_ratio": 4.1541736874791245e-09,
+          "torque_peak_Nm": 25.971864660234814,
+          "max_qdd": 55.62322657626377
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000010541855175e-09,
+          "com_residual_norm": 9.99999416607689e-10,
+          "constraint_budget_ratio": 2.522426711947719e-10,
+          "torque_peak_Nm": 39.76936964756631,
+          "max_qdd": 35.3037493271536
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_angular",
+            "pelvis_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.000010838025922e-09,
+          "com_residual_norm": 9.999999578905952e-10,
+          "constraint_budget_ratio": 8.298529898597059e-11,
+          "torque_peak_Nm": 25.297465262226975,
+          "max_qdd": 28.303856350108504
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_angular",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "The HiGHS status code was not recognized. (HiGHS Status 15: model_status is Unknown; primal_status is Basic)",
+          "acceleration_minimization_retry_count": 1,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 9.99999728856782e-10,
+          "com_residual_norm": 9.999989725175341e-10,
+          "constraint_budget_ratio": 7.105427357600497e-11,
+          "torque_peak_Nm": 47.336476484052405,
+          "max_qdd": 18.12409700502277
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "pelvis_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000010125521541e-09,
+          "com_residual_norm": 9.999996386518006e-10,
+          "constraint_budget_ratio": 3.870524216467582e-08,
+          "torque_peak_Nm": 49.72188447839131,
+          "max_qdd": 45.36169703330467
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "torso_angular",
+            "pelvis_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000004158072784e-09,
+          "com_residual_norm": 1.0000000827403987e-09,
+          "constraint_budget_ratio": 5.315124609522543e-09,
+          "torque_peak_Nm": 29.09195349417958,
+          "max_qdd": 92.68446367126465
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "torso_angular",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.16658243351148636,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 0.16658243451148658,
+          "com_residual_norm": 0.1665824345114859,
+          "constraint_budget_ratio": 6.645383672346489e-11,
+          "torque_peak_Nm": 23.96408573709964,
+          "max_qdd": 149.99999969651142
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "pelvis_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 9.999999647791746e-10,
+          "com_residual_norm": 9.999998606957688e-10,
+          "constraint_budget_ratio": 1.2511770187906518e-09,
+          "torque_peak_Nm": 34.487948258764895,
+          "max_qdd": 64.16898280852094
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_angular",
+            "pelvis_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.16658243359379935,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 0.16658243459380095,
+          "com_residual_norm": 0.16658243459380007,
+          "constraint_budget_ratio": 2.513291162425417e-08,
+          "torque_peak_Nm": 23.96408573696589,
+          "max_qdd": 149.99999961043906
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "torso_angular",
+            "pelvis_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.16658243337708992,
+          "acceleration_minimization_first_status": "The HiGHS status code was not recognized. (HiGHS Status 15: model_status is Unknown; primal_status is Basic)",
+          "acceleration_minimization_retry_count": 1,
+          "acceleration_minimization_success": false,
+          "acceleration_minimization_status": "The HiGHS status code was not recognized. (HiGHS Status 15: model_status is Unknown; primal_status is Basic)",
+          "lexicographic_com_L1_allowance": 1e-09
+        }
+      ],
+      "control_replay_max_error_Nm": 0.0
+    },
+    {
+      "time_s": 3.0799999999998824,
+      "pose_component_costs": [
+        {
+          "time_s": 3.0799999999998824,
+          "component": "torso_linear",
+          "residual": [
+            1.7454481580756174,
+            0.1503649436503232,
+            -0.18201256957051437
+          ],
+          "weighted_squared_residual": 620.4654928580384
+        },
+        {
+          "time_s": 3.0799999999998824,
+          "component": "torso_angular",
+          "residual": [
+            0.028652457832948366,
+            0.21510667792382598,
+            0.032558237436180804
+          ],
+          "weighted_squared_residual": 9.630377010448843
+        },
+        {
+          "time_s": 3.0799999999998824,
+          "component": "pelvis_linear",
+          "residual": [
+            -0.55984204388249,
+            -0.2900557113441119,
+            -0.1274468295624822
+          ],
+          "weighted_squared_residual": 41.379812414739106
+        },
+        {
+          "time_s": 3.0799999999998824,
+          "component": "pelvis_angular",
+          "residual": [
+            0.021058951146079613,
+            -0.12444751133530474,
+            -0.0009683526819466159
+          ],
+          "weighted_squared_residual": 1.5931600207840402
+        }
+      ],
+      "controls": [
+        {
+          "preserved_attained_tasks": [
+            "reach"
+          ],
+          "success": false,
+          "status": "The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is At lower/fixed bound)"
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear"
+          ],
+          "success": false,
+          "status": "The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is At lower/fixed bound)"
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_angular"
+          ],
+          "success": false,
+          "status": "The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is At lower/fixed bound)"
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "pelvis_linear"
+          ],
+          "success": false,
+          "status": "The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is At lower/fixed bound)"
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "pelvis_angular"
+          ],
+          "success": false,
+          "status": "The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is At lower/fixed bound)"
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "torso_angular"
+          ],
+          "success": false,
+          "status": "The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is At lower/fixed bound)"
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "pelvis_linear"
+          ],
+          "success": false,
+          "status": "The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is At lower/fixed bound)"
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "pelvis_angular"
+          ],
+          "success": false,
+          "status": "The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is At lower/fixed bound)"
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_angular",
+            "pelvis_linear"
+          ],
+          "success": false,
+          "status": "The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is At lower/fixed bound)"
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_angular",
+            "pelvis_angular"
+          ],
+          "success": false,
+          "status": "The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is At lower/fixed bound)"
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "pelvis_linear",
+            "pelvis_angular"
+          ],
+          "success": false,
+          "status": "The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is At lower/fixed bound)"
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "torso_angular",
+            "pelvis_linear"
+          ],
+          "success": false,
+          "status": "The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is At lower/fixed bound)"
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "torso_angular",
+            "pelvis_angular"
+          ],
+          "success": false,
+          "status": "The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is At lower/fixed bound)"
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "pelvis_linear",
+            "pelvis_angular"
+          ],
+          "success": false,
+          "status": "The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is At lower/fixed bound)"
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_angular",
+            "pelvis_linear",
+            "pelvis_angular"
+          ],
+          "success": false,
+          "status": "The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is At lower/fixed bound)"
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "torso_angular",
+            "pelvis_linear",
+            "pelvis_angular"
+          ],
+          "success": false,
+          "status": "The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is At lower/fixed bound)"
+        }
+      ],
+      "control_replay_max_error_Nm": 0.0
+    },
+    {
+      "time_s": 3.1519999999998745,
+      "pose_component_costs": [
+        {
+          "time_s": 3.1519999999998745,
+          "component": "torso_linear",
+          "residual": [
+            3.1467768782927896,
+            0.04983257344084979,
+            0.41205059474075273
+          ],
+          "weighted_squared_residual": 2014.8947399520118
+        },
+        {
+          "time_s": 3.1519999999998745,
+          "component": "torso_angular",
+          "residual": [
+            0.18232081169196857,
+            0.5217179371381118,
+            0.010965314678580196
+          ],
+          "weighted_squared_residual": 61.110144486733056
+        },
+        {
+          "time_s": 3.1519999999998745,
+          "component": "pelvis_linear",
+          "residual": [
+            -0.03421424157715336,
+            -0.3453510308757469,
+            0.4535775576124636
+          ],
+          "weighted_squared_residual": 32.617054962332865
+        },
+        {
+          "time_s": 3.1519999999998745,
+          "component": "pelvis_angular",
+          "residual": [
+            0.10889287886124999,
+            -0.11086179592230216,
+            -0.006888662389905376
+          ],
+          "weighted_squared_residual": 2.4195450531331137
+        }
+      ],
+      "controls": [
+        {
+          "preserved_attained_tasks": [
+            "reach"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000009986743663e-09,
+          "com_residual_norm": 9.999983063870819e-10,
+          "constraint_budget_ratio": 3.5165989714759336e-10,
+          "torque_peak_Nm": 53.061333906246894,
+          "max_qdd": 42.86516490509225
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.000007660012514e-09,
+          "com_residual_norm": 9.999997774538946e-10,
+          "constraint_budget_ratio": 6.521899755377544e-09,
+          "torque_peak_Nm": 46.30487506683261,
+          "max_qdd": 76.19687596344414
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000099359697145e-09,
+          "com_residual_norm": 1.0000062999956232e-09,
+          "constraint_budget_ratio": 4.493804478506131e-09,
+          "torque_peak_Nm": 25.0,
+          "max_qdd": 113.88656622292163
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "pelvis_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.000010269036622e-09,
+          "com_residual_norm": 1.0000001660499491e-09,
+          "constraint_budget_ratio": 2.3092638912197923e-10,
+          "torque_peak_Nm": 51.44359167228817,
+          "max_qdd": 100.56567790676165
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000009986743663e-09,
+          "com_residual_norm": 9.999974182110442e-10,
+          "constraint_budget_ratio": 3.7061127059672137e-10,
+          "torque_peak_Nm": 48.01724110012744,
+          "max_qdd": 95.18391182281768
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "torso_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 1.1129614117720732,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.1129614127720764,
+          "com_residual_norm": 1.1129614127720737,
+          "constraint_budget_ratio": 8.09836316896713e-10,
+          "torque_peak_Nm": 36.65637253661621,
+          "max_qdd": 149.99999993281003
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "pelvis_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.05315888552541014,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 0.053158886525412063,
+          "com_residual_norm": 0.05315888652541023,
+          "constraint_budget_ratio": 6.927791673660497e-11,
+          "torque_peak_Nm": 42.53115901185803,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.1040840515381444,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 0.1040840525381477,
+          "com_residual_norm": 0.09285636516935093,
+          "constraint_budget_ratio": 1.857071494409903e-08,
+          "torque_peak_Nm": 48.00206369117251,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_angular",
+            "pelvis_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.000006938367548e-09,
+          "com_residual_norm": 1.0000001660223389e-09,
+          "constraint_budget_ratio": 1.0103699766555287e-09,
+          "torque_peak_Nm": 24.742717632086116,
+          "max_qdd": 124.05442791999583
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_angular",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 1.1142713122061414,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.1142713132061461,
+          "com_residual_norm": 1.1142713132061415,
+          "constraint_budget_ratio": 7.57753287222543e-10,
+          "torque_peak_Nm": 35.24208426170856,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "pelvis_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.08307914795963575,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 0.08307914895964523,
+          "com_residual_norm": 0.08307914895963897,
+          "constraint_budget_ratio": 6.908748934274325e-09,
+          "torque_peak_Nm": 49.034009959637096,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "torso_angular",
+            "pelvis_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 1.2083929018514812,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.208392902851489,
+          "com_residual_norm": 1.2083929028514815,
+          "constraint_budget_ratio": 6.014171926055391e-11,
+          "torque_peak_Nm": 42.40762545092278,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "torso_angular",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 1.2112378430197908,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.211237844019801,
+          "com_residual_norm": 1.2112378440197888,
+          "constraint_budget_ratio": 4.5335471787594626e-10,
+          "torque_peak_Nm": 41.93287708062515,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "pelvis_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.14600841241344495,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 0.14600841341344825,
+          "com_residual_norm": 0.14600841341344406,
+          "constraint_budget_ratio": 6.737627466409191e-09,
+          "torque_peak_Nm": 50.666321949187,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_angular",
+            "pelvis_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 1.21123784301995,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.2112378440199503,
+          "com_residual_norm": 1.2112378440199478,
+          "constraint_budget_ratio": 3.704272034091292e-10,
+          "torque_peak_Nm": 41.93287708062396,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "torso_angular",
+            "pelvis_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 1.2112378430057564,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.211237844005757,
+          "com_residual_norm": 1.2112378440057547,
+          "constraint_budget_ratio": 1.877863453165555e-09,
+          "torque_peak_Nm": 41.932877079501544,
+          "max_qdd": 150.0
+        }
+      ],
+      "control_replay_max_error_Nm": 0.0
+    },
+    {
+      "time_s": 3.2399999999998648,
+      "pose_component_costs": [
+        {
+          "time_s": 3.2399999999998648,
+          "component": "torso_linear",
+          "residual": [
+            5.1037460513598,
+            0.020086757094623237,
+            0.4490371446980061
+          ],
+          "weighted_squared_residual": 5250.052318379974
+        },
+        {
+          "time_s": 3.2399999999998648,
+          "component": "torso_angular",
+          "residual": [
+            0.23586918979045984,
+            0.8737081275714533,
+            -0.01772081009657034
+          ],
+          "weighted_squared_residual": 163.86283879746034
+        },
+        {
+          "time_s": 3.2399999999998648,
+          "component": "pelvis_linear",
+          "residual": [
+            1.3838568841368506,
+            -0.3496627494445563,
+            0.4468125140295763
+          ],
+          "weighted_squared_residual": 223.69653368155093
+        },
+        {
+          "time_s": 3.2399999999998648,
+          "component": "pelvis_angular",
+          "residual": [
+            0.0954508011534515,
+            0.15315773251448217,
+            0.0017383989181570803
+          ],
+          "weighted_squared_residual": 3.2571168500612058
+        }
+      ],
+      "controls": [
+        {
+          "preserved_attained_tasks": [
+            "reach"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 9.999954198036676e-10,
+          "com_residual_norm": 9.999947536700408e-10,
+          "constraint_budget_ratio": 1.359239785583338e-08,
+          "torque_peak_Nm": 68.03614666104721,
+          "max_qdd": 49.39317899527263
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.000004634654772e-09,
+          "com_residual_norm": 1.0000002492804823e-09,
+          "constraint_budget_ratio": 7.958573534464146e-11,
+          "torque_peak_Nm": 60.014988434041335,
+          "max_qdd": 77.88575792457523
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000055783443429e-09,
+          "com_residual_norm": 1.0000018591033504e-09,
+          "constraint_budget_ratio": 2.930988785009554e-10,
+          "torque_peak_Nm": 28.201544082159156,
+          "max_qdd": 120.74539267500836
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "pelvis_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.000001526030303e-09,
+          "com_residual_norm": 1.000000582341128e-09,
+          "constraint_budget_ratio": 1.0170085357194446e-10,
+          "torque_peak_Nm": 76.58954592297795,
+          "max_qdd": 99.64904943243053
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000036354540498e-09,
+          "com_residual_norm": 9.99999194567575e-10,
+          "constraint_budget_ratio": 1.0909702858774129e-10,
+          "torque_peak_Nm": 56.567253254057604,
+          "max_qdd": 99.86462372991767
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "torso_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 1.2379440589845778,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.2379440599845948,
+          "com_residual_norm": 1.2379440599845815,
+          "constraint_budget_ratio": 6.208182357741562e-09,
+          "torque_peak_Nm": 26.76424697899303,
+          "max_qdd": 149.99999993276845
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "pelvis_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.27313823623801936,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 0.27313823723802116,
+          "com_residual_norm": 0.2731382372380162,
+          "constraint_budget_ratio": 1.3855583347320033e-10,
+          "torque_peak_Nm": 30.357198802664342,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.3219408602428096,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 0.32194086124281013,
+          "com_residual_norm": 0.3219408612428101,
+          "constraint_budget_ratio": 2.8551266853214705e-10,
+          "torque_peak_Nm": 52.11727283249509,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_angular",
+            "pelvis_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000107963925586e-09,
+          "com_residual_norm": 1.000000193810253e-09,
+          "constraint_budget_ratio": 6.608719726696987e-11,
+          "torque_peak_Nm": 25.11555724983831,
+          "max_qdd": 126.10651067404807
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_angular",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 1.3308022950378464,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.330802296037851,
+          "com_residual_norm": 1.3308022960378474,
+          "constraint_budget_ratio": 4.03722735350055e-10,
+          "torque_peak_Nm": 43.291944201428,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "pelvis_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.2929199130015467,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 0.29291991400154854,
+          "com_residual_norm": 0.29291991400154505,
+          "constraint_budget_ratio": 5.103935457017192e-09,
+          "torque_peak_Nm": 29.99838276187288,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "torso_angular",
+            "pelvis_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 1.3898696144109335,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.3898696154109342,
+          "com_residual_norm": 1.389869615410933,
+          "constraint_budget_ratio": 3.508304757815371e-11,
+          "torque_peak_Nm": 38.74815970275741,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "torso_angular",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 1.397713327396687,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.3977133283966872,
+          "com_residual_norm": 1.3977133283966863,
+          "constraint_budget_ratio": 1.7769923126979782e-10,
+          "torque_peak_Nm": 35.167289819879954,
+          "max_qdd": 149.9999999419503
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "pelvis_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.37171691890850095,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 0.37171691990850303,
+          "com_residual_norm": 0.37171691990850064,
+          "constraint_budget_ratio": 1.4206636556486914e-08,
+          "torque_peak_Nm": 59.62401905663454,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_angular",
+            "pelvis_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 1.3977133273966744,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.3977133283966772,
+          "com_residual_norm": 1.3977133283966712,
+          "constraint_budget_ratio": 8.728381436914703e-09,
+          "torque_peak_Nm": 35.16728981988594,
+          "max_qdd": 149.9999999419523
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "torso_angular",
+            "pelvis_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 1.397713327395743,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.397713328395743,
+          "com_residual_norm": 1.397713328395743,
+          "constraint_budget_ratio": 1.990994687878034e-10,
+          "torque_peak_Nm": 35.16728981980994,
+          "max_qdd": 149.99999994193888
+        }
+      ],
+      "control_replay_max_error_Nm": 0.0
+    },
+    {
+      "time_s": 3.319999999999856,
+      "pose_component_costs": [
+        {
+          "time_s": 3.319999999999856,
+          "component": "torso_linear",
+          "residual": [
+            6.963861246381535,
+            -0.00812521139389756,
+            0.37617046503044876
+          ],
+          "weighted_squared_residual": 9727.386739335201
+        },
+        {
+          "time_s": 3.319999999999856,
+          "component": "torso_angular",
+          "residual": [
+            0.2836436616053163,
+            1.173855027820052,
+            -0.04974450546058751
+          ],
+          "weighted_squared_residual": 292.17277378616086
+        },
+        {
+          "time_s": 3.319999999999856,
+          "component": "pelvis_linear",
+          "residual": [
+            2.6359364211276786,
+            -0.3758734525946949,
+            0.398891157705742
+          ],
+          "weighted_squared_residual": 724.8555824288678
+        },
+        {
+          "time_s": 3.319999999999856,
+          "component": "pelvis_angular",
+          "residual": [
+            0.08024885908066381,
+            0.0756283825328361,
+            0.005300117701335871
+          ],
+          "weighted_squared_residual": 1.218762287592924
+        }
+      ],
+      "controls": [
+        {
+          "preserved_attained_tasks": [
+            "reach"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000000549847954e-09,
+          "com_residual_norm": 9.999991945622059e-10,
+          "constraint_budget_ratio": 9.869614194072692e-10,
+          "torque_peak_Nm": 83.53103721801561,
+          "max_qdd": 53.47878965209002
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000027750312057e-09,
+          "com_residual_norm": 1.0000000827438489e-09,
+          "constraint_budget_ratio": 1.1096882252977779e-10,
+          "torque_peak_Nm": 60.28308474403015,
+          "max_qdd": 78.79959713998949
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000637262752576e-09,
+          "com_residual_norm": 1.0000027486649602e-09,
+          "constraint_budget_ratio": 8.47828835403475e-10,
+          "torque_peak_Nm": 42.261697018015695,
+          "max_qdd": 128.27375199262102
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "pelvis_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000032191204156e-09,
+          "com_residual_norm": 1.0000000827451184e-09,
+          "constraint_budget_ratio": 4.5030637486262857e-10,
+          "torque_peak_Nm": 56.2121212220747,
+          "max_qdd": 104.01624769689896
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 9.999996664067368e-10,
+          "com_residual_norm": 9.999991945620396e-10,
+          "constraint_budget_ratio": 4.1801412097031283e-10,
+          "torque_peak_Nm": 46.11266254452109,
+          "max_qdd": 106.56979806317159
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "torso_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 1.4720475503788053,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.4720475513788087,
+          "com_residual_norm": 1.4720475513788083,
+          "constraint_budget_ratio": 2.455613210930264e-09,
+          "torque_peak_Nm": 28.659126365927605,
+          "max_qdd": 149.9999999332443
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "pelvis_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.51405347638329,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 0.5140534773832941,
+          "com_residual_norm": 0.514053477383289,
+          "constraint_budget_ratio": 1.7472817487749164e-10,
+          "torque_peak_Nm": 32.73899111337483,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.5081631008069472,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 0.5081631018069594,
+          "com_residual_norm": 0.5081631018069519,
+          "constraint_budget_ratio": 2.010144379581658e-09,
+          "torque_peak_Nm": 33.2112741798802,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_angular",
+            "pelvis_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000109351704367e-09,
+          "com_residual_norm": 1.0000089645256237e-09,
+          "constraint_budget_ratio": 9.035389025142707e-11,
+          "torque_peak_Nm": 32.45412414759527,
+          "max_qdd": 130.08680615882886
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_angular",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 1.5896301703225841,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.5896301713225838,
+          "com_residual_norm": 1.5896301713225833,
+          "constraint_budget_ratio": 1.1973800920737126e-10,
+          "torque_peak_Nm": 61.29151393316889,
+          "max_qdd": 149.99999994263257
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "pelvis_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.4838978641182755,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 0.4838978651182794,
+          "com_residual_norm": 0.48389786511827815,
+          "constraint_budget_ratio": 3.5404662432544366e-10,
+          "torque_peak_Nm": 33.874900418474304,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "torso_angular",
+            "pelvis_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 1.6393317460896188,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.6393317470896316,
+          "com_residual_norm": 1.639331747089618,
+          "constraint_budget_ratio": 8.985361173309055e-11,
+          "torque_peak_Nm": 37.6930548016348,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "torso_angular",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 1.6511813555259265,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.6511813565259235,
+          "com_residual_norm": 1.6511813565259228,
+          "constraint_budget_ratio": 4.656926746411145e-10,
+          "torque_peak_Nm": 35.46760189689383,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "pelvis_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.610075413047832,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 0.6100754140478353,
+          "com_residual_norm": 0.6100754140478326,
+          "constraint_budget_ratio": 1.6763762185196363e-08,
+          "torque_peak_Nm": 66.12861051015003,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_angular",
+            "pelvis_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 1.6511813555259194,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.6511813565259188,
+          "com_residual_norm": 1.6511813565259184,
+          "constraint_budget_ratio": 7.761974651302001e-11,
+          "torque_peak_Nm": 35.467601896892866,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "torso_angular",
+            "pelvis_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 1.6511813555743848,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.6511813565743818,
+          "com_residual_norm": 1.6511813565743818,
+          "constraint_budget_ratio": 3.335223482981329e-10,
+          "torque_peak_Nm": 35.46760189827398,
+          "max_qdd": 150.0
+        }
+      ],
+      "control_replay_max_error_Nm": 0.0
+    },
+    {
+      "time_s": 3.399999999999847,
+      "pose_component_costs": [
+        {
+          "time_s": 3.399999999999847,
+          "component": "torso_linear",
+          "residual": [
+            8.499660740791763,
+            -0.03186326927651362,
+            0.2962906044967014
+          ],
+          "weighted_squared_residual": 14466.607219759757
+        },
+        {
+          "time_s": 3.399999999999847,
+          "component": "torso_angular",
+          "residual": [
+            0.3212202866661839,
+            1.413887239670904,
+            -0.08284762798665449
+          ],
+          "weighted_squared_residual": 421.82466570662564
+        },
+        {
+          "time_s": 3.399999999999847,
+          "component": "pelvis_linear",
+          "residual": [
+            3.718391585378632,
+            -0.4098236156768313,
+            0.35850769602569077
+          ],
+          "weighted_squared_residual": 1412.2919146290694
+        },
+        {
+          "time_s": 3.399999999999847,
+          "component": "pelvis_angular",
+          "residual": [
+            0.07374563359715924,
+            -0.03739368491171868,
+            0.011188786784485871
+          ],
+          "weighted_squared_residual": 0.6961895095632046
+        }
+      ],
+      "controls": [
+        {
+          "preserved_attained_tasks": [
+            "reach"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 9.999984729169853e-10,
+          "com_residual_norm": 9.999983063835393e-10,
+          "constraint_budget_ratio": 2.135570026086626e-08,
+          "torque_peak_Nm": 88.0,
+          "max_qdd": 57.04844877857138
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000043015878646e-09,
+          "com_residual_norm": 1.0000018591000609e-09,
+          "constraint_budget_ratio": 1.136868377216031e-10,
+          "torque_peak_Nm": 76.06288440147304,
+          "max_qdd": 84.3083950173588
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000028027867813e-09,
+          "com_residual_norm": 1.0000018590975632e-09,
+          "constraint_budget_ratio": 7.456964838144919e-11,
+          "torque_peak_Nm": 55.11197129209188,
+          "max_qdd": 136.10334042792687
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "pelvis_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000012207189712e-09,
+          "com_residual_norm": 1.0000000827410185e-09,
+          "constraint_budget_ratio": 3.631320330219048e-11,
+          "torque_peak_Nm": 78.7725475716336,
+          "max_qdd": 108.87546896491776
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000026362533276e-09,
+          "com_residual_norm": 9.999974182152746e-10,
+          "constraint_budget_ratio": 9.45046835420992e-10,
+          "torque_peak_Nm": 52.90377784039269,
+          "max_qdd": 113.61144353186046
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "torso_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 1.741530337710841,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.74153033871084,
+          "com_residual_norm": 1.741530338710839,
+          "constraint_budget_ratio": 4.9422260006330046e-11,
+          "torque_peak_Nm": 29.310552238338115,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "pelvis_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.7813616140559615,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 0.7813616150559877,
+          "com_residual_norm": 0.781361615055963,
+          "constraint_budget_ratio": 7.850792889347675e-10,
+          "torque_peak_Nm": 34.115144472274594,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.7073737518924141,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 0.7073737528924151,
+          "com_residual_norm": 0.7073737528924129,
+          "constraint_budget_ratio": 2.056330893080204e-09,
+          "torque_peak_Nm": 36.69497269098222,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_angular",
+            "pelvis_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000233974238881e-09,
+          "com_residual_norm": 1.0000018592202847e-09,
+          "constraint_budget_ratio": 4.811688039312342e-09,
+          "torque_peak_Nm": 36.36509849089802,
+          "max_qdd": 138.006352279588
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_angular",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 1.868010439310372,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.8680104403103726,
+          "com_residual_norm": 1.8680104403103712,
+          "constraint_budget_ratio": 1.2769772620508243e-10,
+          "torque_peak_Nm": 60.576341982739685,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "pelvis_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.6898139878732368,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 0.689813988873244,
+          "com_residual_norm": 0.6898139888732384,
+          "constraint_budget_ratio": 1.5142272522017856e-09,
+          "torque_peak_Nm": 37.15731703732017,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "torso_angular",
+            "pelvis_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 1.9255167885940305,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.92551678959407,
+          "com_residual_norm": 1.925516789594032,
+          "constraint_budget_ratio": 2.751740075603893e-09,
+          "torque_peak_Nm": 36.64865125515966,
+          "max_qdd": 149.99999994238004
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "torso_angular",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 1.9452470799383543,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.9452470809383502,
+          "com_residual_norm": 1.9452470809383495,
+          "constraint_budget_ratio": 6.822087593794245e-10,
+          "torque_peak_Nm": 37.79288999399998,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "pelvis_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.9057102943432349,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 0.9057102953432523,
+          "com_residual_norm": 0.9057102953432357,
+          "constraint_budget_ratio": 1.2109072377585074e-08,
+          "torque_peak_Nm": 69.58135857215971,
+          "max_qdd": 149.9999999423618
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_angular",
+            "pelvis_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 1.9452470799383499,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.9452470809383495,
+          "com_residual_norm": 1.9452470809383495,
+          "constraint_budget_ratio": 1.5753487295309306e-09,
+          "torque_peak_Nm": 37.792889994001165,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "torso_angular",
+            "pelvis_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 1.945247080005724,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.9452470810057236,
+          "com_residual_norm": 1.9452470810057232,
+          "constraint_budget_ratio": 2.359477010091742e-10,
+          "torque_peak_Nm": 37.792889991873956,
+          "max_qdd": 149.99999994186012
+        }
+      ],
+      "control_replay_max_error_Nm": 0.0
+    },
+    {
+      "time_s": 3.435999999999843,
+      "pose_component_costs": [
+        {
+          "time_s": 3.435999999999843,
+          "component": "torso_linear",
+          "residual": [
+            9.08789315364643,
+            -0.04252706621717221,
+            0.2607456103862543
+          ],
+          "weighted_squared_residual": 16531.91975935808
+        },
+        {
+          "time_s": 3.435999999999843,
+          "component": "torso_angular",
+          "residual": [
+            0.33596734256253086,
+            1.5067367469634143,
+            -0.0969598770721738
+          ],
+          "weighted_squared_residual": 478.50617953605445
+        },
+        {
+          "time_s": 3.435999999999843,
+          "component": "pelvis_linear",
+          "residual": [
+            4.147482570884272,
+            -0.42394497417169597,
+            0.340614929787771
+          ],
+          "weighted_squared_residual": 1749.7359547308583
+        },
+        {
+          "time_s": 3.435999999999843,
+          "component": "pelvis_angular",
+          "residual": [
+            0.07328847109833059,
+            -0.08403577435839793,
+            0.013823486618966263
+          ],
+          "weighted_squared_residual": 1.2624300150251149
+        }
+      ],
+      "controls": [
+        {
+          "preserved_attained_tasks": [
+            "reach"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000018590972104e-09,
+          "com_residual_norm": 1.0000009709190256e-09,
+          "constraint_budget_ratio": 1.6449475534616025e-08,
+          "torque_peak_Nm": 88.0,
+          "max_qdd": 58.69395141424141
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 9.99998500672561e-10,
+          "com_residual_norm": 9.999983063835428e-10,
+          "constraint_budget_ratio": 1.7016304377199618e-10,
+          "torque_peak_Nm": 78.71615497666352,
+          "max_qdd": 87.00010978803209
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.000010990681588e-09,
+          "com_residual_norm": 1.0000071881717688e-09,
+          "constraint_budget_ratio": 4.553212190949872e-09,
+          "torque_peak_Nm": 71.21805739881829,
+          "max_qdd": 139.90500141443275
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "pelvis_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000020533862397e-09,
+          "com_residual_norm": 1.0000000827415038e-09,
+          "constraint_budget_ratio": 1.2680134991607868e-10,
+          "torque_peak_Nm": 80.08876624593917,
+          "max_qdd": 111.64112004963899
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 9.999986116948634e-10,
+          "com_residual_norm": 9.999983063835597e-10,
+          "constraint_budget_ratio": 2.504171945136584e-10,
+          "torque_peak_Nm": 52.89309089567064,
+          "max_qdd": 117.02633164182016
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "torso_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 1.8763187471002907,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.8763187481002892,
+          "com_residual_norm": 1.8763187481002879,
+          "constraint_budget_ratio": 7.416289804495495e-11,
+          "torque_peak_Nm": 29.536454481367205,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "pelvis_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.9123721272523203,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 0.9123721282523203,
+          "com_residual_norm": 0.9123721282523194,
+          "constraint_budget_ratio": 3.110605613014367e-11,
+          "torque_peak_Nm": 34.57018484793398,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.8059160321412651,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 0.8059160331412649,
+          "com_residual_norm": 0.8059160331412647,
+          "constraint_budget_ratio": 4.770871942829551e-10,
+          "torque_peak_Nm": 38.1500797728667,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_angular",
+            "pelvis_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.0,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0000048844549525e-09,
+          "com_residual_norm": 1.0000045236325115e-09,
+          "constraint_budget_ratio": 4.6185139691310745e-08,
+          "torque_peak_Nm": 37.663090936267004,
+          "max_qdd": 141.8624284082105
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_angular",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 2.0010742059800526,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 2.0010742069800536,
+          "com_residual_norm": 2.001074206980052,
+          "constraint_budget_ratio": 8.35350395277033e-11,
+          "torque_peak_Nm": 61.118790825952544,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "pelvis_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 0.7972090441100701,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 0.7972090451100728,
+          "com_residual_norm": 0.79720904511007,
+          "constraint_budget_ratio": 8.605490482900316e-10,
+          "torque_peak_Nm": 38.3391197201032,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "torso_angular",
+            "pelvis_linear"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 2.0680065150459264,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 2.0680065160459287,
+          "com_residual_norm": 2.0680065160459282,
+          "constraint_budget_ratio": 7.93554371363761e-11,
+          "torque_peak_Nm": 35.63106359411576,
+          "max_qdd": 149.9999999424436
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "torso_angular",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 2.095131929108774,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 2.095131930108774,
+          "com_residual_norm": 2.0951319301087707,
+          "constraint_budget_ratio": 9.917675530201093e-09,
+          "torque_peak_Nm": 40.04619364789669,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "pelvis_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 1.0596525757568152,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 1.0596525767568337,
+          "com_residual_norm": 1.0596525767568172,
+          "constraint_budget_ratio": 3.377571532532437e-08,
+          "torque_peak_Nm": 70.35756152025924,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_angular",
+            "pelvis_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 2.095131929108776,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 2.0951319301087823,
+          "com_residual_norm": 2.095131930108775,
+          "constraint_budget_ratio": 9.29827541454635e-10,
+          "torque_peak_Nm": 40.046193647884664,
+          "max_qdd": 150.0
+        },
+        {
+          "preserved_attained_tasks": [
+            "reach",
+            "torso_linear",
+            "torso_angular",
+            "pelvis_linear",
+            "pelvis_angular"
+          ],
+          "success": true,
+          "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "minimum_com_L1_residual": 2.0951319291517843,
+          "acceleration_minimization_first_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "acceleration_minimization_retry_count": 0,
+          "acceleration_minimization_success": true,
+          "acceleration_minimization_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+          "lexicographic_com_L1_allowance": 1e-09,
+          "achieved_com_L1_residual": 2.0951319301517874,
+          "com_residual_norm": 2.095131930151787,
+          "constraint_budget_ratio": 2.177290064073238e-09,
+          "torque_peak_Nm": 40.046193649531006,
+          "max_qdd": 150.0
+        }
+      ],
+      "control_replay_max_error_Nm": 0.0
+    }
+  ],
+  "physical_trials_run": 0,
+  "controller_changed": false,
+  "task_weights_changed": false,
+  "source_version": "2f8279a37dd0d65624740111ad0653cce92f82aa",
+  "trajectory_path": "results/reaching_contact/mode_pilot/trials/front_12.5cm_contact_mode_hold",
+  "trajectory_sha256": "7e963524c6384044e719e80a891c55c8462ef1d947c9e249d17677fbd7f722be",
+  "method": "All 16 subsets of four pose output components preserved with attained reaching acceleration. Original point slack fixed. Minimize CoM L1 deviation, then minimum peak generalized acceleration within 1e-9 of optimal L1. No QP tuning.",
+  "limitation": "Instantaneous witnesses only. Linear/angular refer to implemented SE(3) output rows, not uncoupled gain contributions. Infeasible exact fixed-slack controls are not physical infeasibility claims. Peak generalized acceleration combines linear and angular units as in the original bound."
+}

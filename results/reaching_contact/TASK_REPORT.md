@@ -105,6 +105,10 @@ task weights and physical thresholds remain unchanged.
 
 ## Next Gate
 
+Completed by the [frozen pose-component audit](POSE_SPLIT_REPORT.md). It splits
+torso/pelvis output rows and adds minimum-acceleration witnesses without changing
+the original trajectory or this historical audit's results.
+
 Separate torso and pelvis conflicts in frozen controls, then split each pose
 task's translational and rotational components. Determine which attained
 component blocks CoM restoration without demanding extreme acceleration. Only

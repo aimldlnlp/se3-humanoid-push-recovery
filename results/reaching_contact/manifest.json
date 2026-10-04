@@ -365,6 +365,30 @@
       "sha256": "3a35fa92ca4576230adf4840810e4854c723cd247afe338afc2136e9041c2410"
     },
     {
+      "path": "pose_split_audit/audit.json",
+      "sha256": "b7db2d7b389d9f674664d44df84ffa4bca3a8ee9b80d4ce92430f7b9728b0200"
+    },
+    {
+      "path": "pose_split_audit/component_costs.csv",
+      "sha256": "84c8ef61be9fe96fedc9ffee72ab51a5d8fa6db6aab423443cbbaa1cbed1909d"
+    },
+    {
+      "path": "pose_split_audit/controls.csv",
+      "sha256": "5eec6bb9ccf6a82ce6bcf3b33bec8c5689b6492f165584ff9fe74ed98f4dea48"
+    },
+    {
+      "path": "pose_split_audit/manifest.json",
+      "sha256": "14fc06c2d669fb4bf7cb0db7940b711f9b25bb317e40c91520b187cc6ab0932c"
+    },
+    {
+      "path": "POSE_SPLIT_REPORT.md",
+      "sha256": "43ed53b92de2a9cd516179aa3e8bcc3ef0709dc3c5a6063cd07cedb1bb888339"
+    },
+    {
+      "path": "pose_split_verification.json",
+      "sha256": "0a6de68aa47735dcce54d2b823e4d73d92eae77e80b18da13bba0a3762dbf3d4"
+    },
+    {
       "path": "REPORT.md",
       "sha256": "403e6eced31867b8493e34b9789d98c3886a6a5fbfb3e7ef13d53d94fcb6e04e"
     },
@@ -382,7 +406,7 @@
     },
     {
       "path": "TASK_REPORT.md",
-      "sha256": "8e48813d63cc1ed7474cb8bd161f0632dc362d7e216d75560e7b33f643a18b4d"
+      "sha256": "01a84495251e44c2368ac0b86f0eeba7ef6b1220bdebbcefae6fb90899764cfe"
     },
     {
       "path": "task_verification.json",

@@ -173,6 +173,7 @@ def main():
     parser.add_argument('--contact-velocity-damping', type=float, default=0)
     parser.add_argument('--contact-pose-stiffness', type=float, default=0)
     parser.add_argument('--contact-patch-bounds', action='store_true')
+    parser.add_argument('--contact-mode', action='store_true')
     parser.add_argument('--controller', choices=('se3_wbc', 'pd_nominal_ff'), default='se3_wbc')
     parser.add_argument('--render', action='store_true')
     args = parser.parse_args()
@@ -182,6 +183,8 @@ def main():
         parser.error('--contact-pose-stiffness requires a finite nonnegative WBC value')
     if args.contact_patch_bounds and args.controller != 'se3_wbc':
         parser.error('--contact-patch-bounds applies only to se3_wbc')
+    if args.contact_mode and (args.controller!='se3_wbc' or args.contact_pose_stiffness or args.contact_patch_bounds or args.balance_guard):
+        parser.error('--contact-mode requires WBC without pose, patch-bounds or guard candidates')
     if args.balance_guard and args.controller != 'se3_wbc':
         parser.error('--balance-guard applies only to se3_wbc')
     if args.guard_arm_posture and not args.balance_guard:
@@ -206,6 +209,8 @@ def main():
         settings['contact_pose_stiffness_s_inv2'] = args.contact_pose_stiffness
     if args.contact_patch_bounds:
         settings['contact_patch_bounds'] = True
+    if args.contact_mode:
+        settings['contact_mode'] = True
     default_reach_weight = settings['weight']
     if args.reach_weight is not None:
         if not np.isfinite(args.reach_weight) or args.reach_weight <= 0:
@@ -235,7 +240,11 @@ def main():
         from reaching_pd import ReachingPDController
         controller = ReachingPDController(model, cfg['controller'], settings)
     else:
-        controller = ReachingController(model, cfg['controller'], settings)
+        if args.contact_mode:
+            from reaching_contact_mode import ContactModeController
+            controller = ContactModeController(model, cfg['controller'], settings)
+        else:
+            controller = ReachingController(model, cfg['controller'], settings)
     runner = SimulationRunner(model, controller, duration_s=settings['experiment_duration_s'],
                               control_timestep_s=cfg['robot']['control_timestep'], warmup_duration_s=0)
     push = make_push(cfg, magnitude=args.push_N, start=args.push_start_s) if args.push_N else None
@@ -276,6 +285,9 @@ def main():
     if args.controller == 'se3_wbc':
         extras = {'reach_weight_history': np.asarray(controller.weights), 'balance_guard_risk': np.asarray(controller.guard_risks),
                   'joint_reference_history': np.asarray(controller.joint_references)}
+        if args.contact_mode:
+            extras.update(contact_motion_rank_history=np.asarray(controller.mode_ranks),
+                          contact_point_count_history=np.asarray(controller.mode_counts))
         reduced = extras['reach_weight_history'] < settings['weight']-1e-9
         summary['balance_guard'] = dict(enabled=bool(args.balance_guard),
                                        reduced_duration_s=float(np.sum(reduced)*cfg['robot']['control_timestep']),

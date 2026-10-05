@@ -33,6 +33,8 @@ def main():
                 numerical_rank_relative_threshold=1e-10,
                 reduced_qp_backend='Clarabel, convex quadratic objective and linear cones',
                 reduced_qp_backend_version=version('clarabel'),
+                reduced_inequality_roundoff_allowance=5e-9,
+                original_constraint_budget_unchanged=True,
                 gains_changed=False, contact_model_changed=False, physical_thresholds_changed=False,
                 gate='All frozen states accepted before rollout. Improve at least one failed case, retain every prior PASS and <=15 mm hand tolerance.',
                 scope='One candidate, no gain or lock-tolerance search. No production promotion.')

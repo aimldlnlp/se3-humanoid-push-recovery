@@ -18,7 +18,9 @@ def solve_level(P, q, A, low, high, settings):
     equality = np.isfinite(low) & np.isfinite(high) & (low == high)
     upper, lower = np.isfinite(high) & ~equality, np.isfinite(low) & ~equality
     constraints = sparse.csc_matrix(np.vstack([A[equality], A[upper], -A[lower]]))
-    bounds = np.r_[high[equality], high[upper], -low[lower]]
+    # Strict output preservation can pin an anchor a few ulps outside an active face.
+    # This solver-only allowance stays below validation tolerance; original rows remain checked.
+    bounds = np.r_[high[equality], high[upper]+5e-9, -low[lower]+5e-9]
     cones = [clarabel.ZeroConeT(int(np.sum(equality))),
              clarabel.NonnegativeConeT(int(np.sum(upper)+np.sum(lower)))]
     options = clarabel.DefaultSettings()

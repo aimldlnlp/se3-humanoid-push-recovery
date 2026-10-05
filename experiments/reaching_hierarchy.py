@@ -4,27 +4,35 @@ import time
 import numpy as np
 from scipy import sparse
 from scipy.linalg import null_space
-from scipy.optimize import minimize, LinearConstraint
 
 from reaching_pose_origin import PoseOriginController
 from reaching_task_audit import LABELS
 from se3_whole_body_control.control.whole_body_qp import QPResult, WholeBodyQPController
 
 
-def solve_level(P, q, A, low, high, settings, initial=None):
+def solve_level(P, q, A, low, high, settings):
     """Solve one reduced convex QP; scaling changes no mathematical minimizer."""
+    import clarabel
     scale = max(float(np.max(np.abs(P))), float(np.max(np.abs(q))), 1)
     A = A.toarray() if sparse.issparse(A) else np.asarray(A)
-    P, q = P/scale, q/scale
-    result = minimize(lambda x: .5*x@P@x+q@x,
-                      np.zeros(len(q)) if initial is None else initial,
-                      jac=lambda x: P@x+q, method='SLSQP',
-                      constraints=[LinearConstraint(A, low, high)] if len(A) else [],
-                      options=dict(ftol=1e-12, maxiter=settings.get('max_iter', 4000)))
-    if (not result.success or not np.all(np.isfinite(result.x))
-            or (len(A) and WholeBodyQPController._constraint_budget_ratio(A, result.x, low, high, 1e-8, 1e-8) > 1)):
-        raise RuntimeError('Reduced hierarchy level rejected: '+result.message)
-    return result.x
+    equality = np.isfinite(low) & np.isfinite(high) & (low == high)
+    upper, lower = np.isfinite(high) & ~equality, np.isfinite(low) & ~equality
+    constraints = sparse.csc_matrix(np.vstack([A[equality], A[upper], -A[lower]]))
+    bounds = np.r_[high[equality], high[upper], -low[lower]]
+    cones = [clarabel.ZeroConeT(int(np.sum(equality))),
+             clarabel.NonnegativeConeT(int(np.sum(upper)+np.sum(lower)))]
+    options = clarabel.DefaultSettings()
+    options.verbose = False
+    options.max_iter = settings.get('max_iter', 4000)
+    options.tol_gap_abs = options.tol_gap_rel = 1e-12
+    options.tol_feas = 1e-10
+    result = clarabel.DefaultSolver(sparse.triu(sparse.csc_matrix(P/scale), format='csc'),
+                                    q/scale, constraints, bounds, cones, options).solve()
+    x = np.asarray(result.x)
+    if (str(result.status) not in ('Solved', 'AlmostSolved') or not np.all(np.isfinite(x))
+            or (len(A) and WholeBodyQPController._constraint_budget_ratio(A, x, low, high, 1e-8, 1e-8) > 1)):
+        raise RuntimeError('Reduced hierarchy level rejected: '+str(result.status))
+    return x
 
 
 def solve_hierarchy(levels, A, low, high, settings):
@@ -55,7 +63,7 @@ def solve_hierarchy(levels, A, low, high, settings):
             try:
                 z = solve_level(2*reduced.T@reduced, 2*reduced.T@(matrix@x-desired),
                                 C/row_scale[:, None], (low[~equality][~constant]-shift)/row_scale,
-                                (high[~equality][~constant]-shift)/row_scale, settings, np.zeros(basis.shape[1]))
+                                (high[~equality][~constant]-shift)/row_scale, settings)
             except RuntimeError as exc:
                 raise RuntimeError(name+': '+str(exc)) from exc
             x = x+basis@z

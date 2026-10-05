@@ -4,6 +4,8 @@ from pathlib import Path
 import numpy as np
 import pytest
 
+pytest.importorskip('clarabel', reason='Install the optional hierarchy extra')
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]/'experiments'))
 from reaching_hierarchy import solve_level, solve_hierarchy, HierarchicalController
 from common import ROOT, load_configs, make_model, prepare_paired_initial_condition

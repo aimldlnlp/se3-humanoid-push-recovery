@@ -4,7 +4,7 @@ SE(3) geometric pose-error resolved-acceleration tasks embedded in a contact-con
 
 The problem is fixed-foot balance under an unmeasured torso push. Geometry supplies the task error, optimization distributes acceleration/torque/contact predictions, and MuJoCo determines the actual ground reaction. No stepping or disturbance oracle is used in the primary comparison.
 
-https://github.com/user-attachments/assets/219f1802-cab5-401b-a59f-0e4d30c8adbe
+https://github.com/user-attachments/assets/8b018443-40a3-459c-bd7f-f22a180eab8c
 
 [Watch the synchronized H.264 comparison](../results/revalidation/g1_paired_a500081/videos/canonical_three_controller.mp4) · [Measured results](../results/revalidation/g1_paired_a500081/summary.json)
 

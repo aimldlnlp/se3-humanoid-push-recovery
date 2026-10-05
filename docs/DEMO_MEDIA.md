@@ -13,7 +13,9 @@ its frames or timing. It shows pure PD, PD with nominal feedforward, and SE(3)
 whole-body control under the same initial state and canonical 70 N push.
 Pure PD is a feedforward-removal ablation, not a qualified standing baseline.
 
-The existing GitHub attachment is retained as the README's inline player.
+The GitHub attachment was refreshed after the old attachment URL stopped working.
+The original repository video remains unchanged. Both current attachments are
+retained in the closed media archive issue linked below.
 
 ## Reaching Before and After
 
@@ -38,9 +40,10 @@ The robot and telemetry use the same nearest-timestamp samples at 30 FPS.
 Rendering replays saved qpos; it does not rerun dynamics, interpolate physics,
 or stretch time. The comparison is not PD versus WBC and is not a hierarchy demo.
 
-The README uses a linked preview for this new video until a GitHub attachment
-is available. The repository MP4 is playable/downloadable through its file page;
-it is not advertised as an inline attachment player.
+The README embeds the uploaded GitHub attachment as an inline player. The
+repository MP4 remains a download fallback; its file page is not a video player.
+The attachment is retained in the closed
+[media archive issue](https://github.com/aimldlnlp/se3-humanoid-push-recovery/issues/1).
 
 ## Regenerate
 
@@ -65,9 +68,9 @@ remain unchanged in the archive.
 
 ## Publishing
 
-Upload `reach-before-after.mp4` through GitHub's Markdown attachment control and
-replace the linked README preview with the resulting attachment URL for an
-inline player. Do not substitute a guessed URL or assume a repository file link
-is an attachment. The linked preview is a functional fallback.
+For a regenerated video, upload `reach-before-after.mp4` through GitHub's Markdown
+attachment control or GitHub CLI's `--attach` option. Put the resulting attachment
+URL in its own README paragraph for an inline player. Do not substitute a guessed
+URL or assume a repository file link is an attachment.
 
 [Technical notes and original evidence](EXPERIMENTS.md).

@@ -5,7 +5,7 @@ The robot responds to torso pushes without stepping or measuring the applied dis
 
 ## Push Recovery
 
-https://github.com/user-attachments/assets/219f1802-cab5-401b-a59f-0e4d30c8adbe
+https://github.com/user-attachments/assets/8b018443-40a3-459c-bd7f-f22a180eab8c
 
 Three controllers, the same initial state, and the same 70 N push.
 SE(3) whole-body control recovers in **0.270 s** in this standing benchmark.
@@ -15,7 +15,7 @@ PD with nominal feedforward falls; pure PD is an ablation that also fails the no
 
 ## Reach and Balance
 
-[![Watch the reaching before-and-after comparison](assets/demos/reach-before-after-preview.jpg)](assets/demos/reach-before-after.mp4)
+https://github.com/user-attachments/assets/d540ef49-2f4c-4b0d-a001-3d5191d51d9d
 
 **Same 12.5 cm target, same 70 N push during hold.** The contact-corrected
 predecessor falls; correcting pose-origin and acceleration conventions recovers

@@ -2,9 +2,9 @@
 import time
 
 import numpy as np
-import osqp
 from scipy import sparse
 from scipy.linalg import null_space
+from scipy.optimize import minimize, LinearConstraint
 
 from reaching_pose_origin import PoseOriginController
 from reaching_task_audit import LABELS
@@ -14,27 +14,16 @@ from se3_whole_body_control.control.whole_body_qp import QPResult, WholeBodyQPCo
 def solve_level(P, q, A, low, high, settings, initial=None):
     """Solve one reduced convex QP; scaling changes no mathematical minimizer."""
     scale = max(float(np.max(np.abs(P))), float(np.max(np.abs(q))), 1)
-    A = sparse.csc_matrix(A)
-    solver = osqp.OSQP()
-    absolute = min(settings.get('eps_abs', 1e-4), 1e-8)
-    relative = min(settings.get('eps_rel', 1e-4), 1e-8)
-    solver.setup(P=sparse.triu(sparse.csc_matrix(P/scale), format='csc'), q=q/scale,
-                 A=A, l=low, u=high, verbose=False, eps_abs=absolute, eps_rel=relative,
-                 max_iter=settings.get('max_iter', 4000), polishing=settings.get('polish', True),
-                 adaptive_rho=settings.get('adaptive_rho', True), scaled_termination=False)
-    if initial is not None:
-        solver.warm_start(x=initial)
-    result = solver.solve()
-    def accepted(result):
-        return (result.info.status.lower() in ('solved', 'solved inaccurate')
-                and result.x is not None and np.all(np.isfinite(result.x))
-                and WholeBodyQPController._constraint_budget_ratio(
-                    A, result.x, low, high, absolute, relative) <= 1)
-    if not accepted(result):
-        solver.update_settings(eps_abs=min(absolute, 1e-9), eps_rel=min(relative, 1e-9))
-        result = solver.solve()
-    if not accepted(result):
-        raise RuntimeError('Reduced hierarchy level rejected: '+result.info.status)
+    A = A.toarray() if sparse.issparse(A) else np.asarray(A)
+    P, q = P/scale, q/scale
+    result = minimize(lambda x: .5*x@P@x+q@x,
+                      np.zeros(len(q)) if initial is None else initial,
+                      jac=lambda x: P@x+q, method='SLSQP',
+                      constraints=[LinearConstraint(A, low, high)],
+                      options=dict(ftol=1e-12, maxiter=settings.get('max_iter', 4000)))
+    if (not result.success or not np.all(np.isfinite(result.x))
+            or WholeBodyQPController._constraint_budget_ratio(A, result.x, low, high, 1e-8, 1e-8) > 1):
+        raise RuntimeError('Reduced hierarchy level rejected: '+result.message)
     return result.x
 
 
@@ -55,9 +44,12 @@ def solve_hierarchy(levels, A, low, high, settings):
             shift = dense[~equality]@x
             # Normalize inequalities only for conditioning; validate originals below.
             row_scale = np.maximum(np.linalg.norm(C, axis=1), 1)
-            z = solve_level(2*reduced.T@reduced, 2*reduced.T@(matrix@x-desired),
-                            C/row_scale[:, None], (low[~equality]-shift)/row_scale,
-                            (high[~equality]-shift)/row_scale, settings, np.zeros(basis.shape[1]))
+            try:
+                z = solve_level(2*reduced.T@reduced, 2*reduced.T@(matrix@x-desired),
+                                C/row_scale[:, None], (low[~equality]-shift)/row_scale,
+                                (high[~equality]-shift)/row_scale, settings, np.zeros(basis.shape[1]))
+            except RuntimeError as exc:
+                raise RuntimeError(name+': '+str(exc)) from exc
             x = x+basis@z
         ratio = WholeBodyQPController._constraint_budget_ratio(
             A, x, low, high, settings.get('eps_abs', 1e-4), settings.get('eps_rel', 1e-4))

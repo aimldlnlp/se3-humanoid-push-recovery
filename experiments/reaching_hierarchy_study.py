@@ -30,6 +30,7 @@ def main():
                 formulation='Hard equalities eliminated; attained outputs preserved by null-space parameterization',
                 output_validation_tolerance='1e-7*(1+abs(attained weighted output)); no lock bands',
                 numerical_rank_relative_threshold=1e-10,
+                reduced_qp_backend='scipy.optimize SLSQP, analytic quadratic gradient',
                 gains_changed=False, contact_model_changed=False, physical_thresholds_changed=False,
                 gate='All frozen states accepted before rollout. Improve at least one failed case, retain every prior PASS and <=15 mm hand tolerance.',
                 scope='One candidate, no gain or lock-tolerance search. No production promotion.')

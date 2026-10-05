@@ -1,0 +1,14 @@
+{
+  "source_version": "8dfac080a7870acb03f5259c4bce77314a78c9bc",
+  "frozen_gate_passed": false,
+  "frozen_states": 40,
+  "frozen_accepted": 30,
+  "trials": [],
+  "physical_trials_run": 0,
+  "improved_cases": 0,
+  "regressions": 0,
+  "candidate_gate_passed": false,
+  "decision": "Numerically rejected before rollout",
+  "production_promoted": false,
+  "hardware_trials_run": 0
+}

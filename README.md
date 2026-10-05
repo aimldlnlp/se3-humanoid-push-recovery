@@ -15,14 +15,16 @@ PD with nominal feedforward falls; pure PD is an ablation that also fails the no
 
 ## Reach and Balance
 
-[![Watch reaching with synchronized telemetry](assets/demos/reaching-preview.jpg)](assets/demos/reach-and-balance.mp4)
+[![Watch the reaching before-and-after comparison](assets/demos/reach-before-after-preview.jpg)](assets/demos/reach-before-after.mp4)
 
-**Watch:** front 5 cm, front 10 cm, and front 12.5 cm, with live target error,
-torso orientation error, and actuator torque utilization alongside the robot.
-The first two pass. The last stays upright but misses the 15 mm hold tolerance.
-All three are no-push trials, replayed at their original speed.
+**Same 12.5 cm target, same 70 N push during hold.** The contact-corrected
+predecessor falls; correcting pose-origin and acceleration conventions recovers
+balance with a maximum final-hold hand error of **4.804 mm** against a 15 mm limit.
+The third panel changes the push direction to show a known lateral-slip failure.
+Live target distance, CoM displacement, foot drift, and torque utilization stay
+synchronized with the robot at original simulation speed.
 
-[Watch or download the 15-second demo](assets/demos/reach-and-balance.mp4)
+[Watch or download the comparison](assets/demos/reach-before-after.mp4)
 
 ## Engineering Highlights
 
@@ -30,36 +32,41 @@ All three are no-push trials, replayed at their original speed.
 - **Whole-body optimization:** a contact-constrained QP coordinates joint torque, balance, and reaching.
 - **Physical limits:** friction, support geometry, actuator limits, and contact slack are audited.
 - **Measured evaluation:** saved trajectories retain actual contacts, slip, tracking errors, and failures.
+- **Root-cause debugging:** frozen-state replays separate task-convention errors,
+  contact-model mismatch, and numerical constraint violations from gain tuning.
 
 ## Results at a Glance
 
 | Evaluation | Result |
 |---|---|
 | Standing push sweep | WBC recovers in 146/192 tested conditions |
-| Reaching with default weights | Front 5/10 cm and right 5 cm pass without a push |
-| Small-target reaching under pushes | 7/8 tested motion/hold conditions pass both tasks |
-| Higher reach authority | Better accuracy, but front 12.5 cm falls under both tested 70 N pushes |
+| Corrected 12.5 cm reaching pilot | Nominal, moving-push, and held-target push all pass |
+| Broader reaching disturbance check | 5/9 tested conditions pass, including the repeated positive control |
 
 This is a simulation project with fixed-foot double support, not a hardware or walking demonstration.
-Larger disturbed reaches remain unresolved; neither experimental balance guard qualifies.
-The sampled results do not establish a complete workspace or hard-real-time performance.
+Lateral contact failures and reverse/80 N falls remain unresolved. The corrected
+reaching controller is experimental, not the library default. The sampled results
+do not establish a complete workspace or hard-real-time performance.
 
 ## Run a Demo
 
-Python 3.10+ and FFmpeg are required for video output. From the repository root:
+Use Python 3.12 for the pinned portfolio environment. From the repository root:
 
 ```bash
-python -m pip install -e ".[dev]"
+python -m pip install -r requirements-portfolio.txt
+python -m pip install -e . --no-deps
 python scripts/run_demo.py
-python experiments/reach_and_balance.py --output results/staging/my-reach --render
+python scripts/run_portfolio_reaching.py --output results/staging/my-reach --render
 ```
 
-The standing and reaching commands run separate demos.
-Use `MUJOCO_GL=egl` for headless Linux rendering. Run tests with `python -m pytest -q`.
+The reaching command runs the paired comparison and six predeclared initial-rate
+sensitivity trials. Use a fresh output directory; all failures are retained.
+FFmpeg is bundled by `imageio-ffmpeg`. Use `MUJOCO_GL=egl` for headless Linux rendering.
 
 ## Explore Further
 
 - [Methods, benchmark results, and reproduction](docs/EXPERIMENTS.md)
+- [Portfolio baseline, verification, and limitations](docs/PORTFOLIO_BASELINE.md)
 - [Demo rendering and source data](docs/DEMO_MEDIA.md)
 - [Controller implementation](src/se3_whole_body_control/control/whole_body_qp.py)
 - [Unitree model attribution](models/unitree_g1/UPSTREAM.md)

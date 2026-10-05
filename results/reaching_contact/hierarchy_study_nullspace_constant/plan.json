@@ -1,0 +1,86 @@
+{
+  "source_version": "8dfac080a7870acb03f5259c4bce77314a78c9bc",
+  "cases": [
+    [
+      "nominal",
+      0,
+      0,
+      1.5
+    ],
+    [
+      "moving",
+      70,
+      0,
+      1.5
+    ],
+    [
+      "control",
+      70,
+      0,
+      3.0
+    ],
+    [
+      "direction_45",
+      70,
+      45,
+      3.0
+    ],
+    [
+      "direction_90",
+      70,
+      90,
+      3.0
+    ],
+    [
+      "direction_180",
+      70,
+      180,
+      3.0
+    ],
+    [
+      "direction_270",
+      70,
+      270,
+      3.0
+    ],
+    [
+      "magnitude_60",
+      60,
+      0,
+      3.0
+    ],
+    [
+      "magnitude_80",
+      80,
+      0,
+      3.0
+    ],
+    [
+      "timing_early",
+      70,
+      0,
+      2.75
+    ],
+    [
+      "timing_late",
+      70,
+      0,
+      3.25
+    ]
+  ],
+  "hierarchy": [
+    "contact_slack",
+    "weighted_torso_pelvis_com",
+    "reach",
+    "posture_and_regularization"
+  ],
+  "formulation": "Hard equalities eliminated; attained outputs preserved by null-space parameterization",
+  "output_validation_tolerance": "1e-7*(1+abs(attained weighted output)); no lock bands",
+  "numerical_rank_relative_threshold": 1e-10,
+  "reduced_qp_backend": "scipy.optimize SLSQP, analytic quadratic gradient",
+  "gains_changed": false,
+  "contact_model_changed": false,
+  "physical_thresholds_changed": false,
+  "gate": "All frozen states accepted before rollout. Improve at least one failed case, retain every prior PASS and <=15 mm hand tolerance.",
+  "scope": "One candidate, no gain or lock-tolerance search. No production promotion."
+}

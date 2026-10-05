@@ -1,0 +1,129 @@
+{
+  "cases": [
+    {
+      "name": "corrected_nominal",
+      "force": 0,
+      "start": 1.5,
+      "seed": null,
+      "pose_origin": true,
+      "direction": 0
+    },
+    {
+      "name": "corrected_moving",
+      "force": 70,
+      "start": 1.5,
+      "seed": null,
+      "pose_origin": true,
+      "direction": 0
+    },
+    {
+      "name": "corrected_hold",
+      "force": 70,
+      "start": 3.0,
+      "seed": null,
+      "pose_origin": true,
+      "direction": 0
+    },
+    {
+      "name": "before_hold",
+      "force": 70,
+      "start": 3,
+      "seed": null,
+      "pose_origin": false,
+      "direction": 0
+    },
+    {
+      "name": "lateral_hold",
+      "force": 70,
+      "start": 3,
+      "seed": null,
+      "pose_origin": true,
+      "direction": 90
+    },
+    {
+      "name": "seed_17_nominal",
+      "force": 0,
+      "start": 1.5,
+      "seed": 17,
+      "pose_origin": true,
+      "direction": 0
+    },
+    {
+      "name": "seed_17_moving",
+      "force": 70,
+      "start": 1.5,
+      "seed": 17,
+      "pose_origin": true,
+      "direction": 0
+    },
+    {
+      "name": "seed_17_hold",
+      "force": 70,
+      "start": 3.0,
+      "seed": 17,
+      "pose_origin": true,
+      "direction": 0
+    },
+    {
+      "name": "seed_29_nominal",
+      "force": 0,
+      "start": 1.5,
+      "seed": 29,
+      "pose_origin": true,
+      "direction": 0
+    },
+    {
+      "name": "seed_29_moving",
+      "force": 70,
+      "start": 1.5,
+      "seed": 29,
+      "pose_origin": true,
+      "direction": 0
+    },
+    {
+      "name": "seed_29_hold",
+      "force": 70,
+      "start": 3.0,
+      "seed": 29,
+      "pose_origin": true,
+      "direction": 0
+    }
+  ],
+  "randomization": {
+    "initial_torso_tilt_rad": 0,
+    "initial_com_offset_m": 0,
+    "initial_angular_velocity_rad_s": 0.05
+  },
+  "target_offset_m": [
+    0.125,
+    0,
+    0
+  ],
+  "reach_weight": 3000,
+  "contact_velocity_damping_s_inv": 20,
+  "hierarchical": false,
+  "physical_thresholds_changed": false,
+  "scope": "Six predeclared angular-rate sensitivity trials; not a general robustness estimate.",
+  "source_files": [
+    {
+      "path": "scripts/run_portfolio_reaching.py",
+      "sha256": "3459338f10d41a67a7de4383115173015be9c75def66070fb625a9ddcaad4332"
+    },
+    {
+      "path": "experiments/reach_and_balance.py",
+      "sha256": "604062c9ba6f2d953084815ab21bae646a7d8a99d2d2bb7f1ae229f8f1ee3535"
+    },
+    {
+      "path": "experiments/reaching_workspace.py",
+      "sha256": "908f98b462ea76fd10eb69c4b863e5fc73e9da66c0ad97f75acb3b19ad59c315"
+    },
+    {
+      "path": "experiments/reaching_contact_mode.py",
+      "sha256": "61a8b81effb13b1f3d32f25b681d28a4c67c6a4473e5db71c9a658d1e29e2b51"
+    },
+    {
+      "path": "experiments/reaching_pose_origin.py",
+      "sha256": "c3e67e5d52762be41a0b12de7171ff85869d67c4475bcc559160fb9de7d2f3bc"
+    }
+  ]
+}

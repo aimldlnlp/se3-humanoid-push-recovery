@@ -1,0 +1,1172 @@
+[
+  {
+    "case": "control",
+    "index": 749,
+    "time_s": 2.9959999999998916,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.011996299959719181,
+    "constraint_budget_ratio": 2.6645352591003046e-11,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "control",
+    "index": 749,
+    "time_s": 2.9959999999998916,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.09534860000712797,
+    "constraint_budget_ratio": 1.257489176777408e-09,
+    "hierarchy_max_lock_excess": 3.343986323874085e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 1.0063340915017863e-05,
+        "free_dimensions": 61
+      },
+      {
+        "name": "balance",
+        "residual_norm": 2.870725908773871,
+        "free_dimensions": 49
+      },
+      {
+        "name": "reach",
+        "residual_norm": 1.193319545993438e-07,
+        "free_dimensions": 37
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 154.59763664058906,
+        "free_dimensions": 34
+      }
+    ]
+  },
+  {
+    "case": "control",
+    "index": 778,
+    "time_s": 3.111999999999879,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.010779600008390844,
+    "constraint_budget_ratio": 2.7037816430135644e-09,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "control",
+    "index": 778,
+    "time_s": 3.111999999999879,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: Reduced hierarchy level rejected: maximum iterations reached",
+    "solve_time_s": 0.2581468000425957,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "control",
+    "index": 787,
+    "time_s": 3.147999999999875,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.019577500002924353,
+    "constraint_budget_ratio": 1.0738576694420278e-08,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "control",
+    "index": 787,
+    "time_s": 3.147999999999875,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: Reduced hierarchy level rejected: maximum iterations reached",
+    "solve_time_s": 0.2837541999761015,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "control",
+    "index": 788,
+    "time_s": 3.1519999999998745,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.009509099996648729,
+    "constraint_budget_ratio": 1.088723555741437e-08,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "control",
+    "index": 788,
+    "time_s": 3.1519999999998745,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: Reduced hierarchy level rejected: maximum iterations reached",
+    "solve_time_s": 0.218892999982927,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "control",
+    "index": 793,
+    "time_s": 3.1719999999998723,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.009376600035466254,
+    "constraint_budget_ratio": 7.308154081844146e-09,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "control",
+    "index": 793,
+    "time_s": 3.1719999999998723,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: Reduced hierarchy level rejected: maximum iterations reached",
+    "solve_time_s": 0.2968068000045605,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "control",
+    "index": 808,
+    "time_s": 3.2319999999998656,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.011105199984740466,
+    "constraint_budget_ratio": 1.66243048952046e-10,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "control",
+    "index": 808,
+    "time_s": 3.2319999999998656,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: Reduced hierarchy level rejected: maximum iterations reached",
+    "solve_time_s": 0.2686364999972284,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_45",
+    "index": 749,
+    "time_s": 2.9959999999998916,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.011094800021965057,
+    "constraint_budget_ratio": 2.6645352591003046e-11,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_45",
+    "index": 749,
+    "time_s": 2.9959999999998916,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.08684000000357628,
+    "constraint_budget_ratio": 1.257489176777408e-09,
+    "hierarchy_max_lock_excess": 3.343986323874085e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 1.0063340915017863e-05,
+        "free_dimensions": 61
+      },
+      {
+        "name": "balance",
+        "residual_norm": 2.870725908773871,
+        "free_dimensions": 49
+      },
+      {
+        "name": "reach",
+        "residual_norm": 1.193319545993438e-07,
+        "free_dimensions": 37
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 154.59763664058906,
+        "free_dimensions": 34
+      }
+    ]
+  },
+  {
+    "case": "direction_45",
+    "index": 778,
+    "time_s": 3.111999999999879,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.009266600012779236,
+    "constraint_budget_ratio": 4.56930578898523e-09,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_45",
+    "index": 778,
+    "time_s": 3.111999999999879,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: Reduced hierarchy level rejected: maximum iterations reached",
+    "solve_time_s": 0.3682173000415787,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_45",
+    "index": 787,
+    "time_s": 3.147999999999875,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.009586900006979704,
+    "constraint_budget_ratio": 6.366843386678262e-10,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_45",
+    "index": 787,
+    "time_s": 3.147999999999875,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: Reduced hierarchy level rejected: maximum iterations reached",
+    "solve_time_s": 0.268105499970261,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_45",
+    "index": 788,
+    "time_s": 3.1519999999998745,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.009198499959893525,
+    "constraint_budget_ratio": 3.4324065544212145e-09,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_45",
+    "index": 788,
+    "time_s": 3.1519999999998745,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: Reduced hierarchy level rejected: maximum iterations reached",
+    "solve_time_s": 0.2992376000038348,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_45",
+    "index": 793,
+    "time_s": 3.1719999999998723,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.009424299991223961,
+    "constraint_budget_ratio": 2.1933060921288518e-10,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_45",
+    "index": 793,
+    "time_s": 3.1719999999998723,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: Reduced hierarchy level rejected: maximum iterations reached",
+    "solve_time_s": 0.25213219999568537,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_45",
+    "index": 808,
+    "time_s": 3.2319999999998656,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.008667099988088012,
+    "constraint_budget_ratio": 9.6842206313666e-11,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_45",
+    "index": 808,
+    "time_s": 3.2319999999998656,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: Reduced hierarchy level rejected: maximum iterations reached",
+    "solve_time_s": 0.14391189999878407,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_90",
+    "index": 749,
+    "time_s": 2.9959999999998916,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.012190099980216473,
+    "constraint_budget_ratio": 2.6645352591003046e-11,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_90",
+    "index": 749,
+    "time_s": 2.9959999999998916,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.0861674000043422,
+    "constraint_budget_ratio": 1.257489176777408e-09,
+    "hierarchy_max_lock_excess": 3.343986323874085e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 1.0063340915017863e-05,
+        "free_dimensions": 61
+      },
+      {
+        "name": "balance",
+        "residual_norm": 2.870725908773871,
+        "free_dimensions": 49
+      },
+      {
+        "name": "reach",
+        "residual_norm": 1.193319545993438e-07,
+        "free_dimensions": 37
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 154.59763664058906,
+        "free_dimensions": 34
+      }
+    ]
+  },
+  {
+    "case": "direction_90",
+    "index": 762,
+    "time_s": 3.047999999999886,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.010557800007518381,
+    "constraint_budget_ratio": 0.05775951392627816,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_90",
+    "index": 762,
+    "time_s": 3.047999999999886,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.09461829997599125,
+    "constraint_budget_ratio": 4.002962783419009e-10,
+    "hierarchy_max_lock_excess": 6.698203152833198e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 0.25227450776452476,
+        "free_dimensions": 61
+      },
+      {
+        "name": "balance",
+        "residual_norm": 2.8112307356201405,
+        "free_dimensions": 49
+      },
+      {
+        "name": "reach",
+        "residual_norm": 1.1310238314952016e-05,
+        "free_dimensions": 37
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 206.7749460793125,
+        "free_dimensions": 34
+      }
+    ]
+  },
+  {
+    "case": "direction_90",
+    "index": 771,
+    "time_s": 3.083999999999882,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.012345700000878423,
+    "constraint_budget_ratio": 7.395603610907705e-11,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_90",
+    "index": 771,
+    "time_s": 3.083999999999882,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.0392489000223577,
+    "constraint_budget_ratio": 1.1155526282042576e-10,
+    "hierarchy_max_lock_excess": 7.977404714559295e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 0.3307113031951253,
+        "free_dimensions": 49
+      },
+      {
+        "name": "balance",
+        "residual_norm": 3.3369307538057535,
+        "free_dimensions": 40
+      },
+      {
+        "name": "reach",
+        "residual_norm": 4.601320404076155e-07,
+        "free_dimensions": 28
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 150.80289344196274,
+        "free_dimensions": 25
+      }
+    ]
+  },
+  {
+    "case": "direction_90",
+    "index": 772,
+    "time_s": 3.0879999999998815,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.010332999983802438,
+    "constraint_budget_ratio": 9.21516336526841e-11,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_90",
+    "index": 772,
+    "time_s": 3.0879999999998815,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.03291519999038428,
+    "constraint_budget_ratio": 8.433296709996855e-10,
+    "hierarchy_max_lock_excess": 5.643379867831387e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 0.20244409395733284,
+        "free_dimensions": 45
+      },
+      {
+        "name": "balance",
+        "residual_norm": 3.419831165959786,
+        "free_dimensions": 36
+      },
+      {
+        "name": "reach",
+        "residual_norm": 5.357233855864553e-10,
+        "free_dimensions": 24
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 152.78598446544993,
+        "free_dimensions": 21
+      }
+    ]
+  },
+  {
+    "case": "direction_90",
+    "index": 777,
+    "time_s": 3.1079999999998793,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.011839799990411848,
+    "constraint_budget_ratio": 1.1636015402114399e-10,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_90",
+    "index": 777,
+    "time_s": 3.1079999999998793,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.02932229998987168,
+    "constraint_budget_ratio": 9.543890567778013e-10,
+    "hierarchy_max_lock_excess": 5.5678952062576486e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 0.13547838721017022,
+        "free_dimensions": 45
+      },
+      {
+        "name": "balance",
+        "residual_norm": 3.9278074954171567,
+        "free_dimensions": 36
+      },
+      {
+        "name": "reach",
+        "residual_norm": 1.6119089914568242e-09,
+        "free_dimensions": 24
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 166.13044942900112,
+        "free_dimensions": 21
+      }
+    ]
+  },
+  {
+    "case": "direction_90",
+    "index": 788,
+    "time_s": 3.1519999999998745,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.008771900029387325,
+    "constraint_budget_ratio": 1.7033222659827815e-10,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_90",
+    "index": 788,
+    "time_s": 3.1519999999998745,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: Reduced hierarchy level rejected: primal infeasible",
+    "solve_time_s": 0.010752300033345819,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_90",
+    "index": 792,
+    "time_s": 3.1679999999998727,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.008808299957308918,
+    "constraint_budget_ratio": 1.2537319680865685e-10,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_90",
+    "index": 792,
+    "time_s": 3.1679999999998727,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: Reduced hierarchy level rejected: primal infeasible",
+    "solve_time_s": 0.014827599981799722,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_180",
+    "index": 749,
+    "time_s": 2.9959999999998916,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.01009120000526309,
+    "constraint_budget_ratio": 2.6645352591003046e-11,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_180",
+    "index": 749,
+    "time_s": 2.9959999999998916,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.08495160000165924,
+    "constraint_budget_ratio": 1.257489176777408e-09,
+    "hierarchy_max_lock_excess": 3.343986323874085e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 1.0063340915017863e-05,
+        "free_dimensions": 61
+      },
+      {
+        "name": "balance",
+        "residual_norm": 2.870725908773871,
+        "free_dimensions": 49
+      },
+      {
+        "name": "reach",
+        "residual_norm": 1.193319545993438e-07,
+        "free_dimensions": 37
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 154.59763664058906,
+        "free_dimensions": 34
+      }
+    ]
+  },
+  {
+    "case": "direction_180",
+    "index": 788,
+    "time_s": 3.1519999999998745,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.010804099962115288,
+    "constraint_budget_ratio": 0.20374541705459018,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_180",
+    "index": 788,
+    "time_s": 3.1519999999998745,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: Reduced hierarchy level rejected: solved",
+    "solve_time_s": 0.07599909999407828,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_180",
+    "index": 883,
+    "time_s": 3.5319999999998326,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.011844599968753755,
+    "constraint_budget_ratio": 6.045194511896361e-09,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_180",
+    "index": 883,
+    "time_s": 3.5319999999998326,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: Reduced hierarchy level rejected: maximum iterations reached",
+    "solve_time_s": 0.3585347000043839,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_180",
+    "index": 892,
+    "time_s": 3.5679999999998286,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.011246099951677024,
+    "constraint_budget_ratio": 2.4405364329796522e-08,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_180",
+    "index": 892,
+    "time_s": 3.5679999999998286,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: Reduced hierarchy level rejected: maximum iterations reached",
+    "solve_time_s": 0.3369803999667056,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_180",
+    "index": 893,
+    "time_s": 3.571999999999828,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.010635900020133704,
+    "constraint_budget_ratio": 2.192294822157436e-08,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_180",
+    "index": 893,
+    "time_s": 3.571999999999828,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: Reduced hierarchy level rejected: solved",
+    "solve_time_s": 0.20304150000447407,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_180",
+    "index": 898,
+    "time_s": 3.591999999999826,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.012109400006011128,
+    "constraint_budget_ratio": 3.026337458745055e-09,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_180",
+    "index": 898,
+    "time_s": 3.591999999999826,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: Reduced hierarchy level rejected: maximum iterations reached",
+    "solve_time_s": 0.3230342000024393,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_180",
+    "index": 913,
+    "time_s": 3.6519999999998194,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.010929600044619292,
+    "constraint_budget_ratio": 9.058193075486372e-10,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_180",
+    "index": 913,
+    "time_s": 3.6519999999998194,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: Reduced hierarchy level rejected: solved",
+    "solve_time_s": 0.22746710001956671,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_270",
+    "index": 749,
+    "time_s": 2.9959999999998916,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.010154399962630123,
+    "constraint_budget_ratio": 2.6645352591003046e-11,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_270",
+    "index": 749,
+    "time_s": 2.9959999999998916,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.11231220001354814,
+    "constraint_budget_ratio": 1.257489176777408e-09,
+    "hierarchy_max_lock_excess": 3.343986323874085e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 1.0063340915017863e-05,
+        "free_dimensions": 61
+      },
+      {
+        "name": "balance",
+        "residual_norm": 2.870725908773871,
+        "free_dimensions": 49
+      },
+      {
+        "name": "reach",
+        "residual_norm": 1.193319545993438e-07,
+        "free_dimensions": 37
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 154.59763664058906,
+        "free_dimensions": 34
+      }
+    ]
+  },
+  {
+    "case": "direction_270",
+    "index": 764,
+    "time_s": 3.055999999999885,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.009849300025962293,
+    "constraint_budget_ratio": 0.13740577615112842,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_270",
+    "index": 764,
+    "time_s": 3.055999999999885,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: Reduced hierarchy level rejected: solved",
+    "solve_time_s": 0.07040940003935248,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_270",
+    "index": 773,
+    "time_s": 3.091999999999881,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.00940079998690635,
+    "constraint_budget_ratio": 0.008218849913340915,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_270",
+    "index": 773,
+    "time_s": 3.091999999999881,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: Reduced hierarchy level rejected: solved",
+    "solve_time_s": 0.0589752999949269,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_270",
+    "index": 774,
+    "time_s": 3.0959999999998806,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.009786700014956295,
+    "constraint_budget_ratio": 0.008522560065497172,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_270",
+    "index": 774,
+    "time_s": 3.0959999999998806,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: Reduced hierarchy level rejected: solved",
+    "solve_time_s": 0.07732570002553985,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_270",
+    "index": 779,
+    "time_s": 3.1159999999998784,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.009442500013392419,
+    "constraint_budget_ratio": 0.013091908160235225,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_270",
+    "index": 779,
+    "time_s": 3.1159999999998784,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: Reduced hierarchy level rejected: maximum iterations reached",
+    "solve_time_s": 0.17968480003764853,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_270",
+    "index": 788,
+    "time_s": 3.1519999999998745,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.008521999989170581,
+    "constraint_budget_ratio": 4.9471357034265356e-11,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_270",
+    "index": 788,
+    "time_s": 3.1519999999998745,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: Reduced hierarchy level rejected: solved",
+    "solve_time_s": 0.10337289999006316,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_270",
+    "index": 794,
+    "time_s": 3.175999999999872,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.008359100029338151,
+    "constraint_budget_ratio": 3.552713678800374e-11,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_270",
+    "index": 794,
+    "time_s": 3.175999999999872,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: Reduced hierarchy level rejected: primal infeasible",
+    "solve_time_s": 0.014130499970633537,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "magnitude_80",
+    "index": 749,
+    "time_s": 2.9959999999998916,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.010025900031905621,
+    "constraint_budget_ratio": 2.6645352591003046e-11,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "magnitude_80",
+    "index": 749,
+    "time_s": 2.9959999999998916,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.08623160002753139,
+    "constraint_budget_ratio": 1.257489176777408e-09,
+    "hierarchy_max_lock_excess": 3.343986323874085e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 1.0063340915017863e-05,
+        "free_dimensions": 61
+      },
+      {
+        "name": "balance",
+        "residual_norm": 2.870725908773871,
+        "free_dimensions": 49
+      },
+      {
+        "name": "reach",
+        "residual_norm": 1.193319545993438e-07,
+        "free_dimensions": 37
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 154.59763664058906,
+        "free_dimensions": 34
+      }
+    ]
+  },
+  {
+    "case": "magnitude_80",
+    "index": 788,
+    "time_s": 3.1519999999998745,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.00893849995918572,
+    "constraint_budget_ratio": 5.372147171527347e-09,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "magnitude_80",
+    "index": 788,
+    "time_s": 3.1519999999998745,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: Reduced hierarchy level rejected: maximum iterations reached",
+    "solve_time_s": 0.21514480002224445,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "magnitude_80",
+    "index": 838,
+    "time_s": 3.3519999999998524,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.00905709998914972,
+    "constraint_budget_ratio": 2.1849189124618304e-10,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "magnitude_80",
+    "index": 838,
+    "time_s": 3.3519999999998524,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: Reduced hierarchy level rejected: maximum iterations reached",
+    "solve_time_s": 0.25702000001911074,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "magnitude_80",
+    "index": 847,
+    "time_s": 3.3879999999998485,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.008983800013083965,
+    "constraint_budget_ratio": 2.0394796962359964e-10,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "magnitude_80",
+    "index": 847,
+    "time_s": 3.3879999999998485,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: Reduced hierarchy level rejected: primal infeasible",
+    "solve_time_s": 0.10471260000485927,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "magnitude_80",
+    "index": 848,
+    "time_s": 3.391999999999848,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.008864099974744022,
+    "constraint_budget_ratio": 2.038369473211372e-10,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "magnitude_80",
+    "index": 848,
+    "time_s": 3.391999999999848,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: Reduced hierarchy level rejected: primal infeasible",
+    "solve_time_s": 0.10629339999286458,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "magnitude_80",
+    "index": 853,
+    "time_s": 3.411999999999846,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.009586800006218255,
+    "constraint_budget_ratio": 1.9828583219801367e-10,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "magnitude_80",
+    "index": 853,
+    "time_s": 3.411999999999846,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: Reduced hierarchy level rejected: primal infeasible",
+    "solve_time_s": 0.06967200001236051,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "magnitude_80",
+    "index": 868,
+    "time_s": 3.471999999999839,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.008945000008679926,
+    "constraint_budget_ratio": 1.9340085088966487e-10,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "magnitude_80",
+    "index": 868,
+    "time_s": 3.471999999999839,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: Reduced hierarchy level rejected: maximum iterations reached",
+    "solve_time_s": 0.18610639998223633,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  }
+]

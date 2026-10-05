@@ -1,0 +1,1687 @@
+[
+  {
+    "case": "control",
+    "index": 749,
+    "time_s": 2.9959999999998916,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.011973099957685918,
+    "constraint_budget_ratio": 2.6645352591003046e-11,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "control",
+    "index": 749,
+    "time_s": 2.9959999999998916,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.05330820003291592,
+    "constraint_budget_ratio": 1.2192975236837376e-09,
+    "hierarchy_max_lock_excess": 3.695574197462263e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 1.0063329331868573e-05,
+        "free_dimensions": 61,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "balance",
+        "residual_norm": 2.870725329632477,
+        "free_dimensions": 49,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "reach",
+        "residual_norm": 4.0703774119624067e-13,
+        "free_dimensions": 37,
+        "constant_inequality_count": 21
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 155.3224215467616,
+        "free_dimensions": 34,
+        "constant_inequality_count": 21
+      }
+    ]
+  },
+  {
+    "case": "control",
+    "index": 778,
+    "time_s": 3.111999999999879,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.010853899992071092,
+    "constraint_budget_ratio": 2.7037816430135644e-09,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "control",
+    "index": 778,
+    "time_s": 3.111999999999879,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.039233500021509826,
+    "constraint_budget_ratio": 5.335287766853999e-08,
+    "hierarchy_max_lock_excess": 1.7452374608635296e-11,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 0.1939507932767909,
+        "free_dimensions": 45,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "balance",
+        "residual_norm": 9.051054542512675,
+        "free_dimensions": 35,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "reach",
+        "residual_norm": 2518.0647097675783,
+        "free_dimensions": 23,
+        "constant_inequality_count": 9
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 537.5096613492709,
+        "free_dimensions": 20,
+        "constant_inequality_count": 9
+      }
+    ]
+  },
+  {
+    "case": "control",
+    "index": 787,
+    "time_s": 3.147999999999875,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.01021259999834001,
+    "constraint_budget_ratio": 1.0738576694420278e-08,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "control",
+    "index": 787,
+    "time_s": 3.147999999999875,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.042322499968577176,
+    "constraint_budget_ratio": 1.7495911603698982e-09,
+    "hierarchy_max_lock_excess": 5.049182543593753e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 0.2105156189932417,
+        "free_dimensions": 45,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "balance",
+        "residual_norm": 12.457905559470193,
+        "free_dimensions": 35,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "reach",
+        "residual_norm": 3554.8832936005656,
+        "free_dimensions": 23,
+        "constant_inequality_count": 9
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 588.2046988839312,
+        "free_dimensions": 20,
+        "constant_inequality_count": 9
+      }
+    ]
+  },
+  {
+    "case": "control",
+    "index": 788,
+    "time_s": 3.1519999999998745,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.010138100013136864,
+    "constraint_budget_ratio": 1.088723555741437e-08,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "control",
+    "index": 788,
+    "time_s": 3.1519999999998745,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: reach: Reduced hierarchy level rejected: InsufficientProgress",
+    "solve_time_s": 0.03289570001652464,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "control",
+    "index": 793,
+    "time_s": 3.1719999999998723,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.009581400023307651,
+    "constraint_budget_ratio": 7.308154081844146e-09,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "control",
+    "index": 793,
+    "time_s": 3.1719999999998723,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.04819189995760098,
+    "constraint_budget_ratio": 3.932526918814482e-10,
+    "hierarchy_max_lock_excess": 5.8395946907294505e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 0.11021852975585018,
+        "free_dimensions": 45,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "balance",
+        "residual_norm": 12.99449370299053,
+        "free_dimensions": 35,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "reach",
+        "residual_norm": 3619.7283636005536,
+        "free_dimensions": 23,
+        "constant_inequality_count": 9
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 594.4188612912607,
+        "free_dimensions": 20,
+        "constant_inequality_count": 9
+      }
+    ]
+  },
+  {
+    "case": "control",
+    "index": 808,
+    "time_s": 3.2319999999998656,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.011056000017561018,
+    "constraint_budget_ratio": 1.66243048952046e-10,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "control",
+    "index": 808,
+    "time_s": 3.2319999999998656,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.035131300042849034,
+    "constraint_budget_ratio": 1.876609547707569e-10,
+    "hierarchy_max_lock_excess": 8.708702502213867e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 0.006676537035607406,
+        "free_dimensions": 45,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "balance",
+        "residual_norm": 13.91891719808299,
+        "free_dimensions": 35,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "reach",
+        "residual_norm": 3339.5669925862235,
+        "free_dimensions": 23,
+        "constant_inequality_count": 9
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 621.3664716750345,
+        "free_dimensions": 20,
+        "constant_inequality_count": 9
+      }
+    ]
+  },
+  {
+    "case": "direction_45",
+    "index": 749,
+    "time_s": 2.9959999999998916,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.012218000018037856,
+    "constraint_budget_ratio": 2.6645352591003046e-11,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_45",
+    "index": 749,
+    "time_s": 2.9959999999998916,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.054984499991405755,
+    "constraint_budget_ratio": 1.2192975236837376e-09,
+    "hierarchy_max_lock_excess": 3.695574197462263e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 1.0063329331868573e-05,
+        "free_dimensions": 61,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "balance",
+        "residual_norm": 2.870725329632477,
+        "free_dimensions": 49,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "reach",
+        "residual_norm": 4.0703774119624067e-13,
+        "free_dimensions": 37,
+        "constant_inequality_count": 21
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 155.3224215467616,
+        "free_dimensions": 34,
+        "constant_inequality_count": 21
+      }
+    ]
+  },
+  {
+    "case": "direction_45",
+    "index": 778,
+    "time_s": 3.111999999999879,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.014461299986578524,
+    "constraint_budget_ratio": 4.56930578898523e-09,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_45",
+    "index": 778,
+    "time_s": 3.111999999999879,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.054362400027457625,
+    "constraint_budget_ratio": 3.0196294469585153e-10,
+    "hierarchy_max_lock_excess": 1.1517034741026716e-11,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 0.49457215488839995,
+        "free_dimensions": 45,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "balance",
+        "residual_norm": 7.183642268624832,
+        "free_dimensions": 36,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "reach",
+        "residual_norm": 2173.019002568461,
+        "free_dimensions": 24,
+        "constant_inequality_count": 15
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 572.0684984077682,
+        "free_dimensions": 21,
+        "constant_inequality_count": 15
+      }
+    ]
+  },
+  {
+    "case": "direction_45",
+    "index": 787,
+    "time_s": 3.147999999999875,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.010470299981534481,
+    "constraint_budget_ratio": 6.366843386678262e-10,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_45",
+    "index": 787,
+    "time_s": 3.147999999999875,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: remaining: Reduced hierarchy level rejected: AlmostPrimalInfeasible",
+    "solve_time_s": 2.1637253999942914,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_45",
+    "index": 788,
+    "time_s": 3.1519999999998745,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.009346899983938783,
+    "constraint_budget_ratio": 3.4324065544212145e-09,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_45",
+    "index": 788,
+    "time_s": 3.1519999999998745,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.03971270000329241,
+    "constraint_budget_ratio": 1.140194963292184e-09,
+    "hierarchy_max_lock_excess": 5.204145282284736e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 0.3483371105903242,
+        "free_dimensions": 45,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "balance",
+        "residual_norm": 9.24867784381696,
+        "free_dimensions": 36,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "reach",
+        "residual_norm": 2479.0804600085353,
+        "free_dimensions": 24,
+        "constant_inequality_count": 15
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 574.2688263205907,
+        "free_dimensions": 21,
+        "constant_inequality_count": 15
+      }
+    ]
+  },
+  {
+    "case": "direction_45",
+    "index": 793,
+    "time_s": 3.1719999999998723,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.012711599993053824,
+    "constraint_budget_ratio": 2.1933060921288518e-10,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_45",
+    "index": 793,
+    "time_s": 3.1719999999998723,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: remaining: Reduced hierarchy level rejected: AlmostPrimalInfeasible",
+    "solve_time_s": 2.1153289999929257,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_45",
+    "index": 808,
+    "time_s": 3.2319999999998656,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.012955799989867955,
+    "constraint_budget_ratio": 9.6842206313666e-11,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_45",
+    "index": 808,
+    "time_s": 3.2319999999998656,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.02539620001334697,
+    "constraint_budget_ratio": 1.6774765687281013e-09,
+    "hierarchy_max_lock_excess": 4.902869864020454e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 1.6504885187540938e-12,
+        "free_dimensions": 37,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "balance",
+        "residual_norm": 9.098174961885876,
+        "free_dimensions": 31,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "reach",
+        "residual_norm": 1077.4918801069423,
+        "free_dimensions": 19,
+        "constant_inequality_count": 9
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 613.9056865801332,
+        "free_dimensions": 16,
+        "constant_inequality_count": 9
+      }
+    ]
+  },
+  {
+    "case": "direction_90",
+    "index": 749,
+    "time_s": 2.9959999999998916,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.024655799963511527,
+    "constraint_budget_ratio": 2.6645352591003046e-11,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_90",
+    "index": 749,
+    "time_s": 2.9959999999998916,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.04411630000686273,
+    "constraint_budget_ratio": 1.2192975236837376e-09,
+    "hierarchy_max_lock_excess": 3.695574197462263e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 1.0063329331868573e-05,
+        "free_dimensions": 61,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "balance",
+        "residual_norm": 2.870725329632477,
+        "free_dimensions": 49,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "reach",
+        "residual_norm": 4.0703774119624067e-13,
+        "free_dimensions": 37,
+        "constant_inequality_count": 21
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 155.3224215467616,
+        "free_dimensions": 34,
+        "constant_inequality_count": 21
+      }
+    ]
+  },
+  {
+    "case": "direction_90",
+    "index": 762,
+    "time_s": 3.047999999999886,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.01081420003902167,
+    "constraint_budget_ratio": 0.05775951392627816,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_90",
+    "index": 762,
+    "time_s": 3.047999999999886,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.04539089999161661,
+    "constraint_budget_ratio": 3.7731299127083696e-10,
+    "hierarchy_max_lock_excess": 6.187497696438899e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 0.25227450776665117,
+        "free_dimensions": 61,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "balance",
+        "residual_norm": 2.8112304419057574,
+        "free_dimensions": 49,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "reach",
+        "residual_norm": 5.585378505962849e-11,
+        "free_dimensions": 37,
+        "constant_inequality_count": 19
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 207.28892061609574,
+        "free_dimensions": 34,
+        "constant_inequality_count": 19
+      }
+    ]
+  },
+  {
+    "case": "direction_90",
+    "index": 771,
+    "time_s": 3.083999999999882,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.009351999964565039,
+    "constraint_budget_ratio": 7.395603610907705e-11,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_90",
+    "index": 771,
+    "time_s": 3.083999999999882,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.030783800000790507,
+    "constraint_budget_ratio": 1.1863473142249124e-10,
+    "hierarchy_max_lock_excess": 1.9267853810666027e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 0.3307112869229298,
+        "free_dimensions": 49,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "balance",
+        "residual_norm": 3.336926857157402,
+        "free_dimensions": 40,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "reach",
+        "residual_norm": 1.1530642035540376e-10,
+        "free_dimensions": 28,
+        "constant_inequality_count": 15
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 150.7175989613265,
+        "free_dimensions": 25,
+        "constant_inequality_count": 15
+      }
+    ]
+  },
+  {
+    "case": "direction_90",
+    "index": 772,
+    "time_s": 3.0879999999998815,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.009150800004135817,
+    "constraint_budget_ratio": 9.21516336526841e-11,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_90",
+    "index": 772,
+    "time_s": 3.0879999999998815,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.04037060000700876,
+    "constraint_budget_ratio": 8.327890365810771e-10,
+    "hierarchy_max_lock_excess": 2.3786284475256284e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 0.20244409396417828,
+        "free_dimensions": 45,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "balance",
+        "residual_norm": 3.419803593847297,
+        "free_dimensions": 36,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "reach",
+        "residual_norm": 4.615179218791025e-11,
+        "free_dimensions": 24,
+        "constant_inequality_count": 15
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 152.73877310376756,
+        "free_dimensions": 21,
+        "constant_inequality_count": 15
+      }
+    ]
+  },
+  {
+    "case": "direction_90",
+    "index": 777,
+    "time_s": 3.1079999999998793,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.0098483000183478,
+    "constraint_budget_ratio": 1.1636015402114399e-10,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_90",
+    "index": 777,
+    "time_s": 3.1079999999998793,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.027840099995955825,
+    "constraint_budget_ratio": 1.0433637366159821e-09,
+    "hierarchy_max_lock_excess": 1.6046448206129243e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 0.13547838721481875,
+        "free_dimensions": 45,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "balance",
+        "residual_norm": 3.9278027126569413,
+        "free_dimensions": 36,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "reach",
+        "residual_norm": 2.3722504385573177e-10,
+        "free_dimensions": 24,
+        "constant_inequality_count": 15
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 166.3434507700743,
+        "free_dimensions": 21,
+        "constant_inequality_count": 15
+      }
+    ]
+  },
+  {
+    "case": "direction_90",
+    "index": 788,
+    "time_s": 3.1519999999998745,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.008499499992467463,
+    "constraint_budget_ratio": 1.7033222659827815e-10,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_90",
+    "index": 788,
+    "time_s": 3.1519999999998745,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.03843979997327551,
+    "constraint_budget_ratio": 2.382553434935042e-09,
+    "hierarchy_max_lock_excess": 2.5596157276217804e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 0.014197401378964051,
+        "free_dimensions": 41,
+        "constant_inequality_count": 5
+      },
+      {
+        "name": "balance",
+        "residual_norm": 5.3290576001448695,
+        "free_dimensions": 35,
+        "constant_inequality_count": 5
+      },
+      {
+        "name": "reach",
+        "residual_norm": 2.758629555237095e-11,
+        "free_dimensions": 23,
+        "constant_inequality_count": 25
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 231.7210557052112,
+        "free_dimensions": 20,
+        "constant_inequality_count": 25
+      }
+    ]
+  },
+  {
+    "case": "direction_90",
+    "index": 792,
+    "time_s": 3.1679999999998727,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.00943039997946471,
+    "constraint_budget_ratio": 1.2537319680865685e-10,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_90",
+    "index": 792,
+    "time_s": 3.1679999999998727,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.02560380002250895,
+    "constraint_budget_ratio": 2.2704512279745295e-10,
+    "hierarchy_max_lock_excess": 9.870000527301324e-13,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 0.009160688019889684,
+        "free_dimensions": 41,
+        "constant_inequality_count": 5
+      },
+      {
+        "name": "balance",
+        "residual_norm": 5.26977228607536,
+        "free_dimensions": 35,
+        "constant_inequality_count": 5
+      },
+      {
+        "name": "reach",
+        "residual_norm": 6.016194001973708e-11,
+        "free_dimensions": 23,
+        "constant_inequality_count": 25
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 219.63306491797164,
+        "free_dimensions": 20,
+        "constant_inequality_count": 25
+      }
+    ]
+  },
+  {
+    "case": "direction_180",
+    "index": 749,
+    "time_s": 2.9959999999998916,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.010668299975804985,
+    "constraint_budget_ratio": 2.6645352591003046e-11,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_180",
+    "index": 749,
+    "time_s": 2.9959999999998916,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.046214999980293214,
+    "constraint_budget_ratio": 1.2192975236837376e-09,
+    "hierarchy_max_lock_excess": 3.695574197462263e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 1.0063329331868573e-05,
+        "free_dimensions": 61,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "balance",
+        "residual_norm": 2.870725329632477,
+        "free_dimensions": 49,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "reach",
+        "residual_norm": 4.0703774119624067e-13,
+        "free_dimensions": 37,
+        "constant_inequality_count": 21
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 155.3224215467616,
+        "free_dimensions": 34,
+        "constant_inequality_count": 21
+      }
+    ]
+  },
+  {
+    "case": "direction_180",
+    "index": 788,
+    "time_s": 3.1519999999998745,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.010906399984378368,
+    "constraint_budget_ratio": 0.20374541705459018,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_180",
+    "index": 788,
+    "time_s": 3.1519999999998745,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.03819420002400875,
+    "constraint_budget_ratio": 2.628786077700535e-09,
+    "hierarchy_max_lock_excess": 5.112393517993426e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 1.4103590036358307,
+        "free_dimensions": 45,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "balance",
+        "residual_norm": 7.589035071219136,
+        "free_dimensions": 35,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "reach",
+        "residual_norm": 2697.9714653250044,
+        "free_dimensions": 23,
+        "constant_inequality_count": 9
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 540.3882612555126,
+        "free_dimensions": 20,
+        "constant_inequality_count": 9
+      }
+    ]
+  },
+  {
+    "case": "direction_180",
+    "index": 883,
+    "time_s": 3.5319999999998326,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.01161569997202605,
+    "constraint_budget_ratio": 6.045194511896361e-09,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_180",
+    "index": 883,
+    "time_s": 3.5319999999998326,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: remaining: Reduced hierarchy level rejected: InsufficientProgress",
+    "solve_time_s": 0.04347600002074614,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_180",
+    "index": 892,
+    "time_s": 3.5679999999998286,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.010975400044117123,
+    "constraint_budget_ratio": 2.4405364329796522e-08,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_180",
+    "index": 892,
+    "time_s": 3.5679999999998286,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.04570340004283935,
+    "constraint_budget_ratio": 8.538628857650298e-06,
+    "hierarchy_max_lock_excess": 1.1988728097706394e-11,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 0.035708357609014744,
+        "free_dimensions": 53,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "balance",
+        "residual_norm": 75.93145330457436,
+        "free_dimensions": 41,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "reach",
+        "residual_norm": 3162.1079346236406,
+        "free_dimensions": 29,
+        "constant_inequality_count": 21
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 629.4049541641413,
+        "free_dimensions": 26,
+        "constant_inequality_count": 21
+      }
+    ]
+  },
+  {
+    "case": "direction_180",
+    "index": 893,
+    "time_s": 3.571999999999828,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.009746900002937764,
+    "constraint_budget_ratio": 2.192294822157436e-08,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_180",
+    "index": 893,
+    "time_s": 3.571999999999828,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.0564549999544397,
+    "constraint_budget_ratio": 1.8539586702730129e-06,
+    "hierarchy_max_lock_excess": 9.825399699208069e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 0.042952058193779716,
+        "free_dimensions": 53,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "balance",
+        "residual_norm": 77.92590467054607,
+        "free_dimensions": 41,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "reach",
+        "residual_norm": 3160.7231527990652,
+        "free_dimensions": 29,
+        "constant_inequality_count": 21
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 629.9392621069175,
+        "free_dimensions": 26,
+        "constant_inequality_count": 21
+      }
+    ]
+  },
+  {
+    "case": "direction_180",
+    "index": 898,
+    "time_s": 3.591999999999826,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.019396200019400567,
+    "constraint_budget_ratio": 3.026337458745055e-09,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_180",
+    "index": 898,
+    "time_s": 3.591999999999826,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: reach: Reduced hierarchy level rejected: InsufficientProgress",
+    "solve_time_s": 0.0342901999829337,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_180",
+    "index": 913,
+    "time_s": 3.6519999999998194,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.013514299993403256,
+    "constraint_budget_ratio": 9.058193075486372e-10,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_180",
+    "index": 913,
+    "time_s": 3.6519999999998194,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.043928899976890534,
+    "constraint_budget_ratio": 7.657451247410449e-07,
+    "hierarchy_max_lock_excess": 1.7008115102989022e-11,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 0.023629698985528674,
+        "free_dimensions": 53,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "balance",
+        "residual_norm": 127.9061313374345,
+        "free_dimensions": 41,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "reach",
+        "residual_norm": 3168.003590214706,
+        "free_dimensions": 29,
+        "constant_inequality_count": 21
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 651.1540316645776,
+        "free_dimensions": 26,
+        "constant_inequality_count": 21
+      }
+    ]
+  },
+  {
+    "case": "direction_270",
+    "index": 749,
+    "time_s": 2.9959999999998916,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.017836400016676635,
+    "constraint_budget_ratio": 2.6645352591003046e-11,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_270",
+    "index": 749,
+    "time_s": 2.9959999999998916,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.04312690004007891,
+    "constraint_budget_ratio": 1.2192975236837376e-09,
+    "hierarchy_max_lock_excess": 3.695574197462263e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 1.0063329331868573e-05,
+        "free_dimensions": 61,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "balance",
+        "residual_norm": 2.870725329632477,
+        "free_dimensions": 49,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "reach",
+        "residual_norm": 4.0703774119624067e-13,
+        "free_dimensions": 37,
+        "constant_inequality_count": 21
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 155.3224215467616,
+        "free_dimensions": 34,
+        "constant_inequality_count": 21
+      }
+    ]
+  },
+  {
+    "case": "direction_270",
+    "index": 764,
+    "time_s": 3.055999999999885,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.010284300020430237,
+    "constraint_budget_ratio": 0.13740577615112842,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_270",
+    "index": 764,
+    "time_s": 3.055999999999885,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.03880640002898872,
+    "constraint_budget_ratio": 2.700062395887652e-10,
+    "hierarchy_max_lock_excess": 6.31312353136067e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 0.3413531057936285,
+        "free_dimensions": 53,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "balance",
+        "residual_norm": 3.9840260121532065,
+        "free_dimensions": 42,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "reach",
+        "residual_norm": 4.613503439054414e-11,
+        "free_dimensions": 30,
+        "constant_inequality_count": 15
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 160.30228738463524,
+        "free_dimensions": 27,
+        "constant_inequality_count": 15
+      }
+    ]
+  },
+  {
+    "case": "direction_270",
+    "index": 773,
+    "time_s": 3.091999999999881,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.009832800016738474,
+    "constraint_budget_ratio": 0.008218849913340915,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_270",
+    "index": 773,
+    "time_s": 3.091999999999881,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.035255599999800324,
+    "constraint_budget_ratio": 5.54223333892571e-10,
+    "hierarchy_max_lock_excess": 5.834244522578367e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 0.07055072316465445,
+        "free_dimensions": 45,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "balance",
+        "residual_norm": 5.133372291857469,
+        "free_dimensions": 36,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "reach",
+        "residual_norm": 376.347568578714,
+        "free_dimensions": 24,
+        "constant_inequality_count": 15
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 564.4803523130156,
+        "free_dimensions": 21,
+        "constant_inequality_count": 15
+      }
+    ]
+  },
+  {
+    "case": "direction_270",
+    "index": 774,
+    "time_s": 3.0959999999998806,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.01602319994708523,
+    "constraint_budget_ratio": 0.008522560065497172,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_270",
+    "index": 774,
+    "time_s": 3.0959999999998806,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.03012069995747879,
+    "constraint_budget_ratio": 3.9740137595569655e-08,
+    "hierarchy_max_lock_excess": 7.766408663886457e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 0.05590530150586845,
+        "free_dimensions": 45,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "balance",
+        "residual_norm": 5.289094370929393,
+        "free_dimensions": 36,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "reach",
+        "residual_norm": 511.2337475649064,
+        "free_dimensions": 24,
+        "constant_inequality_count": 15
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 576.6085372838219,
+        "free_dimensions": 21,
+        "constant_inequality_count": 15
+      }
+    ]
+  },
+  {
+    "case": "direction_270",
+    "index": 779,
+    "time_s": 3.1159999999998784,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.009673699969425797,
+    "constraint_budget_ratio": 0.013091908160235225,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_270",
+    "index": 779,
+    "time_s": 3.1159999999998784,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.029799100011587143,
+    "constraint_budget_ratio": 1.672130000243738e-06,
+    "hierarchy_max_lock_excess": 7.533292377271464e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 0.017958463252980575,
+        "free_dimensions": 45,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "balance",
+        "residual_norm": 6.122142099206983,
+        "free_dimensions": 36,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "reach",
+        "residual_norm": 1324.168300206819,
+        "free_dimensions": 24,
+        "constant_inequality_count": 15
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 601.6856892882521,
+        "free_dimensions": 21,
+        "constant_inequality_count": 15
+      }
+    ]
+  },
+  {
+    "case": "direction_270",
+    "index": 788,
+    "time_s": 3.1519999999998745,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.008557400025893003,
+    "constraint_budget_ratio": 4.9471357034265356e-11,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_270",
+    "index": 788,
+    "time_s": 3.1519999999998745,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.028401400020811707,
+    "constraint_budget_ratio": 1.674427003769279e-06,
+    "hierarchy_max_lock_excess": 6.04679192039908e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 0.004927026038453744,
+        "free_dimensions": 41,
+        "constant_inequality_count": 5
+      },
+      {
+        "name": "balance",
+        "residual_norm": 7.746516155585833,
+        "free_dimensions": 35,
+        "constant_inequality_count": 5
+      },
+      {
+        "name": "reach",
+        "residual_norm": 1795.9749819712115,
+        "free_dimensions": 23,
+        "constant_inequality_count": 24
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 654.5152604831575,
+        "free_dimensions": 20,
+        "constant_inequality_count": 24
+      }
+    ]
+  },
+  {
+    "case": "direction_270",
+    "index": 794,
+    "time_s": 3.175999999999872,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.008510999963618815,
+    "constraint_budget_ratio": 3.552713678800374e-11,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "direction_270",
+    "index": 794,
+    "time_s": 3.175999999999872,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.02355440001701936,
+    "constraint_budget_ratio": 8.263132240817687e-10,
+    "hierarchy_max_lock_excess": 6.521334974146257e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 0.0009066849072231159,
+        "free_dimensions": 37,
+        "constant_inequality_count": 5
+      },
+      {
+        "name": "balance",
+        "residual_norm": 7.698460204991015,
+        "free_dimensions": 32,
+        "constant_inequality_count": 5
+      },
+      {
+        "name": "reach",
+        "residual_norm": 764.8980465800295,
+        "free_dimensions": 20,
+        "constant_inequality_count": 19
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 654.0727989906306,
+        "free_dimensions": 17,
+        "constant_inequality_count": 19
+      }
+    ]
+  },
+  {
+    "case": "magnitude_80",
+    "index": 749,
+    "time_s": 2.9959999999998916,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.012287699966691434,
+    "constraint_budget_ratio": 2.6645352591003046e-11,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "magnitude_80",
+    "index": 749,
+    "time_s": 2.9959999999998916,
+    "variant": "HierarchicalController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.06715029996121302,
+    "constraint_budget_ratio": 1.2192975236837376e-09,
+    "hierarchy_max_lock_excess": 3.695574197462263e-12,
+    "hierarchy_levels": [
+      {
+        "name": "contact_slack",
+        "residual_norm": 1.0063329331868573e-05,
+        "free_dimensions": 61,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "balance",
+        "residual_norm": 2.870725329632477,
+        "free_dimensions": 49,
+        "constant_inequality_count": 0
+      },
+      {
+        "name": "reach",
+        "residual_norm": 4.0703774119624067e-13,
+        "free_dimensions": 37,
+        "constant_inequality_count": 21
+      },
+      {
+        "name": "remaining",
+        "residual_norm": 155.3224215467616,
+        "free_dimensions": 34,
+        "constant_inequality_count": 21
+      }
+    ]
+  },
+  {
+    "case": "magnitude_80",
+    "index": 788,
+    "time_s": 3.1519999999998745,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.014891300001181662,
+    "constraint_budget_ratio": 5.372147171527347e-09,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "magnitude_80",
+    "index": 788,
+    "time_s": 3.1519999999998745,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: remaining: Reduced hierarchy level rejected: InsufficientProgress",
+    "solve_time_s": 0.03560709999874234,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "magnitude_80",
+    "index": 838,
+    "time_s": 3.3519999999998524,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.018640900030732155,
+    "constraint_budget_ratio": 2.1849189124618304e-10,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "magnitude_80",
+    "index": 838,
+    "time_s": 3.3519999999998524,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: reach: Reduced hierarchy level rejected: InsufficientProgress",
+    "solve_time_s": 0.03844169998774305,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "magnitude_80",
+    "index": 847,
+    "time_s": 3.3879999999998485,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.016117399965878576,
+    "constraint_budget_ratio": 2.0394796962359964e-10,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "magnitude_80",
+    "index": 847,
+    "time_s": 3.3879999999998485,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: reach: Reduced hierarchy level rejected: InsufficientProgress",
+    "solve_time_s": 0.02757089998340234,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "magnitude_80",
+    "index": 848,
+    "time_s": 3.391999999999848,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.014059100009035319,
+    "constraint_budget_ratio": 2.038369473211372e-10,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "magnitude_80",
+    "index": 848,
+    "time_s": 3.391999999999848,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: reach: Reduced hierarchy level rejected: InsufficientProgress",
+    "solve_time_s": 0.03007350000552833,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "magnitude_80",
+    "index": 853,
+    "time_s": 3.411999999999846,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.014201399986632168,
+    "constraint_budget_ratio": 1.9828583219801367e-10,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "magnitude_80",
+    "index": 853,
+    "time_s": 3.411999999999846,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: reach: Reduced hierarchy level rejected: InsufficientProgress",
+    "solve_time_s": 0.02517380000790581,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "magnitude_80",
+    "index": 868,
+    "time_s": 3.471999999999839,
+    "variant": "PoseOriginController",
+    "success": true,
+    "message": "",
+    "solve_time_s": 0.009110499988310039,
+    "constraint_budget_ratio": 1.9340085088966487e-10,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  },
+  {
+    "case": "magnitude_80",
+    "index": 868,
+    "time_s": 3.471999999999839,
+    "variant": "HierarchicalController",
+    "success": false,
+    "message": "Hierarchy exception: RuntimeError: reach: Reduced hierarchy level rejected: InsufficientProgress",
+    "solve_time_s": 0.04022849997272715,
+    "constraint_budget_ratio": null,
+    "hierarchy_max_lock_excess": null,
+    "hierarchy_levels": null
+  }
+]

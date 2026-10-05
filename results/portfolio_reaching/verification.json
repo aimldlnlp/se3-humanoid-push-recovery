@@ -1,0 +1,58 @@
+{
+  "baseline_tests_passed": 106,
+  "excluded_tests": [
+    "tests/test_reaching_hierarchy.py"
+  ],
+  "baseline_trajectories_reproduced": {
+    "nominal": true,
+    "moving": true,
+    "hold": true
+  },
+  "independent_outcomes_verified": 11,
+  "initial_states_and_references_verified": true,
+  "perturbations_injected_without_warmup": true,
+  "controller_settings_frozen": true,
+  "baseline_controller_source_hashes_verified": true,
+  "physical_trials_run": 11,
+  "baseline_passed": 3,
+  "sensitivity_passed": 6,
+  "sensitivity_count": 6,
+  "nominal_before_result": "FALL",
+  "corrected_hold_result": "PASS",
+  "lateral_limit_result": "SLIP",
+  "video": {
+    "frames": 150,
+    "fps": 30,
+    "resolution": [
+      1920,
+      1080
+    ],
+    "duration_s": 5,
+    "codec": "h264",
+    "moving_and_nonblank": true,
+    "visually_checked_frames": [
+      90,
+      149
+    ],
+    "camera_fovy_deg": 60
+  },
+  "runtime_versions": {
+    "numpy": "1.26.3",
+    "scipy": "1.12.0",
+    "mujoco": "3.14.0",
+    "osqp": "1.1.3",
+    "matplotlib": "3.8.2",
+    "Pillow": "10.2.0",
+    "PyYAML": "6.0.1",
+    "imageio": "2.34.0",
+    "imageio-ffmpeg": "0.6.0",
+    "glfw": "2.10.2"
+  },
+  "limits": [
+    "Small initial-rate sensitivity only",
+    "No real-time claim",
+    "No hierarchy promotion",
+    "No hardware"
+  ],
+  "provenance_note": "Plan captures pre-simulation runner hash. Render-only framing and contact-loss display were corrected afterward; media_selection records final renderer hash."
+}

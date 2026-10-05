@@ -1,0 +1,333 @@
+{
+  "root": "repository",
+  "files": [
+    {
+      "path": "results/portfolio_reaching/initial_states/nominal.json",
+      "sha256": "b1b2e10cc7395989e6d0edd37b1483ad33d2616e240eb9bebd45c1b8edd9d45a"
+    },
+    {
+      "path": "results/portfolio_reaching/initial_states/nominal.npz",
+      "sha256": "0b1865fd0f14a850dda537381ccd52adec64feffa03082275d5d33668858e27e"
+    },
+    {
+      "path": "results/portfolio_reaching/initial_states/seed_17.json",
+      "sha256": "aaf71b651f67dbb93815500fe8604caa8d4140a1c3fd86f89c49a00bcd203c9f"
+    },
+    {
+      "path": "results/portfolio_reaching/initial_states/seed_17.npz",
+      "sha256": "2c4fb851c7fe647dff8d7dc2c367bf18c0d028e5527724da73cefc307ccc6b30"
+    },
+    {
+      "path": "results/portfolio_reaching/initial_states/seed_29.json",
+      "sha256": "27ee43f0ca22a9779c477f4fb2ccc0e6be111b405229e2c57587b25ee6aaa2a3"
+    },
+    {
+      "path": "results/portfolio_reaching/initial_states/seed_29.npz",
+      "sha256": "5fe7545376b722a42fe89d104acb1650caae7ea5f3dd6ea8ce58b6bc0d34de04"
+    },
+    {
+      "path": "results/portfolio_reaching/logs/before_hold.txt",
+      "sha256": "57732b01d184eadf93e85d4e7b4cc5472a9d4ca8a6aae0db4a6a696b920b7deb",
+      "hashing": "lf-normalized"
+    },
+    {
+      "path": "results/portfolio_reaching/logs/corrected_hold.txt",
+      "sha256": "00574f89cd4ca13414ccf87fee9f93f7853e17d9267c20a057cb44fc8749b415",
+      "hashing": "lf-normalized"
+    },
+    {
+      "path": "results/portfolio_reaching/logs/corrected_moving.txt",
+      "sha256": "fca075dc6d5c918d866e0bbe255ab2ae5a4628b5dbc6302c02586e4f605e93bb",
+      "hashing": "lf-normalized"
+    },
+    {
+      "path": "results/portfolio_reaching/logs/corrected_nominal.txt",
+      "sha256": "5507565c150da1372002df92b44af53c23af667b1f6aee5c7e0b7cd16dbb3a51",
+      "hashing": "lf-normalized"
+    },
+    {
+      "path": "results/portfolio_reaching/logs/lateral_hold.txt",
+      "sha256": "f8c45b9d41a708550bae4cf9554b61fd39f06c58882a4b2c5fbf1f7051e5ed81",
+      "hashing": "lf-normalized"
+    },
+    {
+      "path": "results/portfolio_reaching/logs/seed_17_hold.txt",
+      "sha256": "ccf6a19480f0234c4f11fc9338956c02736978e7f7a737763535298af423e56c",
+      "hashing": "lf-normalized"
+    },
+    {
+      "path": "results/portfolio_reaching/logs/seed_17_moving.txt",
+      "sha256": "726b10a78b0a2429845e9ba274fec1f6ae9372cfa6229e0848c6de39d92c3cbc",
+      "hashing": "lf-normalized"
+    },
+    {
+      "path": "results/portfolio_reaching/logs/seed_17_nominal.txt",
+      "sha256": "ac4650dc680296b63346ed20367267a25383a14dcba39f7e2a2a7a070eebcfac",
+      "hashing": "lf-normalized"
+    },
+    {
+      "path": "results/portfolio_reaching/logs/seed_29_hold.txt",
+      "sha256": "1c417a8d83b03a433eef7b4949ce03be77ed28c2b9c1d27c3e2f436c2ffc6c6a",
+      "hashing": "lf-normalized"
+    },
+    {
+      "path": "results/portfolio_reaching/logs/seed_29_moving.txt",
+      "sha256": "14d5964734d5a3af26b3a2defdce4d1ac4286b64ab90b13731f69e899f7757c3",
+      "hashing": "lf-normalized"
+    },
+    {
+      "path": "results/portfolio_reaching/logs/seed_29_nominal.txt",
+      "sha256": "320f9d74d4fd337624f91886d46f95c9db5578e4a21d040d541e66c9160f30a9",
+      "hashing": "lf-normalized"
+    },
+    {
+      "path": "results/portfolio_reaching/media_selection.json",
+      "sha256": "e109083d132010e158263e695ca062c25997c97d5f76e4e7f4eb417c1c934cbb"
+    },
+    {
+      "path": "results/portfolio_reaching/perturbations.json",
+      "sha256": "a72cab7e25713fa5ae597047dff474f909d68f4dd2283ca887aaeecd7dfe7d5a"
+    },
+    {
+      "path": "results/portfolio_reaching/plan.json",
+      "sha256": "a2fd0bf1c29d53d90ee7252d47ce761a92bd8d537e181b8292ef90b144a83f97"
+    },
+    {
+      "path": "results/portfolio_reaching/study.csv",
+      "sha256": "f58967f33903250ec7a784929c85db5521dd26e67a8abd969f4a908b47bcacb5"
+    },
+    {
+      "path": "results/portfolio_reaching/study.json",
+      "sha256": "8a97a72e04c44034831a8a6e1972a59e7f46f198e30699bb592bf987f68182e4"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/before_hold/reaching_response.pdf",
+      "sha256": "90175d79f1bc38f98986a2285a0f0a8f518fdebced3678e5a5e4150001de7907"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/before_hold/reaching_response.png",
+      "sha256": "4d1232c8169cd3fa4c59bf77ed68db95316648fff9d8e4295326ac7ecef5b58c"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/before_hold/summary.json",
+      "sha256": "1b499f3b60a5612ed02ad81459c83dccc32b780c75fff9348ce2cb58bc8f14ae"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/before_hold/trajectory.npz",
+      "sha256": "70f2564c4cf72bf022c35cd73c4b5639798c6659e9c58e2d34da4a15f881ae15"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/corrected_hold/reaching_response.pdf",
+      "sha256": "995a3774413f304f6c95c6e6c6148591237a41aae0bd9ab8b7fb5b6cf185bef5"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/corrected_hold/reaching_response.png",
+      "sha256": "871427a64e1ba556dc6acd7c66b0a1644edaf076fa17de917038aee9e14083c5"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/corrected_hold/summary.json",
+      "sha256": "351896d9fde7c0b3179f9fb488894d5614faf12e02cfd55eebff560120989a3b"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/corrected_hold/trajectory.npz",
+      "sha256": "6a61eb46d0853c806b10e9d12073db6c170e718ec41e3e95b79eb5719187ab06"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/corrected_moving/reaching_response.pdf",
+      "sha256": "5eddd258aa93017306f9509069198a3e5bb5a1c270313e871f907e76ea3f8e79"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/corrected_moving/reaching_response.png",
+      "sha256": "ceeed927bc5334bf2a6a7ac093194b0a91b397e8869721dd92fa67954cfa461a"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/corrected_moving/summary.json",
+      "sha256": "fdeb385d8785259c1c1f2adfef210c4387f49fe36e9bc56339a9c3f31949a74d"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/corrected_moving/trajectory.npz",
+      "sha256": "195b7e45bf119e57dba471cc0d9f16a08c696b72bc3bb4ad9da396666a23405f"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/corrected_nominal/reaching_response.pdf",
+      "sha256": "d26b3761d013b4bc940638d40e0dff4194cd81d662d2dd5c74ac129127b9e49b"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/corrected_nominal/reaching_response.png",
+      "sha256": "118c1a24be8364ace21ac85c4cc44c6ed297627adb3f225003800a695ce6882d"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/corrected_nominal/summary.json",
+      "sha256": "53b8bf27d70454675eb202654f2b14220a0009d14c32f080e2533dedc15c05eb"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/corrected_nominal/trajectory.npz",
+      "sha256": "f48b4886286dd5dd846b4233fc4cbff053884e7d45033d80dc66394c7b1e608c"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/lateral_hold/reaching_response.pdf",
+      "sha256": "1bf801739685b06ab2146a7e3649b4eb414b72fa1bd11a3da500fa7560164f37"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/lateral_hold/reaching_response.png",
+      "sha256": "5ac75a31ffa36d49839574c855b38598cfde5ffb8d651b0d14f4432ef3d227fa"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/lateral_hold/summary.json",
+      "sha256": "ddd80eba20b56a617d17d1d82330fe2c30d80c882a12408ae539c22900d61e44"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/lateral_hold/trajectory.npz",
+      "sha256": "c6ab0db22f6c875ffd442ba5edfc06b9fd44b32a54ec0dcc5b6cb3f64cceaf14"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/seed_17_hold/reaching_response.pdf",
+      "sha256": "a61de65db66e40ab0eb8f9c1efc2f5e1e27a4659c88cdb1ea911de625b376b8c"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/seed_17_hold/reaching_response.png",
+      "sha256": "8a2a489cb02b327e87136ea583d128f8e3df693c646de6bb0e0f89390d47e0e7"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/seed_17_hold/summary.json",
+      "sha256": "b1bf074ffdd1c31512b80c40accbfc0d8e6e91352bd85811ca0fa70aafad0f48"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/seed_17_hold/trajectory.npz",
+      "sha256": "8cb3af6e30a6f252360590f89a1d7978c8ddf2bc2c0c324313f770b4177e08f8"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/seed_17_moving/reaching_response.pdf",
+      "sha256": "38eed1fb44f9c678c9957d123384c9b3db3355a252dc0f191905ea949b5499c3"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/seed_17_moving/reaching_response.png",
+      "sha256": "003f17a8ae28eeeb0b0732e2e01bc27b2ed2e09d9e3f3ee05d81adf5b924753b"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/seed_17_moving/summary.json",
+      "sha256": "861c3a1ca595e1eae088a492501f34530c69ec01a798cba88fd5523cb1deef69"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/seed_17_moving/trajectory.npz",
+      "sha256": "5b7131c657ba78d7d028b1ec419ad85c948eab87abb52f82d1e174730b55fa4e"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/seed_17_nominal/reaching_response.pdf",
+      "sha256": "3eb5e6c31f7d45d5ffb8d71ee6e75c0f9fe713ae2c1d82f008619df14a415a15"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/seed_17_nominal/reaching_response.png",
+      "sha256": "7762030b195995cbd7ad1f802afcba6921d828cc8804f56e03197c97095d41d5"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/seed_17_nominal/summary.json",
+      "sha256": "2cfbf47f179246343e0668eddc549079139ac165791ca181c848d477c5aadc8e"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/seed_17_nominal/trajectory.npz",
+      "sha256": "0c4a1b7b5b76eb8aca3e5c7aa25933d88842bef68e2290bea657757112879267"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/seed_29_hold/reaching_response.pdf",
+      "sha256": "fbf80a037f0d23f87385c7bafb5c8cc6a4b192febb5b27254f27dde567336386"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/seed_29_hold/reaching_response.png",
+      "sha256": "2373e3ce535d584ad80f712a9ab5df01c250c6aceb7aa3bb5fdeb1e1c5a0a0bc"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/seed_29_hold/summary.json",
+      "sha256": "d1b530d2e60dc088b087046f07d760f4747bc98d8e433ed2dbda7e879a35d966"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/seed_29_hold/trajectory.npz",
+      "sha256": "09a17f132fcad4b8d3e41e3c2484e59a27b53f82e5f2ef6868ecd15258a5af7a"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/seed_29_moving/reaching_response.pdf",
+      "sha256": "88e9664e746e624bbe707911d0c115ff82721ea4757ff648414b64943da92670"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/seed_29_moving/reaching_response.png",
+      "sha256": "0d48487765524e79abeb45c97fe02bfd40475d2ae40a91c04f0fb490f8dbab21"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/seed_29_moving/summary.json",
+      "sha256": "2c4b20e7bdb08df28f6211860d96e02237350d9e6cdfccb2f9622b354034b33a"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/seed_29_moving/trajectory.npz",
+      "sha256": "c113f5b0e6e6424ec2bf3c55d85e452d39fe73088afc5dfb16f39fb553199372"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/seed_29_nominal/reaching_response.pdf",
+      "sha256": "80b7312b6a804c9d940af35a73b0a4fad6f73761150600b1b9b4fc39d6835ce9"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/seed_29_nominal/reaching_response.png",
+      "sha256": "f813b69ff3c9446297fd56df2d10b9fb238deee2fd4be7aeed835decfb8980fc"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/seed_29_nominal/summary.json",
+      "sha256": "09ffaed4bb6db31f72d7940fe390cf0827e7ec0827dc2ecaa822ec812c2c360a"
+    },
+    {
+      "path": "results/portfolio_reaching/trials/seed_29_nominal/trajectory.npz",
+      "sha256": "d06dca690623f67ddc162f8530285cc70a637bf563747b319986c8d29ab17fdf"
+    },
+    {
+      "path": "results/portfolio_reaching/verification.json",
+      "sha256": "d38e439708b0c25aaa520445232a1846c49c367d80c3d6a370be2208ae9d0712"
+    },
+    {
+      "path": "assets/demos/reach-before-after.mp4",
+      "sha256": "04f58c2df98ca66f56a0f5a69c7da62e99f91bdfba5b820d47541aab855b21d6"
+    },
+    {
+      "path": "assets/demos/reach-before-after-preview.jpg",
+      "sha256": "5a5abd30b1eaf8b5167b4b88f337a50eec4cd2fca97027a5cf9d99a80ad5fcdf"
+    },
+    {
+      "path": "requirements-portfolio.txt",
+      "sha256": "982fc04d759796d0b92dca7aa937f000800dbcdd41502a5c4be0b7558f2749f0",
+      "hashing": "lf-normalized"
+    },
+    {
+      "path": "docs/PORTFOLIO_BASELINE.md",
+      "sha256": "a1d5852b02dfa19cc9eb9125935c0750acf3995665fc1823e8344debb3e037ee",
+      "hashing": "lf-normalized"
+    },
+    {
+      "path": "scripts/run_portfolio_reaching.py",
+      "sha256": "0e53686ffa998ea8481088e77cb488283606f00631be62893c03cd4520f16b82",
+      "hashing": "lf-normalized"
+    },
+    {
+      "path": "tests/test_portfolio_reaching.py",
+      "sha256": "e79899ab4bed7c042bcf8e2eca801e0707a92c2d2d5e5cfe5ff6bf8069501f93",
+      "hashing": "lf-normalized"
+    },
+    {
+      "path": "experiments/reach_and_balance.py",
+      "sha256": "604062c9ba6f2d953084815ab21bae646a7d8a99d2d2bb7f1ae229f8f1ee3535",
+      "hashing": "lf-normalized"
+    },
+    {
+      "path": "experiments/reaching_workspace.py",
+      "sha256": "908f98b462ea76fd10eb69c4b863e5fc73e9da66c0ad97f75acb3b19ad59c315",
+      "hashing": "lf-normalized"
+    },
+    {
+      "path": "experiments/reaching_contact_mode.py",
+      "sha256": "61a8b81effb13b1f3d32f25b681d28a4c67c6a4473e5db71c9a658d1e29e2b51",
+      "hashing": "lf-normalized"
+    },
+    {
+      "path": "experiments/reaching_pose_origin.py",
+      "sha256": "c3e67e5d52762be41a0b12de7171ff85869d67c4475bcc559160fb9de7d2f3bc",
+      "hashing": "lf-normalized"
+    }
+  ],
+  "hashing_note": "Result and media bytes are exact. Source text is LF-normalized where indicated."
+}

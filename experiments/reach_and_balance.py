@@ -17,7 +17,7 @@ if os.name != 'nt' and not os.environ.get('DISPLAY'):
 import numpy as np
 
 from common import (ROOT, execution_manifest, load_configs, make_model, make_push,
-                    prepare_paired_initial_condition, recovery_config)
+                    prepare_paired_initial_condition, load_paired_initial_condition, recovery_config)
 from se3_whole_body_control.config import load_yaml
 from se3_whole_body_control.control.tasks import ReachTask, quintic_reference
 from se3_whole_body_control.control.whole_body_qp import WholeBodyQPController
@@ -165,6 +165,7 @@ class ReachingController(WholeBodyQPController):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--initial-condition', type=Path)
     parser.add_argument('--push-N', type=float, default=0)
     parser.add_argument('--target-offset-m', type=float, nargs=3)
     parser.add_argument('--push-start-s', type=float, default=1.5)
@@ -246,7 +247,8 @@ def main():
             'com_displacement_threshold_m', 'stable_duration_s')}
         settings['balance_guard']['minimum_weight'] = min(default_reach_weight, settings['weight'])
         settings['balance_guard']['track_arm_posture_during_recovery'] = bool(args.guard_arm_posture)
-    initial = prepare_paired_initial_condition(cfg)
+    initial = (load_paired_initial_condition(args.initial_condition) if args.initial_condition
+               else prepare_paired_initial_condition(cfg))
     cfg['controller'].update(overrides)
     model = make_model(cfg)
     model.reset(initial.qpos, initial.qvel)

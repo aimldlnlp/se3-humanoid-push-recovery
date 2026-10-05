@@ -1,0 +1,16 @@
+{
+  "files": [
+    {
+      "path": "frozen.json",
+      "sha256": "fcb369a25d4aeaea78fcd351def79e9560d207f2f55d6762fe466fecb9c93787"
+    },
+    {
+      "path": "plan.json",
+      "sha256": "26f525f99454607cf848d42b6856174f889ea6903fff40acbd790ffc82a0a24f"
+    },
+    {
+      "path": "study.json",
+      "sha256": "d82bea7c9041e1da6a6a6b69c9a1ffe9ea71d4d24cdae31911e19a60c2c4b2d4"
+    }
+  ]
+}

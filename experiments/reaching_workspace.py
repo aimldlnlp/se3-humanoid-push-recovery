@@ -53,12 +53,14 @@ def assess_trial(path):
 def run_trial(root, name, offset, magnitude=0, push_start=1.5, stage='workspace', direction='', distance=0,
               reach_weight=None, objective_overrides=None, balance_guard=False, guard_arm_posture=False,
               contact_velocity_damping=0, contact_pose_stiffness=0, contact_patch_bounds=False, contact_mode=False,
-              pose_origin=False, push_direction_deg=None, hierarchical=False):
+              pose_origin=False, push_direction_deg=None, hierarchical=False, initial_condition_path=None):
     path = root/'trials'/name
     command = [sys.executable, str(ROOT/'experiments/reach_and_balance.py'), '--output', str(path),
                '--target-offset-m', *map(str, offset), '--push-N', str(magnitude), '--push-start-s', str(push_start)]
     if push_direction_deg is not None:
         command.extend(['--push-direction-deg', str(push_direction_deg)])
+    if initial_condition_path is not None:
+        command.extend(['--initial-condition', str(initial_condition_path)])
     if reach_weight is not None:
         command.extend(['--reach-weight', str(reach_weight)])
     if contact_velocity_damping:

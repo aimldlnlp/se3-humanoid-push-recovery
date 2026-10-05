@@ -2,6 +2,7 @@ import sys
 from pathlib import Path
 
 import numpy as np
+import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]/'experiments'))
 from reaching_hierarchy import solve_level, solve_hierarchy, HierarchicalController
@@ -55,3 +56,14 @@ def test_nullspace_preserves_conflicting_priority_and_redundant_equalities():
     x, records = solve_hierarchy(levels, A, low, high, {})
     np.testing.assert_allclose(x, [1., 0., 1.], atol=1e-6)
     np.testing.assert_allclose(records[0]['matrix']@x, records[0]['output'], atol=1e-10)
+
+
+def test_constant_inequality_is_checked_not_relaxed():
+    A = np.array([[1., 0.], [1., 0.], [0., 1.]])
+    levels = [('task', np.array([[0., 1.]]), np.array([.5]))]
+    low, high = np.array([0., -np.inf, -1.]), np.array([0., 0., 1.])
+    x, _ = solve_hierarchy(levels, A, low, high, {})
+    np.testing.assert_allclose(x, [0., .5], atol=1e-8)
+    high[1] = -.1
+    with pytest.raises(RuntimeError, match='constant inequality'):
+        solve_hierarchy(levels, A, low, high, {})

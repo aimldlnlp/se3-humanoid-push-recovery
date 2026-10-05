@@ -19,10 +19,10 @@ def solve_level(P, q, A, low, high, settings, initial=None):
     result = minimize(lambda x: .5*x@P@x+q@x,
                       np.zeros(len(q)) if initial is None else initial,
                       jac=lambda x: P@x+q, method='SLSQP',
-                      constraints=[LinearConstraint(A, low, high)],
+                      constraints=[LinearConstraint(A, low, high)] if len(A) else [],
                       options=dict(ftol=1e-12, maxiter=settings.get('max_iter', 4000)))
     if (not result.success or not np.all(np.isfinite(result.x))
-            or WholeBodyQPController._constraint_budget_ratio(A, result.x, low, high, 1e-8, 1e-8) > 1):
+            or (len(A) and WholeBodyQPController._constraint_budget_ratio(A, result.x, low, high, 1e-8, 1e-8) > 1)):
         raise RuntimeError('Reduced hierarchy level rejected: '+result.message)
     return result.x
 
@@ -38,16 +38,24 @@ def solve_hierarchy(levels, A, low, high, settings):
     basis = null_space(E, rcond=1e-10)
     records = []
     for name, matrix, desired in levels:
+        constant_count = 0
         reduced = matrix@basis
         if basis.shape[1] and matrix.shape[0]:
             C = dense[~equality]@basis
             shift = dense[~equality]@x
+            constant = np.linalg.norm(C, axis=1) <= 1e-12*np.maximum(np.linalg.norm(dense[~equality], axis=1), 1)
+            constant_count = int(np.sum(constant))
+            constant_excess = np.maximum(low[~equality]-shift, shift-high[~equality])
+            if np.any(constant_excess[constant] > 1e-8):
+                raise RuntimeError(name+': violated constant inequality')
+            # Constant rows constrain the anchor, not z. Roundoff rows confuse active-set solvers.
+            C, shift = C[~constant], shift[~constant]
             # Normalize inequalities only for conditioning; validate originals below.
             row_scale = np.maximum(np.linalg.norm(C, axis=1), 1)
             try:
                 z = solve_level(2*reduced.T@reduced, 2*reduced.T@(matrix@x-desired),
-                                C/row_scale[:, None], (low[~equality]-shift)/row_scale,
-                                (high[~equality]-shift)/row_scale, settings, np.zeros(basis.shape[1]))
+                                C/row_scale[:, None], (low[~equality][~constant]-shift)/row_scale,
+                                (high[~equality][~constant]-shift)/row_scale, settings, np.zeros(basis.shape[1]))
             except RuntimeError as exc:
                 raise RuntimeError(name+': '+str(exc)) from exc
             x = x+basis@z
@@ -57,7 +65,7 @@ def solve_hierarchy(levels, A, low, high, settings):
             raise RuntimeError(f'{name}: original constraint budget={ratio:.6g}')
         records.append(dict(name=name, matrix=matrix, output=matrix@x,
                             residual_norm=float(np.linalg.norm(matrix@x-desired)),
-                            free_dimensions=basis.shape[1]))
+                            free_dimensions=basis.shape[1], constant_inequality_count=constant_count))
         if reduced.shape[0] and reduced.shape[1]:
             _, singular, vectors = np.linalg.svd(reduced, full_matrices=True)
             # Roundoff-only projections must not consume a null direction.
@@ -122,7 +130,8 @@ class HierarchicalController(PoseOriginController):
                               dynamics_residual_norm=float(np.linalg.norm(M@x[:nv]+h-B@tau-Jc.T@wrench-external)),
                               diagnostics=dict(constraint_budget_ratio=ratio, hierarchy_max_lock_excess=drift,
                                                hierarchy_levels=[dict(name=v['name'], residual_norm=v['residual_norm'],
-                                                                      free_dimensions=v['free_dimensions']) for v in self.hierarchy_levels],
+                                                                      free_dimensions=v['free_dimensions'],
+                                                                      constant_inequality_count=v['constant_inequality_count']) for v in self.hierarchy_levels],
                                                external_force_oracle=bool(self.cfg.get('use_external_force_oracle', False)),
                                                active_contacts=list(self.contact_names), swing_foot=self.swing_foot,
                                                torso_se3_error=torso_error, pelvis_se3_error=pelvis_error))

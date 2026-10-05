@@ -27,7 +27,9 @@ def main():
     cases = [('nominal', 0, 0, 1.5), ('moving', 70, 0, 1.5), *CASES]
     plan = dict(source_version=source, cases=cases,
                 hierarchy=['contact_slack', 'weighted_torso_pelvis_com', 'reach', 'posture_and_regularization'],
-                lock_tolerance='1e-5*(1+abs(attained output)), independent orthonormal row space',
+                formulation='Hard equalities eliminated; attained outputs preserved by null-space parameterization',
+                output_validation_tolerance='1e-7*(1+abs(attained weighted output)); no lock bands',
+                numerical_rank_relative_threshold=1e-10,
                 gains_changed=False, contact_model_changed=False, physical_thresholds_changed=False,
                 gate='All frozen states accepted before rollout. Improve at least one failed case, retain every prior PASS and <=15 mm hand tolerance.',
                 scope='One candidate, no gain or lock-tolerance search. No production promotion.')
@@ -65,7 +67,8 @@ def main():
                                variant=variant.__name__, success=result.success, message=result.message,
                                solve_time_s=result.solve_time_s,
                                constraint_budget_ratio=result.diagnostics.get('constraint_budget_ratio'),
-                               hierarchy_max_lock_excess=result.diagnostics.get('hierarchy_max_lock_excess'))
+                               hierarchy_max_lock_excess=result.diagnostics.get('hierarchy_max_lock_excess'),
+                               hierarchy_levels=result.diagnostics.get('hierarchy_levels'))
                     if variant is HierarchicalController and hasattr(controller, 'baseline_problem'):
                         before, after = controller.baseline_problem, controller.problem
                         n = before[2].shape[0]

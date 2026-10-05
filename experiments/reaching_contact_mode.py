@@ -95,6 +95,9 @@ class ContactModeController(ReachingController):
 
     def solve(self):
         result = super().solve()
+        return self._record_contact_result(result)
+
+    def _record_contact_result(self, result):
         if not hasattr(self,'mode_ranks'):
             self.mode_ranks,self.mode_counts = [],[]
         specs = getattr(self,'specs',[])

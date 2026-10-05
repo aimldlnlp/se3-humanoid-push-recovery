@@ -129,7 +129,7 @@ class ReachingController(WholeBodyQPController):
                 row[:] = 0
                 row[off+moment], row[off+tangent], row[off+2] = 1, lever, -bound
 
-    def solve(self):
+    def _update_reach_reference(self):
         task = self.reach_task
         task.position_world, task.velocity_world, task.acceleration_world = quintic_reference(
             self.start, self.goal, self.model.data.time-self.settings['start_time_s'],
@@ -156,6 +156,9 @@ class ReachingController(WholeBodyQPController):
         self.weights.append(task.weight)
         self.guard_risks.append(risk)
         self.joint_references.append(self.q_des.copy())
+
+    def solve(self):
+        self._update_reach_reference()
         return super().solve()
 
 

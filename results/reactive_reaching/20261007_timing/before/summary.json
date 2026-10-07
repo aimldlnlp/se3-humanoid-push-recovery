@@ -1,0 +1,206 @@
+{
+  "combined_success": false,
+  "failure_reason": "FALL",
+  "waypoint_results": [
+    {
+      "name": "A",
+      "window_s": [
+        3.5,
+        4.0
+      ],
+      "max_error_mm": 2.083136557874735,
+      "passed": true
+    },
+    {
+      "name": "B",
+      "window_s": [
+        6.5,
+        7.0
+      ],
+      "max_error_mm": 8.59620086404392,
+      "passed": true
+    },
+    {
+      "name": "C",
+      "window_s": [
+        9.5,
+        10.0
+      ],
+      "max_error_mm": 10.230429204308518,
+      "passed": true
+    },
+    {
+      "name": "B_retarget",
+      "window_s": [
+        15.5,
+        16.0
+      ],
+      "max_error_mm": 329.11214715305664,
+      "passed": false
+    }
+  ],
+  "moving_tracking_rmse_mm": 27.8810228822098,
+  "maximum_tracking_error_mm": 329.11214715305647,
+  "final_balance_passed": false,
+  "rejected_qps": 0,
+  "physical": {
+    "success": false,
+    "failure_reason": "FALL",
+    "recovered_at_s": 0.25200000000000017,
+    "recovery_latency_s": 0.25200000000000017,
+    "max_torso_error_rad": 1.6995798085871792,
+    "max_com_displacement_m": 0.8898181503812328,
+    "max_joint_torque_Nm": 127.2045141900124,
+    "min_friction_margin": -2.220446049250313e-16
+  },
+  "duration_s": 15.996000000002011,
+  "max_torso_error_rad": 1.6995798085871792,
+  "max_com_displacement_m": 0.8898181503812328,
+  "max_com_3d_displacement_m": 0.9863050135121394,
+  "max_joint_velocity": 46.08124704636507,
+  "max_qp_solve_time_ms": 79.33079998474568,
+  "mean_qp_solve_time_ms": 11.306307500621188,
+  "p95_qp_solve_time_ms": 16.885234991787,
+  "p99_qp_solve_time_ms": 22.532846030662746,
+  "qp_deadline_ms": 4.0,
+  "qp_deadline_miss_percent": 100.0,
+  "qp_failures": 0,
+  "max_contact_slack_norm": 166.1913465927239,
+  "max_actual_contact_force_N": 1400.3869716197132,
+  "max_actual_contact_component_N": 1398.7433258797937,
+  "max_actual_friction_utilization": 1.0000000000000002,
+  "max_dynamics_residual": 0.08871092562285936,
+  "max_contact_acceleration_residual": 166.1913465927239,
+  "left_contact_fraction": 0.82925,
+  "right_contact_fraction": 0.8935,
+  "qp_measured_vertical_grf_rmse_N_post_step": 40.17287920503438,
+  "qp_measured_vertical_grf_bias_N_post_step": -5.753208119289851,
+  "qp_measured_force_rmse_N_post_step": 27.259649020272313,
+  "provenance": {
+    "run_id": "run-20261007T004246Z-ce20d9af",
+    "source_version": "4ee50e2c5ad7907b81a330ff6ec5c4ef5a3a7f29",
+    "git_dirty": true,
+    "seed": 0,
+    "hostname": "LAPTOP-5FHHA9LI",
+    "timestamp_utc": "2026-10-07T00:42:45.998224+00:00",
+    "config_sha256": "ca8e6609f4b4e21e85a409ad672bf16ca4c9bdd37171fdda0924b559e14efb6b",
+    "model_sha256": "43912c5f880adff88355c6cd1a887caec143543c7bc578234e1a369226fb0422",
+    "python_version": "3.12.0",
+    "dependency_versions": {
+      "numpy": "1.26.3",
+      "mujoco": "3.14.0",
+      "osqp": "1.1.3"
+    },
+    "command": "scripts/run_reactive_reaching.py --output results/staging/reactive_timing_20261007 --previous results/reactive_reaching/20261006_pilot",
+    "settings": {
+      "body_name": "right_wrist_yaw_link",
+      "point_local_m": [
+        0.08,
+        0.0,
+        0.0
+      ],
+      "target_offset_world_m": [
+        0.125,
+        0,
+        0
+      ],
+      "start_time_s": 0.5,
+      "movement_duration_s": 2.0,
+      "experiment_duration_s": 16,
+      "kp": 150.0,
+      "kd": 25.0,
+      "weight": 3000,
+      "position_tolerance_m": 0.015,
+      "hold_duration_s": 0.5,
+      "contact_velocity_damping_s_inv": 20,
+      "contact_mode": true,
+      "pose_origin": true
+    },
+    "initial_condition": {
+      "sha256": "03e0aae37f8d362875d2ee58632fcb897270cda3a2937dd86e40ded566595271",
+      "qpos_sha256": "a10e6ab17f4ec412f799282331302354174c48cc1363908d55e063f322ba1640",
+      "qvel_sha256": "57b1a73ee765d8ee75befa0e80bf10f06441503f5ecd8804853019bb8ee9404c",
+      "torso_reference_sha256": "03b81b93efc00c998c3f30823461e08c3847ef7a05f262d0b057c32440e065b4",
+      "pelvis_reference_sha256": "ac2970d3e358d0a6493a2c82f4c372fccf7b77670d3168b322f30a816ceea913",
+      "com_reference_sha256": "029c6f0bd539e149c28ee45dafd6d1c2bc48957a93455133f95be3a249b0fe0e",
+      "joint_reference_sha256": "67f54680793fa0440af3f9b4099c59b8a6e8313b445b5c90777b1e98f6817f5e",
+      "seed": 0,
+      "setup_policy": "pd_nominal_ff",
+      "setup_duration_s": 0.6
+    },
+    "duration_s": 16,
+    "events": [
+      {
+        "name": "A",
+        "time": 0.5,
+        "duration": 2.0,
+        "offset": [
+          0.08,
+          0,
+          0
+        ],
+        "hold": [
+          3.5,
+          4.0
+        ]
+      },
+      {
+        "name": "B",
+        "time": 4.0,
+        "duration": 2.0,
+        "offset": [
+          0.08,
+          -0.04,
+          0.02
+        ],
+        "hold": [
+          6.5,
+          7.0
+        ]
+      },
+      {
+        "name": "C",
+        "time": 7.0,
+        "duration": 2.0,
+        "offset": [
+          0.1,
+          -0.02,
+          0.04
+        ],
+        "hold": [
+          9.5,
+          10.0
+        ]
+      },
+      {
+        "name": "A_cancelled",
+        "time": 10.0,
+        "duration": 2.0,
+        "offset": [
+          0.08,
+          0,
+          0
+        ],
+        "hold": null
+      },
+      {
+        "name": "B_retarget",
+        "time": 10.8,
+        "duration": 2.0,
+        "offset": [
+          0.08,
+          -0.04,
+          0.02
+        ],
+        "hold": [
+          15.5,
+          16.0
+        ]
+      }
+    ],
+    "push_N": 50,
+    "push_start_s": 10.55,
+    "push_direction_deg": 0,
+    "actual_impulse_Ns": 7.499999999999989
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "trials": [
+    {
+      "trial": "before",
+      "push_start_s": 10.55,
+      "combined_success": false,
+      "failure_reason": "FALL",
+      "moving_rmse_mm": 27.8810228822098,
+      "final_hold_error_mm": 329.11214715305664,
+      "rejected_qps": 0,
+      "deadline_miss_percent": 100.0
+    },
+    {
+      "trial": "simultaneous",
+      "push_start_s": 10.8,
+      "combined_success": true,
+      "failure_reason": "PASS",
+      "moving_rmse_mm": 7.395516185411821,
+      "final_hold_error_mm": 1.9245572613349127,
+      "rejected_qps": 0,
+      "deadline_miss_percent": 100.0
+    },
+    {
+      "trial": "after",
+      "push_start_s": 11.05,
+      "combined_success": true,
+      "failure_reason": "PASS",
+      "moving_rmse_mm": 7.497619605301448,
+      "final_hold_error_mm": 2.459717659707862,
+      "rejected_qps": 0,
+      "deadline_miss_percent": 100.0
+    }
+  ],
+  "all_inputs_paired_with_nominal": true,
+  "all_passed": false,
+  "controller_source_unchanged": true,
+  "tests_passed": 108,
+  "excluded_tests": [
+    "tests/test_reaching_hierarchy.py"
+  ],
+  "execution_location": "local",
+  "timing_gate": "FAIL: one of three cases falls",
+  "final_runner_source_sha256": "d42f860064282bc6502e37d4f4ac054bc3a43dd9d122254ad1d8cdaa86eaff7e",
+  "post_plan_edits": "Dependency hash checks made portable across checkout line endings and limited to active dependencies; render-only output option added. Physical trial and renderer functions unchanged.",
+  "video": {
+    "frames": 480,
+    "fps": 30,
+    "duration_s": 16,
+    "resolution": [
+      1280,
+      900
+    ],
+    "codec": "h264",
+    "hand_inset": true,
+    "visually_checked_frames": [
+      210,
+      325,
+      479
+    ]
+  },
+  "publication_source_files": [
+    {
+      "path": "experiments/reactive_reaching.py",
+      "lf_sha256": "4a3d7c37b33add68f6cad661eaffe07e174cde090e2bf811c749b9389bc6744f"
+    },
+    {
+      "path": "scripts/run_reactive_reaching.py",
+      "lf_sha256": "d42f860064282bc6502e37d4f4ac054bc3a43dd9d122254ad1d8cdaa86eaff7e"
+    },
+    {
+      "path": "tests/test_reactive_reaching.py",
+      "lf_sha256": "3f406ac41e754d22fbc542eee63435f50249c89c552801530da18f28d6a191ed"
+    }
+  ]
+}

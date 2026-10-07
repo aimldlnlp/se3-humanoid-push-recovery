@@ -1,0 +1,4 @@
+trial,push_start_s,combined_success,failure_reason,moving_rmse_mm,final_hold_error_mm,rejected_qps,deadline_miss_percent
+before,10.55,False,FALL,27.8810228822098,329.11214715305664,0,100.0
+simultaneous,10.8,True,PASS,7.395516185411821,1.9245572613349127,0,100.0
+after,11.05,True,PASS,7.497619605301448,2.459717659707862,0,100.0

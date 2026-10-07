@@ -1,0 +1,29 @@
+{
+  "regression_passed": true,
+  "saved_baseline_dynamics_reproduced": true,
+  "nominal_hero_inputs_paired": true,
+  "nominal_passed": true,
+  "hero_passed": true,
+  "local_baseline_tests_passed": 106,
+  "reactive_tests_passed": 2,
+  "excluded_tests": [
+    "tests/test_reaching_hierarchy.py"
+  ],
+  "source_hashes_verified": true,
+  "video": {
+    "fps": 30,
+    "duration_s": 16,
+    "resolution": [
+      1280,
+      900
+    ],
+    "codec": "h264",
+    "visually_checked_hero_frames": [
+      325,
+      330,
+      479
+    ]
+  },
+  "execution_location": "local",
+  "ssh_transfer": "Rejected by automatic approval review; no snapshot uploaded"
+}

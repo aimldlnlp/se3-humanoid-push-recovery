@@ -1,0 +1,100 @@
+{
+  "files": [
+    {
+      "path": "hero/media/frame_090.jpg",
+      "sha256": "51e83925a939fccbf58b1ce48485587bcf1212d7c0d7f9fd8b6ae95c99380233"
+    },
+    {
+      "path": "hero/media/frame_210.jpg",
+      "sha256": "66fa5761a12442d88db34778c8ae45fb33208fac6e03d004d565d2c2f6ab05eb"
+    },
+    {
+      "path": "hero/media/frame_325.jpg",
+      "sha256": "a30a1b29d2d8c98d2c5a7e6576d6b1933c9691a4b435947d0d6e12fed33ade0d"
+    },
+    {
+      "path": "hero/media/frame_330.jpg",
+      "sha256": "25290acc01792496d6c582f0c649e98a9ffdc7816d8df410ea841cc7e6ae73f5"
+    },
+    {
+      "path": "hero/media/frame_479.jpg",
+      "sha256": "ad5417907eca26963bfc0c471fb3c663d676dbdc925e770448dbf87366069362"
+    },
+    {
+      "path": "hero/media/reactive-reaching.mp4",
+      "sha256": "627bbadf4a1781ef772ab2dc3f92ba30e8cf905cf7c663cc0232f41c338ba83f"
+    },
+    {
+      "path": "hero/media/selection.json",
+      "sha256": "4d1e42cb07f516435435f5421c66a3f49d24e59e8b6b83f1f08b885bc610081c"
+    },
+    {
+      "path": "hero/summary.json",
+      "sha256": "ff49cc124752696c8c01cf67913a99afc99f6225b69661a3396b244146b94225"
+    },
+    {
+      "path": "hero/trajectory.npz",
+      "sha256": "5e40ef9100523b69388a611d8dd9c1312d75d51886056f8fe980ec3c83491814"
+    },
+    {
+      "path": "initial_condition.json",
+      "sha256": "b1b2e10cc7395989e6d0edd37b1483ad33d2616e240eb9bebd45c1b8edd9d45a"
+    },
+    {
+      "path": "initial_condition.npz",
+      "sha256": "0b1865fd0f14a850dda537381ccd52adec64feffa03082275d5d33668858e27e"
+    },
+    {
+      "path": "nominal/media/frame_090.jpg",
+      "sha256": "51e83925a939fccbf58b1ce48485587bcf1212d7c0d7f9fd8b6ae95c99380233"
+    },
+    {
+      "path": "nominal/media/frame_210.jpg",
+      "sha256": "66fa5761a12442d88db34778c8ae45fb33208fac6e03d004d565d2c2f6ab05eb"
+    },
+    {
+      "path": "nominal/media/frame_330.jpg",
+      "sha256": "f1e7ab178bf10d2805ad09caf9b4b0a5c398e4ed976c5f5ff3aadfe9ff17a158"
+    },
+    {
+      "path": "nominal/media/frame_479.jpg",
+      "sha256": "2dd61588e9e0a8da2ff412d802c4544c39b3f9d8197482b1f32190f45e1f472c"
+    },
+    {
+      "path": "nominal/media/reactive-reaching.mp4",
+      "sha256": "c22a3048eef4b0bb9c1a7ec808b50bdd7c9e7407fe5aadf594c645b516a59049"
+    },
+    {
+      "path": "nominal/media/selection.json",
+      "sha256": "8a38f5d0c02f519e976af76463a1b588f3b974f0c699eacbce879114c75eae44"
+    },
+    {
+      "path": "nominal/summary.json",
+      "sha256": "1c860f233f9268152da7f1288329d7869ba85b924bf7fb25ab536ef9aa21a734"
+    },
+    {
+      "path": "nominal/trajectory.npz",
+      "sha256": "388119406ced208d41092b892e57138ae2e3c7abfb8d4a0bd6c233946b2aa9af"
+    },
+    {
+      "path": "plan.json",
+      "sha256": "c2a2f649b2c67dfa974aca7bb2a9cb485035f1fde033fa1543d8deb9f614b77c"
+    },
+    {
+      "path": "regression_hold/summary.json",
+      "sha256": "ca3e3eee4ad5f6419873f65c82ff2fe78f08da72029cf32a55ea5abba5daaa84"
+    },
+    {
+      "path": "regression_hold/trajectory.npz",
+      "sha256": "a9dcc5e1ab21e08df62eb41d4be64a17ee0a8f9684a19b03d991933e589385c1"
+    },
+    {
+      "path": "REPORT.md",
+      "sha256": "f0fbb04b0b8fd3d1af369c524633463a53203c52e403c66e8db68508ad6fd7bd"
+    },
+    {
+      "path": "verification.json",
+      "sha256": "9608171c8f0b337c70c6c4c2dd0fcfc0d46902aa5f4a3ca5b67199566ff0da65"
+    }
+  ]
+}

@@ -1,0 +1,891 @@
+{
+  "events": [
+    {
+      "name": "A",
+      "time": 0.5,
+      "duration": 2.0,
+      "offset": [
+        0.08,
+        0,
+        0
+      ],
+      "hold": [
+        3.5,
+        4.0
+      ]
+    },
+    {
+      "name": "B",
+      "time": 4.0,
+      "duration": 2.0,
+      "offset": [
+        0.08,
+        -0.04,
+        0.02
+      ],
+      "hold": [
+        6.5,
+        7.0
+      ]
+    },
+    {
+      "name": "C",
+      "time": 7.0,
+      "duration": 2.0,
+      "offset": [
+        0.1,
+        -0.02,
+        0.04
+      ],
+      "hold": [
+        9.5,
+        10.0
+      ]
+    },
+    {
+      "name": "A_cancelled",
+      "time": 10.0,
+      "duration": 2.0,
+      "offset": [
+        0.08,
+        0,
+        0
+      ],
+      "hold": null
+    },
+    {
+      "name": "B_retarget",
+      "time": 10.8,
+      "duration": 2.0,
+      "offset": [
+        0.08,
+        -0.04,
+        0.02
+      ],
+      "hold": [
+        15.5,
+        16.0
+      ]
+    }
+  ],
+  "duration_s": 16,
+  "hero_push_N": 50,
+  "push_start_s": 10.8,
+  "push_duration_s": 0.15,
+  "settings": {
+    "body_name": "right_wrist_yaw_link",
+    "point_local_m": [
+      0.08,
+      0.0,
+      0.0
+    ],
+    "target_offset_world_m": [
+      0.125,
+      0,
+      0
+    ],
+    "start_time_s": 0.5,
+    "movement_duration_s": 2.0,
+    "experiment_duration_s": 16,
+    "kp": 150.0,
+    "kd": 25.0,
+    "weight": 3000,
+    "position_tolerance_m": 0.015,
+    "hold_duration_s": 0.5,
+    "contact_velocity_damping_s_inv": 20,
+    "contact_mode": true,
+    "pose_origin": true
+  },
+  "config": {
+    "root": "D:\\Kuliah\\Semester 8\\se3-whole-body-control",
+    "robot_catalog": {
+      "active_robot": "unitree_g1",
+      "profiles_dir": "configs/robots",
+      "profiles": {
+        "mini_humanoid": "configs/robots/mini_humanoid.yaml",
+        "unitree_g1": "configs/robots/unitree_g1.yaml"
+      }
+    },
+    "robot": {
+      "name": "unitree_g1",
+      "controller_profile": "configs/controller.yaml",
+      "model_path": "models/unitree_g1/scene_push_recovery.xml",
+      "model_variant": "g1_29dof_no_hands",
+      "floating_base_body": "pelvis",
+      "floating_base_joint": "floating_base_joint",
+      "torso_body": "torso_link",
+      "pelvis_body": "pelvis",
+      "left_foot_body": "left_ankle_roll_link",
+      "right_foot_body": "right_ankle_roll_link",
+      "ground_geom": "ground",
+      "left_foot_contact_geoms": [],
+      "right_foot_contact_geoms": [],
+      "nominal_base_qpos": [
+        0.0,
+        0.0,
+        0.7915,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "nominal_joint_positions": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.2,
+        0.2,
+        0.0,
+        1.28,
+        0.0,
+        0.0,
+        0.0,
+        0.2,
+        -0.2,
+        0.0,
+        1.28,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "foot_support_vertices_local": [
+        [
+          [
+            -0.05,
+            -0.03,
+            -0.03
+          ],
+          [
+            0.12,
+            -0.03,
+            -0.03
+          ],
+          [
+            0.12,
+            0.03,
+            -0.03
+          ],
+          [
+            -0.05,
+            0.03,
+            -0.03
+          ]
+        ],
+        [
+          [
+            -0.05,
+            -0.03,
+            -0.03
+          ],
+          [
+            0.12,
+            -0.03,
+            -0.03
+          ],
+          [
+            0.12,
+            0.03,
+            -0.03
+          ],
+          [
+            -0.05,
+            0.03,
+            -0.03
+          ]
+        ]
+      ],
+      "simulation_timestep": 0.002,
+      "control_timestep": 0.004,
+      "duration_s": 6.0,
+      "warmup_duration_s": 0.6,
+      "gravity": [
+        0.0,
+        0.0,
+        -9.81
+      ],
+      "friction_coefficient": 0.7,
+      "render_width": 1920,
+      "render_height": 1080,
+      "render_fps": 30,
+      "upstream_source": "https://github.com/unitreerobotics/unitree_mujoco/tree/ae6a8403e272733e9996ef59990880330496177f/unitree_robots/g1",
+      "profile_name": "unitree_g1",
+      "profile_path": "configs/robots/unitree_g1.yaml"
+    },
+    "controller": {
+      "posture_kp": 200.0,
+      "posture_kd": 40.0,
+      "torso_position_kp": 70.0,
+      "torso_position_kd": 16.0,
+      "torso_rotation_kp": 100.0,
+      "torso_rotation_kd": 20.0,
+      "pelvis_position_kp": 55.0,
+      "pelvis_position_kd": 13.0,
+      "pelvis_rotation_kp": 70.0,
+      "pelvis_rotation_kd": 16.0,
+      "com_kp": 35.0,
+      "com_kd": 10.0,
+      "qp_acceleration_weight": 0.1,
+      "qp_torque_weight": 0.001,
+      "qp_nominal_torque_weight": 1.0,
+      "qp_posture_weight": 1.0,
+      "qp_torso_weight": 200.0,
+      "qp_pelvis_weight": 100.0,
+      "qp_com_weight": 2.0,
+      "qp_swing_weight": 200.0,
+      "swing_position_kp": 300.0,
+      "swing_position_kd": 35.0,
+      "swing_rotation_kp": 100.0,
+      "swing_rotation_kd": 18.0,
+      "qp_slack_weight": 100000.0,
+      "friction_coefficient": 0.7,
+      "use_external_force_oracle": false,
+      "support_polygon_x_min_m": -0.05,
+      "support_polygon_x_max_m": 0.12,
+      "support_polygon_y_min_m": -0.03,
+      "support_polygon_y_max_m": 0.03,
+      "torsional_friction_coefficient": 0.02,
+      "max_joint_acceleration": 150.0,
+      "fallback_to_pd": true,
+      "use_nominal_contact_feedforward": true,
+      "solver": {
+        "eps_abs": 0.001,
+        "eps_rel": 0.001,
+        "max_iter": 20000,
+        "adaptive_rho": true,
+        "scaled_termination": true,
+        "polish": true
+      }
+    },
+    "experiments": {
+      "seed": 0,
+      "standing_duration_s": 3.0,
+      "push": {
+        "magnitude_N": 70.0,
+        "direction_deg": 0.0,
+        "duration_s": 0.15,
+        "start_time_s": 2.0,
+        "application_body": "torso"
+      },
+      "sweep": {
+        "magnitudes_N": [
+          10,
+          20,
+          30,
+          40,
+          50,
+          60,
+          70,
+          80
+        ],
+        "directions_deg": [
+          0,
+          15,
+          30,
+          45,
+          60,
+          75,
+          90,
+          105,
+          120,
+          135,
+          150,
+          165,
+          180,
+          195,
+          210,
+          225,
+          240,
+          255,
+          270,
+          285,
+          300,
+          315,
+          330,
+          345
+        ],
+        "duration_s": 0.15,
+        "start_time_s": 2.0,
+        "trial_duration_s": 6.0
+      },
+      "robustness": {
+        "friction": [
+          0.3,
+          0.5,
+          0.7,
+          0.9
+        ],
+        "mass_scale": [
+          0.9,
+          1.0,
+          1.1
+        ],
+        "push_duration_s": [
+          0.1,
+          0.15,
+          0.2
+        ],
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "recovery": {
+        "orientation_threshold_rad": 0.0872664626,
+        "angular_velocity_threshold_rad_s": 0.15,
+        "com_displacement_threshold_m": 0.1,
+        "stable_duration_s": 0.25,
+        "timeout_s": 6.0,
+        "startup_grace_period_s": 0.25,
+        "contact_loss_duration_s": 0.08,
+        "friction_utilization_threshold": 1.05,
+        "slip_tangent_velocity_threshold_m_s": 0.08,
+        "slip_displacement_threshold_m": 0.025,
+        "slip_duration_s": 0.04,
+        "foot_contact_required": true,
+        "torso_ground_height_m": 0.35
+      },
+      "perturbed_standing": {
+        "duration_s": 3.0,
+        "warmup_duration_s": 0.0,
+        "seed": 0,
+        "initial_torso_tilt_rad": 0.0,
+        "initial_com_offset_m": 0.0,
+        "initial_angular_velocity_rad_s": 0.05
+      },
+      "robustness_randomization": {
+        "initial_torso_tilt_rad": 0.0,
+        "initial_com_offset_m": 0.0,
+        "initial_angular_velocity_rad_s": 0.05,
+        "push_magnitude_jitter_fraction": 0.08,
+        "push_direction_jitter_deg": 8.0,
+        "push_duration_jitter_s": 0.015
+      },
+      "paired_benchmark": {
+        "setup_policy": "pd_nominal_ff",
+        "setup_duration_s": 0.6,
+        "controllers": [
+          "pure_pd",
+          "pd_nominal_ff",
+          "se3_wbc"
+        ],
+        "post_push_observation_s": 6.0
+      },
+      "hybrid_recovery": {
+        "max_steps": 2,
+        "minimum_step_time_s": 0.35,
+        "trigger_margin_m": 0.0,
+        "trigger_speed_m_s": 0.15,
+        "predictive_trigger_speed_m_s": 0.3,
+        "predictive_trigger_margin_m": 0.09,
+        "trigger_com_displacement_m": 0.1,
+        "trigger_torso_error_rad": 0.35,
+        "trigger_contact_slack_norm": 0.025,
+        "step_length_m": 0.3,
+        "min_step_length_m": 0.24,
+        "max_step_length_m": 0.42,
+        "step_length_per_severity": 0.35,
+        "second_step_max_length_m": 0.28,
+        "second_step_capture_time_s": 0.05,
+        "max_step_reach_m": 0.46,
+        "step_clearance_m": 0.06,
+        "swing_duration_s": 0.26,
+        "second_step_swing_duration_s": 0.12,
+        "transfer_duration_s": 0.18,
+        "max_transfer_duration_s": 0.32,
+        "second_step_transfer_duration_s": 0.08,
+        "second_step_max_transfer_duration_s": 0.12,
+        "transfer_margin_m": 0.004,
+        "transfer_speed_m_s": 0.15,
+        "transfer_com_weight": 80.0,
+        "transfer_com_kp": 180.0,
+        "transfer_com_kd": 30.0,
+        "step_com_target_fraction": 0.5,
+        "landing_duration_s": 0.06,
+        "landing_timeout_s": 0.7,
+        "contact_force_threshold_N": 5.0,
+        "landing_tangent_speed_m_s": 0.25,
+        "landing_position_tolerance_m": 0.08,
+        "post_landing_duration_s": 0.5,
+        "step_cooldown_s": 0.05,
+        "displacement_direction_gain": 3.0
+      }
+    }
+  },
+  "thresholds": {
+    "hold_error_m": 0.015,
+    "moving_rmse_m": 0.015,
+    "hold_duration_s": 0.5,
+    "recovery": {
+      "orientation_threshold_rad": 0.0872664626,
+      "angular_velocity_threshold_rad_s": 0.15,
+      "com_displacement_threshold_m": 0.1,
+      "stable_duration_s": 0.25,
+      "timeout_s": 6.0,
+      "startup_grace_period_s": 0.25,
+      "contact_loss_duration_s": 0.08,
+      "friction_utilization_threshold": 1.05,
+      "slip_tangent_velocity_threshold_m_s": 0.08,
+      "slip_displacement_threshold_m": 0.025,
+      "slip_duration_s": 0.04,
+      "foot_contact_required": true,
+      "torso_ground_height_m": 0.35
+    }
+  },
+  "source_files": [
+    {
+      "path": "src/se3_whole_body_control/__init__.py",
+      "sha256": "4a3420cb4b779aa5a8de75f43eb939cbee33caa234051d516a2c3b0922b9d987"
+    },
+    {
+      "path": "src/se3_whole_body_control/config.py",
+      "sha256": "2f9ebb311118ea93112b447d35cdf3c8741228cf8043f64f45de990c835b018e"
+    },
+    {
+      "path": "src/se3_whole_body_control/control/__init__.py",
+      "sha256": "4115bb894e6aa6f35b6a8a370bc90b147fa66c647afaa0b775195d9968d7b6de"
+    },
+    {
+      "path": "src/se3_whole_body_control/control/diagnostic_contact_supervisor.py",
+      "sha256": "81031a69b020a4e28514b4d517b1c31fa60df89a379b5138be8402bf48b93f62"
+    },
+    {
+      "path": "src/se3_whole_body_control/control/diagnostic_contact_wbc.py",
+      "sha256": "1bfb7b59b7d0b6e7081938605142639622e1f9d6a670bec05a631dd20d91243d"
+    },
+    {
+      "path": "src/se3_whole_body_control/control/diagnostic_telemetry.py",
+      "sha256": "39c461dd0c55f1c2953f141f3d24624506044e882235246bce902702e98f50c0"
+    },
+    {
+      "path": "src/se3_whole_body_control/control/diagnostic_wbc.py",
+      "sha256": "4ae835904a3a4cba737ca468732bb754c7a8026a91fb7f7ed0ac2e7323499ca0"
+    },
+    {
+      "path": "src/se3_whole_body_control/control/hybrid_recovery.py",
+      "sha256": "305ea962ff16a45fe62eaffc734e5fc8a342a7ef552e8dbd4a75303d8d144669"
+    },
+    {
+      "path": "src/se3_whole_body_control/control/joint_pd.py",
+      "sha256": "f77e2de0cc7aebefc3c68cec1e25d81d48fda6bd2a5cc9c239d1aedb326bb5b0"
+    },
+    {
+      "path": "src/se3_whole_body_control/control/support.py",
+      "sha256": "f4f5213e7c6068c35617828e387a2d257d9310641bf115e25f4110b18ca9a94f"
+    },
+    {
+      "path": "src/se3_whole_body_control/control/tasks.py",
+      "sha256": "76dbd1e0d5aa687bf17bd5583f17ef0dfcd645c5c990c7258ea3883eaab4eed9"
+    },
+    {
+      "path": "src/se3_whole_body_control/control/whole_body_qp.py",
+      "sha256": "04c018025f6ee41bbaaea5987c969dedbcda78191f4a5f7b0d13ed5920e87194"
+    },
+    {
+      "path": "src/se3_whole_body_control/disturbance/__init__.py",
+      "sha256": "c460ef91c669d4d5bc96e8766faafc7b26453393984d9da6267eab249ab1701b"
+    },
+    {
+      "path": "src/se3_whole_body_control/disturbance/push.py",
+      "sha256": "0b9556279d9de11643ca9b412f1f63cb117805fd19145140cf29f32c89cbb6d4"
+    },
+    {
+      "path": "src/se3_whole_body_control/dynamics/__init__.py",
+      "sha256": "72adcd0d4bc637ba631b33be679c13032f07ec3f1e22702b30aa63bbbb0c2841"
+    },
+    {
+      "path": "src/se3_whole_body_control/dynamics/humanoid.py",
+      "sha256": "126bff40d1b121c76d5767397066067449f093c89e22fb68fd191ba01c845327"
+    },
+    {
+      "path": "src/se3_whole_body_control/evaluation/__init__.py",
+      "sha256": "341a7cf7a104b34d6e4937e3a1906c3933952526da75e128eaf74148b0adccd4"
+    },
+    {
+      "path": "src/se3_whole_body_control/evaluation/metrics.py",
+      "sha256": "0abaa926824c78fdab2f8167fcef13b072732afb1c7ff6bc20723fa7bd1bc989"
+    },
+    {
+      "path": "src/se3_whole_body_control/evaluation/recovery.py",
+      "sha256": "03e56260e30118d2a373bf28534a1f1709c8d954d04a6569544d5f35b12ba2dd"
+    },
+    {
+      "path": "src/se3_whole_body_control/geometry/__init__.py",
+      "sha256": "19a54af1b15bf6596dbfdab8c91ec3fa4c55c4f9efe50de9c783b6498902a8b5"
+    },
+    {
+      "path": "src/se3_whole_body_control/geometry/se3.py",
+      "sha256": "ca98a87952851bb255f9cb22bdc4cca1c70baf4f753a5c8efc352dc89b823fd8"
+    },
+    {
+      "path": "src/se3_whole_body_control/geometry/so3.py",
+      "sha256": "686e70904436434c312b942ee4e32b8b090241adb911e1063b5f23671bc2bd62"
+    },
+    {
+      "path": "src/se3_whole_body_control/simulation/__init__.py",
+      "sha256": "bf4128032ded91c36260a527095cc226d3a8862cfbf4275d82dc4794519659c8"
+    },
+    {
+      "path": "src/se3_whole_body_control/simulation/mjx_batch.py",
+      "sha256": "448b8738b9c60a60779c11e0de34212e069e2f915d968a211db1ad14e6e75826"
+    },
+    {
+      "path": "src/se3_whole_body_control/simulation/mujoco_sim.py",
+      "sha256": "2a17172cb461871bdaf6062144c6ebf8a3033e34804828f6d3d77a01956ae568"
+    },
+    {
+      "path": "src/se3_whole_body_control/visualization/__init__.py",
+      "sha256": "61fa282220dc801b3fa6135561343c12b71ca02905ab34e5adad46a1c345b6fd"
+    },
+    {
+      "path": "src/se3_whole_body_control/visualization/fonts.py",
+      "sha256": "dcbc0ace64d80347651a8032773d0b3f164541d41eca1a098c39f2cd1db434f2"
+    },
+    {
+      "path": "src/se3_whole_body_control/visualization/plots.py",
+      "sha256": "4b2995156559025848455707f8dd3eba8df516504bec40ddd72ee4519edbce19"
+    },
+    {
+      "path": "src/se3_whole_body_control/visualization/renderer.py",
+      "sha256": "b1b7b1cb5bec6860c96c0c1aef46103bc9191b6e751472f9fdf989aa2c39778c"
+    },
+    {
+      "path": "src/se3_whole_body_control/visualization/style.py",
+      "sha256": "04893ba5fa84864008b0550c800732666ec28b08cfd5d70ba17c63d714b7a3b4"
+    },
+    {
+      "path": "src/se3_whole_body_control/visualization/video.py",
+      "sha256": "1cf5fce10bdf6420363f6f3745e5964fb059090a29f58fd916e5e56243bbf1f0"
+    },
+    {
+      "path": "experiments/adaptive_recovery_arena.py",
+      "sha256": "538a74e8459d5c7c4f807d2d3372636cfebb6dabdf607b5b337041636c970a12"
+    },
+    {
+      "path": "experiments/common.py",
+      "sha256": "1dd1faea0b11dab166f7f4602823fca0e9128891e044496549d05ec009e0e18a"
+    },
+    {
+      "path": "experiments/compare_baseline.py",
+      "sha256": "30d45f54d4cfecc1cbd1ead50a244f6e015a7280f3218b48050e9c7197b30436"
+    },
+    {
+      "path": "experiments/contact_audit_pilot.py",
+      "sha256": "8de958fbeec191691f8d61b019e3ee18a87a8e019ab1c12d7fe8c7e0d96d0ee9"
+    },
+    {
+      "path": "experiments/diagnose_step_viability.py",
+      "sha256": "cc503d0481174680ca4433fd6fc17148011bb04d3dcef0cf33467b9d13d22d65"
+    },
+    {
+      "path": "experiments/gpu_benchmark.py",
+      "sha256": "6dc616c47d0ac930f1f6341463b35bde07bab35c6d28f8a13f69d6452c742768"
+    },
+    {
+      "path": "experiments/hybrid_recovery.py",
+      "sha256": "dfaf8bf3fcfcde42b92fbe857e85275e350b535b598b7f8ec97b9638e650ebc7"
+    },
+    {
+      "path": "experiments/map_touchdown_viability.py",
+      "sha256": "19c2f36f69fd4beb2fbfcc46514e0b865fa00ab9ad8396ad7c2329c52439aaf4"
+    },
+    {
+      "path": "experiments/paired_benchmark.py",
+      "sha256": "cff9278e0a947ef2ec78794abd575a664a06b15f7bc88d12e1f2fd5a85da102b"
+    },
+    {
+      "path": "experiments/perturbed_standing.py",
+      "sha256": "11cc37f9cca6b86b0c15c1a5e9722871776ddf0fdb49cc11ea7b8f6398533f6d"
+    },
+    {
+      "path": "experiments/phase1_simulation.py",
+      "sha256": "9cb0a53afd81422c91d8b92e61b323a803bdbb530fd1518153fc2fd1d970e7f6"
+    },
+    {
+      "path": "experiments/post_touchdown_authority_allocation.py",
+      "sha256": "4e21ae4880a7ba6cda511be19fa05ddb2d0dcd44da7a1b68bfdb45cd202011ef"
+    },
+    {
+      "path": "experiments/post_touchdown_authority_allocation_final.py",
+      "sha256": "52bff8ac7759b9c2d4c24faf0fa9c7aa9d84ec65fd599b45fad5379804426544"
+    },
+    {
+      "path": "experiments/post_touchdown_contact_mode_intervention.py",
+      "sha256": "82abb179700f6e30b14fba02dc15f8ebb954cd8e9e5d545036ec16df8fa06fc8"
+    },
+    {
+      "path": "experiments/post_touchdown_contact_mode_replay_retry.py",
+      "sha256": "9efeaf94e8ad66712a47f84d894c0fd5876c9ee7e1a2225d43b3ceaec1e53140"
+    },
+    {
+      "path": "experiments/post_touchdown_wbc_ablation.py",
+      "sha256": "2dd05d4bd0fc5511fe9e22f4745f46339963c790e6b4126238b240fa7562e28d"
+    },
+    {
+      "path": "experiments/post_touchdown_wbc_ablation_corrected_baseline.py",
+      "sha256": "c5849183e979093bfd4c3651136f8276a420ced3eeee2ced9b39e7085e6d200c"
+    },
+    {
+      "path": "experiments/project_touchdown_states.py",
+      "sha256": "b7a954631f1873027ccf0ebbbec54804360df73f7ceae676d9d9b07d9afd29e1"
+    },
+    {
+      "path": "experiments/push_calibration.py",
+      "sha256": "3b76e9bb65e6ddbe90e190ecea525fb46ce37c71b90ce5afae13540bc30ede70"
+    },
+    {
+      "path": "experiments/push_sweep.py",
+      "sha256": "f1b29dcb71cde2b5964290eb42b33bca7cfce40bbfec83e5a41be02877077ddf"
+    },
+    {
+      "path": "experiments/reach_and_balance.py",
+      "sha256": "604062c9ba6f2d953084815ab21bae646a7d8a99d2d2bb7f1ae229f8f1ee3535"
+    },
+    {
+      "path": "experiments/reaching_conflict_audit.py",
+      "sha256": "7c34d24cc6fa975f216cb8271a265206f815ee21748186f7de6217ffc2574db7"
+    },
+    {
+      "path": "experiments/reaching_constraint_split.py",
+      "sha256": "7d8c06c479f7f17cf4b88d87e856d71d9e25ca24456d3681c8835367648c63cc"
+    },
+    {
+      "path": "experiments/reaching_contact_audit.py",
+      "sha256": "a383b33883f6641cd13f3b412a0466b89e102d022a389a06af824b655dffadc4"
+    },
+    {
+      "path": "experiments/reaching_contact_mode.py",
+      "sha256": "61a8b81effb13b1f3d32f25b681d28a4c67c6a4473e5db71c9a658d1e29e2b51"
+    },
+    {
+      "path": "experiments/reaching_contact_mode_audit.py",
+      "sha256": "b9d1620e2435d06cd45695dc241137214aa4cce6d32a960cfca50501ac1ef035"
+    },
+    {
+      "path": "experiments/reaching_contact_pilot.py",
+      "sha256": "8e6ec4c1b037330b57379c91bcc365ff84b8e961dc4c040c056fea72ff18902c"
+    },
+    {
+      "path": "experiments/reaching_failure_onset.py",
+      "sha256": "387198a783bea921ed290c4e607fc06ac6e4593506461e2d803554e528bb0021"
+    },
+    {
+      "path": "experiments/reaching_frame_audit.py",
+      "sha256": "112343d63ae3d3193e5eafbd58bf730cf3d84d1c973733bdbdd9f1920b0d2a1c"
+    },
+    {
+      "path": "experiments/reaching_guard_study.py",
+      "sha256": "2efa2a8a2974fae96fadba898f3b5bda2a4e3ff9fb8e7302cb3ecba97c436393"
+    },
+    {
+      "path": "experiments/reaching_hierarchy.py",
+      "sha256": "47576eb33afa327d346a9a9b3826e3cefd58e8a7b61f676d37f6735027c9d21b"
+    },
+    {
+      "path": "experiments/reaching_hierarchy_study.py",
+      "sha256": "ddee5e4262fe2f45f44668cc9d20450dcf3bcd038558f906e1ede19481a9c29a"
+    },
+    {
+      "path": "experiments/reaching_hold_audit.py",
+      "sha256": "a81ccc6bb59b93239e52275dc3598d9162f83e80705c54ab0832bfa41508ed1b"
+    },
+    {
+      "path": "experiments/reaching_pd.py",
+      "sha256": "9058ece8856770c5cfa28cc9c03d3767f1531790bc17f62b25da7823a7bf8eb5"
+    },
+    {
+      "path": "experiments/reaching_pd_comparison.py",
+      "sha256": "2675c72aaadf3b7a908978fe6704dd15f507b8465e43ba281bf7b7fa2e8c9298"
+    },
+    {
+      "path": "experiments/reaching_pose_origin.py",
+      "sha256": "c3e67e5d52762be41a0b12de7171ff85869d67c4475bcc559160fb9de7d2f3bc"
+    },
+    {
+      "path": "experiments/reaching_pose_split_audit.py",
+      "sha256": "012365cb122ac5838aa3bf2ed2157bc779f7bd25c78db68efcfb952794dfb91e"
+    },
+    {
+      "path": "experiments/reaching_pose_validation.py",
+      "sha256": "d4471419514e7891d83231e1887d389030687f686b96b9171f47feec126de0d5"
+    },
+    {
+      "path": "experiments/reaching_task_audit.py",
+      "sha256": "0d46505f956717c2361bff75d88d585d44aef1e23a3d2ceef9e5f1c7fc82d447"
+    },
+    {
+      "path": "experiments/reaching_tracking_study.py",
+      "sha256": "1233d1cb83a5b2fefe793fa71487febe29eb2eb592c5c45249cba2926c909cf7"
+    },
+    {
+      "path": "experiments/reaching_workspace.py",
+      "sha256": "908f98b462ea76fd10eb69c4b863e5fc73e9da66c0ad97f75acb3b19ad59c315"
+    },
+    {
+      "path": "experiments/reaching_wrench_audit.py",
+      "sha256": "ea66218afc9d3a45103236670490e9748793fb952759217beece26df015ac5b4"
+    },
+    {
+      "path": "experiments/reactive_reaching.py",
+      "sha256": "4a3d7c37b33add68f6cad661eaffe07e174cde090e2bf811c749b9389bc6744f"
+    },
+    {
+      "path": "experiments/replay_touchdown_recoverability.py",
+      "sha256": "c446d89ee5822e48ddce22f687bdb7f89e1f08786745222f16810ab27a831b90"
+    },
+    {
+      "path": "experiments/robustness.py",
+      "sha256": "5ed387d937ecd36d4b8c6659adb4e202172338cd00de57c165819b25abc6ab48"
+    },
+    {
+      "path": "experiments/single_push.py",
+      "sha256": "34f90d88396a074501141060170b972caa5d41ffec286bbd3ac9de77c5e9e933"
+    },
+    {
+      "path": "experiments/standing.py",
+      "sha256": "912c4c2a68935c4c2c454942c54e3a9152d6eca8e930b0fbc489d8c78168be65"
+    },
+    {
+      "path": "scripts/audit_contact_residuals.py",
+      "sha256": "2245212f0f7d5123745b87630903cdc1d9ad3d1338fddbca9a568929ebcfee05"
+    },
+    {
+      "path": "scripts/collect_environment.py",
+      "sha256": "05d906c7ad218f12a97aa3a462357ee8da804adda6b1bff2b58392e9d735c75c"
+    },
+    {
+      "path": "scripts/generate_figures.py",
+      "sha256": "6a517b00e282a794e926521bca0ca2b8d3a42d657a79f42e3acb0555e2ca99a5"
+    },
+    {
+      "path": "scripts/normalize_provenance.py",
+      "sha256": "3e1a12ef6c1bf8d081a5fa08fef5c94e324c3febdfde533ffdbf34c0bc7167b9"
+    },
+    {
+      "path": "scripts/package_paired_benchmark.py",
+      "sha256": "a1d0770d33fbb81cd1f72eda49146540ad2b4c3d3363f4e41eca957d8a118989"
+    },
+    {
+      "path": "scripts/render_com_support_animation.py",
+      "sha256": "a901d80a25e5d132a1e706e2f4ce4586edde76563045d5cd6d4b8131038dec53"
+    },
+    {
+      "path": "scripts/render_comparison_video.py",
+      "sha256": "72797b345e74fd610cc9b8ea8e303584f7585bc0386659c02b4e913dbe992556"
+    },
+    {
+      "path": "scripts/render_paired_comparison.py",
+      "sha256": "a6f820b1817e29e9a7995d9d090ee87db198bde23caa6b248f898e44f1d24b65"
+    },
+    {
+      "path": "scripts/render_perturbed_standing.py",
+      "sha256": "3b40a5720a4477df8231947dbbec1e6d890f89f9bffe2ac0e8b4cf76eb13b626"
+    },
+    {
+      "path": "scripts/render_portfolio_reaching.py",
+      "sha256": "b1be97fa9fd4eb9c044ac3f99de9f0b351f3db976092203bd9376b6da4ce19d4"
+    },
+    {
+      "path": "scripts/render_reaching_disturbances.py",
+      "sha256": "e051d05455a4685199968e05e0075bb9214898562af3a6ff647060ab835116e4"
+    },
+    {
+      "path": "scripts/render_saved_videos.py",
+      "sha256": "56ebe35d4ce894c7c7fda3d0d5a4e849b65995a203093eedf19660f7e90c5945"
+    },
+    {
+      "path": "scripts/render_system_architecture.py",
+      "sha256": "e9dce8d89108f63b0c5af0c57865d69f12c2927c5c3e48d8392de64e92d5b1cd"
+    },
+    {
+      "path": "scripts/render_video.py",
+      "sha256": "17e9fc983fef9d90ba4b7a271b0bf98ac8353eaecae4cf4ff6868171a7f3cbc5"
+    },
+    {
+      "path": "scripts/run_demo.py",
+      "sha256": "461c3e6ae085fba81f77308d907b0aef5dfe33d50f1ef74f485425b22af87956"
+    },
+    {
+      "path": "scripts/run_portfolio_reaching.py",
+      "sha256": "0e53686ffa998ea8481088e77cb488283606f00631be62893c03cd4520f16b82"
+    },
+    {
+      "path": "scripts/run_reactive_reaching.py",
+      "sha256": "6baaf2bf2efd3d09aad8350a31de58011c01b469df611d04e1439edc5657c278"
+    },
+    {
+      "path": "scripts/verify_paired_artifacts.py",
+      "sha256": "3243c6674889b066e8355d9048c6e9861752842ba0ac510cd8c319648e81e0d4"
+    },
+    {
+      "path": "scripts/verify_reaching_workspace.py",
+      "sha256": "774acadaec93188c3d6c28fd8a0d352bbc619b79d4a0a4b97498612d1206e47f"
+    },
+    {
+      "path": "scripts/write_run_manifests.py",
+      "sha256": "ab5e30643a153a7fc7dc6933ab654aec70bc4aff7432ed831b9313253047769c"
+    },
+    {
+      "path": "scripts/write_video_manifest.py",
+      "sha256": "19bbf4498f78dc3ded32b25c74a35c5e9ac6de343565c230c90723e483bacac0"
+    },
+    {
+      "path": "configs/controller.yaml",
+      "sha256": "054d974d9d2a7a9db08aadc3e92d872b262909beb276591252e208f81f440229"
+    },
+    {
+      "path": "configs/controllers/mini_humanoid.yaml",
+      "sha256": "52cc944075e8dc12647e2544d74f9b085d7b8c0eb57baba3c438927e504463e6"
+    },
+    {
+      "path": "configs/experiments.yaml",
+      "sha256": "e43db428c63d497110871d2e83c30e04d9801835469d7d4701cd1f78b2fa1785"
+    },
+    {
+      "path": "configs/reaching.yaml",
+      "sha256": "b317bad0c9fd9905c9827bc422127b6af0b5b25acfd4e37c3bdd918b2f2aa9c7"
+    },
+    {
+      "path": "configs/robot.yaml",
+      "sha256": "83d4c541374b1bfa30503344872a9eea3610a897473af2c53b0b1400d8bf6f4a"
+    },
+    {
+      "path": "configs/robots/mini_humanoid.yaml",
+      "sha256": "c78268e7293a1ce3d5984d0db766a06312e593f4f46e692928c3d136100c16e3"
+    },
+    {
+      "path": "configs/robots/unitree_g1.yaml",
+      "sha256": "2ef822f7cfc8d0c4e9bed8a359d6d1b587b89d4ef0a66ddfd445bbc4a5da2915"
+    },
+    {
+      "path": "models/humanoid/mini_humanoid.xml",
+      "sha256": "f1d8f5bd10e63305e013a94da30886fb9a0e11f2fb7db000157081c5b4f3c024"
+    },
+    {
+      "path": "models/unitree_g1/g1_29dof.xml",
+      "sha256": "5a7f31b62a02dc86546046fb8f23dd70663f8fadc3fc49f68758bbe54ebf921a"
+    },
+    {
+      "path": "models/unitree_g1/scene_29dof.xml",
+      "sha256": "958ed3f4a404d3d49ffce318bc8ac18cc3941fa17d214d655533620fb581856a"
+    },
+    {
+      "path": "models/unitree_g1/scene_push_recovery.xml",
+      "sha256": "43912c5f880adff88355c6cd1a887caec143543c7bc578234e1a369226fb0422"
+    }
+  ]
+}

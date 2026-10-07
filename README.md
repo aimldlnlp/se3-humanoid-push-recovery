@@ -26,6 +26,26 @@ synchronized with the robot at original simulation speed.
 
 [Watch or download the comparison](assets/demos/reach-before-after.mp4)
 
+## Reactive Multi-Target Reaching
+
+One 16-second sequence: reach A, follow B and C, then redirect toward B while
+the hand is still moving. A 50 N torso push for 0.15 s interrupts the final
+transition. Target labels and a hand close-up make the task changes visible;
+the video replays saved states at original simulation speed.
+
+[![Reactive reaching with a hand close-up](results/reactive_reaching/20261007_timing/simultaneous/media/frame_325.jpg)](results/reactive_reaching/20261007_timing/simultaneous/media/reactive-reaching.mp4)
+
+[Watch or download the 16-second progression](results/reactive_reaching/20261007_timing/simultaneous/media/reactive-reaching.mp4)
+
+**Timing matters: two of three tested push times pass.** Retargeting occurs at
+10.80 s. The same sequence falls when the push starts at 10.55 s; starts at
+10.80 and 11.05 s pass. All three retain the same initial state, references,
+gains, physical thresholds, and 7.5 N·s impulse. The broader timing gate fails,
+so this remains a bounded demo, not general reactive recovery.
+
+[Timing study and retained failure](results/reactive_reaching/20261007_timing/REPORT.md) ·
+[Original nominal and hero pilot](results/reactive_reaching/20261006_pilot/REPORT.md)
+
 ## Engineering Highlights
 
 - **Geometric control:** SE(3) pose errors drive torso and pelvis acceleration tasks.
@@ -42,6 +62,7 @@ synchronized with the robot at original simulation speed.
 | Standing push sweep | WBC recovers in 146/192 tested conditions |
 | Corrected 12.5 cm reaching pilot | Nominal, moving-push, and held-target push all pass |
 | Broader reaching disturbance check | 5/9 tested conditions pass, including the repeated positive control |
+| Reactive reaching timing check, 50 N | 2/3 tested push times pass; earlier push falls |
 
 This is a simulation project with fixed-foot double support, not a hardware or walking demonstration.
 Lateral contact failures and reverse/80 N falls remain unresolved. The corrected
@@ -57,11 +78,20 @@ python -m pip install -r requirements-portfolio.txt
 python -m pip install -e . --no-deps
 python scripts/run_demo.py
 python scripts/run_portfolio_reaching.py --output results/staging/my-reach --render
+python scripts/run_reactive_reaching.py --output results/staging/my-reactive
 ```
 
 The reaching command runs the paired comparison and six predeclared initial-rate
 sensitivity trials. Use a fresh output directory; all failures are retained.
 FFmpeg is bundled by `imageio-ffmpeg`. Use `MUJOCO_GL=egl` for headless Linux rendering.
+
+To reproduce the timing check against the saved nominal pilot, fetch Git LFS
+artifacts first, then use a fresh output directory:
+
+```bash
+git lfs pull
+python scripts/run_reactive_reaching.py --output results/staging/my-reactive-timing --previous results/reactive_reaching/20261006_pilot
+```
 
 ## Explore Further
 
